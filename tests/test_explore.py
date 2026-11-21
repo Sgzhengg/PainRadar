@@ -1,12 +1,15 @@
 import tempfile
 import unittest
+from unittest.mock import patch
 from datetime import datetime, timezone
 from pathlib import Path
 
 from fastapi.testclient import TestClient
 
+from painradar import config
 from painradar import explore as explore_mod
 from painradar.api.app import create_app
+from painradar.api.jobs import Job, JobRegistry
 from painradar.store import Store
 
 
@@ -117,6 +120,31 @@ class ExploreApiTests(unittest.TestCase):
         start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
         markdown = self.client.post(f"/api/explore/sessions/{start['session_id']}/converge").json()["markdown"]
         self.assertIn("付费假设", markdown)
+
+    def test_validate_without_crawler_config(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        with patch.object(config, "MEDIACRAWLER_API_URL", ""):
+            res = self.client.post(
+                f"/api/explore/sessions/{start['session_id']}/validate",
+                json={"platform": "xhs", "keywords": ["PDF"]},
+            )
+        self.assertEqual(res.status_code, 400)
+
+    def test_validate_creates_category_and_job(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        fake = Job(job_id="job_test", category="custom_x", extractor="rule")
+        with patch.object(config, "MEDIACRAWLER_API_URL", "http://crawler.test"), \
+             patch.object(config, "CUSTOM_PATH", Path(self.tmp.name) / "custom.json"), \
+             patch.object(JobRegistry, "submit_remote_fetch", return_value=fake):
+            res = self.client.post(
+                f"/api/explore/sessions/{start['session_id']}/validate",
+                json={"platform": "xhs", "keywords": ["PDF 合并"], "max_notes": 20},
+            )
+        self.assertEqual(res.status_code, 200, res.text)
+        body = res.json()
+        self.assertTrue(body["category"].startswith("custom_"))
+        self.assertEqual(body["job"]["job_id"], "job_test")
+        self.assertEqual(body["keywords"], ["PDF 合并"])
 
 
 if __name__ == "__main__":

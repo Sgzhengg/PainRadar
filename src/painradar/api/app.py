@@ -642,6 +642,55 @@ def create_app(db_paths: list[str]) -> FastAPI:
         except KeyError:
             raise HTTPException(status_code=404, detail="unknown session")
 
+    @app.post("/api/explore/sessions/{session_id}/validate")
+    def explore_validate(session_id: str, payload: dict) -> dict:
+        import re
+
+        from .. import explore
+        from ..config import MEDIACRAWLER_API_URL, register_custom_category
+
+        session = explore.load_session(session_id)
+        if session is None:
+            raise HTTPException(status_code=404, detail="unknown session")
+        platform = str(payload.get("platform") or "xhs").lower()
+        if platform not in {"xhs", "dy", "bili", "zhihu"}:
+            raise HTTPException(status_code=400, detail="platform must be xhs|dy|bili|zhihu")
+        if not MEDIACRAWLER_API_URL:
+            raise HTTPException(status_code=400, detail="MEDIACRAWLER_API_URL 未配置")
+
+        last_directions = []
+        for msg in reversed(session.get("messages", [])):
+            if msg.get("role") == "assistant" and msg.get("directions"):
+                last_directions = msg["directions"]
+                break
+        wanted = str(payload.get("direction_title") or "").strip()
+        chosen = next((d for d in last_directions if d.get("title") == wanted), None)
+        chosen = chosen or (last_directions[0] if last_directions else {})
+        title = str(chosen.get("title") or session.get("seed") or "探索方向")[:20]
+
+        keywords = [str(k).strip() for k in (payload.get("keywords") or []) if str(k).strip()]
+        if not keywords:
+            raw = f"{title} {session.get('seed', '')} {chosen.get('pain', '')}"
+            keywords = re.findall(r"[A-Za-z0-9]{2,}|[\u4e00-\u9fff]{2,6}", raw)[:5]
+        if not keywords:
+            raise HTTPException(status_code=400, detail="至少需要一个抓取关键词")
+
+        category = register_custom_category(title, keywords[0])
+        job = registry.submit_remote_fetch(
+            category=category,
+            platform=platform,
+            keywords=keywords,
+            max_notes=max(5, min(int(payload.get("max_notes") or 30), 200)),
+            extractor=str(payload.get("extractor") or "rule"),
+            mode=session.get("mode", "b2c"),
+        )
+        return {
+            "category": category,
+            "category_name": title,
+            "keywords": keywords,
+            "job": job.as_dict(),
+        }
+
     _dd_sessions: dict = {}
     _dd_jobs: dict = {}
 

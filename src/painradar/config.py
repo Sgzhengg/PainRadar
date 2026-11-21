@@ -8,6 +8,7 @@ report must not be used as a priced deliverable.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
@@ -368,7 +369,10 @@ def register_custom_category(
 ) -> str:
     """Create (or reuse) a custom category and persist it. Returns the key."""
     path = path or CUSTOM_PATH
-    slug = re.sub(r"[^a-z0-9]+", "_", term.lower()).strip("_")[:24] or "custom"
+    slug = re.sub(r"[^a-z0-9]+", "_", term.lower()).strip("_")[:24]
+    if not slug:
+        # Chinese/emoji-only terms still need a stable, collision-resistant key.
+        slug = "h" + hashlib.sha1(term.encode("utf-8")).hexdigest()[:8]
     key = f"custom_{slug}"
     data: dict = {}
     if path.exists():

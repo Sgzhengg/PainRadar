@@ -2134,7 +2134,82 @@ function renderExplore() {
             <button type="button" data-act="more" data-title="${esc(d.title || "")}">再具体点</button>
             <button type="button" data-act="dislike" data-title="${esc(d.title || "")}">不感兴趣</button>
           </div>
-        </article>`).join(""));
+        </article>`).join("") +
+      `<div class="ex-validate">
+         <div class="ex-side-title">下一步：用这个方向抓真实数据</div>
+         <div class="ex-validate-row">
+           <select id="explatform">
+             <option value="xhs">小红书</option>
+             <option value="dy">抖音</option>
+             <option value="bili">B站</option>
+             <option value="zhihu">知乎</option>
+           </select>
+           <input id="exkw" value="${esc((session.seed || (directions[0] && directions[0].title) || "").slice(0, 40))}" placeholder="关键词，逗号分隔">
+         </div>
+         <div class="ex-validate-row">
+           <input id="exmax" type="number" min="5" max="200" value="30">
+           <button class="btn primary" id="exgo" type="button">开始抓取并分析</button>
+         </div>
+         <div class="runstate" id="exstatus"></div>
+       </div>`);
+  const validation = $("#exside")?.querySelector(".ex-validate");
+  if (validation) $("#exside").prepend(validation);
+  $("#exgo")?.addEventListener("click", startValidation);
+}
+
+async function startValidation() {
+  if (!state.explore) return;
+  const status = $("#exstatus");
+  const keywords = $("#exkw").value.split(/[,，\s]+/).map((x) => x.trim()).filter(Boolean);
+  if (!keywords.length) {
+    status.className = "runstate err";
+    status.textContent = "至少填一个关键词。";
+    return;
+  }
+  status.className = "runstate";
+  status.textContent = "正在创建品类并提交抓取任务…";
+  try {
+    const res = await api(
+      `/api/explore/sessions/${encodeURIComponent(state.explore.session_id)}/validate`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          platform: $("#explatform").value,
+          keywords,
+          max_notes: +($("#exmax").value || 30),
+          direction_title: (state.explore.messages || []).slice().reverse()
+            .find((m) => m.role === "assistant" && m.directions)?.directions?.[0]?.title || "",
+        }),
+      }
+    );
+    status.textContent = `已创建品类「${res.category_name}」，任务 ${res.job.job_id} 抓取中…`;
+    const labels = {
+      starting: "启动中…", crawling: "正在抓取评论…", ingesting: "清洗入库中…",
+      analyzing: "AI 提纯聚类中…", done: "完成", need_login: "登录态已过期",
+    };
+    for (;;) {
+      const job = await api(`/api/run/${res.job.job_id}`);
+      status.className = job.status === "failed" ? "runstate err" : "runstate";
+      status.textContent = labels[job.stage] || labels[job.status] || job.status;
+      if (job.status !== "running" && job.status !== "queued") {
+        if (job.status === "done" && job.run_id) {
+          state.runs = (await api("/api/runs")).runs || [];
+          renderTabs();
+          await selectRun(job.run_id);
+          closeExplore();
+          toast("验证运行完成");
+        } else {
+          status.textContent = job.error || "验证失败";
+        }
+        break;
+      }
+      await new Promise((r) => setTimeout(r, 3000));
+    }
+  } catch (err) {
+    status.className = "runstate err";
+    status.textContent = `失败：${err.message}`;
+  }
 }
 
 $("#explorebtn")?.addEventListener("click", openExplore);
