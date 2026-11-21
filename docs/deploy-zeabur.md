@@ -1,117 +1,145 @@
-# 在 Zeabur 部署 MediaCrawler 采集服务
+# 在 Zeabur 上一体化私有部署（PainRadar + MediaCrawler）
 
-> 目标：把浏览器采集放进一个独立容器，PainRadar 只通过 HTTP 调度它。
-> Zeabur 负责常驻运行、Cookie 与无头浏览器；Cloudflare / 本地只发任务、取结果。
+> 目标：一个 Zeabur Project 里跑两个服务，内网互通；SQLite 放持久化卷；
+> 整套只给自己用，公网入口有密码锁。**不再需要 Cloudflare Workers / D1。**
 
-## 1. 为什么需要这一层
-
-MediaCrawler 依赖 Playwright/Chromium，不能跑在 Cloudflare Worker 里，也不适合塞进
-FastAPI 进程（内存、超时、登录态都会互相影响）。拆成独立服务后：
-
-- 抓取是**异步任务**：触发立即返回 `task_id`，不会触发网关超时；
-- Cookie 只存在采集服务，不进入前端；
-- PainRadar 侧只依赖 4 个接口。
-
-## 2. 服务契约（PainRadar 只认这 4 个接口）
-
-所有接口都要求：
+## 0. 架构
 
 ```
-Authorization: Bearer $MEDIACRAWLER_API_TOKEN
+你的浏览器
+   │  https://painradar.zeabur.app（Basic Auth / 30 天 Cookie）
+   ▼
+Zeabur Project
+ ├── painradar      Python/FastAPI + 静态前端（8080）
+ │     └── /app/var  ← 持久化卷（SQLite + 上传/临时数据）
+ └── mediacrawler   MediaCrawler HTTP 服务（内网 8080）
+        ▲
+        └── painradar 通过 http://mediacrawler.zeabur.internal:8080 调用
 ```
 
-| 方法 | 路径 | 说明 |
+同项目内网直连：不走公网、不加域名、延迟更低，采集服务无需暴露到公网。
+
+## 1. 部署 PainRadar
+
+1. Zeabur → **Create Project** → **Deploy from GitHub** → 选择本仓库；
+2. 服务类型选 **Dockerfile**（仓库根目录已提供 `Dockerfile`）；
+3. 端口填 **8080**（Dockerfile 已 EXPOSE）；
+4. **Storage → Add Volume**：
+   - Mount Path：`/app/var`
+   - 大小：1 GB 起步（SQLite + 报告足够）
+5. 环境变量（Settings → Environment）：
+
+| 变量 | 必填 | 说明 |
 |---|---|---|
-| POST | `/api/crawl` | 启动任务，返回 `{task_id, status}` |
-| GET | `/api/tasks/{task_id}` | 查询 `{status, progress, message, need_login, result_url}` |
-| GET | `/api/tasks/{task_id}/results` | 完成后返回帖子/评论 JSON 数组 |
-| GET | `/health` | 存活检查（无需鉴权） |
+| `PAINRADAR_DATA_DIR` | ✅ | 固定 `/app/var`，与卷挂载路径一致 |
+| `PAINRADAR_ADMIN_PASSWORD` | ✅ | 你的访问密码；**不设置则公网裸奔** |
+| `PAINRADAR_STORE` | 建议 | `local`（默认，SQLite） |
+| `MEDIACRAWLER_API_URL` | ✅ | `http://mediacrawler.zeabur.internal:8080` |
+| `MEDIACRAWLER_API_TOKEN` | ✅ | 与采集服务一致的 Bearer Token |
+| `PAINRADAR_LLM_BASE_URL` | 可选 | 如 `https://api.deepseek.com/v1` |
+| `PAINRADAR_LLM_API_KEY` | 可选 | 大模型 Key（不填则用规则抽取器） |
+| `PAINRADAR_LLM_MODEL` | 可选 | 如 `deepseek-chat` |
 
-`status` 取值：`queued` / `running` / `completed` / `failed`。
-Cookie 失效时返回 `need_login: true`（或 401/403），PainRadar 会在任务状态里提示
-“登录态已过期”。
+6. 部署完成后打开 `https://<你的域名>/`，浏览器会弹 Basic Auth：
+   用户名随意，**密码填 `PAINRADAR_ADMIN_PASSWORD`**。登录成功后 30 天内免密。
 
-请求示例：
+## 2. 部署 MediaCrawler（同项目）
 
-```bash
-curl -X POST https://your-crawler.zeabur.app/api/crawl \
-  -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
-  -d '{"platform":"xhs","keywords":["PDF 转换"],"max_notes":50}'
-# {"task_id":"t_123","status":"queued"}
-```
-
-## 3. Zeabur 服务实现要点
-
-1. **关闭 CDP 图形模式**：环境变量 `ENABLE_CDP_MODE=False`
-   （容器里没有桌面，开启只会卡住）。
-2. **无头浏览器**：`HEADLESS=True`；Dockerfile 安装 Chromium 依赖
-   （`playwright install --with-deps chromium`）。
-3. **异步执行**：`POST /api/crawl` 只写任务表并返回，后台线程/进程池跑 MediaCrawler；
-   `GET /api/tasks/{id}` 读状态。不要在处理函数里同步等待抓取结束。
-4. **结果落盘转 JSON**：MediaCrawler 默认写 `data/*.json`，任务完成后读文件、
-   统一成 PainRadar 能识别的结构（见第 4 节），由 `/results` 返回。
-5. **Cookie 注入**：服务端保存平台 Cookie；请求里可用 `cookies` 字段临时覆盖。
-   Cookie 失效时任务标记 `need_login`，不要静默重试。
-6. **并发与配额**：单容器建议 2–3 个并发任务；`max_notes` 上限 1000。
-
-推荐环境变量：
+1. 同一个 Project → **Add Service** → 部署你封装好的 MediaCrawler 镜像/仓库；
+2. 服务名建议就叫 **`mediacrawler`**（内网域名由此生成）；
+3. 端口 **8080**（或你镜像实际端口，同步改 `MEDIACRAWLER_API_URL`）；
+4. 环境变量：
 
 ```env
-ENABLE_CDP_MODE=False
+ENABLE_CDP_MODE=False       # 容器内无桌面，必须关闭
 HEADLESS=True
-MEDIACRAWLER_API_TOKEN=change-me
-PLATFORM_COOKIES_XHS=...
-PLATFORM_COOKIES_DY=...
+MEDIACRAWLER_API_TOKEN=换成随机长字符串   # 与 PainRadar 保持一致
+PLATFORM_COOKIES_XHS=...    # 小红书 Cookie
+PLATFORM_COOKIES_DY=...     # 抖音
+PLATFORM_COOKIES_BILI=...   # B站
+PLATFORM_COOKIES_ZHIHU=...  # 知乎
 TASK_CONCURRENCY=2
 ```
 
-## 4. 结果格式
+5. **不要**给 mediacrawler 绑定公网域名；PainRadar 走内网即可。
 
-`/results` 返回数组，每条是“帖子 + 评论”：
+采集服务需要实现 4 个接口（契约见下节）。如果它返回 401/403 或
+`need_login: true`，PainRadar 的任务状态会提示“登录态已过期”。
 
-```json
-[{
-  "note_id": "n1",
-  "title": "受够了 Smallpdf 的订阅",
-  "desc": "正文摘要",
-  "url": "https://www.xiaohongshu.com/...",
-  "liked_count": 342,
-  "comments": [
-    {"comment_id": "c1", "content": "取消入口找不到", "like_count": 286,
-     "sub_comments": [{"comment_id": "c1r1", "content": "同求买断", "like_count": 74}]}
-  ]
-}]
-```
+## 3. 内网地址怎么写
 
-字段名不一致时，PainRadar 侧可用 `--field-map` 覆盖（JSON: `{"id":"note_id",...}`）。
-清洗、上下文组装、降噪由 `connectors/mediacrawler.py` 统一完成。
+| 场景 | 地址 |
+|---|---|
+| 同项目服务间 | `http://mediacrawler.zeabur.internal:8080` |
+| 同项目不同环境 | `http://mediacrawler.<env>.zeabur.internal:8080` |
+| 本地开发 | `http://127.0.0.1:8080` |
 
-## 5. PainRadar 侧配置
+`zeabur.internal` 只在内网可达，外网解析不到，适合放采集服务和内部 API。
 
-```env
-MEDIACRAWLER_API_URL=https://your-crawler.zeabur.app
-MEDIACRAWLER_API_TOKEN=change-me
-REMOTE_CRAWL_TIMEOUT=900
-REMOTE_CRAWL_INTERVAL=3
-```
+## 4. 持久化卷与数据安全
 
-验证：
+- 挂载点必须是 **`/app/var`**，并设置 `PAINRADAR_DATA_DIR=/app/var`；
+- 所有 SQLite 数据库、`var/*.db`、临时抓取结果都在这里；
+- 重新部署代码不会删除卷；只有你手动删除 Volume 才会丢数据；
+- 备份：在 Zeabur 控制台下载卷，或执行
+  `sqlite3 /app/var/painradar.db ".backup '/app/var/backup-$(date +%F).db'"`。
+
+> 不要同时挂载多个服务到同一个 SQLite 文件；SQLite 只适合单实例写入。
+
+## 5. 访问锁行为
+
+| 请求 | 未登录 | 已登录 |
+|---|---|---|
+| `/api/health` | ✅ 公开 | ✅ |
+| `/static/*` | ✅ 公开（无数据） | ✅ |
+| 页面 `/` | 401 Basic 挑战 | ✅ |
+| `/api/*`（含抓取、运行） | 401 JSON | ✅ |
+| `/api/logout` | 401 | 清 Cookie |
+
+- Cookie 名 `pr_auth`，HttpOnly，30 天；
+- 改密码后旧 Cookie 立即失效（token 由密码派生）；
+- 本地开发不设置 `PAINRADAR_ADMIN_PASSWORD` 即可免密。
+
+## 6. 验证
 
 ```bash
+# 容器内/本地
 python run.py doctor
-# crawler url  : https://your-crawler.zeabur.app
-# crawler token: configured
+# store mode   : local (SQLite)
+# data dir     : /app/var (writable=True)
+# admin lock   : enabled
 # crawler ping : ok
 ```
 
-WebUI 顶栏「＋ 抓取新商机」→「云端全网抓取」即可触发；
-任务阶段会依次显示：Zeabur 抓取中 → 清洗入库中 → AI 提纯聚类中。
+线上自检：
 
-## 6. 常见问题
+```bash
+curl -u me:你的密码 https://<域名>/api/health
+curl -u me:你的密码 https://<域名>/api/runs
+```
 
-| 现象 | 原因 | 处理 |
+## 7. 采集服务接口契约
+
+| 方法 | 路径 | 说明 |
 |---|---|---|
-| `need_login` | Cookie 过期 / 风控 | 更新平台 Cookie，重新触发 |
-| 任务一直 `queued` | 并发已满 | 降低触发频率或调大 `TASK_CONCURRENCY` |
-| `results` 为空 | 关键词太窄 | 放宽关键词、增加 `max_notes` |
-| 401 | token 不一致 | 同时更新 Zeabur 与 PainRadar 的 `MEDIACRAWLER_API_TOKEN` |
+| POST | `/api/crawl` | `{platform, keywords, max_notes, cookies}` → `{task_id}` |
+| GET | `/api/tasks/{id}` | `{status, progress, need_login, error}` |
+| GET | `/api/tasks/{id}/results` | 帖子+评论 JSON 数组 |
+| GET | `/health` | 存活检查（免鉴权） |
+
+鉴权：`Authorization: Bearer $MEDIACRAWLER_API_TOKEN`。
+
+## 8. 常见问题
+
+| 现象 | 处理 |
+|---|---|
+| 打开页面一直弹密码框 | 确认 `PAINRADAR_ADMIN_PASSWORD` 已设置且与服务一致 |
+| 登录后又要求登录 | 检查是否 HTTPS；`secure` Cookie 在 HTTP 下不会保存 |
+| 重启后数据没了 | Volume 没挂到 `/app/var`，或 `PAINRADAR_DATA_DIR` 不一致 |
+| 抓取任务失败 | 先用 `curl` 测内网地址；再看 mediacrawler 日志与 Cookie |
+| 内网域名解析失败 | 服务名是否就是 `mediacrawler`，端口是否 8080 |
+
+## 9. 已归档的 Cloudflare 方案
+
+`docs/archive/` 里保留了旧的 Workers/D1 配置，仅作历史参考，当前架构不需要。
+`PAINRADAR_STORE=d1` 与 `CloudflareD1Store` 代码仍在，但不再推荐。

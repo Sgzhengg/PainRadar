@@ -17,11 +17,16 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "data"
 SAMPLE_DIR = DATA_DIR / "samples"
-VAR_DIR = PROJECT_ROOT / "var"
-REPORT_DIR = PROJECT_ROOT / "reports"
+# Persistent data directory. On Zeabur mount a volume at /app/var and set
+# PAINRADAR_DATA_DIR=/app/var so redeploys never lose SQLite data.
+VAR_DIR = Path(os.environ.get("PAINRADAR_DATA_DIR", PROJECT_ROOT / "var")).expanduser()
+REPORT_DIR = Path(os.environ.get("PAINRADAR_REPORT_DIR", PROJECT_ROOT / "reports")).expanduser()
 DOCS_DIR = PROJECT_ROOT / "docs"
 
 DB_PATH = Path(os.environ.get("PAINRADAR_DB", VAR_DIR / "painradar.db"))
+
+# Optional single-user access lock. Empty = local development without auth.
+PAINRADAR_ADMIN_PASSWORD = os.environ.get("PAINRADAR_ADMIN_PASSWORD", "")
 
 # --- cloud / remote (optional) -------------------------------------------
 # local (default) | d1

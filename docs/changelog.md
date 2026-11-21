@@ -161,3 +161,12 @@ painradar demo --reset
 - solo 可行性输出行业工作流形态与 `¥3,000–15,000/家/年` 客单价；
 - 外联话术改为「行业共鸣 + 具体痛点 + 免费体验链接/演示视频，不推销」；
 - WebUI 模式改为单选框，机会卡显示 `🏢 B端高客单`。
+
+## 2026-11-21 · Zeabur 一体化私有部署
+
+- 新增 `PAINRADAR_ADMIN_PASSWORD`：Basic Auth + 30 天 Cookie 保护整站（`/api/health` 公开）；
+- `PAINRADAR_DATA_DIR` 可配置，配合 Zeabur 卷挂载 `/app/var` 持久化 SQLite；
+- 根目录新增 `Dockerfile`（python:3.11-slim，8080，健康检查）与 `.dockerignore`；
+- 归档 `cloudflare/`、`wrangler.toml`、`docs/deploy-cloudflare.md` 到 `docs/archive/`；
+- 重写 `docs/deploy-zeabur.md`：同项目双服务、内网地址、卷挂载、环境变量与排错；
+- `doctor` 检查数据目录可写、管理员密码、内网采集连通性。

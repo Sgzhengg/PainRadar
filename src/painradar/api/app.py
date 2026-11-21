@@ -123,6 +123,10 @@ def create_app(db_paths: list[str]) -> FastAPI:
             response.headers["Cache-Control"] = "no-store, max-age=0"
         return response
 
+    from .auth import install_auth
+
+    install_auth(app)
+
     @app.get("/api/health")
     def health() -> dict:
         return {"ok": True, "databases": len(db_paths)}

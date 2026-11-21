@@ -294,6 +294,18 @@ def cmd_doctor(args: argparse.Namespace) -> int:
 
     mode = "cloud (D1)" if STORE_BACKEND == "d1" else "local (SQLite)"
     print(f"store mode   : {mode}")
+    data_dir = Path(os.environ.get("PAINRADAR_DATA_DIR", PROJECT_ROOT / "var"))
+    writable = False
+    try:
+        data_dir.mkdir(parents=True, exist_ok=True)
+        probe = data_dir / ".doctor-write-test"
+        probe.write_text("ok", encoding="utf-8")
+        probe.unlink()
+        writable = True
+    except Exception:  # noqa: BLE001
+        writable = False
+    print(f"data dir     : {data_dir} (writable={writable})")
+    print(f"admin lock   : {'enabled' if os.environ.get('PAINRADAR_ADMIN_PASSWORD') else 'disabled (no password set)'}")
     if STORE_BACKEND == "d1":
         ready = all([CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_D1_DATABASE_ID, CLOUDFLARE_API_TOKEN])
         print(f"d1 config    : {'configured' if ready else 'MISSING account/database/token'}")

@@ -233,40 +233,38 @@ python tools/build_app.py --db var/gold200.db --db var/gold.db --out reports/app
 **边界**：目前是只读查看器 + API，没有账号、权限、任务队列和写操作。
 多租户与审核流仍在路线图后半段。
 
-## 3.5 云端部署（Cloudflare + Zeabur）
+## 3.5 私有部署（Zeabur 一体化）
 
-> 硬约束：Cloudflare Workers 不能运行 Python/FastAPI。本项目的云原生形态是
-> **Cloudflare 托管前端 + 边缘代理**，**Python API 与 MediaCrawler 微服务部署在 Zeabur**。
+> 不再使用 Cloudflare Workers / D1。PainRadar 与 MediaCrawler 放在**同一个 Zeabur Project**，
+> 内网直连，SQLite 放持久化卷，公网入口加访问锁。
 
-- **存储双模**：PAINRADAR_STORE=local（SQLite，默认）或 d1（Cloudflare D1 REST）；
-  两种后端共用同一套 SQL 与 Store 接口，CloudflareD1Store 无需改业务代码。
-- **远程异步抓取**：配置 MEDIACRAWLER_API_URL + MEDIACRAWLER_API_TOKEN 后，
-  WebUI「＋ 抓取新商机 → 云端全网抓取」会向采集服务提交任务并轮询，
-  阶段依次为 crawling → ingesting → analyzing，不会触发网关超时。
-- **Cookie 失效**：任务状态会显示“登录态已过期，请在配置中更新平台 Cookie”。
-- **自检**：python run.py doctor 会输出 store 模式、D1 连通性、爬虫 URL/Token/健康检查。
+- **访问锁**：设置 `PAINRADAR_ADMIN_PASSWORD` 后，页面与 `/api/*`（`/api/health` 除外）
+  都要求 Basic Auth；登录后 Cookie 记住 30 天。不设置则本地开发免密。
+- **持久化**：挂载卷到 `/app/var`，并设置 `PAINRADAR_DATA_DIR=/app/var`；
+  重新部署代码不会丢历史数据。
+- **内网采集**：`MEDIACRAWLER_API_URL=http://mediacrawler.zeabur.internal:8080`，
+  同项目不走公网，更快也更安全；异步任务 + 3 秒轮询，不会触发网关超时。
+- **镜像**：仓库根目录 `Dockerfile`（python:3.11-slim，8080 端口，健康检查）。
+- **自检**：`python run.py doctor` 会检查数据目录可写、管理员密码、采集服务连通性。
 
-部署文档：
-
-- [docs/deploy-zeabur.md](docs/deploy-zeabur.md)：采集服务接口契约、无头浏览器、Cookie 与结果格式
-- [docs/deploy-cloudflare.md](docs/deploy-cloudflare.md)：wrangler.toml、D1 建表、环境变量清单与边界
+完整步骤见 [docs/deploy-zeabur.md](docs/deploy-zeabur.md)（建服务、挂卷、环境变量、Cookie、排错）。
 
 ### B 端 / 传统行业模式（高客单价）
 
-`ash
+```bash
 python run.py run --category pet_water_fountain --extractor rule --mode b2b
-`
+```
 
-- **身份与人工瓶颈识别**：除 uyer_role / 2b_score 外，原子还会记录
-  decision_maker_signal（能否拍板）与 manual_bottleneck（Excel/微信群/手工核对等环节）；
+- **身份与人工瓶颈识别**：除 `buyer_role` / `b2b_score` 外，原子还会记录
+  `decision_maker_signal`（能否拍板）与 `manual_bottleneck`（Excel/微信群/手工核对等环节）；
   只要「人工耗时大」或「人工出错赔钱/丢单」，即使没提买软件，也会判为 **L3**；
-- **小样本聚类**：B 端模式自动把 min_size 放宽到 **2**——两个老板吐槽同一个报价/标书问题就成簇；
+- **小样本聚类**：B 端模式自动把 `min_size` 放宽到 **2**——两个老板吐槽同一个报价/标书问题就成簇；
 - **B 端加权**：决策者命中率 20% + 人工替代空间 15%，大众声量权重降到 10%；
 - **一人开发建议**：优先「垂直行业 AI 自动化工作流 / 私有化知识库 / 定制 Web 工具」，
-  并给出客单价参考 ¥3,000–15,000/家/年；
-- **外联话术**：outreach.csv 自动切换为商务口吻——
-  “可免费为贵司做一次流程诊断 + Demo 试用”，并新增 uyer_role 列；
-- **界面**：运行 / 抓取弹窗可选「B 端 / 传统行业」，B 端运行的机会卡会标 B端。
+  并给出客单价参考 `¥3,000–15,000/家/年`；
+- **外联话术**：`outreach.csv` 自动切换为商务口吻——行业共鸣 + 具体痛点 +
+  “不推销，发您免费体验链接或演示视频”，并新增 `buyer_role` 列；
+- **界面**：运行 / 抓取弹窗可选「🏢 传统行业 B 端模式」，机会卡标 `🏢 B端高客单`。
 
 ## 4. 已实现 / 未实现
 对照开发方案的 M0–M1：

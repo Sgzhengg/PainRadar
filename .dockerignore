@@ -1,0 +1,14 @@
+.git
+.github
+.gitignore
+var
+reports
+*.db
+*.db-wal
+*.db-shm
+__pycache__
+*.pyc
+.pytest_cache
+node_modules
+.wrangler
+docs/archive
