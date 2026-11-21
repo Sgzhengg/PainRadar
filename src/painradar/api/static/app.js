@@ -51,10 +51,11 @@ function renderTabs() {
   const host = document.getElementById("cats");
   if (!host) return;
   host.innerHTML = categories().map((r) =>
-    `<button class="cat ${state.mode === "category" && r.category === state.category ? "on" : ""}" data-cat="${esc(r.category)}">${esc(r.category_name || r.category)}</button>`
+    `<button type="button" class="cat ${state.mode === "category" && r.category === state.category ? "on" : ""}" data-cat="${esc(r.category)}">${esc(r.category_name || r.category)}</button>`
   ).join("");
   host.querySelectorAll(".cat").forEach((el) =>
-    el.addEventListener("click", () => {
+    el.addEventListener("click", (event) => {
+      event.preventDefault();
       const latest = runsFor(el.dataset.cat)[0];
       if (latest) selectRun(latest.run_id);
     })
