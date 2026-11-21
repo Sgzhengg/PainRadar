@@ -2114,9 +2114,36 @@ function closeExplore() {
   if (panel) panel.hidden = true;
 }
 
+async function loadPlatformStatus() {
+  const el = $("#exploreplatforms");
+  if (!el) return;
+  try {
+    const data = await api("/api/crawler/platforms");
+    state.platforms = data.platforms || [];
+    if (!data.configured) {
+      el.innerHTML = `<span class="pform off">未配置爬虫服务</span>`;
+      return;
+    }
+    if (!state.platforms.length) {
+      el.innerHTML = `<span class="pform off">未读到平台状态</span>`;
+      return;
+    }
+    el.innerHTML = state.platforms.map((p) =>
+      `<span class="pform ${p.ready ? "on" : "off"}" title="cookie: ${esc(p.cookie_source || "none")}">${p.ready ? "✅" : "❌"} ${esc(p.label || p.platform)}</span>`
+    ).join("");
+  } catch (err) {
+    el.innerHTML = `<span class="pform off">平台状态读取失败</span>`;
+  }
+}
+
 async function startTrendScan() {
   const btn = $("#exscan");
   const label = btn ? btn.textContent : "";
+  const ready = (state.platforms || []).filter((p) => p.ready).map((p) => p.platform);
+  if (state.platforms && state.platforms.length && !ready.length) {
+    toast("没有已登录的平台：先配置 Cookie 或上传 Chrome profile");
+    return;
+  }
   if (btn) {
     btn.disabled = true;
     btn.textContent = "扫描中…";
@@ -2131,7 +2158,7 @@ async function startTrendScan() {
     const res = await api("/api/scan", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}),
+      body: JSON.stringify(ready.length ? { platforms: ready } : {}),
     });
     const jobId = res.job.job_id;
     const labels = { starting: "连接平台…", analyzing: "聚类分析中…", done: "完成" };
@@ -2196,6 +2223,7 @@ function renderExploreStart() {
         <button class="btn small" id="exfile" type="button">📥 导入本地文件</button>
         <button class="btn small" id="exrerun" type="button">🔁 重新分析现有数据</button>
       </div>
+      <div class="platforms" id="exploreplatforms">正在检查平台登录态…</div>
       <p class="ex-quick-hint">抓取/导入后会自动分析，再回到这里探索。</p>
     </div>`;
   $("#exstart").addEventListener("click", () => startExplore($("#exseed").value.trim()));
@@ -2212,6 +2240,7 @@ function renderExploreStart() {
   });
   $("#exfile").addEventListener("click", () => { openImport(); switchImport("local"); });
   $("#exrerun").addEventListener("click", openRunModal);
+  loadPlatformStatus();
   $("#exseed").addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();

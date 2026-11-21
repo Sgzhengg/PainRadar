@@ -19,6 +19,14 @@ class FakeCrawler:
         return {"inserted": 3, "rows": 3, "task_id": task_id}
 
 
+class FakeReadinessCrawler(FakeCrawler):
+    def platforms(self):
+        return [
+            {"platform": "xhs", "ready": True},
+            {"platform": "bili", "ready": False},
+        ]
+
+
 def fake_run_category(store, category, **kwargs):
     return SimpleNamespace(run_id="run_scan", stats={"atoms": 6})
 
@@ -49,6 +57,31 @@ class TrendScanJobTests(unittest.TestCase):
         self.assertEqual(job.stats["inserted"], 6)
         self.assertEqual(len(job.stats["platforms"]), 2)
         self.assertEqual(job.stats["extraction"], {"atoms": 6})
+
+    def test_scan_skips_unready_platform(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            db = Path(tmp) / "scan.db"
+            Store(db).close()
+            registry = JobRegistry([str(db)], min_size=1)
+            with patch(
+                "painradar.connectors.remote_mediacrawler.RemoteMediaCrawler",
+                FakeReadinessCrawler,
+            ), patch("painradar.api.jobs.run_category", fake_run_category):
+                job = registry.submit_trend_scan(
+                    category="custom_trending_scan",
+                    platforms=["xhs", "bili"],
+                    keywords=["太难用"],
+                    max_notes=5,
+                )
+                for _ in range(100):
+                    if job.status in ("done", "failed"):
+                        break
+                    time.sleep(0.05)
+
+        self.assertEqual(job.status, "done", job.error)
+        self.assertEqual(job.stats["inserted"], 3)
+        bili = [p for p in job.stats["platforms"] if p["platform"] == "bili"][0]
+        self.assertIn("未配置", bili["error"])
 
 
 if __name__ == "__main__":

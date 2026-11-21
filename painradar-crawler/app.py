@@ -51,12 +51,18 @@ DATA_ROOT = Path(os.environ.get("DATA_DIR", _default_data_dir()))
 TASK_DB = os.environ.get("TASK_DB", str(DATA_ROOT / "tasks.db"))
 RESULT_DIR = Path(os.environ.get("RESULT_DIR", DATA_ROOT / "results"))
 PROFILE_ROOT = Path(os.environ.get("PROFILE_DIR", DATA_ROOT / "browser_data"))
+COOKIE_DIR = Path(os.environ.get("COOKIE_DIR", DATA_ROOT / "cookies"))
 API_TOKEN = os.environ.get("MEDIACRAWLER_API_TOKEN", "").strip()
 MAX_PROFILE_BYTES = int(os.environ.get("MAX_PROFILE_BYTES", str(300 * 1024 * 1024)))
 # One Chromium crawl at a time by default: prevents OOM on a small Zeabur plan.
 MAX_CONCURRENT_TASKS = max(1, int(os.environ.get("MAX_CONCURRENT_TASKS", "1")))
 TASK_SLOTS = threading.BoundedSemaphore(MAX_CONCURRENT_TASKS)
-PLATFORMS = {"xhs", "dy", "bili", "zhihu"}
+PLATFORM_ORDER = ("xhs", "dy", "ks", "bili", "wb", "tieba", "zhihu")
+PLATFORMS = set(PLATFORM_ORDER)
+PLATFORM_LABELS = {
+    "xhs": "小红书", "dy": "抖音", "ks": "快手", "bili": "B站",
+    "wb": "微博", "tieba": "贴吧", "zhihu": "知乎",
+}
 
 app = FastAPI(title="PainRadar Crawler Bridge", version="0.2.0")
 store = TaskStore(TASK_DB)
@@ -136,7 +142,7 @@ def health() -> dict[str, Any]:
 def start_crawl(req: CrawlRequest, _: None = Depends(require_token)) -> dict[str, Any]:
     platform = req.platform.strip().lower()
     if platform not in PLATFORMS:
-        raise HTTPException(status_code=400, detail="platform must be xhs|dy|bili|zhihu")
+        raise HTTPException(status_code=400, detail=f"platform must be {'|'.join(PLATFORM_ORDER)}")
     keywords = [k.strip() for k in req.keywords if k.strip()]
     if not keywords:
         raise HTTPException(status_code=400, detail="keywords is required")
@@ -199,6 +205,45 @@ def _safe_extract(archive: zipfile.ZipFile, target: Path) -> None:
     archive.extractall(target)
 
 
+@app.get("/api/platforms")
+def list_platforms(_: None = Depends(require_token)) -> dict[str, Any]:
+    items = []
+    for platform in PLATFORM_ORDER:
+        profile = PROFILE_ROOT / f"{platform}_user_data_dir"
+        files = 0
+        cookie_db = False
+        if profile.is_dir():
+            files = sum(1 for _ in profile.rglob("*") if _.is_file())
+            cookie_db = any(
+                (profile / rel).exists()
+                for rel in ("Default/Cookies", "Default/Network/Cookies")
+            )
+        cookie_file = COOKIE_DIR / f"{platform}.txt"
+        env_cookie = bool(os.environ.get(f"PLATFORM_COOKIES_{platform.upper()}"))
+        ready = bool(env_cookie or cookie_file.exists() or cookie_db)
+        items.append({
+            "platform": platform,
+            "label": PLATFORM_LABELS[platform],
+            "ready": ready,
+            "profile": str(profile),
+            "profile_files": files,
+            "profile_cookies": cookie_db,
+            "cookie_file": cookie_file.exists(),
+            "env_cookie": env_cookie,
+            "cookie_source": (
+                "env" if env_cookie
+                else "file" if cookie_file.exists()
+                else "profile" if cookie_db
+                else "none"
+            ),
+        })
+    return {
+        "platforms": items,
+        "cookie_dir": str(COOKIE_DIR),
+        "profile_dir": str(PROFILE_ROOT),
+    }
+
+
 @app.post("/api/profiles/{platform}")
 async def upload_profile(
     platform: str,
@@ -207,7 +252,7 @@ async def upload_profile(
 ) -> dict[str, Any]:
     platform = platform.strip().lower()
     if platform not in PLATFORMS:
-        raise HTTPException(status_code=400, detail="platform must be xhs|dy|bili|zhihu")
+        raise HTTPException(status_code=400, detail=f"platform must be {'|'.join(PLATFORM_ORDER)}")
 
     payload = await file.read()
     if len(payload) > MAX_PROFILE_BYTES:

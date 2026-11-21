@@ -13,6 +13,7 @@ PainRadar 的 MediaCrawler 桥接服务：把不支持 HTTP 的 MediaCrawler 包
 | POST | `/api/crawl` | `{platform, keywords, max_notes, cookies}` → `{task_id}` |
 | GET | `/api/tasks/{id}` | `{status, stage, progress, need_login, error}` |
 | GET | `/api/tasks/{id}/results` | 帖子 + 评论 JSON 数组 |
+| GET | `/api/platforms` | 各平台 Cookie/Profile 是否就绪 |
 | GET | `/health` | 存活检查（免鉴权） |
 
 设置 `MEDIACRAWLER_API_TOKEN` 后，除 `/health` 外都要
@@ -89,6 +90,9 @@ curl -X POST http://127.0.0.1:8080/api/crawl \
 | `PLATFORM_COOKIES_DY` | 按平台 | 抖音 |
 | `PLATFORM_COOKIES_BILI` | 按平台 | B站 |
 | `PLATFORM_COOKIES_ZHIHU` | 按平台 | 知乎 |
+| `PLATFORM_COOKIES_KS` | 按平台 | 快手 |
+| `PLATFORM_COOKIES_WB` | 按平台 | 微博 |
+| `PLATFORM_COOKIES_TIEBA` | 按平台 | 贴吧 |
 | `CRAWLER_CMD_TEMPLATE` | 可选 | 默认 `python main.py --platform {platform} --lt cookie --type search --keywords {keywords}` |
 | `CRAWLER_TIMEOUT` | 可选 | 默认 1200 秒 |
 | `MAX_CONCURRENT_TASKS` | 可选 | 默认 **1**（串行）；超出直接返回 429，避免 Chromium 并发 OOM |

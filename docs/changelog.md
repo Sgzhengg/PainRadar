@@ -257,3 +257,10 @@ painradar demo --reset
 
 - 灵感页新增「🔥 热点话题」横条，按总赞排序，可点击到对应痛点卡；
 - 与痛点卡列表分离，先看全网在聊什么，再看能做什么。
+
+## 2026-11-22 · 平台就绪检查与七平台接入
+
+- 爬虫桥接层支持 xhs/dy/ks/bili/wb/tieba/zhihu 七个平台；
+- 新增 `/api/platforms`（爬虫）与 `/api/crawler/platforms`（PainRadar）检查 Cookie/Profile 是否就绪；
+- 全网扫描先过滤未就绪平台，避免无谓等待；
+- 探索页展示各平台 ✅/❌ 状态。

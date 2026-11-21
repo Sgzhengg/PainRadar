@@ -34,7 +34,10 @@ from typing import Any, Callable
 DOMAINS = {
     "xhs": ".xiaohongshu.com",
     "dy": ".douyin.com",
+    "ks": ".kuaishou.com",
     "bili": ".bilibili.com",
+    "wb": ".weibo.com",
+    "tieba": ".tieba.baidu.com",
     "zhihu": ".zhihu.com",
 }
 
@@ -43,10 +46,10 @@ NEED_LOGIN_RE = re.compile(
     re.IGNORECASE,
 )
 
-NOTE_ID_KEYS = ("note_id", "aweme_id", "bvid", "aid", "question_id", "video_id", "id")
-COMMENT_ID_KEYS = ("comment_id", "cid", "reply_id")
-CONTENT_KEYS = ("content", "text", "comment_content")
-LIKE_KEYS = ("like_count", "liked_count", "digg_count", "like_num", "likes")
+NOTE_ID_KEYS = ("note_id", "aweme_id", "bvid", "aid", "question_id", "video_id", "mblog_id", "mid", "tid", "post_id", "id")
+COMMENT_ID_KEYS = ("comment_id", "cid", "reply_id", "id")
+CONTENT_KEYS = ("content", "text", "comment_content", "text_raw")
+LIKE_KEYS = ("like_count", "liked_count", "digg_count", "like_num", "likes", "attitudes_count")
 
 
 class RunnerError(RuntimeError):

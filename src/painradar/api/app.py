@@ -131,6 +131,18 @@ def create_app(db_paths: list[str]) -> FastAPI:
     def health() -> dict:
         return {"ok": True, "databases": len(db_paths)}
 
+    @app.get("/api/crawler/platforms")
+    def crawler_platforms() -> dict:
+        from ..config import MEDIACRAWLER_API_URL
+        from ..connectors.remote_mediacrawler import RemoteMediaCrawler
+
+        if not MEDIACRAWLER_API_URL:
+            return {"configured": False, "platforms": []}
+        try:
+            return {"configured": True, "platforms": RemoteMediaCrawler().platforms()}
+        except Exception as exc:  # noqa: BLE001
+            raise HTTPException(status_code=502, detail=f"读取爬虫平台状态失败：{exc}")
+
     @app.get("/api/runs")
     def list_runs() -> dict:
         runs: list[dict] = []
@@ -552,13 +564,15 @@ def create_app(db_paths: list[str]) -> FastAPI:
                 status_code=400,
                 detail="MEDIACRAWLER_API_URL 未配置：先部署采集服务，才能扫描全网",
             )
-        allowed = {"xhs", "dy", "bili", "zhihu"}
+        allowed = {"xhs", "dy", "ks", "bili", "wb", "tieba", "zhihu"}
         platforms = [
-            str(p).lower() for p in (payload.get("platforms") or ["xhs", "dy", "bili", "zhihu"])
+            str(p).lower() for p in (payload.get("platforms") or [
+                "xhs", "dy", "ks", "bili", "wb", "tieba", "zhihu",
+            ])
             if str(p).lower() in allowed
         ]
         if not platforms:
-            raise HTTPException(status_code=400, detail="platforms must include xhs|dy|bili|zhihu")
+            raise HTTPException(status_code=400, detail="platforms must include xhs|dy|ks|bili|wb|tieba|zhihu")
         keywords = [str(k).strip() for k in (payload.get("keywords") or [
             "太难用", "求平替", "有没有推荐", "太贵了", "踩坑",
         ]) if str(k).strip()]

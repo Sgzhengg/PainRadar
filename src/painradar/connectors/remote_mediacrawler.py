@@ -200,6 +200,14 @@ class RemoteMediaCrawler:
             "connector": connector.stats,
         }
 
+    def platforms(self) -> list[dict[str, Any]]:
+        if not self.base_url:
+            return []
+        data = self._request("GET", "/api/platforms")
+        if isinstance(data, dict) and isinstance(data.get("platforms"), list):
+            return [x for x in data["platforms"] if isinstance(x, dict)]
+        return []
+
     def health(self) -> dict[str, Any]:
         if not self.base_url:
             return {"ok": False, "reason": "MEDIACRAWLER_API_URL not set"}

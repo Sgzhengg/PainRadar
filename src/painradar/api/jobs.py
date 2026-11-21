@@ -276,11 +276,23 @@ class JobRegistry:
         try:
             crawler = RemoteMediaCrawler()
             store = self._store()
+            readiness: dict[str, dict] = {}
+            try:
+                readiness = {p["platform"]: p for p in crawler.platforms() if p.get("platform")}
+            except Exception:  # noqa: BLE001
+                readiness = {}
             results: list[dict] = []
             inserted = 0
             for index, platform in enumerate(platforms):
                 job.stage = f"scanning:{platform}"
                 job.progress = int(10 + 60 * index / max(1, len(platforms)))
+                info = readiness.get(platform)
+                if info is not None and not info.get("ready"):
+                    results.append({
+                        "platform": platform,
+                        "error": "未配置 Cookie / 登录 profile，已跳过",
+                    })
+                    continue
                 try:
                     task = crawler.start_crawl(
                         platform=platform,

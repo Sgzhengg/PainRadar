@@ -1,9 +1,11 @@
 import json
+import os
 import sys
 import tempfile
 import threading
 import time
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from fastapi.testclient import TestClient
@@ -202,6 +204,44 @@ class ConcurrencyTests(unittest.TestCase):
                 break
             time.sleep(0.05)
         self.assertEqual(status["status"], "completed", status)
+
+
+class PlatformStatusTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        base = Path(self.tmp.name)
+        self.old_profile = bridge.PROFILE_ROOT
+        self.old_cookie = bridge.COOKIE_DIR
+        self.old_token = bridge.API_TOKEN
+        bridge.PROFILE_ROOT = base / "browser_data"
+        bridge.COOKIE_DIR = base / "cookies"
+        bridge.PROFILE_ROOT.mkdir()
+        bridge.COOKIE_DIR.mkdir()
+        bridge.API_TOKEN = "tok"
+        self.client = TestClient(bridge.app)
+
+    def tearDown(self):
+        bridge.PROFILE_ROOT = self.old_profile
+        bridge.COOKIE_DIR = self.old_cookie
+        bridge.API_TOKEN = self.old_token
+        self.tmp.cleanup()
+
+    def test_cookie_file_marks_platform_ready(self):
+        (bridge.COOKIE_DIR / "xhs.txt").write_text("web_session=x", encoding="utf-8")
+        res = self.client.get("/api/platforms", headers={"Authorization": "Bearer tok"})
+        self.assertEqual(res.status_code, 200, res.text)
+        items = {p["platform"]: p for p in res.json()["platforms"]}
+        self.assertEqual(len(items), 7)
+        self.assertTrue(items["xhs"]["ready"])
+        self.assertEqual(items["xhs"]["cookie_source"], "file")
+        self.assertFalse(items["dy"]["ready"])
+
+    def test_env_cookie_marks_platform_ready(self):
+        with patch.dict(os.environ, {"PLATFORM_COOKIES_DY": "sessionid=x"}):
+            res = self.client.get("/api/platforms", headers={"Authorization": "Bearer tok"})
+        items = {p["platform"]: p for p in res.json()["platforms"]}
+        self.assertTrue(items["dy"]["ready"])
+        self.assertEqual(items["dy"]["cookie_source"], "env")
 
 
 if __name__ == "__main__":

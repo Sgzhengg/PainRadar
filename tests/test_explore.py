@@ -252,8 +252,15 @@ class ExploreApiTests(unittest.TestCase):
         self.assertEqual(res.status_code, 202, res.text)
         body = res.json()
         self.assertEqual(body["job"]["job_id"], "job_scan")
-        self.assertEqual(body["platforms"], ["xhs", "dy", "bili", "zhihu"])
+        self.assertEqual(body["platforms"], ["xhs", "dy", "ks", "bili", "wb", "tieba", "zhihu"])
         self.assertTrue(body["category"].startswith("custom_"))
+
+    def test_crawler_platforms_not_configured(self):
+        with patch.object(config, "MEDIACRAWLER_API_URL", ""):
+            res = self.client.get("/api/crawler/platforms")
+        self.assertEqual(res.status_code, 200)
+        self.assertFalse(res.json()["configured"])
+        self.assertEqual(res.json()["platforms"], [])
 
 
 if __name__ == "__main__":
