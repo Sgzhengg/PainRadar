@@ -401,3 +401,16 @@ body{background:#F8FAFC}
 
 .ex-quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .ex-quick-hint{margin:8px 0 0;color:#94a3b8;font-size:12px}
+
+.disc-setup{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:22px 24px;margin:6px 0}
+.disc-setup h3{margin:0 0 6px;font-size:18px}
+.disc-form{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:16px 0}
+.disc-form label{display:flex;flex-direction:column;gap:6px;font-size:13px;color:#334155}
+.disc-form select{padding:9px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;background:#fff}
+.disc-readonly{padding:9px 10px;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;font-weight:600}
+.disc-form small{color:#94a3b8;font-size:12px}
+.disc-form-actions{display:flex;gap:8px;flex-wrap:wrap}
+@media (max-width:700px){.disc-form{grid-template-columns:1fr}}
+
+.cards .disc-setup{grid-column:1/-1}
+

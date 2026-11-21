@@ -361,6 +361,15 @@ def create_app(db_paths: list[str]) -> FastAPI:
             return PROJECT_ROOT / "var" / "discovery.json"
         return PROJECT_ROOT / "var" / f"discovery_{corpus}.json"
 
+    def _snapshot_demand_count(corpus: str) -> int:
+        path = _snapshot_path(corpus)
+        if not path.exists():
+            return 0
+        try:
+            return len(json.loads(path.read_text(encoding="utf-8")).get("demands", []))
+        except (OSError, ValueError):
+            return 0
+
     @app.get("/api/discovery/corpora")
     def discovery_corpora() -> dict:
         return {
@@ -368,7 +377,9 @@ def create_app(db_paths: list[str]) -> FastAPI:
                 {
                     "name": name,
                     "label": cfg["label"],
+                    "db": cfg["db"],
                     "ready": _snapshot_path(name).exists(),
+                    "demands": _snapshot_demand_count(name),
                 }
                 for name, cfg in CORPORA.items()
             ]

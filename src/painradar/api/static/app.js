@@ -607,7 +607,8 @@ async function showDiscovery(corpus) {
   } catch (err) {
     $("#discbar").hidden = false;
     $("#discbar").innerHTML = `<span class="state">语料 ${esc(state.discoveryCorpus)}：${esc(err.message)}</span>`;
-    $("#cards").innerHTML = `<div class="empty">这个语料还没有快照。点“生成快照”，或运行<br><code>python run.py discover --canonical --db var\llm_full.db</code></div>`;
+    $("#meta").textContent = `跨品类商机总榜 · 语料 ${state.discoveryCorpus} · 暂无快照`;
+    await renderDiscoverySetup("这个语料还没有快照；选一个语料生成，或先去抓评论。");
     await renderCorpusBar();
     renderTabs();
     return;
@@ -701,7 +702,7 @@ async function buildCorpus() {
 function renderDiscoveryCards() {
   const list = state.discovery ? state.discovery.demands : [];
   if (!list.length) {
-    $("#cards").innerHTML = `<div class="empty">没有需求</div>`;
+    renderDiscoverySetup();
     return;
   }
   $("#cards").innerHTML = list.map((d, i) => {
@@ -1254,7 +1255,8 @@ async function showDiscovery(corpus) {
   } catch (err) {
     $("#discbar").hidden = false;
     $("#discbar").innerHTML = `<span class="state">语料 ${esc(state.discoveryCorpus)}：${esc(err.message)}</span>`;
-    $("#cards").innerHTML = `<div class="empty">这个语料还没有快照。点“生成快照”，或运行<br><code>python run.py discover --canonical --db var\llm_full.db</code></div>`;
+    $("#meta").textContent = `跨品类商机总榜 · 语料 ${state.discoveryCorpus} · 暂无快照`;
+    await renderDiscoverySetup("这个语料还没有快照；选一个语料生成，或先去抓评论。");
     await renderCorpusBar();
     renderTabs();
     return;
@@ -1348,7 +1350,7 @@ async function buildCorpus() {
 function renderDiscoveryCards() {
   const list = state.discovery ? state.discovery.demands : [];
   if (!list.length) {
-    $("#cards").innerHTML = `<div class="empty">没有需求</div>`;
+    renderDiscoverySetup();
     return;
   }
   $("#cards").innerHTML = list.map((d, i) => {
@@ -1493,7 +1495,7 @@ async function init() {
   const runId = params.get("run") || latest.run_id;
   if (params.has("discover")) {
     if ($("#runbtn")) $("#runbtn").disabled = false;
-    await showDiscovery();
+    await showDiscovery(params.get("corpus") || undefined);
     return;
   }
   await selectRun(runId, params.get("cluster"));
@@ -2525,3 +2527,55 @@ function downloadDraft() {
 }
 
 $("#exdraft")?.addEventListener("click", buildDraft);
+
+async function renderDiscoverySetup(note = "") {
+  let corpora = state.corpora;
+  if (!corpora) {
+    try {
+      corpora = (await api("/api/discovery/corpora")).corpora;
+      state.corpora = corpora;
+    } catch (err) {
+      corpora = [];
+    }
+  }
+  const current = corpora.find((c) => c.name === state.discoveryCorpus) || {};
+  let categories = [];
+  try {
+    categories = (await api("/api/categories")).categories.filter((c) => c.items > 0);
+  } catch (err) {
+    categories = [];
+  }
+  const catOptions = categories.length
+    ? categories.map((c) => `<option value="${esc(c.category)}">${esc(c.name)}（${c.items} 条）</option>`).join("")
+    : `<option value="">暂无已导入品类，先去抓评论</option>`;
+  $("#cards").innerHTML = `<div class="disc-setup">
+    <h3>生成跨品类商机总榜</h3>
+    <p class="hint">${esc(note || "当前快照没有可聚类的需求；先补数据，或换一个语料。")}</p>
+    <div class="disc-form">
+      <label>当前语料
+        <div class="disc-readonly">${esc(current.label || state.discoveryCorpus || "未选择")}</div>
+        <small>${esc(current.db || "")} · 快照 ${current.demands || 0} 个需求</small>
+      </label>
+      <label>品类补充（可选）
+        <select id="dsCat">${catOptions}</select>
+        <small>抓取/导入后，可在这里直接打开该品类的分析。</small>
+      </label>
+    </div>
+    <div class="disc-form-actions">
+      <button class="btn primary" id="dsBuild">生成当前语料快照</button>
+      <button class="btn small" id="dsRun">分析该品类</button>
+      <button class="btn small" id="dsExplore">去碰撞产品灵感</button>
+    </div>
+  </div>`;
+  $("#dsBuild").addEventListener("click", buildCorpus);
+  $("#dsRun").addEventListener("click", () => {
+    const cat = $("#dsCat").value;
+    if (!cat) { toast("先抓取或导入一个品类"); return; }
+    openRunModal();
+    setTimeout(() => {
+      const sel = $("#runcat");
+      if (sel) sel.value = cat;
+    }, 150);
+  });
+  $("#dsExplore").addEventListener("click", openExplore);
+}
