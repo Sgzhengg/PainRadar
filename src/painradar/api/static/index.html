@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PainRadar · 机会雷达</title>
-<link rel="stylesheet" href="/static/style.css?v=80">
+<link rel="stylesheet" href="/static/style.css?v=90">
 </head>
 <body>
 <header class="top">
@@ -110,10 +110,8 @@
       </div>
       <div class="field">
         <label>分析模式</label>
-        <select id="fcmode">
-          <option value="b2c">C 端消费</option>
-          <option value="b2b">B 端 / 传统行业（高客单价）</option>
-        </select>
+        <label class="chk"><input type="radio" name="fcmode" value="b2c" checked> 标准模式（大众消费级 App/插件）</label>
+        <label class="chk"><input type="radio" name="fcmode" value="b2b"> 🏢 传统行业 B 端模式（高客单价企业工具）</label>
       </div>
       <div class="field">
         <label>临时 Cookie（可选，覆盖服务端默认）</label>
@@ -216,6 +214,6 @@
 </div>
 
 <div class="toast" id="toast" hidden></div>
-<script src="/static/app.js?v=80"></script>
+<script src="/static/app.js?v=90"></script>
 </body>
 </html>

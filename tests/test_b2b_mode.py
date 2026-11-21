@@ -112,9 +112,56 @@ class B2BOutreachTests(unittest.TestCase):
             text = res.content.decode("utf-8-sig")
             self.assertIn("buyer_role", text)
             self.assertIn("老板您好", text)
-            self.assertIn("Demo", text)
+            self.assertIn("演示视频", text)
+            self.assertIn("不推销", text)
             self.assertNotIn("免费内测", text)
 
 
 if __name__ == "__main__":
     unittest.main()
+
+class B2BDeepExtractionTests(unittest.TestCase):
+    def _extract(self, text, mode):
+        from painradar.config import CATEGORIES
+        from painradar.extract import RuleExtractor
+        from painradar.schema import RawItem
+
+        item = RawItem(
+            platform="xhs", item_id="n1", url="https://example.com/n1",
+            text=text, published_at="2026-11-01", category="pet_water_fountain",
+        )
+        return RuleExtractor(CATEGORIES["pet_water_fountain"], mode=mode).extract(
+            item, text, "cm_test", "run_test"
+        )
+
+    def test_manual_bottleneck_promotes_to_l3_in_b2b(self):
+        text = "我是开厂的，报价单每天用Excel手工核对，太费劲，经常出错赔钱，忙不过来"
+        b2b = self._extract(text, "b2b")
+        self.assertIsNotNone(b2b)
+        self.assertEqual(b2b.level, "L3")
+        self.assertTrue(b2b.manual_bottleneck)
+        self.assertTrue(b2b.decision_maker_signal)
+
+    def test_c2c_mode_does_not_force_l3(self):
+        text = "报价单每天用Excel手工核对，太费劲，经常出错赔钱"
+        b2c = self._extract(text, "b2c")
+        if b2c is not None:
+            self.assertNotEqual(b2c.level, "L3")
+
+    def test_b2b_solo_fit_form_and_price(self):
+        from painradar.scoring import assess_solo_fit
+
+        atoms = [_atom(i, 3, "老板") for i in range(2)]
+        for a in atoms:
+            a.manual_bottleneck = "Excel 手工核对报价单"
+        fit = assess_solo_fit(atoms, mode="b2b")
+        self.assertIn("自动化", fit["form"])
+        self.assertIn("3,000", fit["price_hint"])
+
+    def test_two_atoms_cluster_when_min_size_two(self):
+        from painradar.cluster import cluster_atoms
+
+        atoms = [_atom(i, 3, "老板") for i in range(2)]
+        result = cluster_atoms(atoms, min_size=2)
+        self.assertEqual(len(result.clusters), 1)
+        self.assertTrue(cluster_atoms(atoms, min_size=3).clusters == [])

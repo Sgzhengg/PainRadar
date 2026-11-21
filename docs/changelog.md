@@ -153,3 +153,11 @@ painradar demo --reset
 - 评分新增 `buyer` 因子（B 端权重 15%），原子记录 `buyer_role` / `b2b_score`；
 - 外联 CSV 切换为商务口吻（免费流程诊断 + Demo），新增 `buyer_role` 列；
 - WebUI 运行/抓取弹窗增加模式选择，B 端机会卡显示 `B端`。
+
+## 2026-11-21 · B 端模式深化
+
+- 新增 `decision_maker_signal` / `manual_bottleneck`；人工耗时或赔钱线索强制 L3；
+- B 端 `min_size=2`，决策者 20% + 人工替代 15% 加权；
+- solo 可行性输出行业工作流形态与 `¥3,000–15,000/家/年` 客单价；
+- 外联话术改为「行业共鸣 + 具体痛点 + 免费体验链接/演示视频，不推销」；
+- WebUI 模式改为单选框，机会卡显示 `🏢 B端高客单`。

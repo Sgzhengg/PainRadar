@@ -242,13 +242,58 @@ def _b2b_role(value: object, text: str) -> str:
     return b2b_identity(text)[0]
 
 
+
+
+MANUAL_TERMS = (
+    "excel", "表格", "手工", "人工", "粘贴", "复制", "微信", "群里", "对账",
+    "核对", "票据", "标书", "算料", "报价", "排产", "台账", "录入", "填表",
+    "统计", "抄写", "一个个", "word", "pdf",
+)
+LOSS_TERMS = (
+    "耗时", "费时", "加班", "忙不过来", "出错", "赔钱", "丢单", "罚款",
+    "返工", "效率低", "一整天", "几个小时", "两三天", "来不及",
+)
+
+
+def manual_bottleneck(text: str) -> str:
+    """Return the clause describing a manual/Excel/WeChat bottleneck."""
+    low = (text or "").lower()
+    for term in MANUAL_TERMS:
+        idx = low.find(term)
+        if idx >= 0:
+            return _clause(text, idx, before=20, after=60)
+    return ""
+
+
+def _has_loss(text: str) -> bool:
+    low = (text or "").lower()
+    return any(w in low for w in LOSS_TERMS)
+
+
+def b2b_promote(text: str, level: str, mode: str) -> str:
+    """B2B: manual labor + time/loss evidence is L3 even without buy intent."""
+    if mode != "b2b":
+        return level
+    if level in ("L0", "L1", "L2") and manual_bottleneck(text) and _has_loss(text):
+        return "L3"
+    return level
+
+
+def decision_maker(text: str, role: str) -> bool:
+    if role in ("老板", "管理者"):
+        return True
+    low = (text or "").lower()
+    return any(w in low for w in ("我们厂", "我们店", "我们公司", "自己开", "开厂", "开公司"))
+
+
 class RuleExtractor:
     """Deterministic baseline extractor (no network, no API key)."""
 
     version = MODEL_VERSION
 
-    def __init__(self, category: CategorySpec, gate: SpanGate | None = None):
+    def __init__(self, category: CategorySpec, gate: SpanGate | None = None, mode: str = "b2c"):
         self.category = category
+        self.mode = mode
         self.gate = gate or SpanGate()
         self.stats = ExtractionStats()
 
@@ -382,6 +427,9 @@ class RuleExtractor:
             )
         )
 
+        manual = manual_bottleneck(quote)
+        role, b2b_score = b2b_identity(quote)
+        level = b2b_promote(quote, level, self.mode)
         if level == "L0":
             return None
 
@@ -427,8 +475,10 @@ class RuleExtractor:
             span_end=end,
             match_score=match,
             canonical_pain=canonical_pain,
-            buyer_role=b2b_identity(quote)[0],
-            b2b_score=b2b_identity(quote)[1],
+            buyer_role=role,
+            b2b_score=b2b_score,
+            decision_maker_signal=decision_maker(quote, role),
+            manual_bottleneck=manual,
             scene=scene,
             trigger=trigger,
             job=job,
@@ -496,6 +546,9 @@ Return ONE JSON object with the fields below. Rules:
   (老板 / 管理者 / 员工 / 不确定) and list the B2B signal words you saw
   (厂里、店里、员工、人工成本、接单、报价、同行). Keep `reasoning` focused on the
   business cost or workflow, not consumer convenience.
+- If `mode` is `b2b` and the author describes a manual step (Excel 粘贴、微信群回复、
+  手工核对票据/标书/报价/算料) that costs hours or causes lost orders/money, set
+  `level` to `L3` even if they never say they want to buy software.
 - quote MUST be an exact substring of the input text (copy it verbatim, no edits).
 - If a field is not supported by the text, return an empty string. Never invent.
 - scene MUST be exactly one of the provided `scenes`, or "其他场景" when none fits.
@@ -523,6 +576,8 @@ FIELD_SPEC = {
     "canonical_pain": "4-12 char Chinese noun phrase, cluster key",
     "buyer_role": "老板|管理者|员工|不确定 (empty if unknown)",
     "b2b_signals": ["lender/labor/quote words found, e.g. 厂里, 人工成本, 接单"],
+    "decision_maker_signal": "true|false (can this person approve spend?)",
+    "manual_bottleneck": "short clause: the manual/Excel/WeChat step still done by hand",
     "quote": "string, verbatim substring",
     "scene": "short noun phrase",
     "trigger": "short phrase or empty",
@@ -792,6 +847,8 @@ class LLMExtractor:
             level = resolve_level(
                 LevelInput(obstacle=obstacle, workaround=workaround, declared=declared, text=quote)
             )
+        manual = _as_str(data.get("manual_bottleneck"), 80) or manual_bottleneck(quote)
+        level = b2b_promote(quote, level, getattr(self, "mode", "b2c"))
         wtp_level = _as_str(data.get("wtp_level")).lower()
         if wtp_level not in _WTP_LEVELS:
             wtp_level = "none"
@@ -835,6 +892,9 @@ class LLMExtractor:
             canonical_pain=_as_str(data.get("canonical_pain"), 24),
             buyer_role=_b2b_role(data.get("buyer_role"), quote),
             b2b_score=max(b2b_identity(quote)[1], min(3, len(data.get("b2b_signals") or []))),
+            decision_maker_signal=bool(data.get("decision_maker_signal"))
+            or decision_maker(quote, _b2b_role(data.get("buyer_role"), quote)),
+            manual_bottleneck=manual,
             scene=self._normalise_scene(data.get("scene"), quote),
             trigger=_as_str(data.get("trigger")),
             job=_as_str(data.get("job")),
@@ -912,7 +972,7 @@ def build_extractor(
     mode: str = "b2c",
 ):
     if name == "rule":
-        return RuleExtractor(category)
+        return RuleExtractor(category, mode=mode)
     if name == "llm":
         return LLMExtractor(
             category,

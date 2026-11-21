@@ -190,10 +190,12 @@ def create_app(db_paths: list[str]) -> FastAPI:
             role = m["buyer_role"] if "buyer_role" in m.keys() else ""
             if b2b:
                 greeting = f"{role}您好" if role in ("老板", "管理者") else "您好"
+                industry = scene if scene and scene != "其他场景" else "贵行业"
                 icebreaker = (
-                    f"{greeting}，看到您在「{scene}」提到「{quote}」。"
-                    f"我们正在为传统行业做一套 AI 提效方案，可免费为贵司做一次流程诊断 + Demo 试用；"
-                    f"如果方便，想约 15 分钟交流一下，可以吗？"
+                    f"{greeting}！看到您在帖子下提到「{quote}」，"
+                    f"我们最近专门针对{industry}做了一个自动识别表格、秒出结果的小工具，"
+                    f"不推销，想发您一个免费体验链接或演示视频，"
+                    f"看能不能帮您团队省下这部分人工时间？"
                 )
             else:
                 icebreaker = (

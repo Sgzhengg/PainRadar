@@ -145,7 +145,13 @@ function soloBadge(fit) {
     return `<span class="solo-badge high">⚠️ 涉及硬件 / 重运营</span>`;
   }
   const cls = fit.level === "低" ? "low" : "mid";
-  return `<span class="solo-badge ${cls}">⚡ ${esc(fit.mvp_days || "")} 可做 · ${esc(fit.form || "")}</span>`;
+  const price = fit.price_hint ? ` · 💰 ${esc(fit.price_hint)}` : "";
+  return `<span class="solo-badge ${cls}">⚡ ${esc(fit.mvp_days || "")} 可做 · ${esc(fit.form || "")}${price}</span>`;
+}
+
+function checkedMode(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : "b2c";
 }
 
 function tierClass(t) {
@@ -166,7 +172,7 @@ function renderCards() {
     return `<article class="card opp" data-cluster="${esc(o.cluster_id)}">
       <div class="opp-head">
         <div class="opp-title">
-          <h2>${esc(o.title)}${state.detail?.stats?.mode === "b2b" ? ' <span class="dom b2b">B端</span>' : ""}</h2>
+          <h2>${esc(o.title)}${state.detail?.stats?.mode === "b2b" ? ' <span class="b2b-badge">🏢 B端高客单</span>' : ""}</h2>
           ${soloBadge(o.solo_fit)}
         </div>
         <div class="opp-score">
@@ -396,7 +402,7 @@ async function startRun() {
     const res = await fetch("/api/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ category, extractor, mode: $("#runmode")?.value || "b2c" }),
+      body: JSON.stringify({ category, extractor, mode: checkedMode("runmode") }),
     });
     const body = await res.json();
     if (!res.ok) throw new Error(body.detail || res.status);
@@ -1006,7 +1012,7 @@ async function startRun() {
     const res = await fetch("/api/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ category, extractor, mode: $("#runmode")?.value || "b2c" }),
+      body: JSON.stringify({ category, extractor, mode: checkedMode("runmode") }),
     });
     const body = await res.json();
     if (!res.ok) throw new Error(body.detail || res.status);

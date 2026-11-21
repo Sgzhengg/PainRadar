@@ -257,10 +257,13 @@ python tools/build_app.py --db var/gold200.db --db var/gold.db --out reports/app
 python run.py run --category pet_water_fountain --extractor rule --mode b2b
 `
 
-- **身份识别**：评论里出现「厂里 / 店里 / 员工 / 人工成本 / 接单 / 报价 / 同行 / 采购」
-  等信号时，原子会记录 uyer_role（老板 / 管理者 / 员工）与 2b_score（0–3）；
-- **评分**：B 端模式把 uyer 因子（决策者信号）按 15% 权重计入痛感分，
-  人工成本、报价、接单类需求更靠前；
+- **身份与人工瓶颈识别**：除 uyer_role / 2b_score 外，原子还会记录
+  decision_maker_signal（能否拍板）与 manual_bottleneck（Excel/微信群/手工核对等环节）；
+  只要「人工耗时大」或「人工出错赔钱/丢单」，即使没提买软件，也会判为 **L3**；
+- **小样本聚类**：B 端模式自动把 min_size 放宽到 **2**——两个老板吐槽同一个报价/标书问题就成簇；
+- **B 端加权**：决策者命中率 20% + 人工替代空间 15%，大众声量权重降到 10%；
+- **一人开发建议**：优先「垂直行业 AI 自动化工作流 / 私有化知识库 / 定制 Web 工具」，
+  并给出客单价参考 ¥3,000–15,000/家/年；
 - **外联话术**：outreach.csv 自动切换为商务口吻——
   “可免费为贵司做一次流程诊断 + Demo 试用”，并新增 uyer_role 列；
 - **界面**：运行 / 抓取弹窗可选「B 端 / 传统行业」，B 端运行的机会卡会标 B端。

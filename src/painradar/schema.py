@@ -103,6 +103,8 @@ class PainAtom:
     canonical_pain: str = ""
     buyer_role: str = ""  # 老板 / 管理者 / 员工 / 不确定（B 端模式）
     b2b_score: int = 0  # 0-3，决策者身份信号强度
+    decision_maker_signal: bool = False  # 明确经营者/拍板人线索
+    manual_bottleneck: str = ""  # 靠人工/Excel/微信群处理的耗时环节
 
     def signature(self) -> str:
         """Text used for clustering — slots, not the raw sentence."""

@@ -31,12 +31,13 @@ OPP_WEIGHTS = {
     "timing": 0.15,
 }
 PAIN_WEIGHTS_B2B = {
-    "frequency": 0.25,
-    "breadth": 0.15,
+    "frequency": 0.20,
+    "breadth": 0.10,   # B 端不依赖大众声量
     "intensity": 0.15,
-    "cost_clarity": 0.20,
-    "persistence": 0.10,
-    "buyer": 0.15,
+    "cost_clarity": 0.15,
+    "persistence": 0.05,
+    "buyer": 0.20,     # 决策者身份命中率
+    "labor": 0.15,     # 人工替代空间
 }
 COMPETITION_EXP = 0.10
 
@@ -94,6 +95,7 @@ def score_clusters(
             "workaround": sum(1 for a in atoms if a.workaround) / n,
             "action": sum(1 for a in atoms if a.level in ("L3", "L4")) / n,
             "buyer": sum(int(getattr(a, "b2b_score", 0) or 0) for a in atoms) / (3 * n),
+            "labor": sum(1 for a in atoms if getattr(a, "manual_bottleneck", "")) / n,
         }
 
     if not raw:
@@ -111,6 +113,7 @@ def score_clusters(
             "cost_clarity": v["cost_clarity"],
             "persistence": v["persistence"],
             "buyer": v["buyer"],
+            "labor": v["labor"],
         }
         weights = PAIN_WEIGHTS_B2B if mode == "b2b" else PAIN_WEIGHTS
         pain = 100.0 * sum(weights[k] * factors[k] for k in weights)
@@ -260,7 +263,7 @@ _HARDWARE_WORDS = ("硬件", "门锁", "传感器", "电池", "供应链", "安�
 _OPS_WORDS = ("客服", "人工", "审核", "运营", "售后", "培训", "代做", "服务", "交付")
 
 
-def assess_solo_fit(atoms: list[PainAtom]) -> dict:
+def assess_solo_fit(atoms: list[PainAtom], mode: str = "b2c") -> dict:
     """Can one developer ship an MVP fast, and in what form?"""
     text = " ".join(
         f"{a.canonical_pain} {a.obstacle} {a.job} {a.workaround}" for a in atoms
@@ -275,6 +278,17 @@ def assess_solo_fit(atoms: list[PainAtom]) -> dict:
             "monetization": "买断",
             "score": 0.2,
             "note": "涉及硬件/供应链/现场安装，一人难以闭环",
+        }
+    if mode == "b2b":
+        has_manual = any(getattr(a, "manual_bottleneck", "") for a in atoms)
+        return {
+            "level": "低" if has_manual else "中",
+            "mvp_days": "2–4 周",
+            "form": "垂直行业 AI 自动化工作流" if has_manual else "私有化知识库 / 定制 Web 小工具",
+            "monetization": "年费 + 落地配置",
+            "price_hint": "¥3,000–15,000/家/年",
+            "score": 0.75 if has_manual else 0.6,
+            "note": "B 端小样本、按行业模板复制；先卖 2 家再产品化",
         }
     if ops:
         return {

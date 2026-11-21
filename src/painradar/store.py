@@ -249,6 +249,10 @@ class SQLiteStore:
             self._conn.execute("ALTER TABLE atoms ADD COLUMN buyer_role TEXT NOT NULL DEFAULT ''")
         if "b2b_score" not in atom_cols:
             self._conn.execute("ALTER TABLE atoms ADD COLUMN b2b_score INTEGER NOT NULL DEFAULT 0")
+        if "decision_maker" not in atom_cols:
+            self._conn.execute("ALTER TABLE atoms ADD COLUMN decision_maker INTEGER NOT NULL DEFAULT 0")
+        if "manual_bottleneck" not in atom_cols:
+            self._conn.execute("ALTER TABLE atoms ADD COLUMN manual_bottleneck TEXT NOT NULL DEFAULT ''")
 
         opp_cols = {r[1] for r in self._conn.execute("PRAGMA table_info(opportunities)")}
         if "solo_fit_json" not in opp_cols:
@@ -410,13 +414,15 @@ class SQLiteStore:
                         span_end, match_score, scene, trigger, job, obstacle, workaround, cost_type,
                         cost_estimate, persona, intensity, expression, level, wtp_level, wtp_quote,
                         domain, confidence, model_version, prompt_version, taxonomy_version,
-                        supersedes, created_at, canonical_pain, buyer_role, b2b_score)
+                        supersedes, created_at, canonical_pain, buyer_role, b2b_score,
+                        decision_maker, manual_bottleneck)
                        VALUES(:atom_id,:run_id,:comment_uid,:quote,:span_start,:span_end,:match_score,
                         :scene,:trigger,:job,:obstacle,:workaround,:cost_type,:cost_estimate,:persona,
                         :intensity,:expression,:level,:wtp_level,:wtp_quote,:domain,:confidence,
                         :model_version,:prompt_version,:taxonomy_version,:supersedes,:created_at,
-                        :canonical_pain,:buyer_role,:b2b_score)""",
-                    {"canonical_pain": "", "buyer_role": "", "b2b_score": 0, **a},
+                        :canonical_pain,:buyer_role,:b2b_score,:decision_maker,:manual_bottleneck)""",
+                    {"canonical_pain": "", "buyer_role": "", "b2b_score": 0,
+                     "decision_maker": 0, "manual_bottleneck": "", **a},
                 )
                 n += 1
         return n

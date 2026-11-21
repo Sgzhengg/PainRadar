@@ -160,6 +160,9 @@ def run_category(
     apps: list[str] | None = None,
 ) -> RunResult:
     spec: CategorySpec = get_category(category_key)
+    if mode == "b2b" and min_size > 2:
+        # Two owners complaining about the same quote/tender workflow is a signal.
+        min_size = 2
     items = store.items(category_key)
     if before:
         items = [r for r in items if r["published_at"] < before]
@@ -222,6 +225,8 @@ def run_category(
             "canonical_pain": a.canonical_pain,
             "buyer_role": a.buyer_role,
             "b2b_score": a.b2b_score,
+            "decision_maker": int(a.decision_maker_signal),
+            "manual_bottleneck": a.manual_bottleneck,
             "created_at": now,
         }
 
@@ -339,7 +344,7 @@ def run_category(
             "falsifier": market.falsifier,
             "validation": VALIDATION_KIT,
         }
-        opp["solo_fit"] = assess_solo_fit(members)
+        opp["solo_fit"] = assess_solo_fit(members, mode=mode)
         opps.append(opp)
 
     # Hardware / ops-heavy ideas stay, but rank below a software idea a solo
