@@ -136,53 +136,67 @@ ame=value; name2=value2；
 
 适合不想反复复制 Cookie 的情况。
 
-1. 在本机 MediaCrawler 目录里扫码登录一次：
+1. 先改 `config/base_config.py`（这个文件**不读环境变量**，必须改文件）：
 
-   `ash
-   ENABLE_CDP_MODE=False HEADLESS=False SAVE_LOGIN_STATE=True \
+   ```python
+   ENABLE_CDP_MODE = False
+   HEADLESS = False
+   LOGIN_TYPE = "qrcode"
+   SAVE_LOGIN_STATE = True
+   ```
+
+2. 扫码登录一次：
+
+   ```bash
    python main.py --platform xhs --lt qrcode --type search
-   `
+   ```
 
-   扫码成功后停止程序，确认生成：
+   扫码成功后按 `Ctrl+C` 停止，确认生成：
 
-   `
+   ```
    browser_data/xhs_user_data_dir/
-   `
+   ```
 
-2. 压缩这个目录：
+3. 压缩这个目录：
 
-   `ash
+   ```bash
    cd browser_data
    zip -r xhs_profile.zip xhs_user_data_dir
-   `
+   ```
 
-3. 通过 PainRadar 的代理上传（不需要把爬虫服务暴露到公网）：
+   Windows PowerShell：
 
-   `ash
+   ```powershell
+   Compress-Archive -Path browser_data\xhs_user_data_dir -DestinationPath xhs_profile.zip
+   ```
+
+4. 通过 PainRadar 代理上传（不需要把爬虫服务暴露到公网）：
+
+   ```bash
    curl -u me:你的PAINRADAR_ADMIN_PASSWORD \
      -F "file=@xhs_profile.zip" \
      https://你的-painradar-域名/api/crawler/profiles/xhs
-   `
+   ```
 
-   也可以直接传给爬虫内网地址（同一项目容器内）：
+   或者直接传给爬虫内网地址（在 PainRadar 容器/同项目内）：
 
-   `ash
-   curl -H "Authorization: Bearer " \
+   ```bash
+   curl -H "Authorization: Bearer $MEDIACRAWLER_API_TOKEN" \
      -F "file=@xhs_profile.zip" \
      http://painradar-crawler-per.zeabur.internal:8080/api/profiles/xhs
-   `
+   ```
 
-4. 查看已上传：
+5. 查看已上传：
 
-   `ash
+   ```bash
    curl -u me:你的密码 https://你的-painradar-域名/api/crawler/profiles
-   `
+   ```
 
-5. 之后正常抓取即可，不需要再配 PLATFORM_COOKIES_*。
-   容器启动时 entrypoint.sh 会把 MediaCrawler/browser_data 链接到
-   /data/browser_data，所以重新部署不会丢登录态。
+6. 之后正常抓取即可，不需要再配 `PLATFORM_COOKIES_*`。
+   容器启动时 `entrypoint.sh` 会把 `MediaCrawler/browser_data` 链接到
+   `/data/browser_data`，重新部署不会丢登录态。
 
-> 注意：profile 里是完整登录态，zip 不要外发；过期后重新扫码上传。
+> profile 里是完整登录态，zip 不要外发；过期后重新扫码上传。
 
 ## 5. 结果格式
 

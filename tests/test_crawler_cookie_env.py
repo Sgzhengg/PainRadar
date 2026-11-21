@@ -42,6 +42,20 @@ class EnvCookieTests(unittest.TestCase):
                 os.environ.pop("PLATFORM_COOKIES_XHS", None)
             self.assertIn("request", cookies)
 
+    def test_headless_wrapper_forces_media_crawler_config(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            crawler = crawler_runner.MediaCrawlerRunner(home=tmp)
+            crawler.cookie_dir = Path(tmp) / "cookies"
+            crawler.template = "python main.py --platform {platform} --lt cookie --keywords {keywords}"
+            spec = crawler_runner.CrawlSpec(platform="xhs", keywords=["PDF"])
+            command = crawler.build_command(spec, "")
+
+        self.assertIn("-c", command)
+        wrapper = command[command.index("-c") + 1]
+        self.assertIn("config.HEADLESS=True", wrapper)
+        self.assertIn("config.ENABLE_CDP_MODE=False", wrapper)
+        self.assertIn("--platform", command)
+
 
 if __name__ == "__main__":
     unittest.main()

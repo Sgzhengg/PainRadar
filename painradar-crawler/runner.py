@@ -24,6 +24,7 @@ import os
 import re
 import shlex
 import subprocess
+import sys
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -179,10 +180,26 @@ class MediaCrawlerRunner:
                 return ""
         return ""
 
+    WRAPPER = (
+        'import config, runpy, sys;'
+        'config.ENABLE_CDP_MODE=False;'
+        'config.HEADLESS=True;'
+        'config.SAVE_LOGIN_STATE=True;'
+        'runpy.run_path("main.py", run_name="__main__")'
+    )
+
     def build_command(self, spec: CrawlSpec, cookies: str = "") -> list[str]:
         keywords = ",".join(spec.keywords)
         rendered = self.template.format(platform=spec.platform, keywords=keywords)
         args = shlex.split(rendered)
+
+        # MediaCrawler's config is plain Python and ignores env vars, so force
+        # headless/CDP-off inside a wrapper instead of editing the checkout.
+        force = os.environ.get("CRAWLER_FORCE_HEADLESS", "1") == "1"
+        if force and any(a.endswith("main.py") for a in args):
+            idx = next(i for i, a in enumerate(args) if a.endswith("main.py"))
+            args = [sys.executable, "-c", self.WRAPPER, *args[idx + 1:]]
+
         if cookies and "--cookies" not in args:
             args.extend(["--cookies", cookies])
         return args

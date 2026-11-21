@@ -51,8 +51,8 @@ Zeabur Project
 4. 环境变量：
 
 ```env
-ENABLE_CDP_MODE=False       # 容器内无桌面，必须关闭
-HEADLESS=True
+# 桥接会自动以 headless / 关闭 CDP 的方式启动 MediaCrawler，
+# 因此无需在 Zeabur 配 ENABLE_CDP_MODE / HEADLESS。
 MEDIACRAWLER_API_TOKEN=换成随机长字符串   # 与 PainRadar 保持一致
 PLATFORM_COOKIES_XHS=...    # 小红书 Cookie
 PLATFORM_COOKIES_DY=...     # 抖音
@@ -77,8 +77,8 @@ Dockerfile，一个容器搞定，**不用再单独部署 MediaCrawler**。
 2. 把 painradar-crawler/ 推到独立仓库（或在 Zeabur 用该子目录构建）；
 3. 同一个 Project → Add Service → 部署该仓库，服务名 **mediacrawler**，端口 **8080**；
 4. 挂卷到 **/data**（Cookie、任务库、结果都在这）；
-5. 环境变量：MEDIACRAWLER_API_TOKEN、HEADLESS=True、ENABLE_CDP_MODE=False、
-   PLATFORM_COOKIES_*；完整清单见 painradar-crawler/README.md。
+5. 环境变量：MEDIACRAWLER_API_TOKEN、PLATFORM_COOKIES_*（或上传 profile）；
+   完整清单见 painradar-crawler/README.md。
 
 桥接服务暴露的正是第 7 节的 4 个接口，PainRadar 侧配置不变。
 
