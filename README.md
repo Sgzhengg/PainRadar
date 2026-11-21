@@ -2,10 +2,10 @@
 
 把公开评论加工成**可追溯、可验证、可打分**的产品机会卡。
 
-本仓库是《PainRadar 开发方案》的 M0/M1 落地：一条能跑通的垂直切片——从评论导入、脱敏去重、痛点原子抽取（带原文锚定）、场景聚类、双因子评分、市场区间估算，到机会卡与 Markdown/DOCX 报告，全部离线可运行，不依赖任何 API Key。
+本仓库是《PainRadar 开发方案》的 M0/M1 落地：一条能跑通的垂直切片——从评论导入、脱敏去重、痛点原子抽取（带原文锚定）、语义聚类、双因子评分、市场区间估算，到机会卡与 Markdown/DOCX 报告，全部离线可运行，不依赖任何 API Key。
 
 ```
-评论(JSONL/CSV) → 脱敏去重 → 痛点原子(span 锚定) → 场景聚类 → 评分 → 市场区间 → 机会卡 → 报告
+评论(JSONL/CSV) → 脱敏去重 → 痛点原子(span 锚定) → 语义聚类(canonical 优先) → 评分 → 市场区间 → 机会卡 → 报告
                                   ↑ 证据台账（append-only，可回源、可删除） ↑
 ```
 
@@ -96,9 +96,10 @@ python run.py --db var/llm.db run --category pet_water_fountain `
     --extractor llm --llm-base-url http://127.0.0.1:8765 --llm-model fake
 ```
 
-LLM 抽取不是"信模型"：每条结果都要过原文锚定；默认双跑（第二次温度 +0.3）比对
-level/scene/wtp/obstacle 一致性，不一致或锚定失败自动回退规则抽取器，回退比例会写进
-`stats.extraction`。
+LLM 抽取不是"信模型"：每条结果都要过原文锚定（exact / normalized / fuzzy 三道闸）。
+默认**单跑 + 思维链**：模型先写 `reasoning` 说明用户的目标与阻碍，再输出结构化字段，
+成本约为旧双跑模式的一半；锚定失败自动回退规则抽取器，回退比例写进 `stats.extraction`。
+需要更强一致性时加 `--double-run`（第二次温度 +0.3，token 翻倍）。
 
 ### 导入 MediaCrawler 导出的国内平台数据
 
@@ -239,9 +240,9 @@ python tools/build_app.py --db var/gold200.db --db var/gold.db --out reports/app
 | 去重（精确 + MinHash 近似） | ✅ 已实现 | `textproc.minhash` / `store.find_duplicate` |
 | 原文锚定三道闸 | ✅ 已实现（exact/normalized/fuzzy） | `extract._locate` |
 | 规则抽取器（离线基线） | ✅ 已实现 | `extract.RuleExtractor` |
-| LLM 抽取器（span 校验 + 双跑一致性 + 规则回退） | ✅ 已实现 | `extract.LLMExtractor` |
+| LLM 抽取器（span 三道闸 + 单跑 CoT + 规则回退；`--double-run` 可选） | ✅ 已实现 | `extract.LLMExtractor` |
 | L0–L4 痛点梯子 | ✅ 已实现 | `extract._build` |
-| 场景分类 + 场景优先聚类 | ✅ 已实现 | `config.CATEGORIES` / `cluster.py` |
+| 语义聚类（canonical_pain 优先 + 跨桶合并，场景仅兜底） | ✅ 已实现 | `cluster.py` |
 | 痛感分 / 机会分（可解释） | ✅ 已实现 | `scoring.score_clusters` |
 | 市场区间（蒙特卡洛 P10/P50/P90） | ✅ 已实现 | `scoring.estimate_market` |
 | 机会卡 + 证伪条件 + 7 天验证包 | ✅ 已实现 | `pipeline.run_category` |
@@ -273,7 +274,7 @@ PainRadar/
 │  ├─ textproc.py             # 归一化、PII、语言识别、MinHash、TF-IDF
 │  ├─ store.py                # SQLite append-only 证据台账
 │  ├─ extract.py              # span gate + 规则抽取 + LLM 抽取
-│  ├─ cluster.py              # 场景优先 + 簇内层次聚类
+│  ├─ cluster.py              # canonical 语义分桶 + 跨桶合并 + 大簇拆分
 │  ├─ scoring.py              # 痛感/机会评分 + 市场蒙特卡洛
 │  ├─ pipeline.py             # 编排：导入→抽取→聚类→评分→机会卡
 │  ├─ report.py               # Markdown / DOCX
@@ -352,19 +353,24 @@ python -m unittest discover -s tests -v
 ## 8. 已知限制（M1 诚实清单）
 
 1. **规则抽取器是基线**，不是最终方案：它能稳定抓到"阻碍/替代/代价/付费信号"，但对反讽、长句、隐含痛点会漏。LLM 抽取器已可用，但需要端点与成本预算；建议先用规则跑通品类，再对高价值品类开 LLM。
-2. **场景分类靠词典**，覆盖有限；未命中的进「其他场景」并按相似度拆分，拆不动就计入噪声。真实评论的主题分布会倒逼词典迭代（App Store 的智能硬件评论里，"App 与连接/固件更新/订阅付费"往往比硬件本身更多）。
+2. **场景标签仍靠词典**，但聚类已不依赖它：先按模型给出的 `canonical_pain` 分桶，
+   缺失时才回退 `scene`；无场景的原子按文本相似度拆分。场景词典只影响展示标签，
+   不再决定簇的边界。
 3. **Reddit 公开 JSON 经常超时/403**，生产使用必须配置 OAuth；`fetch` 会给出明确提示而不是抛栈。
 4. **Amazon 评论正文拿不到官方接口**：PA-API 不提供评论文本，抓取又违反 ToS。Amazon 侧只做"锚"（价格/BSR/评分人数），评论文本走 BYOD（卖家后台导出）或持牌数据商。
 5. **市场假设多为 C/D 级**，仅用于演示区间方法，不能对外定价；接入 Keepa / Ad Library / Trends 后才有资格升级等级。
-6. **聚类是场景优先**，不是 embedding 聚类；跨场景的同一痛点会被切开。
-7. **没有 Web UI / API / 多租户**，目前是 CLI + 报告。
+6. **聚类是语义优先但不用 embedding**：`canonical_pain` 分桶 + TF-IDF 余弦合并，
+   同义不同词（"取消入口难找" vs "退订按钮藏得深"）仍可能分到两簇；
+   模型对同一痛点写出不同短语时，需要冻结词表做二次归并。
+7. **WebUI/API 是单机单用户的**：有 FastAPI + 前端看板与 CSV 导出，
+   但没有多租户、鉴权与并发配额。
 
 ---
 
 ## 9. 下一步（按方案）
 
 - **M1-a**：Reddit / Amazon / App Store 官方 API 连接器 + 配额与熔断。
-- **M1-b**：LLM 抽取器上线（JSON Schema + span 校验 + 双跑一致性），规则抽取降级为兜底。
+- **M1-b**：LLM 抽取器上线（JSON Schema + span 三道闸 + 单跑 CoT），规则抽取降级为兜底。
 - **M1-c**：外部锚（Keepa/Ad Library/Trends）接入，替换 C/D 级市场假设。
 - **M1-d**：A 集金标（600 条）与逐字段 α、span 匹配率看板。
 - **M2**：FastAPI + Next.js 机会卡界面、订阅计费、回测集。
