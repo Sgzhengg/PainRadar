@@ -1,4 +1,4 @@
-﻿# PainRadar 痛点雷达
+# PainRadar 痛点雷达
 
 把公开评论加工成**可追溯、可验证、可打分**的产品机会卡。
 
@@ -435,6 +435,16 @@ python -m unittest discover -s tests -v
 ---
 
 ## 新增能力（2026-11）
+
+### 零 API Key 跑通商机管线
+
+```bash
+python tools/indie_demo.py
+# -> reports/indie_demo.md（离线回放，token 0）
+```
+
+演示数据：`data/samples/indie_pdf_demo.json`（**手工构造的合成样例**，
+用于验证清洗 / 上下文 / 信号提取 / 评分链路，不代表真实市场结论）。
 
 ### 1. 专项挖掘（deepdive）
 
