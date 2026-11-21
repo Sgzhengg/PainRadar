@@ -1,0 +1,1591 @@
+[
+ {
+  "note_id": "1y13h42",
+  "title": "Building an offline PDF editor would you use this?",
+  "desc": "I've been working with PDFs a lot lately, and one thing that keeps bugging me is how most PDF editors either require an internet connection, upload your files to some cloud server, or lock basic features behind a paywall.\n\nSo I'm thinking of building a fully offline, browser-based PDF editor as a side project. No uploads, no cloud processing, no account required — everything happens locally in your browser.\n\nBefore I dive deep into building this,\n\n I wanted to ask:\n\nWould you actually use something like this?\n\nWhat's the #1 PDF feature you wish was free and offline?\n\nAny existing tools you use that I should learn from (or avoid)?\n\nWould love your honest feedback.",
+  "url": "https://www.reddit.com/r/pdf/comments/1y13h42/building_an_offline_pdf_editor_would_you_use_this/",
+  "liked_count": 1,
+  "comments": [
+   {
+    "comment_id": "19sx8tk3e8qn7",
+    "content": "There's plenty of offline PDF editors completely free, for example PDFcraft, you'd be wasting your time on just another pdf editor no one will use.",
+    "like_count": 4,
+    "sub_comments": [
+     {
+      "comment_id": "19sx8v1vw0wyr",
+      "content": "[removed]",
+      "like_count": 0
+     }
+    ]
+   },
+   {
+    "comment_id": "19sx9hw9qbco2",
+    "content": "I feel like people post this exact project every couple of hours in this subreddit; you probably shouldn't waste your time on it if you are doing it to get others to use it.",
+    "like_count": 3,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxarizbwmw3",
+    "content": "These 'Offline PDF Editors' are like a starter project when vibe coding. Trouble is, the gold standard PDFCraft already exists albeit with some minor bugs that I can live with.\n\nFor form filling and the occasional PDF file edit I am going to use PDFCraft and uninstall Adobe Reader. Simply fed up with the way that Adobe Reader has managed to install a nag service into Windows here that pops up in the system tray to remind me to 'update' even though I set preferences for Adobe not to bother me.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx9c38uy38k",
+    "content": "I built an offline email to PDF converter if someone is interested. ",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1y0wopb",
+  "title": "Please help!",
+  "desc": "I’m having trouble converting this page into a pdf because of the scrolls within the page. When I go to download as a pdf, stuff gets cut out because of the sections that have scrolls. Idk how to fix it. I’ve tried zooming out more and adjusting the settings when downloading. I can’t seem to figure it out. Can someone help me😅 ",
+  "url": "https://www.reddit.com/r/pdf/comments/1y0wopb/please_help/",
+  "liked_count": 2,
+  "comments": [
+   {
+    "comment_id": "19sxcdr4uxaud",
+    "content": "Use Inkleaf easy solution for all problems 🤷\n\nhttps://priyanshdas.github.io/inkleaf",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxl2lnou3vk",
+    "content": "That happens because the browser only prints what's visible inside each scroll box. A few things that usually work:\n\n1. Try the browser's Reader mode first (Firefox/Safari, or Edge's Immersive Reader), then print to PDF. It flattens the page into one long column.\n2. If that doesn't work, open DevTools (F12), select the scrolling section and set its CSS to `overflow: visible; height: auto;`, then print. Repeat for each scroll box.\n3. Firefox also has a full-page screenshot (right-click > Take Screenshot > Save full page), and you can print that image to PDF if you don't need selectable text.\n\nIf it's a site like Notion or Google Sites, check for a built-in export too, it's often cleaner.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx8c3nj4i00",
+    "content": "I'd likely do a js snippet to override the container or iframe height and overflow settings in console. Or maybe a userscript if I needed to do it regularly with a specific domain. Use Tampermonkey or Greasemonkey plugin to apply your custom js script to the domain that you want to fix.\n\nFree tier AI could hammer that out for you no problem.",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1xzjr7f",
+  "title": "Looking for offline PDF Editor (linux)",
+  "desc": "Hello, I am looking for a offline PDF editor, which has all features as of the ilovepdf provides, but want a software which I can run offline in my linux, windows is also okay. Basically I will need it for my higher study application documentation purpose, where I will be frequently needing to add/edit/merge/re-order/remove/compress multiple PDFs.\n\nCan anyone provide or suggest any \"good\" PDF editor with all these features (better if available in github) which I can use ? Thanks in advance.",
+  "url": "https://www.reddit.com/r/pdf/comments/1xzjr7f/looking_for_offline_pdf_editor_linux/",
+  "liked_count": 4,
+  "comments": [
+   {
+    "comment_id": "19su1fjgcyajk",
+    "content": "What about PDFCraft? I've been using it for a few weeks now and works quite good. \n\n[https://github.com/storytold/pdfcraft](https://github.com/storytold/pdfcraft)",
+    "like_count": 6,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sudt1oyfk6c",
+    "content": "[https://open-aec.com/open-pdf-studio/](https://open-aec.com/open-pdf-studio/) available as .deb/appimage/snap\n\n[https://github.com/ryuuzaki42/MasterPDFEditor\\_AppImage\\_4/releases/tag/4.3.89\\_3](https://github.com/ryuuzaki42/MasterPDFEditor_AppImage_4/releases/tag/4.3.89_3) No watermark, appimage only (I use Gear Lever to manage appimages on my MX Linux boxes)\n\n[https://github.com/JakubMelka/PDF4QT/releases](https://github.com/JakubMelka/PDF4QT/releases) PDF4QT\n\n[https://github.com/word-sys/word-sys-pdf-editor](https://github.com/word-sys/word-sys-pdf-editor) word-sys's PDF Editor\n\nThe ONLYOFFICE suite has a .pdf editor in it as well.",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19su6y6vug7vp",
+    "content": "Inkleaf [https://priyanshdas.github.io/inkleaf](https://priyanshdas.github.io/inkleaf#downloads/)[/download/](https://priyanshdas.github.io/inkleaf#downloads/)",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19su3d4bl4rmo",
+    "content": "I've built redcolumn. It's new but it's got lots of features. https://redcolumn-web.vercel.app/",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19su3dotn4pnk",
+      "content": "Free and open source",
+      "like_count": 2
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxcfhyar275",
+    "content": "https://priyanshdas.github.io/inkleaf supports linux with flatpak",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19svqzzn3zy05",
+    "content": "I wrote my own. [https://github.com/nashv/VrushPDF](https://github.com/nashv/VrushPDF) Tauri + Rust",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sul4onpjxlt",
+    "content": "Pdfcraft, JOPDF",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19su61w3ejwmd",
+    "content": "You can use LibreDraw - [https://www.geeksforgeeks.org/techtips/how-to-edit-pdf-in-libreoffice/](https://www.geeksforgeeks.org/techtips/how-to-edit-pdf-in-libreoffice/)",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19su2apci74ro",
+    "content": "[https://tools.pdf24.org/en/creator](https://tools.pdf24.org/en/creator)\n\n[https://plandify.app/](https://plandify.app/)\n\n[https://getartcraft.com/apps/pdfcraft](https://getartcraft.com/apps/pdfcraft) \n\nI know people like PDFcraft but i quickly hated it because of its lack in features. PDF24 is probably the tool you are looking for. PlanDiFy focuses on construction professionals but works just as well for everyone.  ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19stwregga4ma",
+    "content": "Master pdf editor v4. v5 has watermarks when used without license. ",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1xy2s5r",
+  "title": "Question about edits",
+  "desc": "Hello,  \nCan someone without edit access or who is not the owner of a pdf and has just downloaded off an email see edit history, like the timestamps that things were added such as highlights or notes?  \nThanks!",
+  "url": "https://www.reddit.com/r/pdf/comments/1xy2s5r/question_about_edits/",
+  "liked_count": 1,
+  "comments": [
+   {
+    "comment_id": "19ss3txvqj4o5",
+    "content": "Not a full edit history, no. But each annotation (highlight, note) usually carries its own author name and created/modified date, visible in the comments panel of Acrobat or most PDF readers. And if the file was saved with incremental updates, older revisions can sometimes be recovered, but that's forensic territory, not something a normal viewer shows.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sqv8crggwgw",
+    "content": "Yes but, there would be signs. Don't know what your doing and you'll leave all kinds of obvious breadcrumbs everywhere. Know what your doing and there will be subtle signs. One slam dunk would be on email audit logs would show a different hash of the original file on the email attachment vs the hash that the modified one makes. A digital forensic person would make short work of identifying red flags for sure. The average person would have no clue at all. Things like time stamps can all be changed without effort. Those are superficial along with editing rights unless they are the DRM flavour.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sqyd1mxz3a8",
+      "content": "It's just for an assignment that was submitted to me and I want to see if I can see the timestamp of when the student edited all the highlights.",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19squkzudsvoj",
+    "content": "It depends on if it was edited in a PDF editor that had such features. Most big-name editors do keep track of who last edited specific comments. [PlanDiFy.app](http://PlanDiFy.app) does this. Its very important for some people like in the Construction industry to keep track of drawing changes. \n\nNote that these names and dates can be fiddled with very easily. Its not like signing a document with blue ink. ",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1xxbk83",
+  "title": "anyone built a pdf annotator yet? drawboard alternative",
+  "desc": "pdf annotating like drawboard app is crucial for my teaching, is there any tool that does it, has anyone  cloned drawboard yet ? looking for a anycraft inspired alternative",
+  "url": "https://www.reddit.com/r/pdf/comments/1xxbk83/anyone_built_a_pdf_annotator_yet_drawboard/",
+  "liked_count": 5,
+  "comments": [
+   {
+    "comment_id": "19spr8yfbbt8g",
+    "content": "One thing to separate is pen annotation from live co-editing: many PDF tools do the former but only sync a file for the latter. For a classroom workflow, test two people annotating at once and whether ink/comments remain portable PDF annotations after export; the tablet OS and whether collaboration must be real-time will narrow the options.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19spkqfthk5vo",
+    "content": "U P D F —— It includes highlighting, underlining, strikethrough, freehand drawing, text boxes, sticky notes, shapes, stamps and stickers. You can use these to work through examples, mark key passages and leave feedback on worksheets. One paid account works across Windows, Mac, iOS and Android on up to four devices, though the tools vary by platform. If you mainly use Drawboard with a stylus, I’d test the pen experience on your device before switching. \n\nhttps://i.redd.it/6myk03fz4x1i1.png\n\n",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19spcqrdb7wlc",
+    "content": "looking for one where you can use on tablets? one with collaborating with others on the same PDF? whats your requirements?  ",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19spw80to1y9u",
+      "content": "Yes, i teach on a workbook, i do alot of annotation writing like whiteboard on pdf, so i need something that would let me do it in pc ",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sp6edwt2tok",
+    "content": "Hi, I'm not sure what you're specifically looking for in terms of annotation. I'm in the AEC space and there are a number of newcomers to the scene with PDF annotators targeted at design and construction. I'm keeping a list on my site [architecture.tools](https://architecture.tools/pdf-markup) . If you can be more specific about what and how you're annotating I can narrow in on something either from AEC or for more document-oriented solutions.",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1xx86jb",
+  "title": "Convertir PDF a ebooks",
+  "desc": "Estaba buscando una plataforma para convertir los pdfs en formato ibu y la mayoría son de pago, pero traté de hacer una versión gratuita y esto fue lo mínimo que logré, no sé si se puede hacer que el PDF fue o página pueda ocupar la mayor parte de la página ¿alguien sabe alguna plataforma en donde pueda convertir para que se vea mejor?",
+  "url": "https://www.reddit.com/r/pdf/comments/1xx86jb/convertir_pdf_a_ebooks/",
+  "liked_count": 1,
+  "comments": [
+   {
+    "comment_id": "19sqfbvrfid6t",
+    "content": "Calibre es la opción gratuita más sólida, como ya te han dicho. Para que el resultado se vea mejor en un lector:\n\n- En la conversión, prueba la pestaña \"Look & feel\" y, si el PDF es de texto (puedes seleccionar palabras), \"Heuristic processing\". Eso suele mejorar el reflujo.\n- Si el PDF es un escaneo (solo imágenes, no se puede seleccionar el texto), primero hay que pasar OCR. Si no, Calibre te deja una página-imagen por hoja y no vas a ganar mucho respecto al PDF.\n- En \"Page setup\" elige el perfil de tu lector (Kindle, Kobo, etc.) para que los márgenes y el tamaño de página coincidan.\n- Convierte un capítulo o 10-20 páginas primero y míralo en el visor de Calibre antes de lanzar el libro entero.\n\nCalibre es un programa de escritorio, no una web. Si el archivo es un contrato o algo privado, es más seguro que subirlo a un convertidor en línea.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sp0p06pezwj",
+    "content": "Calibre is software OpenSource",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sqqp8z9dkjm",
+      "content": "No la conocía ",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1xwk8sq",
+  "title": "Need help in translating a pdf.",
+  "desc": "Well...★\n\nI do have a pdf which is in gujarati language and i wants to translate it into English. \n\nIt consists of some pictures, rows and columns and i wants to keep the layout same. And the texts placed exact in those columns. \n\nI want a suggestion for such powerful site. Paid sites are also welcomed... ",
+  "url": "https://www.reddit.com/r/pdf/comments/1xwk8sq/need_help_in_translating_a_pdf/",
+  "liked_count": 1,
+  "comments": [
+   {
+    "comment_id": "19sniob11ty9u",
+    "content": "Have you considered literally taking that prompt you made up there, uploading this PDF page into an AI and see if its able to do it for you?",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19sniujlj7agy",
+      "content": "I didn't get it.\nThese are some legal documents of my brother's client. \nWould you mind discussing that in dms",
+      "like_count": 0
+     }
+    ]
+   },
+   {
+    "comment_id": "19sojxuuwqf9c",
+    "content": "With 422 pages of legal documents, a few things matter more than which tool:\n\n\\- First check whether the PDF has real text (can you select and copy the Gujarati?) or is scanned images. If it's scanned, it needs OCR with Gujarati support first, or every translator will skip or garble it. Tesseract has a Gujarati model.\n\n\\- Document translators that rebuild the file (Google Translate's document upload supports Gujarati) keep tables better than chat AIs, but English runs longer than Gujarati, so expect overflowing cells to fix by hand. Splitting the file into chunks helps with size limits.\n\n\\- Since these are a client's legal papers, check whether uploading them to a cloud service is allowed, and whether the result has to be a certified translation. Offices and courts often won't accept a machine translation, so the machine version may only be a working draft.\n\nTest 5 pages before paying for anything.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sofeiwcucox",
+    "content": "Hi, I’m the founder of IndicPDF. I tried to DM you but Reddit won’t let me. I ran a Gujarati page with a table and a picture through our translator and the table, picture and all the text came out in English. Machine translation, so legal text should be checked by someone who reads Gujarati. If you email one page (names blanked) to [contact@indicpdf.in](mailto:contact@indicpdf.in) I’ll translate it for free so you can judge it, and then give you a price for the full 422 pages.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19soe6ne50blx",
+    "content": "use [indicpdf.in](http://indicpdf.in) for a reliable layout with translation",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19snlgxbpagn7",
+    "content": "Upload it to Gemini Notebook instead of regular Gemini or ChatGPT or Claude. Then you can query it on the things written there or ask it to translate. Gemini Notebook is meant for a large amount of data. ",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19snlzxt5dosg",
+      "content": "Never used or heard of it.\nCan you explain?\nThese consists of some legal documents with many rows and columns and i want all the texts to be placed in those accurately. \nWe can discuss in dms also if you have no problem ",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1xw8q5f",
+  "title": "Need pdf app or site",
+  "desc": "I need trusted pdf app or site for edit nd compressing fully free for windows. ",
+  "url": "https://www.reddit.com/r/pdf/comments/1xw8q5f/need_pdf_app_or_site/",
+  "liked_count": 9,
+  "comments": [
+   {
+    "comment_id": "19snhpskliwtg",
+    "content": "You can look up PDF24 Creator. It's free and it will work offline",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19snaz2qms97o",
+    "content": "https://killerpdf.net It is free and open source and will always be free",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19sogmgu6mgmb",
+      "content": "Ty\n\n",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19snw12wpuqoy",
+    "content": "BentoPDF and Stirling.\nSolid suites, different approaches, totally free and not vibecoded",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19snhbcwq8m1w",
+    "content": "Works in your browser and is designed to replace adobe on ios, android and desktop. Free use covers most peoples needs otherwise its $3 AUD \n\ndid I mention we never upload your sensitive pdfs to our servers? \n\nhttps://pdf.autonome.com.au\n\nNo downloads, servers or github required, if theres something missing let me know. ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19snc17o6eye9",
+    "content": "Is there a user friendly pdf analyzer / detective for purpose of identify manually edited areas / sections of a cell phone bill received in email in said pdf attachment form ??",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19snvctjtwo85",
+      "content": "hi you can do that in fynepdf, go to agents and ask for edit in the same chat it can desact convert in the chat itself. It won't do text editing though.",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sn8xp88kdyc",
+    "content": "@[\\_\\_the\\_\\_variant69](https://www.reddit.com/user/__the__variant69/) you should try monstera pdf editor, its a full windows app that has tools that will cover all your needs 100% free, comes with an AI assistant and its available on the microsoft store. [Monstera PDF Editor - Free download and install on Windows | Microsoft Store](https://apps.microsoft.com/detail/9nhv3b1pv3xs?hl=en-US&gl=US)",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sogpvk1jgkj",
+      "content": "TYSM, I tried this nd it's so good but in compression it compresses automatically but I need custom size compression.",
+      "like_count": 2
+     }
+    ]
+   },
+   {
+    "comment_id": "19sn3slpqt7z5",
+    "content": "I wrote my own: [https://github.com/nashv/VrushPDF](https://github.com/nashv/VrushPDF)",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19smxlzsiytgj",
+    "content": "Use Folio.\n\n[https://apps.microsoft.com/detail/9PJRX0TML7NT?hl=en-us&gl=US&ocid=pdpshare](https://apps.microsoft.com/detail/9PJRX0TML7NT?hl=en-us&gl=US&ocid=pdpshare)",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19smwu95rlehv",
+    "content": "You should try fynepdf. 100% free, fully edits PDF, has creator, no limit on size or files, super optimized for low end devices. It work's offline and has free cloud storage.",
+    "like_count": 0,
+    "sub_comments": [
+     {
+      "comment_id": "19sohbq50yzdw",
+      "content": "TYSMMMMMMMM, It's compression had no limit that's what I want bro. TYSM again 💗",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1xw3hxc",
+  "title": "Managing PDF and Image Files When Preparing Materials for an Online Course",
+  "desc": "Preparing materials for an online course often involves working with different file formats. You might have PDF handouts, scanned documents, screenshots, diagrams and images that need a bit of adjustment before they are ready for learners.\n\nSometimes, something as simple as converting an image, reducing its file size or removing a few pages from a file can take more time than expected when you have to use different tools for each task.\n\nI have been looking at browser based tools that bring these basic file operations together. Some can handle image conversion, resizing, cropping and compression as well as PDF merging, splitting and page removal.\n\nAnother useful feature is local browser processing, where files are handled on your device rather than uploaded to an external conversion server.",
+  "url": "https://www.reddit.com/r/pdf/comments/1xw3hxc/managing_pdf_and_image_files_when_preparing/",
+  "liked_count": 2,
+  "comments": [
+   {
+    "comment_id": "19smo4ad6lzvl",
+    "content": "Good list. One thing worth pushing further: “local browser processing” is better than uploading, but the files still go through a web page. If your course materials include scanned student work, internal training docs or anything under NDA, you may want them to never touch a website at all.\n\nI’m the developer of **PDF Batch Editor** ([pdfbatcheditor.com](https://pdfbatcheditor.com)), a desktop app for Windows and Mac. It’s built on that idea. Everything runs on your own machine, with no uploads, no conversion server and no account needed to process files. Once it’s installed, it works offline.\n\nFor course prep specifically, it handles:\n\n* **Batch operations.** You can merge, split, remove pages, add watermarks or stamp headers and footers across a whole folder of handouts at once, instead of one file at a time.\n* **Compression.** It shrinks large PDFs so they fit under LMS upload limits and download quickly for learners on slow connections.\n* **Image processing.** You can find replace images in PDF as well as compress.\n* **OCR.** It makes scanned handouts searchable and copy-pasteable for learners.\n* **Find/replace and redaction across many PDFs.** This is handy when a date, course code or instructor name changes across 40 files, or when you need to strip names out of sample student work before sharing it.\n\nBrowser tools are great for quick one-off jobs. But when you’re preparing a full course’s worth of materials, batch processing plus “nothing leaves my computer” saves a lot of time and worry.\n\nHappy to answer questions here.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19smskhqs02xx",
+      "content": "You replied to your own OP under a different account? Lmao",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1xvxr2q",
+  "title": "For PDFs meant to be filled on screen and printed, how do you handle form fields?",
+  "desc": "Question for people who make fillable PDFs or forms: when a document needs to work both as a fillable PDF on screen and as a clean home print, do you place AcroForm fields over a print-first static layout, or keep separate screen and print versions? I’m especially curious about practical issues like fields expanding, font substitution, keyboard navigation, and whether field values remain visible in print output. I run a small Etsy shop making personalized digital PDFs; this is a general production question, not a request to review or promote a listing.",
+  "url": "https://www.reddit.com/r/pdf/comments/1xvxr2q/for_pdfs_meant_to_be_filled_on_screen_and_printed/",
+  "liked_count": 2,
+  "comments": [
+   {
+    "comment_id": "19smqz1l2hl7n",
+    "content": "One file usually works if you build it print-first and put the AcroForm fields on top. Things that commonly go wrong:\n\n- Set an explicit font and size on every field (Helvetica is the safest), and avoid \"auto\" size on single-line fields, or long names shrink to unreadable.\n- Use multi-line plus scroll off for address-type boxes so text can't overflow past the printed area.\n- Check each field's visibility: \"Visible\" prints, \"Visible but doesn't print\" doesn't. Handy for on-screen hints.\n- Set the tab order by structure/row, then tab through it once yourself.\n- Test in Acrobat Reader, Chrome, Edge and macOS Preview. Preview and some browser viewers handle appearance streams differently, so values can look fine on screen and print blank.\n\nTwo versions mostly make sense when the print layout needs lines/boxes that look bad on screen.",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19smo457le3s1",
+    "content": "I'd do neither. Instead, I'd build the form in LibreOffice and set limitations as to how much text may be entered into one text field. Sure, it will need a bit of trial and error, but it's not that difficult. Font substitution has never been an issue, as the number of fonts being used by software that can fill out PDF forms isn't that large. Also, you can set a \"default appearance\", i.e. a font and font size that should be used. Though you can't prevent programs from using a different one, by setting that to Helvetica/Arial, you give them the option to use a font that may not be either of them, but there are quite a few fonts that have the same glyph width, so the visual length of the text should be (almost) identical no matter on what OS the user fills out the PDF.",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19spqpef4ay76",
+    "content": "One more print check: test the longest expected entry and non-ASCII characters in a browser viewer and a desktop viewer, since field appearance can differ. I’d keep the fillable master and flatten only a separate print copy if a specific viewer needs it, so the editable source stays intact.",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1xvsxwt",
+  "title": "Free PDF Editor for your phone and tablet (No ads / No subscription)",
+  "desc": "Hey everyone! I just released my first-ever app, PaperDesk. I wanted to make a useful PDF app that’s completely free, with no ads.\n\nHere’s what it can do:\n\nEdit PDF: Edit existing text and add text or images.  \nAnnotate: Highlight, underline, and strike through text.  \nDraw: Add drawings, shapes, lines, and arrows.  \nScanner: Photograph documents and clean up the scan.  \nRe-type document: Recreate photographed text and tables as a clean PDF.  \nImage to Text: Extract text from photos.  \nFill & Sign: Add signatures, dates, and checkmarks.  \nOrganize Pages: Reorder, rotate, or remove pages.  \nProtect PDF: Add password protection.  \nRedact PDF: Cover sensitive information.  \nCreate PDF: Start a blank document.  \nViewer: Read PDFs.\n\nDocument processing happens on your phone, including text reco",
+  "url": "https://www.reddit.com/r/pdf/comments/1xvsxwt/free_pdf_editor_for_your_phone_and_tablet_no_ads/",
+  "liked_count": 31,
+  "comments": [
+   {
+    "comment_id": "19so7vtp5rb9f",
+    "content": "Can it open various file types e.g. spreadsheets, word , etc ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19snwz59yp803",
+    "content": "It's not workings with hyperlink pdf ",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sofy7b1x32d",
+      "content": "thanks for the review. ill fix it in the next update",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19smo78yslt4y",
+    "content": "welcome to the team",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sm6iru2g5oi",
+    "content": "It's going to be very hard to maintain long term if it's completely free. Keep it free of login but add ads in discreet place like in the menu. \n\nOr could you put it on github? Allows someone else pick up the mantle when you are unable to continue? ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sm2ab84d48z",
+    "content": "Can it lock PDFs?",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sm6aqun3b9e",
+      "content": "yes you can put password in the pdf",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19slvxszq7kqp",
+    "content": "Great 👍",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1xvjqr0",
+  "title": "I made an app that turns PDFs into readable text on your phone, even two-column papers with tables and equations",
+  "desc": "I built Unpage, an app that turns any PDF into text that reflows to fit your phone, like an ebook. It's made for the hard stuff: two-column papers, tables, equations and figures come out readable instead of mangled. It all runs on your device, so nothing gets uploaded. Tap any paragraph to see exactly where it is on the original page, or read both side by side. Highlights show in both views, scans work too, and Pro exports EPUB for your e-reader. Free to try, and Pro is a one-time unlock, no subscription. Currently it's available on iOS and iPadOS, the Mac version is under review, should be out soon. Welcome to any bug report too.\n\nAppstore link:\n\n[https://apps.apple.com/us/app/unpage-pdf-reader/id6832379621](https://apps.apple.com/us/app/unpage-pdf-reader/id6832379621)",
+  "url": "https://www.reddit.com/r/pdf/comments/1xvjqr0/i_made_an_app_that_turns_pdfs_into_readable_text/",
+  "liked_count": 94,
+  "comments": [
+   {
+    "comment_id": "19sn2wscdemjo",
+    "content": "Android version would be great 😄",
+    "like_count": 6,
+    "sub_comments": [
+     {
+      "comment_id": "19sn3gqukyk6c",
+      "content": "Yes I am planning to port it to Android",
+      "like_count": 3
+     }
+    ]
+   },
+   {
+    "comment_id": "19sllkzmi90v5",
+    "content": "Holy shit this is awesome. I just uploaded part of my textbook and it converted 122 pages within 2 or 3 minutes. Kept the highlighted words highlighted. I like that it gives you an option to review discrepancies. I couldn’t pic which option to keep though, not sure if that’s intentional. Overall liking it",
+    "like_count": 3,
+    "sub_comments": [
+     {
+      "comment_id": "19sp42bhp4j38",
+      "content": "Hi, the app got an update, and now it supports “boxed” text. You have to convert the document again though.  \n\n\nhttps://i.redd.it/15mfbatbav1i1.jpeg",
+      "like_count": 1
+     },
+     {
+      "comment_id": "19slm2b32550k",
+      "content": "Thanks! I am still working on that part on fixing the wrongly converted text. Right now if the conversion looks correct, the \"Looks right\" button will accept it. Otherwise we can only fix it with the \"Fix it\" button. But yeah you are right that interface is a little confusing right now.",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sptsqz2rp9c",
+    "content": "Amazing. I'd love to understand the technical aspect of how you convert from PDF to a mobile experience on double column pages, tables, etc? ",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19sqo97iazued",
+      "content": "It relies on deep learning OCR layout and reading models.",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sovw5yjmg82",
+    "content": "expecting an android version",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19so3hw16ac9u",
+    "content": "Oh, very, very nice! I've been looking for a local app over the last few weeks because I was considering buying an iPad mini to read my papers more conveniently. This looks very promising! ",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19so40uxo6wmb",
+      "content": "Thanks!",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sn909xtmlcz",
+    "content": "wow, so cool. will def be waiting for android version",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19smmjczb4h43",
+    "content": "this is awesome!",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19smn24qizjc5",
+      "content": "Thank you!",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19smcki2mdqqp",
+    "content": "we need this for mac",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19smfrgl6ny5d",
+      "content": "The Mac version is in review by Apple, should be out soon",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sm6qm53tl0i",
+    "content": "Any plans to bring this to Android? It looks interestingly useful and nice.\n\n",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19smfx5jv8529",
+      "content": "Yes, porting to Android is on the roadmap.",
+      "like_count": 3
+     }
+    ]
+   },
+   {
+    "comment_id": "19slggfwr0uqt",
+    "content": "Nice!",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19slgirp2eu8x",
+      "content": "Thanks!",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19so37jocfoo5",
+    "content": "clickable links do still work?",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19so3yusd0r6p",
+      "content": "It should be",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19slml3zv2cgy",
+    "content": "Does it use k2pdfopt source code? If so your app needs to be GPL licensed.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19slmu0vjhv34",
+      "content": "No, there's no k2pdfopt code in it, and nothing GPL. The pipeline is my own: a layout model finds the parts of each page, a reading model  reads them, and my code puts everything back together in reading order with tables and equations. The models and libraries it uses are Apache 2.0 or MIT, and they're all credited in Settings › About › Licences. It also works differently from k2pdfopt: instead of cutting up and rearranging the page image.",
+      "like_count": 3
+     }
+    ]
+   },
+   {
+    "comment_id": "19slbipy0o4v4",
+    "content": "More screenshots:\n\nhttps://i.redd.it/x7nfuy554g1i1.png\n\n",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1xvagb2",
+  "title": "Yahoo Mail downloads .docx as invalid .pdf?",
+  "desc": "I have an electrical supply house email me all my receipts for neater accounting. These email attachments are in a .docx format. \\[side annoyance is that every receipt file has the exact same filename!\\] So example is receipt.docx\n\n  \nIn Yahoo web interface, when I click View on one of these receipt.docx attachments, I get the error, \"Your file isn't available to preview.\" and a button \"Download instead,\" OK, fine. When I download there or with regular download processes, the filename is always downloaded as receipt.pdf\n\n  \nI can't open receipt.pdf with Acrobat or Preview. I get the error that it can't be opened: \"It may be damaged or use a file format that Preview doesn’t recognize.\" If I just change the extension back to .docx, it opens fine in Word.\n\n  \nWhat is going on here? Why would ",
+  "url": "https://www.reddit.com/r/pdf/comments/1xvagb2/yahoo_mail_downloads_docx_as_invalid_pdf/",
+  "liked_count": 1,
+  "comments": [
+   {
+    "comment_id": "19skyy41ktwsi",
+    "content": "Nothing is wrong with the files. They're real Word documents; Yahoo's web download just renames them to .pdf, which seems to happen when its preview of the attachment fails and it falls back to \"Download instead\". Acrobat and Preview can't open them because the content isn't a PDF at all, and renaming back to .docx is perfectly safe since nothing was converted.\n\nWays around it:\n- Try the download arrow on the attachment itself (or the attachment's menu) instead of View > Download instead, and see if that path keeps the original name.\n- Read that mailbox in a desktop mail app over IMAP (Apple Mail, Outlook, Thunderbird). Desktop clients take the filename and type straight from the email, so you get receipt.docx.\n- Ask the supplier whether their system can send PDF receipts. Most accounting setups can, and it fixes both problems at once.\n\nFor the identical filenames: Thunderbird can save the attachments of many selected emails in one go, and then a bulk renamer (PowerToys PowerRename on Windows, or Finder's Rename on a Mac) can add the date or a counter so they stop overwriting each other.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sl6w8ycg285",
+      "content": "But is the renaming bad enough to bring to the attention of Yahoo? Or do they just ignore bug reports?",
+      "like_count": 1
+     },
+     {
+      "comment_id": "19sl5wo5qzept",
+      "content": "!thanks",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1xuzs8s",
+  "title": "Free Tools to Translate Large, Handwritten Marathi PDFs to English?",
+  "desc": "I  need an efficient, free way to translate large, scanned PDF documents from Marathi to English.\n\nThe documents are entirely handwritten and contain hundreds of pages, making my current method, of taking screenshots and uploading them to Google Translate, too slow and impractical for bulk work.\n\nSince this is an emergency, I need a free, fast, accurate workflow or tool that can handle large files or bulk translations. Any practical suggestions would be greatly appreciated!",
+  "url": "https://www.reddit.com/r/pdf/comments/1xuzs8s/free_tools_to_translate_large_handwritten_marathi/",
+  "liked_count": 4,
+  "comments": [
+   {
+    "comment_id": "19skr6at5a2at",
+    "content": "There's no such thing. Finding any software that can translate hundreds of pages worth of any language is difficult any expensive. Doing the same for handwritten text is a lost cause. You can try out tesseract OCR, it does support Marathi, but it's highly questionable how well it can handle handwritten notes. You can use that to OCR the PDF into text files, clean that up from all recognition errors and try to feed that piece by piece to some translation tool. But with hundreds of pages worth of text it will probably take at least days as you're probably going to hit daily limits for the amount of text you're allowed to translate for free.\n\nSo in short: the only free options are neither fast, nor accurate and are basically guaranteed to involve a shit ton of manual labor. And quite frankly it's questionable if there is even any solution that's vastly better, no matter how much it costs. Abbyy Fine Reader doesn't seem to support Marathi, and that's the gold standard for document OCR (including layout recognition). And even if you found a commercial software that supports that language, with handwritten text the quality of the OCR will be very much hit or miss.",
+    "like_count": 3,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19solirlc5dep",
+    "content": "Translating PDFs from one language to another is pretty hard + expensive.\n\nThe hard part is that each PDF has diferent layout. You cant create a general software as it will break for some while works for others.\n\nThen translation is pretty hard + expensive. You can have a paragraph. Translation is usually done by Google Translate API OR an LLM. LLM are too expensive to run for PDFs. Each PDF can cost around $20 for translation on even the smallest models and might not be perfect.\n\n[FastOCR.org](http://FastOCR.org) has translation option for individual images (Take a screenshot of your PDF page and then translate it) but I hope you understand the bigger problem",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19smogo1cwrhg",
+    "content": "Use inkleaf’s built in ai, https://priyanshdas.github.io/inkleaf/",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sk76b4740mc",
+    "content": "\"Emergency\" means you are cheating on an exam or something similar. Find a group of indians that help each other cheat, not here. You all overrun this group with requests like this. Country of cheaters",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1xunezg",
+  "title": "Is there a way to change the same text in multiple pdf files at the same time?",
+  "desc": "We have around 200 pdf files that have to be updated every year and the only thing that changes for the most part is the year range. Currently we only have the standard version of adobe acrobat but if there was another program that could take care of this, I think it would be an easy sell. Even if it’s in batches, it’s better than manually going through the full list. Thanks ",
+  "url": "https://www.reddit.com/r/pdf/comments/1xunezg/is_there_a_way_to_change_the_same_text_in/",
+  "liked_count": 3,
+  "comments": [
+   {
+    "comment_id": "19slvbq2cqw4k",
+    "content": "Pdfdu does that \n\nhttp://app.pdfdu.com/app/pdf-text-replace.aspx",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19skk6e7140ma",
+    "content": "KillerPDF combined with KillerMCP can do this with any agent you'd like. Or you can make a script because KillerPDF has a command line interface as well.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sk2h2grqbs0",
+    "content": "One approach would be to not put the year range on the document and use a post-processor to apply the appropriate date range each year. Next year, do the same thing.\n\ncPDF, pdfTK, and a number of Free and Open Source libraries (start with TCPDF) can do this with *tremendous* automation. No hand opening of files, no hand anything.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sjgslahjkte",
+    "content": "Just have AI create a python script. it will be few lines.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sjkhjbaj2g3",
+      "content": "Why even go through that effort? Just have AI do the actual work for you. ",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1xu9w4o",
+  "title": "Government PDF seems broken",
+  "desc": "I got a long form to fill out from Social Security and all the text boxes were blue. When I click them they turn white and I can type. When I click away it turns blue again. The text is still there, just hidden behind the blue. I filled out the whole form like this, like 7 pages. But I notice if I try to print it the fields are blank. Opened it in PDFCraft and it's the same blue boxes. I opened it in irfanView (image viewer) and they're blank. I can't edit the form, it asks for a password. \n\nIs there some way to get rid of the blue? I'm afraid if I send it to the SSA like this they won't be able to read it. ",
+  "url": "https://www.reddit.com/r/pdf/comments/1xu9w4o/government_pdf_seems_broken/",
+  "liked_count": 4,
+  "comments": [
+   {
+    "comment_id": "19sisvm645lmo",
+    "content": "A few recommendations for you to try:\n\n1. KillerPDF\n\nUnfortunately, I can't write the others as it is being tagged as promotional. ",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sjk9g8uh6f6",
+    "content": "Update: I opened the PDF in Firefox and it worked! I was able to see all of the text without clicking anything. I made a few updates and saved it. When I loaded it into Irfanview only the boxes I updated were visible. So I went through and put a space at the end in every box. Saved again and this time everything was visible. So, problem solved. ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sjjnyybchxh",
+    "content": "You don’t have to use the boxes (although no doubt they’ve got a tool to extract the data into their system). \n\nYou can just type a comment over the box. I use PDF-Xchange editor.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sj6p4l4fge8",
+    "content": "The blue is just the viewer's form-field highlight, not part of the document, so SSA won't see it. The blank print is the part worth fixing.\n\nThat usually means the app you typed in saved your answers without the \"appearance\" other apps draw. What I'd do:\n\n1. Open the filled file in the free Adobe Acrobat Reader, which is the reference for government forms. If your answers show there, you're mostly fine. The blue highlight can be turned off in Reader's Preferences > Forms if it bothers you.\n2. Print from Reader with \"Comments & Forms\" set to \"Document and Markups\".\n3. To see exactly what they'll get, make a test copy with \"Microsoft Print to PDF\" (or Save as PDF on a Mac) and open that copy. If your text is visible there, it's visible to anyone.\n\nKeep the original fillable file too, since some agencies prefer the form with its fields intact. If all 7 pages were filled in another app and Reader shows blanks, it's faster to retype them in Reader than to fight the file.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sjamx9mli2q",
+      "content": "Thank you. It nothing else, they also have an online version. I can copy my text to that. I would have used that to start but the page times out if you don't use it for a while and you lose everything. I needed breaks so I used the PDF option. ",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19siuxov0rwe8",
+    "content": "Those blue boxes are PDF fillable fields. Governments love that stuff. The acrobat viewer or the viewers built into Chrome and Firefox handle them correctly.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sjacfdtl0w3",
+      "content": "Acrobat is what I started with. I'll try the browsers. ",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sitgi8xbw74",
+    "content": "Have a look at ToolRecipe? There is a form filling tool. Let me know if you need assistance",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sjfgsezca0y",
+      "content": "Never heard of it but I tried it now. It doesn't work because the file is password protected. ",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sisj8yreoxx",
+    "content": "Did you try it with Acrobat?",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sja9jsvew1t",
+      "content": "That's what I was using to start with. ",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1xtgocu",
+  "title": "Anyone else struggle with PDF to Markdown conversion?",
+  "desc": "I've been trying a few tools to convert PDFs into Markdown, and honestly, the results can be pretty hit or miss.\n\nSometimes the text comes out fine, but tables get messed up, headings lose their structure, or the content ends up in the wrong order.\n\nI'm curious how others deal with this.\n\nDo you use a specific tool for PDF conversion, or do you still have to clean up the Markdown manually afterwards?\n\nWould love to hear what's actually working for people.",
+  "url": "https://www.reddit.com/r/pdf/comments/1xtgocu/anyone_else_struggle_with_pdf_to_markdown/",
+  "liked_count": 8,
+  "comments": [
+   {
+    "comment_id": "19sm6xg7uqeo3",
+    "content": "My current method is: use small VL-OCR model(like paddleocr-vl-1.6, it's 0.9B only) convert the content to markdown first, then use large model(like chatgpt) check and fix the result.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sqnd3ctwczm",
+      "content": "That's an interesting approach. Using a smaller OCR model for the first pass and then a larger model to review the output sounds like a practical way to balance speed and accuracy. I wonder how well it handles complex tables and multi-column PDFs.",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1xqwhqg",
+  "title": "Will we have a Autocad/Bluebeam replacement open source pdf tool?",
+  "desc": "Seeing everyday a new PDF editor now, I was thinking I might just use one week of Claude Pro to build one if it's that easy.  \nBecause nobody is focusing on annotations and drawing on Bluebeam level. I worked on a consultancy company of 10,000 people and we don't care about quantity takeoff. We care about creating figures for our reports and presentations. That's the beauty of Bluebeam.  \nI can do AutoCAD, but I don't want to open it for every single figure.\n\nIf you don't know what's good about Bluebeam:  \nCallout with multileaders  \nCallout+ (highlight area plus callout)  \nDraw with scale (like 3 m line, 2 m radius circle)  \nOffset a line  \nArray a line (3 copies with 2 m distance)  \nEtc.",
+  "url": "https://www.reddit.com/r/pdf/comments/1xqwhqg/will_we_have_a_autocadbluebeam_replacement_open/",
+  "liked_count": 4,
+  "comments": [
+   {
+    "comment_id": "19snz11lm518l",
+    "content": "I make exactly what you're asking for. It's called Redcolumn. It's free and open source. Has almost complete compatibility with bluebeam and almost feature parity plus more.\nhttps://redcolumn-web.vercel.app/",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19skv92x9mhl0",
+    "content": "Are you looking for something like this? i am adding this in Better PDF. \n\nhttps://i.redd.it/omjkc5fyae1i1.png\n\n",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19skws6r3j535",
+      "content": "Nope. All new pdf editors have the measurements with scale now. I listed the missing ones in the post.",
+      "like_count": 1
+     },
+     {
+      "comment_id": "19skv9my0krcy",
+      "content": "https://i.redd.it/2keo1z25be1i1.png\n\n",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1y1bx7o",
+  "title": "I made a free tool that lets you save websites and explore them offline",
+  "desc": "What if you could save a website and explore it later without an internet connection?\n\n\n\nI built APS (Auto Page Saver) to make that possible.\n\n\n\nIt allows you to save a website, automatically download linked pages and browse your saved content offline.\n\n\n\nFor example, you can save educational resources from Wikipedia before travelling or before losing your internet connection.\n\n\n\nYou can choose how deeply APS explores a website and how many pages to download.\n\n\n\nEverything is stored locally in your Chrome environment.\n\n\n\nIt's completely free, with no subscriptions or premium plans.\n\n**Try APS:**  \n[https://chromewebstore.google.com/detail/hpecopnikcmaiobndkiflnckmibpflen](https://chromewebstore.google.com/detail/hpecopnikcmaiobndkiflnckmibpflen?utm_source=chatgpt.com)\n\n\n\nI built this becau",
+  "url": "https://www.reddit.com/r/software/comments/1y1bx7o/i_made_a_free_tool_that_lets_you_save_websites/",
+  "liked_count": 0,
+  "comments": [
+   {
+    "comment_id": "19sxrbeh8qg91",
+    "content": ">What if you could save a website and explore it later without an internet connection?\n\nI was using web downloaders more than 20 years ago. It was a life saver on dial up connection.",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19sxu8pwby9q9",
+      "content": "the good old httrack saved a lot of time (and money) to a lot of people  ;)",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxu3um0ymyt",
+    "content": "Does it use the wacz format?",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxtpl2lpqrn",
+    "content": "I'm very happy to see this. I am downloading it and it will run in a minute. I bought Zipit a few months ago and it's amazing. \n\nI used to go to this particular public school and I was able to download their entire website to look at offline, which I thought was really, really cool. Thank you again. ",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1y14nsc",
+  "title": "We need a new rule on vibecoded posts",
+  "desc": "I don't mean banning everything with even a little bit of AI like one subreddit you might know.\n\nBut nowadays this sub is literally unusable. I'd say 2/3 new posts are completely AI-generated, zero effort, and its always a \"better version\" of some already-existing software with supposedly the best interface of them all and they stay unmaintained afterwards.\n\nIt's basically become a dumping ground for vibecoded projects that were built with practically zero human effort\n\nI think it would be a massive impact (for good) if there was a rule banning completely AI-generated posts (excluding translations) where clearly not a single letter was written by a human.\n\nThat would get rid of a lot of low-effort posts but IMHO i believe completely AI-generated apps with zero review and completely automat",
+  "url": "https://www.reddit.com/r/software/comments/1y14nsc/we_need_a_new_rule_on_vibecoded_posts/",
+  "liked_count": 45,
+  "comments": [
+   {
+    "comment_id": "19sxay2itgl6s",
+    "content": "I agree, most things posted here these days are vibeslopped PDF toolkits or \"all-in-one\" file converters that are bloated beyond usability",
+    "like_count": 26,
+    "sub_comments": [
+     {
+      "comment_id": "19sxb8wbmaa80",
+      "content": "Also, i really really wonder, why are a few specific categories so targeted by these vibecoders?\n\nEspecially PDF, file converters, file explorers/managers, \"optimization\" tools, and basically just a glorified TODO (note-taking app or a \"business dashboard\") make up like 80% of these projects nowadays. ",
+      "like_count": 9
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxfqakzo8jn",
+    "content": "\"I built...\" \"I made...\"\nNO YOU DIDN'T ",
+    "like_count": 7,
+    "sub_comments": [
+     {
+      "comment_id": "19sxsrvtlni2q",
+      "content": "That's been software in general. You didn't write the language. You didn't write the packages. You didn't make the framework. You didn't make the database, protocols, standards, and on and on...",
+      "like_count": 2
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxdv9ooen2a",
+    "content": "I think we should judge software on its code quality and use the upvotes and downvotes to express our opinions. My software was absolutely terrible 8 months ago but I had some support which helped me want to continue working on it and it's matured quite a bit since then. I think adding helpful comments on what needs to improve can help creators make their software better which is what we should be doing instead of dismissing software outright.\n\nBut yeah, try to add some personality to your posts.",
+    "like_count": 7,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxc0vlp04lh",
+    "content": "Yes, we need to ban them all.",
+    "like_count": 6,
+    "sub_comments": [
+     {
+      "comment_id": "19sxd3ypq45s0",
+      "content": "Why?",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxbpaoy3m0y",
+    "content": "I don’t mind if something is made mostly using AI and the author is up-front about it, demonstrates the technical expertise and care that alleviates some of my concern over using it, and talks like a normal person, not asking their LLM to interact with people. \n\n“I built…” and ‘Open source, no subscription, no cloud’ etc. put me on guard. How can I trust the software if I don’t trust the author? ",
+    "like_count": 4,
+    "sub_comments": [
+     {
+      "comment_id": "19sxem7seizwh",
+      "content": "Yeah see, the problem for me isn't that apps get made using AI, mostly or not. Its whether the person behind the project is invested enough in it to show they care. And code being written by AI doesn't tell me anything about that, that becomes clear in how well the software performs. But somebody who won't even write their own reddit post to promote their app? Doesn't feel like that person really cares honestly. It starts feeling like spam.\n\nAnd that's the problem I would like to see tackled better, the \"spammines\" of the whole thing. Something being AI made and something being spam are different things, that there is overlap isn't a reason to treat them as the same thing.",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxb63d90qpv",
+    "content": "I think there should also be a rule to not yap a heck tom and explain concisely about the project they made if using ai, as I'm not gonna read 3 paragraphs of text for a simple tool",
+    "like_count": 4,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxolo0rkbwl",
+    "content": "There's something I find a bit contradictory in the criticism of AI-assisted software development. Some people seem very confident that all these new vibe-coded applications must have terrible code. But on r/software, source code is required for most software posts on most days of the week, so in many cases the code is right there for anyone to inspect.\n\nIf you're an experienced programmer and you're convinced that the code is bad, why not take a look at it? You don't even need to review the entire project. Looking at a few important functions or routines can already give you a reasonable impression of the coding style, structure, error handling, and overall quality. If you find something poorly implemented, point it out and explain what could be improved. That's much more useful than simply assuming the code must be bad because AI was involved.\nAnd let's not pretend that using code written by someone else is a completely new phenomenon. Long before AI coding tools existed, programmers copied code snippets from Stack Overflow, forums, tutorials, and other projects. Sometimes they understood every line, sometimes they didn't. The important question was whether the code was appropriate, reliable, and properly tested.\n\nIf someone wants to criticize the actual quality of a program, that's perfectly reasonable. But then criticize the code or the software itself, not just the method used to create it. Otherwise, you're making assumptions rather than a technical assessment.\n",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sxp61ibxzcy",
+      "content": "Why is the onus of code review being put on the users, instead of having a developer who codes with intent?",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxnqboozvwg",
+    "content": "Don't normally comment.\n\nI am currently using AI to build a couple of apps for specific things I want to do. In one case I have forked a project that has not had an update in years and am using AI to modify it to include features I want to use.\n\nI am not a coder to the level required but instead am approaching this as a designer and Quality control perspective and am treating the AI as if they were a coder and giving feedback.\n\nI created a wire frame including colour palette of what I wanted. I break down the features and only tackle one at a time. I created a master document (In Claude premium) that controls the project and have a project breakdown with upcoming features and success criteria for each element in a second project plan document. \n\nDont plan on sharing these apps as I am building these for me but just wanted to outline my approach to using AI as a tool to help me create something I want to use.\n\nSo far I have spent 20 plus hours on the largest project I am working on and expect another 40 to 60 hours before I get to a beta version for me to test with nearly feature complete for what I want. (For the record I am a teacher and am creating a web based planner tool to allow me to plan my classes and keep track of project and exam results. There are a lot of tools like this out there but none of them work the way I want so I have picked the specific tools from each to build one that suits the way I work)",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxjep5ididh",
+    "content": "I think there's another interesting aspect to this discussion: trust. When we install software from an unknown developer, we're essentially trusting a complete stranger with access to our computer. That applies regardless of whether the software was written by hand or with AI assistance. A program can be useful, free, and technically well made, but that doesn't automatically mean we trust the person behind it. From a psychological perspective, trust involves more than competence. It also involves believing that someone has good intentions and acts with integrity. That's why I think the person behind a project, how they communicate, and how they behave over time matter more than whether AI was involved in writing the code.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxiuycnsoxv",
+    "content": "I think you could start with the posts so lazy they won't even write the description of their app themselves. ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxipsw8otoh",
+    "content": "Is there not enough ‘community support’ for this already? All I see is slop day in and day out without, tangible, hours, days, months of real effort",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxhiakwjv45",
+    "content": "I am all for using AI in a project, go right ahead. I really dislike the people who make the bold claims that they created it, like no, no you didn't.\n\nLike I don't need an FOSS version of Outlook, I have had that for longer than you have been alive.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxb7eyf4q4j",
+    "content": "Mod team is following this thread and others.\n\nThe only reason we don't have such a rule right now is the inability to \"fairly\" enforce it, but if there's enough community support, maybe we just deal with the backlash of unfair enforcement.\n\nAnd, to be fair, there are different degrees of vibecoding.  Some result in some innovative stuff... and some result in the one-millionth Obsidian clone.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sxslin0s85d",
+      "content": "The sooner you enforce \"fair\" censorship, the quicker AI can learn and improve while more actual humans get censored. GL! ",
+      "like_count": 1
+     },
+     {
+      "comment_id": "19sxijvb0935w",
+      "content": "That's probably how it's gonna end up being ngl",
+      "like_count": 2
+     },
+     {
+      "comment_id": "19sxcm8yawhtu",
+      "content": "also be aware that the responses to this are generally lopsided, in most conversations I see, as you generally get stronger negative feelings on line then netural vs positive.  Personally I'd like to see a strong set of quality guidelines that take ai out of the situations, and focus on quality, and then you'll be just left with the ethical ai related questions which should still help with whats ok to post or not.",
+      "like_count": 5
+     },
+     {
+      "comment_id": "19sxbigbq4n5u",
+      "content": "Hey mod,  \n\nI am against this rule for many reasons, I built https://betterstickies.com over a year and it is a successful product with thousands of daily users and overwhelmingly positive feedback. Developing with AI is a real thing today and the quality of the final product depends mainly on the human not the tool. You can ban low quality posts, low quality software that adds no mew value, spam etc but banning the tool is straight out wrong",
+      "like_count": 3
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxju21qj328",
+    "content": "PREACH",
+    "like_count": 0,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxdfdl7ulol",
+    "content": "I'm a software engineer. I don't even code any more. I use AI for everything. In fact, you will be hard pressed to find any software nowadays that doesn't have some sort of AI influence. \n\nJust because something was built with AI doesn't mean it sucks. Just because something was built by human hands doesn't mean it's good. What does effort have to do with software? Either it works, or it doesn't. What does it matter how much human effort was put into it?\n\nAlso, out of everything you said, the README file is actually the best thing for AI to write. ",
+    "like_count": 0,
+    "sub_comments": [
+     {
+      "comment_id": "19sxdvua60k77",
+      "content": "Correct, people complain about AI on Reddit while Reddit itself is being written by AI now and they add AI features and stuff all the time. The tool isn't the problem the human who uses it is the problem. Slop project exists before AI but people used to be nice to not always shame the human behind the project.\n\nI got downvoted for saying I let Claude wrote the README, This dude is correct, AI has the whole project context and can write a README in more complete and clear way than most of the humans, also why would I waste time doing something that is already solved? I prefer to invest my time and effort in unsolved things that AI can't do",
+      "like_count": -2
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxjtrd9wp4x",
+    "content": "I think the popular meme about AI-generated software, where someone orders a pizza and then proudly says \"Look what I created!\", is a rather misleading comparison. It assumes that the person using AI contributes nothing beyond a simple request.\n\nIn reality, there can be a huge difference between telling an AI \"Make me an image viewer\" and having a very specific vision of how that image viewer should look, behave, and perform. It's more like designing an elaborate Alice in Wonderland birthday cake. You decide on the shape, the layers, the colors, the decorations, and countless little details. The baker has the ingredients and the skills to make it, but the design and creative decisions come from you. And if something doesn't turn out the way you imagined, you ask for changes until it does.\n\nThat's how I approach AI-assisted software development. I come up with the ideas, choose the programming language, define the features, make design decisions, test the results, identify problems, and keep refining the software. The AI helps me turn those ideas into working code. I'm not claiming to have written every line myself, but that doesn't mean I contributed nothing to creating the software.\n\nThere's a difference between asking AI to invent something for you and using AI to bring your own ideas to life. Both involve AI, but they are not the same creative process.",
+    "like_count": -1,
+    "sub_comments": [
+     {
+      "comment_id": "19sxjzc494w1t",
+      "content": "Another thing I've noticed is that people have always had ideas for software or wished that an existing program had certain additional features. Before AI-assisted coding became available, you could theoretically hire a programmer to turn those ideas into reality. But that might cost $80 an hour or more, depending on the developer, and many people simply couldn't afford that.\n\nAI-assisted coding has made this much more accessible. People who have ideas but lack the programming skills or the money to hire a developer can now actually build something themselves.\n\nAnd hiring a human programmer was never a guarantee of perfect software either. You could pay someone a lot of money and still end up with poorly written code, bugs, or a program that doesn't quite work the way you imagined. That's why I don't think the real question should be whether the code was written by a human or generated by AI. What matters is the quality of the finished software, how thoroughly it has been tested, and whether someone takes responsibility for maintaining it.",
+      "like_count": 0
+     },
+     {
+      "comment_id": "19sxjvo30coqr",
+      "content": "And there's one more thing I consider extremely important: quality assurance. Even when the software is technically finished, the work isn't over. Just because an AI generates a program that appears to do what you asked doesn't mean it's actually ready for everyday use.\n\nYou have to use the software extensively, test different situations, find bugs, and fix them. For example, I once tested someone's PDF viewer. It displayed PDF files just fine, but when I maximized the window, graphical artifacts and ghost images appeared. Its search function could highlight matching text, but the highlighting was so badly implemented that the text underneath became unreadable. These are things you might never notice if you only check whether the basic features work.\n\nThat's why I think proper testing and quality assurance are among the most important parts of AI-assisted development. They require a lot of time, patience, and attention to detail. Generating working code is one thing. Turning it into reliable, polished software that people can actually enjoy using is another.",
+      "like_count": 0
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxbp6yg2fr4",
+    "content": "How about a separate sub for AI projects?",
+    "like_count": -1,
+    "sub_comments": [
+     {
+      "comment_id": "19sxdgiospf0k",
+      "content": "There's a shitton of ai subs already tbh, but they see this as the most popular software sub and post",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxayha8cxfp",
+    "content": "Hey,\n\nI am the creator of https://betterstickies.com\n\nI didn't write the README of my project",
+    "like_count": -5,
+    "sub_comments": [
+     {
+      "comment_id": "19sxb4yc9t4cg",
+      "content": "I think its basic human decency to atleast introduce the product yourself. If you cant do that, your \"project\" isn't unique in any way since anyone can do a \"claude rewrite this project from github\" and theres no more project.",
+      "like_count": 3
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1y144yd",
+  "title": "Any good alternatives to JPEGView?",
+  "desc": "I've been wondering this a while. For everything I like about JPEGView, there's also the drawback of certain image types not being supported (AVIF and APNG). Before I install it for my new PC, is there any alternative I could replace it with that has similar options? ",
+  "url": "https://www.reddit.com/r/software/comments/1y144yd/any_good_alternatives_to_jpegview/",
+  "liked_count": 0,
+  "comments": [
+   {
+    "comment_id": "19sxgq2ug7t9h",
+    "content": "Windows or Mac? I've been using PixiPile on Mac because I do a lot of sorting not just viewing, but it's Mac only rn.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sxl6moady3o",
+      "content": "Windows",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sxaes4jvw81",
+    "content": "Picview, I found very similar, and updated.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sxl8jt1gyjo",
+      "content": "I will give it a try, thanks",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1y11ofb",
+  "title": "Weekly Discovery Thread - November 20, 2026",
+  "desc": "# Share what’s new, useful, or just interesting\n\nWelcome to the Weekly Discovery Thread, where you can share software-related finds that caught your attention this week - especially the stuff that’s cool, helpful, or thought-provoking but might not be thread-worthy on its own.\n\nThis thread is your space for:\n\n* Neat tools, libraries, or packages\n* Articles, blog posts, or talks worth reading\n* Experiments or side projects you’re working on\n* Tips, workflows, or obscure features you discovered\n* Questions or ideas you're chewing on\n\nIf it relates to software and sparked your curiosity, drop it in.\n\n---\n\n# A few quick guidelines\n\n* Keep it civil and constructive - this is for learning and discovery.\n* Self-promotion? Totally fine if it’s relevant and adds value. Just be transparent.\n* No lin",
+  "url": "https://www.reddit.com/r/software/comments/1y11ofb/weekly_discovery_thread_november_20_2026/",
+  "liked_count": 1,
+  "comments": [
+   {
+    "comment_id": "19sxji6b97nes",
+    "content": "The basic windows background slideshow stopped working. It wont let me select it anymore and deleted all my images.\n\nIs there a good program to replace it?",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sxifd4lkn5x",
+    "content": "here is my finds lately..\n\n1. filee all-in-one file converter  \n2. lap photo manager  \n3. circlelens the name say it  \n4. winoverview fast apps and windows switcher  \n5. paperling md viewer and editor  \n6. SageThumbs2K any file spacebar quickviewer  \n7.SpaceSharp modern treesize alternative  \n8. NoteSpin funky tiny notes app for quick notes  \n  \nall are FOSS and available on github",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx8d9uh4n5x",
+    "content": "I found this Windows file manager, written in Rust. It's very nice and fast. I like it, thought share it here:\n\nhttps://github.com/gelenmedya/rustyfiles",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx5ccrue7gj",
+    "content": "If you've scanned fronts and backs into two PDFs, PDFsam Basic can put them back in alternating page order. Tick Reverse for the back-page file if it came out backwards 😅.",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ },
+ {
+  "note_id": "1y0ywuo",
+  "title": "XDM: open-source IDM alternative for Windows, Linux and macOS since 2013 - adds torrents support, modern ui, better video capture and yt-dlp",
+  "desc": "I'm the developer of XDM (Xtreme Download Manager), a free, open-source download manager available since 2013. The new version is out.\n    \n    \n⭐ GitHub (8.5k stars): https://github.com/subhra74/xdm\n    \n    \n- Download engine with true dynamic segmentation: used and refined for more than a decade\n    \n    \n- Torrent and magnet support: built on libtorrent\n    \n    \n- Better browser integration: catches streaming video on any site and saves HLS, DASH and split audio/video streams as MP4 files that play anywhere\n    \n    \n- Video downloader based on yt-dlp: paste a link and pick the quality\n    \n    \n- Lightweight and full-featured: uses fewer resources than other popular open-source download managers, with more features\n    \n    \nAlso included: pause and resume, a scheduler and queues, sp",
+  "url": "https://www.reddit.com/r/software/comments/1y0ywuo/xdm_opensource_idm_alternative_for_windows_linux/",
+  "liked_count": 53,
+  "comments": [
+   {
+    "comment_id": "19swzvbb631gg",
+    "content": "Holy fucking shit. I thought XDM was abandoned. To this this I still use the .jar file to launch XDM, my favourite and preferred download manager. ",
+    "like_count": 4,
+    "sub_comments": [
+     {
+      "comment_id": "19sx10y30k6xt",
+      "content": "Thanks!",
+      "like_count": 2
+     }
+    ]
+   },
+   {
+    "comment_id": "19sx23cl8oht1",
+    "content": "I happened upon another post of yours and saw the UI revamp so I finally switched to this after using IDM for years. I don't want to use a vibe-coded download manager so it was either this or FDM.\n\nI don’t know if I just missed the option but is there a way to place a tray icon or enable an indicator if there are currently running downloads?",
+    "like_count": 3,
+    "sub_comments": [
+     {
+      "comment_id": "19sx3fqgxwd9c",
+      "content": "Its too many damn managers to know which is best ",
+      "like_count": 1
+     },
+     {
+      "comment_id": "19sx2c8jv7dpf",
+      "content": "Tray icon is there but like all other download managers it does not should any badge how many downloads are active there. Is it something you would like to have? XDM displays progress window and can show different type of notification once download is complete. But if you need something implemented feel free to request it at: [https://github.com/subhra74/xdm/issues](https://github.com/subhra74/xdm/issues)",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sx7nwm8alnl",
+    "content": "Does this have the floating pop up \"Download\" in yt?",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx32bp5mkv4",
+    "content": "Need to try it. I'm tired of occasional usage of browser's build-in manager, Jdownloader or cli tools like aria.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swyl02kmwww",
+    "content": "Any reason why it's not on fmhy?",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19swyux4y43du",
+      "content": "I hope someone would add it 😄 ",
+      "like_count": 3
+     }
+    ]
+   },
+   {
+    "comment_id": "19swx9yercs2r",
+    "content": "[https://misterdownloadmanager.com](https://misterdownloadmanager.com) is also quite interesting.",
+    "like_count": 1,
+    "sub_comments": [
+     {
+      "comment_id": "19sx1lfj5w6xu",
+      "content": "having issues downloading from other site, due to yt dl flagging it as piracy.. any workaround?",
+      "like_count": 1
+     },
+     {
+      "comment_id": "19sx1g3y4i68z",
+      "content": "The best if the new wave. Matches IDM workflow 1to1",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sx0yo97k0td",
+    "content": "I can no longer count on my fingers the amount of ai generated idm alternatives i've seen",
+    "like_count": 0,
+    "sub_comments": [
+     {
+      "comment_id": "19sx12recqalf",
+      "content": "This has been around since 2013!",
+      "like_count": 3
+     }
+    ]
+   },
+   {
+    "comment_id": "19sx012cxuckh",
+    "content": "AB download Manager is better imo. ",
+    "like_count": 0,
+    "sub_comments": [
+     {
+      "comment_id": "19sx10m6aqkgx",
+      "content": "Thanks for sharing, ABDM is a good downloader. Did you try XDM and found any feature that AB Download manager has but missing in XDM?",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19swxa0i4jhnk",
+    "content": "XDM and JDM are super download managers.",
+    "like_count": 0,
+    "sub_comments": [
+     {
+      "comment_id": "19sx3ijv89m3o",
+      "content": "How",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sx0zdj32j35",
+    "content": "**Open Source:**\n\nMister Download Manager (Support Video Download)\n\nGoSpeed Download Manager\n\nAB Download Manager\n\n**Free:**\n\nFDM (Support Video Download)\n\nInternet Download Accelerator (IDA) Free/Paid    (Support Video Download)",
+    "like_count": -1,
+    "sub_comments": [
+     {
+      "comment_id": "19sx3h05yj31f",
+      "content": "But which of these is supreme?",
+      "like_count": 1
+     },
+     {
+      "comment_id": "19sx14m4jbzmo",
+      "content": "Its been around when only FDM was the only free option, though not open source. XDM was the only free and open source one that paired with IDM's paid features back then",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1y0yjak",
+  "title": "Does Bulk Crap Uninstaller delete game save data?",
+  "desc": "Google didn't really help me with this. Tried to choose an uninstaller that also takes care of leftover junk files between Revo, Uninstalr and BCU, chose BCU based on gut feel, idk if I made the right choice tho. I have a bunch of programs I uninstalled before I considered using a clean uninstaller and I want to get rid of the leftover log and cache files of those. I mainly wanted to install one of these for that. However I'm concerned about whether or not it will also delete my game save data from games I uninstalled in case I might reinstall later, I want to keep that just in case. So does it leave the save data alone or can I toggle that or something? I use Steam for 99% of gaming and I think most games' save data will be uploaded on Steam Cloud but not everything supports it. I think i",
+  "url": "https://www.reddit.com/r/software/comments/1y0yjak/does_bulk_crap_uninstaller_delete_game_save_data/",
+  "liked_count": 1,
+  "comments": [
+   {
+    "comment_id": "19sxhvzx73qv8",
+    "content": "BCU doesn't remove anything you haven't seen first. After an uninstall it lists the leftovers it found with a confidence rating, and only what's ticked gets deleted. For programs you already uninstalled, Tools > Clean up Program Files folders only looks inside Program Files, where saves rarely live.\n\nSaves usually sit in Documents\\\\My Games, %USERPROFILE%\\\\Saved Games, %APPDATA%, %LOCALAPPDATA% or AppData\\\\LocalLow, so untick anything from those folders that has a game's name.\n\nOn Steam Cloud: yes, a game that supports it pulls its saves back when you reinstall. Some games only sync part of their data though, so I'd copy those folders somewhere first anyway. They're usually tiny.",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19sxjekkxt9ds",
+      "content": "How do I know which games only save part of their data?",
+      "like_count": 1
+     }
+    ]
+   },
+   {
+    "comment_id": "19sx22rlbnav6",
+    "content": "Worth knowing how the pieces sit together: uninstalling a program through BCU just runs that program's own uninstaller, same as Revo or Uninstalr would — nothing extra gets removed at that step. The part that differs is the leftover scan afterwards, and that one presents a list of files and registry keys it found with checkboxes, so you untick anything you want to keep before it deletes. It is not a fire-and-forget wipe.\n\nThe thing that actually decides your save data is where the saves live, not which uninstaller you picked. For Steam games they are usually in Steam\\userdata\\<accountid>\\<appid>, or in Documents\\My Games, Saved Games, AppData\\Local / Roaming. All of that sits outside the install directory, so a normal uninstall leaves it alone. The risk is the minority of older games that keep saves inside their own install folder or only in the registry — with those, the game's own uninstaller may take them regardless of what front end you launch it from, so check before you pull the trigger.\n\nFor programs you already uninstalled before BCU existed, its leftover scan is much weaker, because it builds that list from what it watched being installed. Faster to just look for the vendor folder names by hand under AppData and ProgramData.\n\nAnd treat Steam Cloud as convenience, not backup — conflicts and silent sync failures happen, and a stale local file can overwrite a good cloud save. A copy of the save folder costs a few MB, replaying 40 hours does not.\n\nAlso yes, this is an okay place to ask, it is a software support question.",
+    "like_count": 2,
+    "sub_comments": [
+     {
+      "comment_id": "19sx3e953fg04",
+      "content": "> For programs you already uninstalled before BCU existed, its leftover scan is much weaker, because it builds that list from what it watched being installed. Faster to just look for the vendor folder names by hand under AppData and ProgramData. \n\nwell that's not good bc it's the main reason I needed to do this in the first place, I just want to get rid of those log and cache files that the steam uninstaller didn't take",
+      "like_count": 1
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "note_id": "1y08kha",
+  "title": "What is a piece of software you’ve been using for 10+ years that still hasn't been replaced by anything better?",
+  "desc": ">A lot of modern apps get bloated, switch to subscriptions, or just get worse over time. On the flip side, some tools just nail their core purpose and stay relevant forever.  \nFor me, tools like **Everything** (instant file search) and **VLC** are untouchable. What is that one software on your PC or phone that has survived multiple OS upgrades and hardware changes?",
+  "url": "https://www.reddit.com/r/software/comments/1y08kha/what_is_a_piece_of_software_youve_been_using_for/",
+  "liked_count": 235,
+  "comments": [
+   {
+    "comment_id": "19swzag7hq8df",
+    "content": "It is wanting at this moment sadly, CorelDRAW!",
+    "like_count": 2,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx60q1w45pe",
+    "content": "Firefox. ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx5tqif7qp0",
+    "content": "Macrium Reflect. Yeah it's subscription now but it's still worth it.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx5ti73vr36",
+    "content": "ShareX. I’m a developer and constantly taking screenshots or recording animated GIFs to send to people or for documentation. For still images, set a few settings to add a border and a shadow and everyone is impressed. ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx5sn9n5690",
+    "content": "Boxcryptor",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx5n0fupgis",
+    "content": "CombinePDF",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx5czdtki5f",
+    "content": "faststone image viewer mainly for its photo resize feature no other apps offer like this  \nlite on system rsource only 10mb size",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx52a0j0e05",
+    "content": "7zip and Foobar2000",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx4xj1ug0rk",
+    "content": "Totalcommander - ex. WindowsCommander on windows and NC on Linux ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx4hg8n7qoz",
+    "content": "Nobody mentioned Paint.Net.  Much simpler than Gimp and much better than MS Paint.  Good for 95% of my needs. I use Gimp (which I dispise) for the other 5%.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx1qhgd64mc",
+    "content": "Winamp",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx1nsiq9sdd",
+    "content": "Total Commander\n",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx1gpfmk5b9",
+    "content": "Winamp",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx0zjsqe7z5",
+    "content": "Windows 10",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx0ww6eknhd",
+    "content": "7z, VLC, handbrake, calibre,",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19sx0lf3qb2zp",
+    "content": "VSCode. Not just I'm a software engineer, even use it to open .txt files instead of notepad.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swzg6mdf1eo",
+    "content": "Handbrake",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swz1cu0jun9",
+    "content": "Microsoft Publisher, until they pulled the rug last month. Have had to learn Affinity now. Huge learning curve but got there now. Yes, I did thoroughly research the other options and Affinity was best for me. But MP was just so simple. Affinity, completely OTT for my needs.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swya7bda3mp",
+    "content": "VLC, OBS, Blender, Stats, ViM\n\nNot 10y yet, but for sure will be: Krita, Grand perspective.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swy0nhyey1t",
+    "content": "FoxitReader / FoxitEditor, at least until I jumped ship to Linux early this year. ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swxm5ix0cth",
+    "content": "ACDSee. ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swxhdb7rv8l",
+    "content": "AIMP? Plays music, records music, converts music.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swx1tgnamzk",
+    "content": "Notezilla. ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swwcllttzhh",
+    "content": "x2plorer",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swvr4qvbilh",
+    "content": "CodeWright",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swutfm7c6ar",
+    "content": "[EasyFind](https://www.devontechnologies.com/apps/freeware) and [FreeFileSync](https://freefilesync.org/)",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swuo8jg3obl",
+    "content": "IrfanView. Please don't ever change. ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swui3en7cgy",
+    "content": "Notepad on windows.  Yes i also use Notepad++  but something about notepad (perhaos ability to pull it quickly and adda  note) ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swuahz534dc",
+    "content": "vim",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swu84s49c6a",
+    "content": "I have an old multipage clipboard app that is perfect for AutoCad. Been using it for 20 years. Its so old the email address is an old geocities one.  Started in XP and still works today in Win11. Although sometimes it does have a memory issue and craps out. Reboot fixes it.   \nAnyway never found anything better.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swt7dcey4m8",
+    "content": "Vim",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swstyt0u21s",
+    "content": "10+ years would be Winamp, Paint Shop Pro, and IrfanView. Recent years would be AlomWare Toolbox.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swr0ow0ejfl",
+    "content": "The software in my brain…",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swqo2dm9x43",
+    "content": "TotalCommander, there is no better Filemanager.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swqkjo4y3fo",
+    "content": "FL Studio. There is definitely a lot of nostalgia and muscle memory at play here but too many of the \\_little things\\_ just don't exist or are too different on other DAW's.  Also, I believe DAW generally defines one of two type of software. One is recording/mixing software where most people aren't going to use it for composition or beat making, like MIDI stuff. These are All basically Pro Tools done better or worse but same basic setup and interchangeable for me. The other type is the creative DAW where FL, Reason, Ableton live. These, for me all have personality and I like that they are different. Switching literally inspires creativity sometimes, just a fresh new environment to play in and mix things up in. \n\n",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swqdwfd1ujm",
+    "content": "Mp3Tag, John's Background Switcher, BKT Time Sync (use with cheap GPS dongle), Irfanview, Everything (Voidtools).",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swq417w3rhh",
+    "content": "Putty",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swpvfm7o44g",
+    "content": "Synergy. Makes it easy to control multiple computers with one keyboard and mouse",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swpuu13rbhd",
+    "content": "Musicolet ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swpmppi1c6c",
+    "content": "SpaceSniffer, works even in Linux via Wine",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swp7hn2kfl1",
+    "content": "dbPoweramp to rip CDs.",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swov55u0b1g",
+    "content": "7-zip. I previously used VLC, but was replaced by Potplayer for a few years now. ",
+    "like_count": 1,
+    "sub_comments": []
+   },
+   {
+    "comment_id": "19swo6uqg4kpu",
+    "content": "fences",
+    "like_count": 1,
+    "sub_comments": []
+   }
+  ]
+ }
+]

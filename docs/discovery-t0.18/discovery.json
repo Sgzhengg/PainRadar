@@ -1,0 +1,474 @@
+[
+  {
+    "demand_id": "dm_60d0971da1",
+    "label": "订阅取消流程不透明",
+    "size": 45,
+    "type": "订阅付费",
+    "buyer": "宠物智能设备用户",
+    "buyer_by_domain": {
+      "pet_water_fountain": "宠物智能设备用户",
+      "plant_care": "植物 App 试用用户"
+    },
+    "workaround": "联系客服或放弃取消",
+    "cost": "金钱损失，情绪愤怒",
+    "domains": {
+      "plant_care": 24,
+      "pet_water_fountain": 21
+    },
+    "apps": [
+      "1252497129",
+      "1410126781",
+      "1586120661",
+      "1612792132",
+      "994053492"
+    ],
+    "l2_share": 0.089,
+    "intensity": 0.453,
+    "cost_share": 0.111,
+    "wtp_share": 0.0,
+    "score": 39.2,
+    "quote": "It’s easy to make you feel like you have made a mistake when your brand new machine requires hundreds of dollars worth of upgrades to work properly.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "It’s easy to make you feel like you have made a mistake when your brand new machine requires hundreds of dollars worth of upgrades to work properly.",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "1586120661"
+      },
+      {
+        "quote": "I thought it would at least record when sound detections were made but I wasn’t able to find any recordings.",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "1586120661"
+      },
+      {
+        "quote": "I don’t think that is fair because if I used it I would understand but they charged me for a year when I deleted the app.",
+        "domain": "plant_care",
+        "level": "L1",
+        "app": "1252497129"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_5f195c9662",
+    "label": "设备噪音大且已无法使用",
+    "size": 6,
+    "type": "产品设计",
+    "buyer": "睡眠科技产品用户",
+    "buyer_by_domain": {
+      "sleep_tech": "睡眠科技产品用户",
+      "plant_care": "植物养护 App 用户"
+    },
+    "workaround": "",
+    "cost": "设备报废无法使用",
+    "domains": {
+      "sleep_tech": 3,
+      "plant_care": 3
+    },
+    "apps": [
+      "1138066420",
+      "1252497129",
+      "320606217"
+    ],
+    "l2_share": 0.0,
+    "intensity": 0.433,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 32.1,
+    "quote": "Was favorite, now useless.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "Was favorite, now useless.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "Noise level.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "320606217"
+      },
+      {
+        "quote": "Is completely useless",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_d0e917e2b1",
+    "label": "水位误报且无法目视确认",
+    "size": 6,
+    "type": "数据与准确性",
+    "buyer": "养猫的宠物主",
+    "buyer_by_domain": {
+      "pet_water_fountain": "养猫的宠物主"
+    },
+    "workaround": "拆开设备查看水位、改用日历提醒",
+    "cost": "反复拆装，高价设备体验差",
+    "domains": {
+      "pet_water_fountain": 6
+    },
+    "apps": [
+      "994053492"
+    ],
+    "l2_share": 0.833,
+    "intensity": 0.7,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 25.3,
+    "quote": "I cannot even edit this reminder so I deleted it and will use a calendar reminder instead.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I cannot even edit this reminder so I deleted it and will use a calendar reminder instead.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      },
+      {
+        "quote": "the sensor only worked 1 time for my cat going to the bathroom and now I have to manually get it to scoop",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      },
+      {
+        "quote": "for how much this fountain costs it is severely underwhelming",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "994053492"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_81419ee5c3",
+    "label": "售后无响应且退换成本高",
+    "size": 12,
+    "type": "客服与售后",
+    "buyer": "宠物喂食器用户",
+    "buyer_by_domain": {
+      "pet_water_fountain": "宠物喂食器用户"
+    },
+    "workaround": "自行维修故障",
+    "cost": "48小时等待与72美元退运费",
+    "domains": {
+      "pet_water_fountain": 12
+    },
+    "apps": [
+      "1586120661",
+      "994053492"
+    ],
+    "l2_share": 0.333,
+    "intensity": 0.45,
+    "cost_share": 0.167,
+    "wtp_share": 0.0,
+    "score": 19.7,
+    "quote": "When I call customer support, I'm told there are no agents available, that I need to leave a message and and I will hear back within 48 hours.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "When I call customer support, I'm told there are no agents available, that I need to leave a message and and I will hear back within 48 hours.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "1586120661"
+      },
+      {
+        "quote": "Their customer service is completely nonexistent and they think I’m going to pay $72 to return their nonfunctional garbage",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "1586120661"
+      },
+      {
+        "quote": "I’m able to fix most issues myself due to customer service being mostly useless, and I like the auto feeders I just think there are small improvements that could be made to make it a better user experience.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "1586120661"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_99cc7dc9f0",
+    "label": "银行同步失效需手动记账",
+    "size": 44,
+    "type": "数据与准确性",
+    "buyer": "个人记账 App 用户",
+    "buyer_by_domain": {
+      "budgeting": "个人记账 App 用户"
+    },
+    "workaround": "每月手动重复录入交易",
+    "cost": "订阅费白花，情绪挫败",
+    "domains": {
+      "budgeting": 44
+    },
+    "apps": [
+      "936422955",
+      "949414211"
+    ],
+    "l2_share": 0.159,
+    "intensity": 0.445,
+    "cost_share": 0.091,
+    "wtp_share": 0.0,
+    "score": 19.3,
+    "quote": "It works fine when I don’t try to repeat it, but now I’ll have to manually repeat it every month (annoying)!",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "It works fine when I don’t try to repeat it, but now I’ll have to manually repeat it every month (annoying)!",
+        "domain": "budgeting",
+        "level": "L2",
+        "app": "936422955"
+      },
+      {
+        "quote": "I just wish you guys had it set up to send a notification when close to budget max.  My bank sets this up but it’s so hard to use.",
+        "domain": "budgeting",
+        "level": "L1",
+        "app": "936422955"
+      },
+      {
+        "quote": "Tried the premium and it did not sync any previous or new transactions with my bank accounts long after the 6 hour allowance they ask for. If I wanted to manually enter all my transactions I’d just use a handwritten ledger to budget.",
+        "domain": "budgeting",
+        "level": "L2",
+        "app": "936422955"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_f90c98659e",
+    "label": "付费后仍遇付费墙与丢数据",
+    "size": 25,
+    "type": "订阅付费",
+    "buyer": "记账 App 付费用户",
+    "buyer_by_domain": {
+      "budgeting": "记账 App 付费用户"
+    },
+    "workaround": "换用其他记账 App",
+    "cost": "订阅费浪费，数据反复丢失",
+    "domains": {
+      "budgeting": 25
+    },
+    "apps": [
+      "1621020173",
+      "936422955",
+      "949414211"
+    ],
+    "l2_share": 0.12,
+    "intensity": 0.456,
+    "cost_share": 0.12,
+    "wtp_share": 0.0,
+    "score": 19.2,
+    "quote": "it does help a lot with budgeting but $13 a month isn’t worth it let alone $75 for a whole year when the whole point is for me to save money.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "it does help a lot with budgeting but $13 a month isn’t worth it let alone $75 for a whole year when the whole point is for me to save money.",
+        "domain": "budgeting",
+        "level": "L1",
+        "app": "949414211"
+      },
+      {
+        "quote": "I just need a place to manually record my monthly transactions and costs.",
+        "domain": "budgeting",
+        "level": "L2",
+        "app": "936422955"
+      },
+      {
+        "quote": "I used to love this app but it has been so buggy lately. I purchased the premium version just for the app to be buggy and I was unable to use it correctly.",
+        "domain": "budgeting",
+        "level": "L4",
+        "app": "936422955"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_fcc19bf535",
+    "label": "浇水提醒任务堆积不同步",
+    "size": 32,
+    "type": "产品设计",
+    "buyer": "多植物养护用户",
+    "buyer_by_domain": {
+      "plant_care": "多植物养护用户"
+    },
+    "workaround": "手动忽略或自行记录",
+    "cost": "每日任务列表冗长、养护焦虑",
+    "domains": {
+      "plant_care": 32
+    },
+    "apps": [
+      "1252497129",
+      "1410126781",
+      "1612792132"
+    ],
+    "l2_share": 0.062,
+    "intensity": 0.463,
+    "cost_share": 0.062,
+    "wtp_share": 0.031,
+    "score": 18.9,
+    "quote": "if there was a cheaper option so i could just keep track of when to water my many plants but $40 a year for basic reminders is too steep.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "if there was a cheaper option so i could just keep track of when to water my many plants but $40 a year for basic reminders is too steep.",
+        "domain": "plant_care",
+        "level": "L1",
+        "app": "1252497129"
+      },
+      {
+        "quote": "Never rely fully on a schedule or app for your plants but this one does a good job of guiding you through your plants needs. Watering schedule works well for my plants, the snooze feature is nice for needing to hold off a reminder for a day or two.\n\nI just wish they had more plants.",
+        "domain": "plant_care",
+        "level": "L1",
+        "app": "1612792132"
+      },
+      {
+        "quote": "I just tried resetting my password and it has a super sketchy way to do so 😭",
+        "domain": "plant_care",
+        "level": "L2",
+        "app": "1252497129"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_9c23306d5e",
+    "label": "睡眠记录不准且夜间冻结",
+    "size": 27,
+    "type": "数据与准确性",
+    "buyer": "睡眠监测 App 用户",
+    "buyer_by_domain": {
+      "sleep_tech": "睡眠监测 App 用户"
+    },
+    "workaround": "手动调整睡眠时间",
+    "cost": "整夜数据作废，情绪挫败",
+    "domains": {
+      "sleep_tech": 27
+    },
+    "apps": [
+      "1138066420",
+      "1490078804",
+      "320606217"
+    ],
+    "l2_share": 0.074,
+    "intensity": 0.489,
+    "cost_share": 0.074,
+    "wtp_share": 0.0,
+    "score": 18.9,
+    "quote": "The sleep app that comes on the watch always had me asleep when I was laying wide awake staring at my ceiling.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "The sleep app that comes on the watch always had me asleep when I was laying wide awake staring at my ceiling.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "I start recording when I go to sleep but in the morning the app is frozen, no recording and I have to manually adjust sleeping times.",
+        "domain": "sleep_tech",
+        "level": "L2",
+        "app": "1138066420"
+      },
+      {
+        "quote": "I’ve used the app for years and had even bought it back before it was free, but now when I try to listen to a podcast or something while falling asleep, the sound randomly becomes SUPER LOUD, which is incredibly frustrating and counter productive.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "320606217"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_f79c6d4c4b",
+    "label": "预算功能被订阅墙锁住",
+    "size": 18,
+    "type": "订阅付费",
+    "buyer": "预算管理 App 用户",
+    "buyer_by_domain": {
+      "budgeting": "预算管理 App 用户"
+    },
+    "workaround": "只用最基础功能凑合",
+    "cost": "无法建预算，数据丢失",
+    "domains": {
+      "budgeting": 18
+    },
+    "apps": [
+      "1621020173",
+      "936422955",
+      "949414211"
+    ],
+    "l2_share": 0.056,
+    "intensity": 0.422,
+    "cost_share": 0.167,
+    "wtp_share": 0.0,
+    "score": 18.0,
+    "quote": "I deleted the app within 10 minutes when I realized I couldn’t even add my expenses / savings and create a budget without subscribing for $25.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I deleted the app within 10 minutes when I realized I couldn’t even add my expenses / savings and create a budget without subscribing for $25.",
+        "domain": "budgeting",
+        "level": "L1",
+        "app": "1621020173"
+      },
+      {
+        "quote": "And OVERVIEW IS THE WORST it has a wheel that always shakes or moves when you scroll to the next month this is horribly distracting",
+        "domain": "budgeting",
+        "level": "L1",
+        "app": "936422955"
+      },
+      {
+        "quote": "I use it for the most basic budgeting approach, and its still frustrating.",
+        "domain": "budgeting",
+        "level": "L1",
+        "app": "936422955"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_3fb0db6d92",
+    "label": "退款申请无人回应",
+    "size": 20,
+    "type": "客服与售后",
+    "buyer": "睡眠 App 付费用户",
+    "buyer_by_domain": {
+      "sleep_tech": "睡眠 App 付费用户"
+    },
+    "workaround": "反复发邮件催问",
+    "cost": "被扣 69 美元且无回复",
+    "domains": {
+      "sleep_tech": 20
+    },
+    "apps": [
+      "1138066420",
+      "1490078804",
+      "320606217"
+    ],
+    "l2_share": 0.15,
+    "intensity": 0.42,
+    "cost_share": 0.05,
+    "wtp_share": 0.0,
+    "score": 17.9,
+    "quote": "I used to love it. Has deteriorated over time. Doesn’t record sometimes. Tried getting support, sent data, asked to resend data, slow response. Today it will not refresh only crash.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I used to love it. Has deteriorated over time. Doesn’t record sometimes. Tried getting support, sent data, asked to resend data, slow response. Today it will not refresh only crash.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "Horrible experience, terrible interface and when I requested a refund they never responded to my email.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "320606217"
+      },
+      {
+        "quote": "Wonderful app till ios 18, when sleepwatch stopped working.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      }
+    ]
+  }
+]

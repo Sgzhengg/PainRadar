@@ -1,0 +1,263 @@
+{
+  "da153c7a6f3715d5": {
+    "scores": {
+      "workflow_frequency": 3,
+      "incumbent_saas": 4,
+      "ai_core": 5,
+      "harness_resistance": 3,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 4,
+      "data_portability": 4,
+      "zero_onboarding": 5,
+      "low_ops": 5,
+      "competition_gap": 4,
+      "monetization": 4
+    },
+    "reasons": {
+      "workflow_frequency": "资格自查非高频，但人生关键节点必用。",
+      "incumbent_saas": "法律/税务软件贵且体验差，有替代空间。",
+      "ai_core": "核心是规则匹配与文本解读，AI擅长。",
+      "harness_resistance": "通用Agent可做初步判断，但缺责任与审计。",
+      "incumbent_bundling": "记账/ERP系统未内置复杂资格自查。",
+      "third_party_actionable": "独立开发者可做，但需防法律风险。",
+      "data_portability": "用户输入条件可导出，切换成本低。",
+      "zero_onboarding": "自助问答即可，无需实施顾问。",
+      "low_ops": "无需7x24运维，异步处理即可。",
+      "competition_gap": "垂直AI资格自查工具还很少。",
+      "monetization": "可买断或低价订阅，替代高价咨询。"
+    },
+    "summary": "适合AI原生重做：规则复杂、现有SaaS贵且差，AI可降门槛，但需注意责任边界。"
+  },
+  "038e8f98e2a71a4e": {
+    "scores": {
+      "workflow_frequency": 3,
+      "incumbent_saas": 2,
+      "ai_core": 3,
+      "harness_resistance": 4,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 3,
+      "data_portability": 4,
+      "zero_onboarding": 4,
+      "low_ops": 4,
+      "competition_gap": 4,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "跟进沟通可能每月发生，非每日高频。",
+      "incumbent_saas": "无明确高价SaaS，多为免费工具或人工服务。",
+      "ai_core": "核心是沟通记录与提醒，部分文本处理。",
+      "harness_resistance": "需持久跟踪、审计留痕，通用AI难替代。",
+      "incumbent_bundling": "现有系统未内置沟通跟进功能。",
+      "third_party_actionable": "可做独立工具，但需集成邮件/消息平台。",
+      "data_portability": "用户数据可导出，切换成本低。",
+      "zero_onboarding": "可自助注册使用，无需实施顾问。",
+      "low_ops": "无需7x24运维，异步处理即可。",
+      "competition_gap": "AI替代品少，市场空白。",
+      "monetization": "可低价订阅，但用户付费意愿待验证。"
+    },
+    "summary": "需求真实但频率中等，AI可辅助记录与提醒，需持久状态，适合轻量工具，但变现需验证。"
+  },
+  "f00f806548c11ce0": {
+    "scores": {
+      "workflow_frequency": 3,
+      "incumbent_saas": 3,
+      "ai_core": 5,
+      "harness_resistance": 2,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 4,
+      "data_portability": 5,
+      "zero_onboarding": 5,
+      "low_ops": 5,
+      "competition_gap": 2,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "求职/报税季节性，非每日高频",
+      "incumbent_saas": "简历工具多但税务表格工具少且贵",
+      "ai_core": "核心是文本改写与格式填充",
+      "harness_resistance": "用户丢文件给通用Agent即可完成",
+      "incumbent_bundling": "报税软件未内置文书改写",
+      "third_party_actionable": "纯文本处理，无平台封堵风险",
+      "data_portability": "输入输出均为文本，易迁移",
+      "zero_onboarding": "上传即用，无需实施",
+      "low_ops": "无实时性要求，无需SLA",
+      "competition_gap": "简历AI改写已泛滥，红海",
+      "monetization": "用户付费意愿低，难支撑订阅"
+    },
+    "summary": "AI核心强但易被通用Agent替代，简历赛道拥挤，税务文书细分或有机会。"
+  },
+  "29b764cc151bbe57": {
+    "scores": {
+      "workflow_frequency": 3,
+      "incumbent_saas": 2,
+      "ai_core": 3,
+      "harness_resistance": 2,
+      "incumbent_bundling": 1,
+      "third_party_actionable": 3,
+      "data_portability": 4,
+      "zero_onboarding": 4,
+      "low_ops": 4,
+      "competition_gap": 3,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "求职期集中投递，非长期高频动作",
+      "incumbent_saas": "无明确高价SaaS，多为免费工具或招聘平台",
+      "ai_core": "核心是反馈诊断与话术生成，偏文本",
+      "harness_resistance": "用户丢简历给Agent即可得建议，易被替代",
+      "incumbent_bundling": "招聘平台与ATS未内置求职者侧反馈",
+      "third_party_actionable": "可做但依赖招聘平台数据，易受限",
+      "data_portability": "简历与记录可导出，切换成本低",
+      "zero_onboarding": "上传简历即用，无需实施",
+      "low_ops": "纯工具型，无SLA与7×24需求",
+      "competition_gap": "AI求职建议工具已不少，差异化难",
+      "monetization": "用户付费意愿低，难支撑买断高价"
+    },
+    "summary": "痛点真实但低频、付费弱、易被通用Agent替代，适合做轻量插件而非独立SaaS。"
+  },
+  "d3dbf75b188c2866": {
+    "scores": {
+      "workflow_frequency": 5,
+      "incumbent_saas": 3,
+      "ai_core": 3,
+      "harness_resistance": 4,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 4,
+      "data_portability": 4,
+      "zero_onboarding": 4,
+      "low_ops": 4,
+      "competition_gap": 3,
+      "monetization": 4
+    },
+    "reasons": {
+      "workflow_frequency": "拖延与截止日期是每日反复发生的核心痛点。",
+      "incumbent_saas": "Todoist/Forest 等收费但非专为神经多样性设计。",
+      "ai_core": "核心是行为干预与任务拆解，非纯文本处理。",
+      "harness_resistance": "需持久状态、提醒与行为追踪，Agent 难替代。",
+      "incumbent_bundling": "记账/ERP 系统完全不涉及个人时间管理。",
+      "third_party_actionable": "纯软件可自建，无平台封堵风险。",
+      "data_portability": "任务与习惯数据可导出，切换成本低。",
+      "zero_onboarding": "自助注册即可用，但需轻量引导。",
+      "low_ops": "无 SLA 要求，异步提醒即可。",
+      "competition_gap": "通用效率工具有，神经多样性专用 AI 少。",
+      "monetization": "可用低价订阅替代高价 ADHD 教练服务。"
+    },
+    "summary": "高频刚需、通用 Agent 难替代，适合 AI 原生重做，但需行为设计与信任积累。"
+  },
+  "514f6caa4603ccfe": {
+    "scores": {
+      "workflow_frequency": 2,
+      "incumbent_saas": 2,
+      "ai_core": 3,
+      "harness_resistance": 4,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 3,
+      "data_portability": 4,
+      "zero_onboarding": 4,
+      "low_ops": 4,
+      "competition_gap": 3,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "家庭维修出错属偶发事件，非高频动作。",
+      "incumbent_saas": "无明确收费SaaS，多为论坛问答与师傅上门。",
+      "ai_core": "核心是诊断纠错建议，偏推理而非纯文本处理。",
+      "harness_resistance": "需现场照片、上下文与责任承担，通用Agent难替代。",
+      "incumbent_bundling": "维修记账/ERP系统未内置纠错诊断能力。",
+      "third_party_actionable": "可做诊断工具，但依赖图像与知识库质量。",
+      "data_portability": "用户数据少，切换成本低。",
+      "zero_onboarding": "拍照描述即可用，无需实施顾问。",
+      "low_ops": "无实时SLA要求，异步建议即可。",
+      "competition_gap": "通用AI可答部分问题，垂直纠错产品少。",
+      "monetization": "可低价订阅或按次付费，替代上门咨询费。"
+    },
+    "summary": "偶发场景、需现场上下文与责任，通用Agent部分可替代；适合做轻量诊断助手，但频次低、变现弱。"
+  },
+  "0d54bbb32b8cac7d": {
+    "scores": {
+      "workflow_frequency": 5,
+      "incumbent_saas": 3,
+      "ai_core": 4,
+      "harness_resistance": 3,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 4,
+      "data_portability": 4,
+      "zero_onboarding": 4,
+      "low_ops": 4,
+      "competition_gap": 4,
+      "monetization": 4
+    },
+    "reasons": {
+      "workflow_frequency": "人际约定与信息每天多次发生，频率极高。",
+      "incumbent_saas": "笔记/提醒类有收费但非专攻记忆遗漏，体验一般。",
+      "ai_core": "核心是记录、抽取约定、总结与核对，属文本处理。",
+      "harness_resistance": "通用Agent可代记，但需持久状态与关系上下文。",
+      "incumbent_bundling": "记账ERP不涉及人际沟通记忆，未内置。",
+      "third_party_actionable": "可做独立App，依赖系统日历/通讯录但可绕开。",
+      "data_portability": "记录可导出为文本/日历，切换成本低。",
+      "zero_onboarding": "自助注册即用，无需实施顾问。",
+      "low_ops": "个人工具无需7×24 SLA，运维轻。",
+      "competition_gap": "专攻记忆遗漏的AI产品仍少。",
+      "monetization": "可买断或低价订阅替代高价笔记SaaS。"
+    },
+    "summary": "高频、文本核心、竞争少，适合AI原生重做；需解决持久状态与关系上下文以抗Harness替代。"
+  },
+  "3a0c40729ac14e78": {
+    "scores": {
+      "workflow_frequency": 5,
+      "incumbent_saas": 5,
+      "ai_core": 4,
+      "harness_resistance": 2,
+      "incumbent_bundling": 3,
+      "third_party_actionable": 4,
+      "data_portability": 4,
+      "zero_onboarding": 5,
+      "low_ops": 5,
+      "competition_gap": 2,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "记账与预算每天发生，高频刚需。",
+      "incumbent_saas": "YNAB、Mint 等收费高且体验受诟病。",
+      "ai_core": "分类、总结、核对流水本质是数据处理。",
+      "harness_resistance": "丢银行流水给 Agent 即可分析，壁垒低。",
+      "incumbent_bundling": "银行 App 有基础分类，但预算规划弱。",
+      "third_party_actionable": "可接银行 CSV/API，无平台强封堵。",
+      "data_portability": "流水可导出 CSV，切换成本较低。",
+      "zero_onboarding": "自助注册导入即用，无需顾问。",
+      "low_ops": "纯分析工具，无需 7×24 运维。",
+      "competition_gap": "AI 记账替代品已多，红海竞争。",
+      "monetization": "用户价格敏感，买断难支撑持续成本。"
+    },
+    "summary": "高频刚需且 AI 适配好，但通用 Agent 易替代、竞品密集，需靠多账户集成与家庭协作建立壁垒。"
+  },
+  "6e3f480c49a9173c": {
+    "scores": {
+      "workflow_frequency": 4,
+      "incumbent_saas": 4,
+      "ai_core": 4,
+      "harness_resistance": 3,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 3,
+      "data_portability": 4,
+      "zero_onboarding": 4,
+      "low_ops": 4,
+      "competition_gap": 4,
+      "monetization": 4
+    },
+    "reasons": {
+      "workflow_frequency": "账单订阅每月发生，扣费争议不定期但高频。",
+      "incumbent_saas": "YNAB等收费高体验差，用户公开抱怨。",
+      "ai_core": "核心是解析账单、识别隐藏费用并核对。",
+      "harness_resistance": "丢账单给Agent可查，但需持续监控与留痕。",
+      "incumbent_bundling": "记账App多不含扣费争议追踪与申诉。",
+      "third_party_actionable": "依赖银行数据接口，SimpleFin等可接入。",
+      "data_portability": "账单与订阅数据可导出重建，切换成本低。",
+      "zero_onboarding": "上传账单即可用，无需实施顾问。",
+      "low_ops": "无实时SLA要求，异步处理即可。",
+      "competition_gap": "AI扣费审计工具尚少，市场空白明显。",
+      "monetization": "可买断或低价订阅替代YNAB年费。"
+    },
+    "summary": "扣费不透明痛点真实、SaaS贵且差，AI解析账单可切入；需解决银行数据接入与持续监控。"
+  }
+}

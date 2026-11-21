@@ -1,0 +1,252 @@
+{
+  "788e34c20fba00ce": {
+    "scores": {
+      "third_party_actionable": 3,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 3,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 4,
+      "frequency": 4,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "部分可做诊断/重连工具，但根因常在厂商固件与云",
+      "leverage": "能缓解重连与同步，难根治厂商侧断连",
+      "competition_gap": "系统自带重连弱，但免费工具与社区脚本不少",
+      "software_only": "纯软件可做诊断层，修复仍需设备协议配合",
+      "zero_onboarding": "需授权蓝牙/健康/银行权限，配置因设备而异",
+      "no_docs": "靠通用协议与日志推断，无需客户知识库",
+      "low_ops": "无SLA与电信资源，但需跟进多设备兼容",
+      "frequency": "断连同步失败对活跃用户近乎每周甚至每天发生",
+      "self_serve_pay": "可低价订阅，但价值感知弱，付费转化一般"
+    },
+    "summary": "痛点真实高频，但根因多在厂商侧，单人宜做轻量诊断重连工具而非平台。"
+  },
+  "851b9d5cff82fc38": {
+    "scores": {
+      "third_party_actionable": 3,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 3,
+      "zero_onboarding": 2,
+      "no_docs": 2,
+      "low_ops": 4,
+      "frequency": 2,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "部分场景可做备份/回滚工具，但依赖厂商接口。",
+      "leverage": "能缓解数据丢失，但无法修复厂商应用故障。",
+      "competition_gap": "现有备份方案少，但厂商自带功能可能覆盖。",
+      "software_only": "纯软件可做备份，但需适配不同设备协议。",
+      "zero_onboarding": "需用户配置设备连接和备份策略。",
+      "no_docs": "需了解各设备数据格式和API，依赖文档。",
+      "low_ops": "本地工具无需运维，但云备份需服务器。",
+      "frequency": "更新不频繁，同一买家一年遇几次。",
+      "self_serve_pay": "可低价订阅，但需教育用户备份价值。"
+    },
+    "summary": "需求真实但分散，第三方工具价值有限，适合小规模工具，难成长期产品。"
+  },
+  "269023a7f855801c": {
+    "scores": {
+      "third_party_actionable": 3,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 4,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 4,
+      "frequency": 3,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "第三方可做订阅管理工具，但无法直接改变厂商扣费行为。",
+      "leverage": "能提醒和辅助取消，但无法强制退款或阻止扣费。",
+      "competition_gap": "系统自带订阅管理有限，但已有Truebill等成熟产品。",
+      "software_only": "纯软件可解，无需硬件或厂商配合。",
+      "zero_onboarding": "需用户授权账单或邮件访问，有一定配置门槛。",
+      "no_docs": "不依赖客户文档，但需接入账单数据源。",
+      "low_ops": "无7x24运维需求，但需维护数据源和规则。",
+      "frequency": "用户通常每月或每年遇到订阅扣费，频率中等。",
+      "self_serve_pay": "可自助订阅，但用户对付费工具接受度一般。"
+    },
+    "summary": "需求真实但第三方杠杆有限，竞争存在，适合做轻量订阅管理工具，需差异化。"
+  },
+  "dce44ddba7b26679": {
+    "scores": {
+      "third_party_actionable": 3,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 3,
+      "zero_onboarding": 2,
+      "no_docs": 3,
+      "low_ops": 4,
+      "frequency": 4,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "提醒逻辑多在厂商云/固件，第三方只能做旁路替代",
+      "leverage": "可做独立提醒层替代，但难改原应用行为",
+      "competition_gap": "系统闹钟/HA自动化免费，但跨设备统一提醒缺位",
+      "software_only": "纯软件可做旁路提醒，但需接入各厂商数据源",
+      "zero_onboarding": "需逐设备授权、配置触发源，非即装即用",
+      "no_docs": "需用户自建提醒规则与设备映射，依赖配置知识",
+      "low_ops": "无SLA要求，但推送通道需持续维护",
+      "frequency": "提醒天天触发，误报/漏报高频困扰用户",
+      "self_serve_pay": "可低价订阅，但价值感知弱，付费转化一般"
+    },
+    "summary": "可做跨设备可靠提醒旁路工具，但接入碎片化、上手门槛高，适合小工具订阅。"
+  },
+  "ee4dbab17ccd5b11": {
+    "scores": {
+      "third_party_actionable": 2,
+      "leverage": 2,
+      "competition_gap": 2,
+      "software_only": 2,
+      "zero_onboarding": 2,
+      "no_docs": 3,
+      "low_ops": 2,
+      "frequency": 2,
+      "self_serve_pay": 2
+    },
+    "reasons": {
+      "third_party_actionable": "客服与售后在厂商内部，第三方无法介入处理",
+      "leverage": "只能曝光或提醒，无法强制退款或加速响应",
+      "competition_gap": "消协、平台投诉、社媒曝光已覆盖此类需求",
+      "software_only": "解决依赖厂商人工与政策，非纯软件可解",
+      "zero_onboarding": "需逐案收集订单与沟通记录才能起作用",
+      "no_docs": "需用户提供订单、聊天记录等证据材料",
+      "low_ops": "涉及纠纷跟进与人工协调，难自动化",
+      "frequency": "同一买家通常一年遇一两次售后问题",
+      "self_serve_pay": "用户为维权付费意愿低，难自助订阅"
+    },
+    "summary": "根因在厂商售后流程，第三方只能曝光提醒，难成可长期维护的自助产品。"
+  },
+  "8feb6f40744e8d74": {
+    "scores": {
+      "third_party_actionable": 2,
+      "leverage": 2,
+      "competition_gap": 2,
+      "software_only": 2,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 4,
+      "frequency": 4,
+      "self_serve_pay": 2
+    },
+    "reasons": {
+      "third_party_actionable": "崩溃根因在厂商应用内部，第三方无法直接修复。",
+      "leverage": "只能监控或提醒崩溃，无法真正消除闪退。",
+      "competition_gap": "系统自带崩溃报告和成熟监控工具已覆盖。",
+      "software_only": "需修改厂商应用代码或系统层，纯软件难解。",
+      "zero_onboarding": "需用户安装配置监控工具，有一定门槛。",
+      "no_docs": "无需客户文档，但需适配不同应用环境。",
+      "low_ops": "监控服务需持续运行，但无需7x24 SLA。",
+      "frequency": "用户每天使用应用，崩溃频繁发生。",
+      "self_serve_pay": "个人用户对付费解决崩溃意愿低，难自助付费。"
+    },
+    "summary": "崩溃问题根因在厂商，第三方难有效解决，商业价值低。"
+  },
+  "8382c7f2bb14cc05": {
+    "scores": {
+      "third_party_actionable": 3,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 4,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 4,
+      "frequency": 5,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "睡眠数据可第三方采集，但预算/空气净化器需厂商数据",
+      "leverage": "可提供更准记录，但无法修复原应用，只能替代或补充",
+      "competition_gap": "睡眠追踪有成熟免费应用，预算分类有巨头，空隙一般",
+      "software_only": "纯软件可解，但需访问设备数据，可能需API或手动输入",
+      "zero_onboarding": "睡眠追踪需设置，预算需导入数据，非完全零配置",
+      "no_docs": "无需客户文档，但需理解数据格式，可自动处理",
+      "low_ops": "无实时运维需求，但需处理数据同步和隐私",
+      "frequency": "睡眠每日发生，预算交易频繁，用户每天遇到",
+      "self_serve_pay": "可低价订阅，但用户习惯免费，付费意愿中等"
+    },
+    "summary": "需求高频但竞争激烈，第三方可做补充工具，需找准细分场景和付费点。"
+  },
+  "987ae1c3264f7066": {
+    "scores": {
+      "third_party_actionable": 2,
+      "leverage": 2,
+      "competition_gap": 3,
+      "software_only": 1,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 4,
+      "frequency": 2,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "根因在硬件本身，第三方软件无法直接修复或替代。",
+      "leverage": "软件只能监控或提醒，无法真正消除硬件故障。",
+      "competition_gap": "硬件耐用性普遍问题，但缺乏软件解决方案。",
+      "software_only": "需要硬件改进或厂商配合，纯软件不可解。",
+      "zero_onboarding": "若做监控工具，需用户配置设备连接，非即装即用。",
+      "no_docs": "不依赖客户文档，但需设备API或数据接入。",
+      "low_ops": "纯软件监控工具无需7x24运维。",
+      "frequency": "硬件故障不频繁，同一买家可能一年一次。",
+      "self_serve_pay": "监控工具可低价订阅，但价值有限。"
+    },
+    "summary": "硬件故障根因在厂商，软件难解，不适合单人开发产品。"
+  },
+  "dc00bade4473c2c4": {
+    "scores": {
+      "third_party_actionable": 3,
+      "leverage": 4,
+      "competition_gap": 4,
+      "software_only": 3,
+      "zero_onboarding": 2,
+      "no_docs": 3,
+      "low_ops": 3,
+      "frequency": 2,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "可做本地控制替代，但需设备支持或硬件改造。",
+      "leverage": "能消除云依赖，实现离线自动化喂食监控。",
+      "competition_gap": "现有方案依赖厂商云，本地化替代品少。",
+      "software_only": "纯软件需设备开放API，否则需硬件模块。",
+      "zero_onboarding": "需配置本地网关或刷固件，非即装即用。",
+      "no_docs": "需了解设备协议，但无需客户提供文档。",
+      "low_ops": "本地部署无7x24运维，但需处理兼容性。",
+      "frequency": "设备离线偶发，非每日发生。",
+      "self_serve_pay": "可卖软件或硬件模块，但需一定技术支持。"
+    },
+    "summary": "需求真实但实现依赖设备开放性，适合做本地化替代方案，需硬件配合，非纯自助产品。"
+  },
+  "6be1d0cbcbe4f1f4": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 4,
+      "competition_gap": 3,
+      "software_only": 4,
+      "zero_onboarding": 4,
+      "no_docs": 3,
+      "low_ops": 4,
+      "frequency": 3,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "可做独立诊断工具，但依赖图像模型与植物知识库。",
+      "leverage": "准确诊断能直接避免误治，真正改变结果。",
+      "competition_gap": "巨头识别应用多但误诊频发，仍有空隙。",
+      "software_only": "纯软件图像识别可行，无需硬件配合。",
+      "zero_onboarding": "拍照即诊断，但需引导用户拍对部位。",
+      "no_docs": "需自建植物病害知识库与标注数据。",
+      "low_ops": "推理服务可托管，无需7×24人工值守。",
+      "frequency": "植物出问题才用，季节性低频。",
+      "self_serve_pay": "可低价订阅或按次付费，自助购买。"
+    },
+    "summary": "方向可行，诊断准确率是核心壁垒，需持续投入模型与数据。"
+  }
+}

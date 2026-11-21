@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PainRadar · 机会雷达</title>
+<link rel="stylesheet" href="/static/style.css?v=39">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <h1>PainRadar · 机会雷达</h1>
+    <span class="uiver">UI v15</span>
+    <div class="meta" id="meta">加载中…</div>
+  </div>
+  <div class="controls">
+    <label class="runpick">
+      历史运行
+      <select id="runpick"></select>
+    </label>
+    <button class="runsync" id="runbtn" disabled>手动运行</button>
+    <button class="runsync" id="newcatbtn" disabled>新增品类</button>
+    <button class="runsync" id="ddbtn">专项挖掘</button>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+  <div class="stats" id="stats"></div>
+</header>
+
+<main class="wrap">
+  <aside class="side">
+    <div class="panel">
+      <h3>筛选</h3>
+      <div class="field">
+        <label>机会等级</label>
+        <select id="tier"><option value="">全部</option><option>强</option><option>中</option><option>弱</option></select>
+      </div>
+      <div class="field">
+        <label>最低痛感 <span id="painv">0</span></label>
+        <input type="range" id="pain" min="0" max="100" value="0" step="5">
+      </div>
+      <div class="field">
+        <label>场景</label>
+        <div id="scenes" class="scenes"></div>
+      </div>
+      <div class="field">
+        <label>搜索证据</label>
+        <input type="search" id="q" placeholder="关键词，如 pump / 噪音">
+      </div>
+    </div>
+  </aside>
+  <div class="discbar" id="discbar" hidden></div>
+  <section class="cards" id="cards"></section>
+</main>
+
+<div class="drawer" id="drawer" hidden>
+  <div class="sheet" id="sheet"></div>
+</div>
+
+<div class="modal" id="runmodal" hidden>
+  <div class="box">
+    <button class="close" id="runclose">×</button>
+    <h2>手动运行</h2>
+    <p class="hint">用现有语料重新抽取、聚类、打分。不会抓取新评论。</p>
+    <div class="field">
+      <label>品类</label>
+      <select id="runcat"></select>
+    </div>
+    <div class="field">
+      <label>抽取器</label>
+      <label class="chk"><input type="radio" name="extractor" value="rule" checked> 规则（快，几秒）</label>
+      <label class="chk"><input type="radio" name="extractor" value="llm"> LLM（慢，约 1 分钟/20 条，消耗 token）</label>
+    </div>
+    <div class="runstate" id="runstate"></div>
+    <button class="primary" id="runstart">开始运行</button>
+  </div>
+</div>
+
+<div class="modal" id="newcatmodal" hidden>
+  <div class="box">
+    <button class="close" id="newcatclose">×</button>
+    <h2>新增品类</h2>
+    <p class="hint">输入品类名和英文搜索词，系统会找 3 个相关 App、抓取评论，然后出现在「手动运行」下拉里。</p>
+    <div class="field">
+      <label>品类名（中文）</label>
+      <input type="text" id="newcatname" placeholder="例如：咖啡机">
+    </div>
+    <div class="field">
+      <label>App Store 搜索词（英文）</label>
+      <input type="text" id="newcatterm" placeholder="例如：coffee maker">
+    </div>
+    <div class="field">
+      <label>每个 App 抓取页数</label>
+      <select id="newcatpages">
+        <option value="2">2（约 100 条）</option>
+        <option value="3" selected>3（约 150 条）</option>
+        <option value="4">4（约 200 条）</option>
+      </select>
+    </div>
+    <button class="primary" id="newcatsearch">1. 搜索候选 App</button>
+    <div class="apps" id="newcatapps"></div>
+    <div class="runstate" id="newcatstate"></div>
+    <button class="primary" id="newcatstart" disabled>2. 创建并抓取</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+<div class="modal" id="ddmodal" hidden>
+  <div class="box">
+    <button class="close" id="ddclose">×</button>
+    <h2>专项挖掘</h2>
+    <p class="hint">描述你想研究的产品 / 平台 / 系统。系统会先问 3 个澄清问题，然后再开始挖掘。</p>
+    <textarea id="ddmsg" rows="3" placeholder="例：我想研究 Apple Watch 用户为什么买了之后不用了"></textarea>
+    <button class="primary" id="ddplan">生成澄清问题</button>
+    <div id="ddqs"></div>
+    <button class="primary" id="ddrun" hidden>开始挖掘</button>
+    <div class="runstate" id="ddstate"></div>
+    <div class="ddbar" id="ddbar" hidden>
+      <button class="runsync" id="ddmd">下载 Markdown</button>
+      <button class="runsync" id="ddprint">打印 / 另存为 PDF</button>
+    </div>
+    <div id="ddreport" class="ddreport" hidden></div>
+  </div>
+</div>
+<script src="/static/app.js?v=46"></script>
+
+</body>
+</html>

@@ -1,0 +1,292 @@
+{
+  "491bcff56b5241c3": {
+    "scores": {
+      "workflow_frequency": 2,
+      "incumbent_saas": 3,
+      "ai_core": 3,
+      "harness_resistance": 4,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 2,
+      "data_portability": 3,
+      "zero_onboarding": 4,
+      "low_ops": 4,
+      "competition_gap": 4,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "冻结是偶发事件，非日常高频动作",
+      "incumbent_saas": "支付平台自身即对手，无独立收费SaaS",
+      "ai_core": "核心是申诉文书生成与条款核对，偏文本",
+      "harness_resistance": "需留痕、责任承担与平台对接，Agent难替代",
+      "incumbent_bundling": "支付平台未内置申诉助手，空白明显",
+      "third_party_actionable": "依赖平台政策与接口，易被封堵",
+      "data_portability": "申诉材料可导出，但平台记录不可控",
+      "zero_onboarding": "上传冻结通知即可生成申诉，自助可行",
+      "low_ops": "无实时SLA，异步生成文书即可",
+      "competition_gap": "针对支付冻结的AI申诉工具极少",
+      "monetization": "可按次或低价订阅，难买断"
+    },
+    "summary": "痛点真实但低频、平台依赖强，适合做轻量申诉文书助手而非重SaaS。"
+  },
+  "b82f30faf65b667e": {
+    "scores": {
+      "workflow_frequency": 3,
+      "incumbent_saas": 3,
+      "ai_core": 3,
+      "harness_resistance": 4,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 2,
+      "data_portability": 3,
+      "zero_onboarding": 4,
+      "low_ops": 4,
+      "competition_gap": 3,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "扣费争议每月发生，但非每日高频动作",
+      "incumbent_saas": "Rocket Money等收费但体验一般，价格不低",
+      "ai_core": "核心是账单解析、订阅识别与取消指引",
+      "harness_resistance": "需银行连接、持续监控与取消留痕",
+      "incumbent_bundling": "记账/ERP基本未内置订阅取消管理",
+      "third_party_actionable": "依赖银行与平台API，易被封堵",
+      "data_portability": "账单数据可导出，但银行连接难迁移",
+      "zero_onboarding": "可自助注册，但需授权银行账户",
+      "low_ops": "无需7×24，但银行连接需持续维护",
+      "competition_gap": "Rocket Money等已存在，AI新玩家渐多",
+      "monetization": "可低价订阅，但银行连接成本压缩利润"
+    },
+    "summary": "痛点真实但依赖银行与平台集成，独立开发者易被封堵，AI原生优势有限，谨慎切入。"
+  },
+  "69b7a3d2f6150e44": {
+    "scores": {
+      "workflow_frequency": 4,
+      "incumbent_saas": 4,
+      "ai_core": 4,
+      "harness_resistance": 3,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 3,
+      "data_portability": 3,
+      "zero_onboarding": 4,
+      "low_ops": 3,
+      "competition_gap": 3,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "小企业主每周多次遇到客服问题",
+      "incumbent_saas": "Zendesk等收费高、小客户体验差",
+      "ai_core": "核心是问答、分类、总结工单文本",
+      "harness_resistance": "需接入工单系统与知识库，非纯对话",
+      "incumbent_bundling": "多数小SaaS客服仍靠邮件人工",
+      "third_party_actionable": "可做插件但受平台API限制",
+      "data_portability": "工单与知识库可导出但格式杂",
+      "zero_onboarding": "上传FAQ即可用，无需实施",
+      "low_ops": "需持续同步知识库，非7x24",
+      "competition_gap": "AI客服工具已多但小企业向少",
+      "monetization": "可低价订阅替代按坐席高价"
+    },
+    "summary": "痛点真实但AI客服赛道拥挤，需聚焦小企业主轻量场景与低价买断。"
+  },
+  "22dbd0d7d1fc4ba5": {
+    "scores": {
+      "workflow_frequency": 5,
+      "incumbent_saas": 4,
+      "ai_core": 5,
+      "harness_resistance": 3,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 4,
+      "data_portability": 4,
+      "zero_onboarding": 5,
+      "low_ops": 5,
+      "competition_gap": 3,
+      "monetization": 4
+    },
+    "reasons": {
+      "workflow_frequency": "开票收款每周发生，属高频动作。",
+      "incumbent_saas": "QuickBooks等收费高、对账体验差。",
+      "ai_core": "核心是发票与收款匹配核对，纯数据处理。",
+      "harness_resistance": "丢账单给Agent可做，但需留痕与状态。",
+      "incumbent_bundling": "多数小企业记账系统未内置自动对账。",
+      "third_party_actionable": "可接银行/邮箱API，无平台强封堵。",
+      "data_portability": "发票与流水可导出，切换成本中等。",
+      "zero_onboarding": "上传发票即用，无需实施顾问。",
+      "low_ops": "批处理对账，无需7×24 SLA。",
+      "competition_gap": "已有若干AI对账工具，但尚不拥挤。",
+      "monetization": "可低价订阅替代高价记账套餐。"
+    },
+    "summary": "高频、纯数据核对、SaaS贵且差，适合AI原生重做；需补审计留痕与银行集成。"
+  },
+  "066c73d2d5e4d4b6": {
+    "scores": {
+      "workflow_frequency": 5,
+      "incumbent_saas": 4,
+      "ai_core": 3,
+      "harness_resistance": 2,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 2,
+      "data_portability": 3,
+      "zero_onboarding": 4,
+      "low_ops": 4,
+      "competition_gap": 3,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "打单、建单、复制跟踪号是每日高频动作。",
+      "incumbent_saas": "Shopify 移动端功能被砍，商家被迫付费找替代。",
+      "ai_core": "核心是操作与系统集成，非文本处理。",
+      "harness_resistance": "需平台 API 权限与持久状态，Agent 难替代。",
+      "incumbent_bundling": "Shopify 自身未内置，反而在移除功能。",
+      "third_party_actionable": "依赖 Shopify API，易被平台政策封堵。",
+      "data_portability": "订单数据在 Shopify，迁移受平台限制。",
+      "zero_onboarding": "授权登录即可用，无需实施顾问。",
+      "low_ops": "无 7×24 SLA 要求，但需处理 API 变更。",
+      "competition_gap": "已有若干 Shopify 移动工具，但缺口仍在。",
+      "monetization": "可低价订阅，但受平台生态定价约束。"
+    },
+    "summary": "高频刚需且平台在退步，但强依赖 Shopify API、易被封堵，AI 原生价值有限，适合做轻量补位工具而非重耕。"
+  },
+  "c3d6d77ddc87442f": {
+    "scores": {
+      "workflow_frequency": 5,
+      "incumbent_saas": 3,
+      "ai_core": 2,
+      "harness_resistance": 4,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 2,
+      "data_portability": 3,
+      "zero_onboarding": 4,
+      "low_ops": 3,
+      "competition_gap": 3,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "登录每天多次发生，频率极高。",
+      "incumbent_saas": "认证是SaaS内置功能，非独立收费产品。",
+      "ai_core": "核心是安全认证流程，非文本数据处理。",
+      "harness_resistance": "需系统集成与安全责任，通用AI难替代。",
+      "incumbent_bundling": "认证通常由SaaS或身份提供商内置。",
+      "third_party_actionable": "独立开发者难绕过平台认证生态。",
+      "data_portability": "认证数据可迁移但受平台限制。",
+      "zero_onboarding": "可自助注册，但需配置集成。",
+      "low_ops": "认证服务需高可用性，运维要求高。",
+      "competition_gap": "已有Auth0等成熟替代方案。",
+      "monetization": "安全产品难用买断制，订阅更常见。"
+    },
+    "summary": "登录验证问题不适合AI原生工具重做，因核心非数据处理且需高可靠集成。"
+  },
+  "a244f6e4bed34813": {
+    "scores": {
+      "workflow_frequency": 4,
+      "incumbent_saas": 4,
+      "ai_core": 4,
+      "harness_resistance": 4,
+      "incumbent_bundling": 3,
+      "third_party_actionable": 3,
+      "data_portability": 3,
+      "zero_onboarding": 3,
+      "low_ops": 4,
+      "competition_gap": 4,
+      "monetization": 4
+    },
+    "reasons": {
+      "workflow_frequency": "对账查数每周发生，非每日高频",
+      "incumbent_saas": "BI/记账工具贵且口径混乱体验差",
+      "ai_core": "核心是核对口径、归因差异，属数据处理",
+      "harness_resistance": "需持久账本状态与审计留痕，Agent难替代",
+      "incumbent_bundling": "部分ERP内置对账，但跨源一致性未覆盖",
+      "third_party_actionable": "需接多数据源API，受平台授权限制",
+      "data_portability": "账务数据可导出，但口径重建成本高",
+      "zero_onboarding": "接数据源需配置，难完全自助",
+      "low_ops": "批处理对账，无需7×24 SLA",
+      "competition_gap": "AI对账归因产品仍少",
+      "monetization": "可低价订阅替代高价BI席位"
+    },
+    "summary": "痛点真实、AI适配好，但需持久状态与多源集成，独立开发者宜做轻量对账归因工具。"
+  },
+  "9d6f0eb9c1fec421": {
+    "scores": {
+      "workflow_frequency": 3,
+      "incumbent_saas": 4,
+      "ai_core": 3,
+      "harness_resistance": 5,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 2,
+      "data_portability": 3,
+      "zero_onboarding": 3,
+      "low_ops": 2,
+      "competition_gap": 4,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "代缴按月或按季发生，非每日高频。",
+      "incumbent_saas": "薪资代缴SaaS收费高且客服差投诉多。",
+      "ai_core": "核心是申报核对与缴款跟踪，偏数据处理。",
+      "harness_resistance": "涉及资金责任、审计留痕，Agent难替代。",
+      "incumbent_bundling": "多数记账ERP未内置代缴履约监控。",
+      "third_party_actionable": "需对接税局与银行，独立开发者难落地。",
+      "data_portability": "税表与缴款记录可导出但重建成本高。",
+      "zero_onboarding": "需绑定薪资与税号，自助门槛中等。",
+      "low_ops": "涉及资金与合规，需持续监控与告警。",
+      "competition_gap": "AI代缴履约监控产品几乎空白。",
+      "monetization": "责任重，买断难覆盖风险，宜低价订阅。"
+    },
+    "summary": "痛点真实但涉资金责任与税局集成，独立开发者难独立承担，适合做监控告警层而非代缴本体。"
+  },
+  "3cd9056a5c6250fe": {
+    "scores": {
+      "workflow_frequency": 5,
+      "incumbent_saas": 5,
+      "ai_core": 3,
+      "harness_resistance": 4,
+      "incumbent_bundling": 2,
+      "third_party_actionable": 2,
+      "data_portability": 3,
+      "zero_onboarding": 3,
+      "low_ops": 3,
+      "competition_gap": 4,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "排班库存报表每天多次更新，高频痛点。",
+      "incumbent_saas": "Jobber 收费高且同步体验差，用户抱怨明确。",
+      "ai_core": "核心是实时同步与一致性，非纯文本处理。",
+      "harness_resistance": "需持久状态、多端同步与审计，Agent 难替代。",
+      "incumbent_bundling": "Jobber 等已内置排班库存，但同步仍出错。",
+      "third_party_actionable": "需对接 Jobber 等平台 API，易被封堵。",
+      "data_portability": "排班库存数据可导出，但迁移成本中等。",
+      "zero_onboarding": "小企业可自助，但需连接现有系统配置。",
+      "low_ops": "实时同步需持续运维，非零运维。",
+      "competition_gap": "针对同步错漏的 AI 工具仍很少。",
+      "monetization": "可低价订阅，但需持续同步服务难买断。"
+    },
+    "summary": "痛点真实高频，但本质是系统集成与实时同步工程，独立开发者受平台 API 制约，AI 增益有限，慎入。"
+  },
+  "68df9d41668c610b": {
+    "scores": {
+      "workflow_frequency": 5,
+      "incumbent_saas": 4,
+      "ai_core": 3,
+      "harness_resistance": 4,
+      "incumbent_bundling": 3,
+      "third_party_actionable": 3,
+      "data_portability": 4,
+      "zero_onboarding": 4,
+      "low_ops": 3,
+      "competition_gap": 3,
+      "monetization": 3
+    },
+    "reasons": {
+      "workflow_frequency": "多渠道每笔订单都触发库存变动，天天发生。",
+      "incumbent_saas": "多渠道同步工具收费高且常出错，痛点明确。",
+      "ai_core": "核心是实时同步与对账，非纯文本处理。",
+      "harness_resistance": "需持久状态、渠道集成与超卖责任，Agent难替代。",
+      "incumbent_bundling": "Shopify自带同步但多仓多渠道仍不足。",
+      "third_party_actionable": "依赖平台API，可能被限流或封堵。",
+      "data_portability": "库存与SKU数据可导出重建，切换成本中低。",
+      "zero_onboarding": "授权店铺即可用，但渠道配置略复杂。",
+      "low_ops": "同步服务需持续在线，出错即超卖，运维压力大。",
+      "competition_gap": "已有SyncLogic等玩家，但AI方案仍少。",
+      "monetization": "可低价订阅，但需覆盖API与运维成本。"
+    },
+    "summary": "痛点真实高频，但偏集成与实时运维，AI原生优势有限，独立开发者受平台API制约，谨慎切入。"
+  }
+}

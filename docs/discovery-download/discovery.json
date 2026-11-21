@@ -1,0 +1,733 @@
+{
+  "demands": [
+    {
+      "demand_id": "dm_33a123e5d4",
+      "label": "下载频繁失败或中断",
+      "size": 76,
+      "type": "下载频繁失败或中断",
+      "definition": "用户尝试下载媒体时，出现下载失败、中断、无法开始或完成后无法使用的情况；不包括下载速度慢或站点限制导致的失败。",
+      "buyer": "媒体下载用户",
+      "buyer_by_domain": {
+        "custom_media_download_and_archi": "Mozilla 视频团队的项目经理"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "custom_media_download_and_archi": 76
+      },
+      "apps": [
+        "1557618225",
+        "1593315967",
+        "1598997500",
+        "1625547458",
+        "6443432155",
+        "6475718094"
+      ],
+      "l2_share": 0.237,
+      "intensity": 0.634,
+      "cost_share": 0.013,
+      "wtp_share": 0.053,
+      "score": 38.5,
+      "quote": "as of February 9th I have not been able to download any videos of any kind",
+      "variants": 2,
+      "examples": [
+        {
+          "quote": "as of February 9th I have not been able to download any videos of any kind",
+          "domain": "custom_media_download_and_archi",
+          "level": "L4",
+          "app": "1557618225"
+        },
+        {
+          "quote": "I can’t download any video.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "6443432155"
+        },
+        {
+          "quote": "its spend hours, but not download anything",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "6443432155"
+        }
+      ],
+      "tool_match": {
+        "scores": {
+          "capability_match": 4,
+          "coverage": 4,
+          "rights_ok": 5,
+          "buyer_reachable": 3,
+          "wtp": 3,
+          "competition": 2,
+          "device_fit": 3
+        },
+        "reasons": {
+          "capability_match": "Grabber 的断点续传、失败重试、批量队列和本地处理能直接缓解下载中断和失败问题，但无法解决所有失败原因（如网络问题、站点限制）。",
+          "coverage": "工具支持 1700+ 站点，覆盖大多数常见视频站点，但可能不覆盖所有长尾或特殊站点。",
+          "rights_ok": "工具明确不绕过 DRM 和付费墙，仅保存用户有权访问的内容，使用合法。",
+          "buyer_reachable": "目标用户（如 Mozilla 视频团队的项目经理）可能出现在技术社区，但相对小众，触达有一定难度。",
+          "wtp": "专业用户对解决下载失败问题有付费意愿，但免费替代品较多，支付意愿中等。",
+          "competition": "已有 yt-dlp、4K Video Downloader 等免费或成熟工具，竞争激烈。",
+          "device_fit": "支持 Windows、macOS 和 Android，但不支持 iOS，可能覆盖大部分目标用户，但部分用户无法使用。"
+        },
+        "verdict": "partial",
+        "gap": "增强对更多站点的兼容性，特别是长尾站点；提供更强大的错误诊断和网络问题解决方案；考虑支持 iOS 或提供替代方案。",
+        "total": 69,
+        "weights": {
+          "capability_match": 0.3,
+          "coverage": 0.15,
+          "rights_ok": 0.2,
+          "buyer_reachable": 0.1,
+          "wtp": 0.1,
+          "competition": 0.1,
+          "device_fit": 0.05
+        }
+      }
+    },
+    {
+      "demand_id": "dm_ed35195ae0",
+      "label": "下载内容无法导出或丢失",
+      "size": 37,
+      "type": "下载内容无法导出或丢失",
+      "definition": "用户无法将下载内容导出到相册或外部存储，或应用重置导致下载内容丢失；不包括下载过程中的失败。",
+      "buyer": "内容收藏用户",
+      "buyer_by_domain": {
+        "custom_media_download_and_archi": "TrueNAS Scale 用户，使用 6x14TB 硬盘组建存储池"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "custom_media_download_and_archi": 37
+      },
+      "apps": [
+        "1593315967",
+        "1625547458",
+        "6443432155",
+        "6743345585",
+        "970487401"
+      ],
+      "l2_share": 0.541,
+      "intensity": 0.557,
+      "cost_share": 0.027,
+      "wtp_share": 0.081,
+      "score": 33.1,
+      "quote": "there should be an option to select all downloaded vids and save them to the gallery",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "there should be an option to select all downloaded vids and save them to the gallery",
+          "domain": "custom_media_download_and_archi",
+          "level": "L3",
+          "app": "1625547458"
+        },
+        {
+          "quote": "Lost all downloads. Out of nowhere the app just reset and I lost all my downloads and browsing history and logins.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "1593315967"
+        },
+        {
+          "quote": "everything you download can ONLY be played through the app… cannot export to your photo library",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "1625547458"
+        }
+      ],
+      "tool_match": {
+        "scores": {
+          "capability_match": 3,
+          "coverage": 3,
+          "rights_ok": 5,
+          "buyer_reachable": 3,
+          "wtp": 3,
+          "competition": 3,
+          "device_fit": 2
+        },
+        "reasons": {
+          "capability_match": "Grabber 能下载视频并保存到本地文件系统，这可以避免应用内锁定和重置丢失，但痛点还包括导出到相册或外部存储，Grabber 不直接提供导出到相册的功能，只能部分缓解。",
+          "coverage": "Grabber 支持 1700+ 站点，覆盖大多数常见视频来源，但痛点可能涉及特定应用（如移动端应用）的下载内容，Grabber 无法处理应用内已下载的内容，只能覆盖新下载的场景。",
+          "rights_ok": "Grabber 明确不绕过 DRM 和付费墙，只保存用户有权访问的内容，使用合法。",
+          "buyer_reachable": "目标用户是 TrueNAS Scale 用户，他们活跃于技术社区和论坛，但 Grabber 主要面向普通消费者，与 NAS 用户群体匹配度一般。",
+          "wtp": "TrueNAS 用户有存储和媒体管理需求，可能愿意为工具付费，但 $39 的一次性买断价格对部分用户可能偏高，且他们可能已有替代方案。",
+          "competition": "市场上有 yt-dlp、JDownloader 等免费工具，功能强大且支持批量下载，Grabber 面临竞争，但提供更友好的界面和一体化体验。",
+          "device_fit": "Grabber 支持 Windows、macOS 和 Android，但 TrueNAS Scale 基于 Linux，无法直接运行 Grabber，用户需通过虚拟机或另一台设备使用，设备匹配度较低。"
+        },
+        "verdict": "partial",
+        "gap": "增加对 Linux 平台的支持（如提供 Docker 容器或 CLI 版本），以便在 TrueNAS 上直接运行；增加导出到相册或指定文件夹的功能；提供更灵活的存储管理选项。",
+        "total": 59,
+        "weights": {
+          "capability_match": 0.3,
+          "coverage": 0.15,
+          "rights_ok": 0.2,
+          "buyer_reachable": 0.1,
+          "wtp": 0.1,
+          "competition": 0.1,
+          "device_fit": 0.05
+        }
+      }
+    },
+    {
+      "demand_id": "dm_080f626098",
+      "label": "付费墙与广告干扰",
+      "size": 13,
+      "type": "付费墙与广告干扰",
+      "definition": "用户抱怨免费下载次数受限、频繁弹出付费订阅提示或广告过多影响使用；不包括单纯的价格抱怨。",
+      "buyer": "免费或低频用户",
+      "buyer_by_domain": {
+        "custom_media_download_and_archi": "对 YouTube 不满的普通用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "custom_media_download_and_archi": 13
+      },
+      "apps": [
+        "1598997500",
+        "6443432155",
+        "6475718094",
+        "970487401"
+      ],
+      "l2_share": 0.154,
+      "intensity": 0.8,
+      "cost_share": 0.0,
+      "wtp_share": 0.154,
+      "score": 28.9,
+      "quote": "it only lets you download 2 videos before hitting a paywall",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "it only lets you download 2 videos before hitting a paywall",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "6475718094"
+        },
+        {
+          "quote": "It only lets you download 3 vids before asking you to buy premium to download more",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "6443432155"
+        },
+        {
+          "quote": "Apenas te deja descargar 1 video y de ahí te pide suscripción.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "6475718094"
+        }
+      ],
+      "tool_match": {
+        "scores": {
+          "capability_match": 5,
+          "coverage": 4,
+          "rights_ok": 4,
+          "buyer_reachable": 4,
+          "wtp": 4,
+          "competition": 2,
+          "device_fit": 3
+        },
+        "reasons": {
+          "capability_match": "痛点核心是第三方下载器限制免费次数、弹付费墙和广告；Grabber 一次买断、无账号无服务器、无下载次数限制，直接消除这些障碍。",
+          "coverage": "对用户有权访问的公开视频/音频站点覆盖广（1700+ 站点、批量、字幕、片段），但明确不绕过登录/付费墙/DRM，因此对受保护内容场景无法覆盖。",
+          "rights_ok": "工具定位为保存用户有权访问的内容，合法；但用户若用于绕过平台付费墙则属灰区，工具本身不提供绕过能力。",
+          "buyer_reachable": "对 YouTube 等下载器不满的普通用户活跃于 Reddit、论坛、评测站和视频社区，可公开触达。",
+          "wtp": "用户已在为下载工具付费（被付费墙逼迫），一次买断 $39 对高频下载用户有吸引力，但轻度用户意愿较低。",
+          "competition": "4K Video Downloader、yt-dlp（免费开源）、JDownloader 等成熟/免费替代品极多，竞争空隙小。",
+          "device_fit": "支持 Windows/macOS/Android，覆盖多数桌面与安卓用户，但不支持 iOS，iPhone 用户无法使用。"
+        },
+        "verdict": "partial",
+        "gap": "需强化与免费开源工具（如 yt-dlp）的差异化价值（易用性、字幕内嵌、批量队列、内置嗅探），并考虑 iOS 用户的替代方案；同时明确合规边界以避免被用于绕过付费墙。",
+        "total": 76,
+        "weights": {
+          "capability_match": 0.3,
+          "coverage": 0.15,
+          "rights_ok": 0.2,
+          "buyer_reachable": 0.1,
+          "wtp": 0.1,
+          "competition": 0.1,
+          "device_fit": 0.05
+        }
+      }
+    },
+    {
+      "demand_id": "dm_2265f5336d",
+      "label": "下载速度过慢或限速",
+      "size": 9,
+      "type": "下载速度过慢或限速",
+      "definition": "用户抱怨下载耗时过长、速度被限制或频繁触发反爬机制导致下载缓慢；不包括下载失败或中断。",
+      "buyer": "媒体下载用户",
+      "buyer_by_domain": {
+        "custom_media_download_and_archi": "Plex 服务器管理员"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "custom_media_download_and_archi": 9
+      },
+      "apps": [
+        "1593315967",
+        "1625547458",
+        "6443432155",
+        "6475718094"
+      ],
+      "l2_share": 0.444,
+      "intensity": 0.644,
+      "cost_share": 0.0,
+      "wtp_share": 0.111,
+      "score": 28.7,
+      "quote": "15 minutes to download a 30-second 240p video",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "15 minutes to download a 30-second 240p video",
+          "domain": "custom_media_download_and_archi",
+          "level": "L4",
+          "app": "1593315967"
+        },
+        {
+          "quote": "Takes forever to download a video! I had to uninstall the app without getting a single video.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "6443432155"
+        },
+        {
+          "quote": "Recently, I have been trying to download some old YouTube media and was stopped for downloading too frequently and an ad popped for file management by this dev.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L4",
+          "app": "1625547458"
+        }
+      ],
+      "tool_match": {
+        "scores": {
+          "capability_match": 3,
+          "coverage": 3,
+          "rights_ok": 4,
+          "buyer_reachable": 4,
+          "wtp": 3,
+          "competition": 2,
+          "device_fit": 3
+        },
+        "reasons": {
+          "capability_match": "Grabber 有并发调度（2 个同时）、断点续传和失败重试，能缓解单任务慢和中断重下，但它不绕过限速、不规避反爬/风控，也不提升单连接带宽，对'速度被限'这个核心障碍只能部分缓解。",
+          "coverage": "对'多任务排队慢'和'中断后重下'有效；对'单视频解析/下载极慢'和'频繁触发反爬被限速'基本无效，覆盖约一半场景。",
+          "rights_ok": "本地下载用户有权访问的内容本身合法，但'规避反爬/限速'若涉及绕过平台风控属于灰区，工具明确不绕过登录/DRM，整体偏合规。",
+          "buyer_reachable": "Plex 服务器管理员活跃于 Reddit r/Plex、r/DataHoarder、论坛和自建媒体社区，公开可触达。",
+          "wtp": "该人群有批量归档需求、愿为效率付费，但限速痛点常被免费工具（yt-dlp 多线程、aria2）解决，单独为'提速'付费意愿中等。",
+          "competition": "yt-dlp、aria2、JDownloader、IDM 等免费/成熟工具已提供多线程、并发和重试，竞争空隙小。",
+          "device_fit": "支持 Windows/macOS/Android，覆盖 Plex 管理员主力桌面端；但不支持 iOS，且服务器/NAS（Linux、Docker）场景缺失。"
+        },
+        "verdict": "partial",
+        "gap": "要真正解决限速痛点需补：多线程/分片并发下载以提升单任务吞吐、可配置并发数与限速规避策略（在合规范围内）、对反爬频控的退避与代理/节流调度；同时补 Linux/NAS/Docker 支持以覆盖 Plex 服务器场景。",
+        "total": 55,
+        "weights": {
+          "capability_match": 0.3,
+          "coverage": 0.15,
+          "rights_ok": 0.2,
+          "buyer_reachable": 0.1,
+          "wtp": 0.1,
+          "competition": 0.1,
+          "device_fit": 0.05
+        }
+      }
+    },
+    {
+      "demand_id": "dm_bed7abeac5",
+      "label": "站点兼容性差或登录失效",
+      "size": 13,
+      "type": "站点兼容性差或登录失效",
+      "definition": "用户遇到特定网站（如YouTube）无法下载、需要重新登录、cookie失效或仅支持有限站点的问题；不包括下载失败或速度问题。",
+      "buyer": "跨站下载用户",
+      "buyer_by_domain": {
+        "custom_media_download_and_archi": "付费用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "custom_media_download_and_archi": 13
+      },
+      "apps": [
+        "1557618225",
+        "1593315967",
+        "1625547458",
+        "6443432155",
+        "6475718094"
+      ],
+      "l2_share": 0.308,
+      "intensity": 0.615,
+      "cost_share": 0.0,
+      "wtp_share": 0.0,
+      "score": 28.0,
+      "quote": "YouTube doesn’t load anymore at all can’t even download from that site",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "YouTube doesn’t load anymore at all can’t even download from that site",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "1625547458"
+        },
+        {
+          "quote": "recently you can’t download or use YouTube with the app. It just shows a black screen and it doesn’t let you click on any video that will not play.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "1593315967"
+        },
+        {
+          "quote": "I paid for this app because I could download videos from YouTube and all of a sudden then don’t allow you to download no more from YouTube you just lost a customer",
+          "domain": "custom_media_download_and_archi",
+          "level": "L4",
+          "app": "6443432155"
+        }
+      ],
+      "tool_match": {
+        "scores": {
+          "capability_match": 3,
+          "coverage": 3,
+          "rights_ok": 3,
+          "buyer_reachable": 4,
+          "wtp": 4,
+          "competition": 2,
+          "device_fit": 3
+        },
+        "reasons": {
+          "capability_match": "Grabber 支持 1700+ 站点，可能覆盖部分失效站点，但明确不绕过登录、付费墙或 DRM，因此无法解决需要重新登录或 cookie 失效的问题，只能部分缓解站点兼容性差的问题。",
+          "coverage": "痛点涉及 YouTube 等特定站点，Grabber 可能支持其中一些，但无法保证覆盖所有用户遇到的失效站点，且对登录/DRM 限制无能为力，覆盖比例约一半。",
+          "rights_ok": "下载用户有权访问的内容通常合法，但绕过平台限制（如登录、DRM）可能违反平台条款，Grabber 声明不绕过这些限制，因此处于灰区。",
+          "buyer_reachable": "目标用户是付费用户，活跃于公开社区（如 Reddit、论坛），可通过内容营销和广告触达。",
+          "wtp": "用户已为类似工具付费，表明有付费意愿，且 Grabber 一次买断价格合理，付费意愿较高。",
+          "competition": "市场已有 yt-dlp、4K Video Downloader 等免费或成熟工具，竞争激烈，空隙较小。",
+          "device_fit": "支持 Windows、macOS 和 Android，覆盖多数桌面和安卓用户，但不支持 iOS，而部分用户可能使用 iPhone，设备匹配度中等。"
+        },
+        "verdict": "partial",
+        "gap": "需要增强对登录态和 cookie 失效的处理（如内置浏览器登录、cookie 导入），并持续更新站点解析规则以应对平台变化，同时明确合规边界。",
+        "total": 52,
+        "weights": {
+          "capability_match": 0.3,
+          "coverage": 0.15,
+          "rights_ok": 0.2,
+          "buyer_reachable": 0.1,
+          "wtp": 0.1,
+          "competition": 0.1,
+          "device_fit": 0.05
+        }
+      }
+    },
+    {
+      "demand_id": "dm_12a750139c",
+      "label": "下载后音画缺失或异常",
+      "size": 35,
+      "type": "下载后音画缺失或异常",
+      "definition": "用户下载的视频或音频出现无声音、无画面、字幕不生效、画质锁定低分辨率等问题；不包括文件完全无法下载。",
+      "buyer": "影音下载用户",
+      "buyer_by_domain": {
+        "custom_media_download_and_archi": "Google TV 用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "custom_media_download_and_archi": 35
+      },
+      "apps": [
+        "1625547458",
+        "6443432155",
+        "6475718094"
+      ],
+      "l2_share": 0.457,
+      "intensity": 0.566,
+      "cost_share": 0.0,
+      "wtp_share": 0.057,
+      "score": 27.9,
+      "quote": "Every time I save a video, it never has the audio!",
+      "variants": 2,
+      "examples": [
+        {
+          "quote": "Every time I save a video, it never has the audio!",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "6443432155"
+        },
+        {
+          "quote": "I can search for subtitles, but selecting them doesn't actually change them. It worked a few days ago.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": ""
+        },
+        {
+          "quote": "There is NO AUDIO upon replaying videos through the app itself.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L2",
+          "app": "1625547458"
+        }
+      ],
+      "tool_match": {
+        "scores": {
+          "capability_match": 3,
+          "coverage": 3,
+          "rights_ok": 5,
+          "buyer_reachable": 3,
+          "wtp": 3,
+          "competition": 2,
+          "device_fit": 2
+        },
+        "reasons": {
+          "capability_match": "Grabber 能下载视频、音频和字幕，并支持字幕内嵌和格式选择，这可以避免因格式不兼容或字幕未嵌入导致的音画缺失问题。但它不修复已损坏的文件，也不保证所有站点都能正确合并音视频流，因此只能部分缓解痛点。",
+          "coverage": "痛点涉及多种原因（如音视频流分离、字幕未嵌入、DRM 限制等）。Grabber 能处理部分场景（如正确选择格式、内嵌字幕），但无法解决 DRM 或站点特定问题，覆盖比例约一半。",
+          "rights_ok": "工具明确不绕过 DRM 和付费墙，仅保存用户有权访问的内容，使用合法合规。",
+          "buyer_reachable": "目标用户（Google TV 用户）可能活跃于科技论坛、Reddit 等社区，但 Grabber 不支持 Google TV 平台，触达这些用户需要额外渠道，且他们可能更关注电视端解决方案。",
+          "wtp": "用户对下载质量有要求，但痛点并非刚需，且已有免费工具（如 yt-dlp）可替代，付费意愿中等。",
+          "competition": "市场上有大量免费开源下载工具（如 yt-dlp、4K Video Downloader 免费版），Grabber 作为付费工具竞争激烈，空隙较小。",
+          "device_fit": "Grabber 支持 Windows、macOS 和 Android，但不支持 iOS 和 Google TV 等电视平台，而痛点买家是 Google TV 用户，设备匹配度低。"
+        },
+        "verdict": "partial",
+        "gap": "增加对 Google TV 等电视平台的支持，或提供电视端可用的解决方案；增强对 DRM 内容的处理说明；提供更强大的音视频合并与修复功能以应对复杂站点。",
+        "total": 56,
+        "weights": {
+          "capability_match": 0.3,
+          "coverage": 0.15,
+          "rights_ok": 0.2,
+          "buyer_reachable": 0.1,
+          "wtp": 0.1,
+          "competition": 0.1,
+          "device_fit": 0.05
+        }
+      }
+    },
+    {
+      "demand_id": "dm_e32ddc3033",
+      "label": "应用完全无法使用或诈骗",
+      "size": 9,
+      "type": "应用完全无法使用或诈骗",
+      "definition": "用户认为应用根本不能工作、存在欺骗行为或要求退款；不包括特定功能失败但应用仍可运行的情况。",
+      "buyer": "新安装用户",
+      "buyer_by_domain": {
+        "custom_media_download_and_archi": "下载与收藏用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "custom_media_download_and_archi": 9
+      },
+      "apps": [
+        "1593315967",
+        "1625547458",
+        "6443432155",
+        "970487401"
+      ],
+      "l2_share": 0.0,
+      "intensity": 0.867,
+      "cost_share": 0.0,
+      "wtp_share": 0.0,
+      "score": 26.4,
+      "quote": "DO NOT DOWNLOAD. This is a scam. Doesn’t work at all.",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "DO NOT DOWNLOAD. This is a scam. Doesn’t work at all.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "1593315967"
+        },
+        {
+          "quote": "it is a waste of money no instructions on how to use it at all",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "970487401"
+        },
+        {
+          "quote": "Awful app. Does not work i didn’t even try to get the subscription terrible app",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "1593315967"
+        }
+      ],
+      "tool_match": {
+        "scores": {
+          "capability_match": 1,
+          "coverage": 1,
+          "rights_ok": 5,
+          "buyer_reachable": 4,
+          "wtp": 2,
+          "competition": 2,
+          "device_fit": 3
+        },
+        "reasons": {
+          "capability_match": "Grabber 是一个功能完整的下载工具，其能力是提供下载功能，而痛点描述的是应用完全无法使用或诈骗，这属于产品质量或欺诈问题，与工具能力无关。",
+          "coverage": "痛点涉及的是应用根本不能工作或诈骗的极端情况，Grabber 作为工具本身无法覆盖这类场景。",
+          "rights_ok": "使用 Grabber 下载用户有权访问的内容是合法的，符合平台条款。",
+          "buyer_reachable": "下载与收藏用户可以在公开社区（如论坛、社交媒体）被触达。",
+          "wtp": "遇到应用完全无法使用或诈骗的用户，其付费意愿可能较低，因为他们可能已经遭受损失或对类似工具产生不信任。",
+          "competition": "市场上存在许多免费或成熟的下载工具，竞争激烈，Grabber 的买断价格可能面临压力。",
+          "device_fit": "Grabber 支持 Windows、macOS 和 Android，覆盖了大多数桌面和移动用户，但 iOS 用户无法使用。"
+        },
+        "verdict": "no",
+        "gap": "Grabber 无法解决应用完全无法使用或诈骗的痛点，因为这是产品质量或欺诈问题，而非功能缺失。工具需要确保自身可靠、提供清晰的使用说明和退款政策，以建立信任，但这与解决该痛点无直接关系。",
+        "total": 35,
+        "weights": {
+          "capability_match": 0.3,
+          "coverage": 0.15,
+          "rights_ok": 0.2,
+          "buyer_reachable": 0.1,
+          "wtp": 0.1,
+          "competition": 0.1,
+          "device_fit": 0.05
+        }
+      }
+    },
+    {
+      "demand_id": "dm_a7dc9aa658",
+      "label": "隐私泄露与版权限制",
+      "size": 33,
+      "type": "隐私泄露与版权限制",
+      "definition": "用户担心下载内容被监控、账户被封禁，或遇到版权保护导致无法离线播放；不包括一般的安全设置问题。",
+      "buyer": "隐私敏感用户",
+      "buyer_by_domain": {
+        "custom_media_download_and_archi": "Apple Silicon 逆向工程研究者"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "custom_media_download_and_archi": 33
+      },
+      "apps": [
+        "1557618225",
+        "1625547458",
+        "6743345585"
+      ],
+      "l2_share": 0.333,
+      "intensity": 0.564,
+      "cost_share": 0.03,
+      "wtp_share": 0.0,
+      "score": 26.1,
+      "quote": "Music doesn’t even play offline, says for copy right reasons it needs WiFi to play.",
+      "variants": 2,
+      "examples": [
+        {
+          "quote": "Music doesn’t even play offline, says for copy right reasons it needs WiFi to play.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "6743345585"
+        },
+        {
+          "quote": "I already paid for Plezy and it's installed on my Shield but I'm not liking how hidden libraries aren't actually hidden so I don't use it.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L4",
+          "app": ""
+        },
+        {
+          "quote": "whichever account you are using will immediately be suspended for “fraud”",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "1625547458"
+        }
+      ],
+      "tool_match": {
+        "scores": {
+          "capability_match": 3,
+          "coverage": 3,
+          "rights_ok": 4,
+          "buyer_reachable": 3,
+          "wtp": 3,
+          "competition": 2,
+          "device_fit": 3
+        },
+        "reasons": {
+          "capability_match": "Grabber 通过本地处理、无账号、无服务器来避免下载内容被监控，直接缓解隐私担忧；但它明确不绕过 DRM 或付费墙，因此无法解决版权限制导致的无法离线播放问题。",
+          "coverage": "对于用户有权访问的内容，Grabber 能解决隐私泄露和账户封禁风险；但对于受 DRM 保护或需要绕过付费墙的内容，工具无能为力，覆盖约一半场景。",
+          "rights_ok": "工具设计合法，仅用于保存用户有权访问的内容，不绕过技术保护措施，符合平台条款。",
+          "buyer_reachable": "目标用户（如 Apple Silicon 逆向工程研究者）可能活跃于技术社区，但该群体相对小众，触达成本较高。",
+          "wtp": "隐私敏感用户可能愿意为一次性买断工具付费，但版权限制场景下需求较弱，整体支付意愿中等。",
+          "competition": "已有 yt-dlp 等免费开源工具提供类似功能，且支持更多站点，Grabber 面临激烈竞争。",
+          "device_fit": "支持 Windows、macOS 和 Android，覆盖多数桌面和移动用户，但不支持 iOS，可能遗漏部分用户。"
+        },
+        "verdict": "partial",
+        "gap": "需增加对 DRM 内容的合法处理方式（如与版权方合作）或强化隐私保护宣传以更好满足隐私需求。",
+        "total": 52,
+        "weights": {
+          "capability_match": 0.3,
+          "coverage": 0.15,
+          "rights_ok": 0.2,
+          "buyer_reachable": 0.1,
+          "wtp": 0.1,
+          "competition": 0.1,
+          "device_fit": 0.05
+        }
+      }
+    },
+    {
+      "demand_id": "dm_2f434ba53b",
+      "label": "更新后功能失效或异常",
+      "size": 7,
+      "type": "更新后功能失效或异常",
+      "definition": "应用更新后原有下载功能消失、停止工作或出现新问题；不包括初始安装即无法使用的情况。",
+      "buyer": "长期使用用户",
+      "buyer_by_domain": {
+        "custom_media_download_and_archi": "下载与收藏用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "custom_media_download_and_archi": 7
+      },
+      "apps": [
+        "1557618225",
+        "1625547458"
+      ],
+      "l2_share": 0.0,
+      "intensity": 0.657,
+      "cost_share": 0.0,
+      "wtp_share": 0.0,
+      "score": 19.3,
+      "quote": "Stopped Working. I’ve been using the app without any major issues for some time, but it stopped working last week.",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "Stopped Working. I’ve been using the app without any major issues for some time, but it stopped working last week.",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "1625547458"
+        },
+        {
+          "quote": "Was able to download stuff but not anymore please fix",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "1557618225"
+        },
+        {
+          "quote": "Not working. App worked great for a while but stopped working. Then started working again a few days later. Now 7/5/25,\nNot working again",
+          "domain": "custom_media_download_and_archi",
+          "level": "L1",
+          "app": "1625547458"
+        }
+      ],
+      "tool_match": {
+        "scores": {
+          "capability_match": 3,
+          "coverage": 3,
+          "rights_ok": 5,
+          "buyer_reachable": 4,
+          "wtp": 3,
+          "competition": 2,
+          "device_fit": 4
+        },
+        "reasons": {
+          "capability_match": "Grabber 本身不提供自动修复或更新机制，但支持 1700+ 站点和浏览器扩展嗅探，当站点改版导致解析失败时，用户可通过扩展或内置浏览器尝试其他方式，部分缓解问题。",
+          "coverage": "痛点涉及更新后功能失效，可能由站点改版、DRM 变更或应用自身 bug 引起。Grabber 的扩展和内置浏览器能处理部分站点改版，但无法解决 DRM 或应用 bug，覆盖约一半场景。",
+          "rights_ok": "工具明确不绕过 DRM 和付费墙，仅保存用户有权访问的内容，使用合法合规。",
+          "buyer_reachable": "目标用户为下载与收藏用户，活跃于公开社区（如 Reddit、论坛），易于触达。",
+          "wtp": "用户已为工具付费，对修复功能有需求，但若免费替代品多，支付额外费用的意愿中等。",
+          "competition": "市场存在大量免费下载工具（如 yt-dlp、4K Video Downloader 免费版），竞争激烈，付费意愿受挤压。",
+          "device_fit": "支持 Windows、macOS 和 Android，覆盖大多数桌面和移动用户，但 iOS 用户无法使用。"
+        },
+        "verdict": "partial",
+        "gap": "增加自动更新站点解析规则、内置错误反馈与快速修复通道，并明确不支持 DRM 内容，以减少更新后失效的影响。",
+        "total": 61,
+        "weights": {
+          "capability_match": 0.3,
+          "coverage": 0.15,
+          "rights_ok": 0.2,
+          "buyer_reachable": 0.1,
+          "wtp": 0.1,
+          "competition": 0.1,
+          "device_fit": 0.05
+        }
+      }
+    }
+  ]
+}

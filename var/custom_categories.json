@@ -1,0 +1,2418 @@
+{
+  "custom_coffee_maker": {
+    "name": "咖啡机",
+    "name_en": "coffee maker",
+    "domain_terms": [
+      "coffee",
+      "maker"
+    ],
+    "scenes": {
+      "功能与故障": [
+        "broken",
+        "stopped",
+        "doesn't work",
+        "not working",
+        "fail",
+        "error",
+        "故障",
+        "坏了",
+        "失灵",
+        "不能用"
+      ],
+      "连接与同步": [
+        "connect",
+        "sync",
+        "bluetooth",
+        "wifi",
+        "pair",
+        "app",
+        "连接",
+        "同步",
+        "断连",
+        "配对"
+      ],
+      "清洁与保养": [
+        "clean",
+        "wash",
+        "mold",
+        "filter",
+        "descale",
+        "清洗",
+        "清洁",
+        "发霉",
+        "滤芯",
+        "除垢"
+      ],
+      "价格与订阅": [
+        "subscription",
+        "price",
+        "expensive",
+        "paywall",
+        "refund",
+        "订阅",
+        "价格",
+        "贵",
+        "退款"
+      ],
+      "客服与售后": [
+        "support",
+        "warranty",
+        "customer service",
+        "replacement",
+        "客服",
+        "售后",
+        "保修",
+        "换货"
+      ],
+      "其他场景": []
+    },
+    "app_names": {
+      "1610991235": "Perfect Coffee 3D",
+      "1603584945": "Good Coffee, Great Coffee",
+      "1591921962": "Coffee Stack"
+    }
+  },
+  "custom_coffee_grinder": {
+    "name": "咖啡研磨机",
+    "name_en": "coffee grinder",
+    "domain_terms": [
+      "coffee",
+      "grinder"
+    ],
+    "scenes": {
+      "功能与故障": [
+        "broken",
+        "stopped",
+        "doesn't work",
+        "not working",
+        "fail",
+        "error",
+        "故障",
+        "坏了",
+        "失灵",
+        "不能用"
+      ],
+      "连接与同步": [
+        "connect",
+        "sync",
+        "bluetooth",
+        "wifi",
+        "pair",
+        "app",
+        "连接",
+        "同步",
+        "断连",
+        "配对"
+      ],
+      "清洁与保养": [
+        "clean",
+        "wash",
+        "mold",
+        "filter",
+        "descale",
+        "清洗",
+        "清洁",
+        "发霉",
+        "滤芯",
+        "除垢"
+      ],
+      "价格与订阅": [
+        "subscription",
+        "price",
+        "expensive",
+        "paywall",
+        "refund",
+        "订阅",
+        "价格",
+        "贵",
+        "退款"
+      ],
+      "客服与售后": [
+        "support",
+        "warranty",
+        "customer service",
+        "replacement",
+        "客服",
+        "售后",
+        "保修",
+        "换货"
+      ],
+      "其他场景": []
+    },
+    "app_names": {
+      "6759597614": "beean: brew your coffee right",
+      "6759512905": "GrindConverter: Coffee Grinder"
+    }
+  },
+  "custom_app_store_top_charts": {
+    "name": "应用总榜",
+    "name_en": "app store top charts",
+    "domain_terms": [
+      "app",
+      "store",
+      "top",
+      "charts"
+    ],
+    "scenes": {
+      "订阅与付费墙": [
+        "subscription",
+        "paywall",
+        "premium",
+        "free trial",
+        "upgrade",
+        "订阅",
+        "会员",
+        "付费"
+      ],
+      "广告与推送": [
+        "ads",
+        "advertisement",
+        "promotion",
+        "spam",
+        "广告",
+        "推送"
+      ],
+      "账号与登录": [
+        "login",
+        "log in",
+        "sign up",
+        "password",
+        "account locked",
+        "登录",
+        "注册",
+        "账号"
+      ],
+      "支付与退款": [
+        "refund",
+        "charged",
+        "billing",
+        "payment failed",
+        "退款",
+        "扣费",
+        "支付"
+      ],
+      "崩溃与性能": [
+        "crash",
+        "freeze",
+        "lag",
+        "slow",
+        "loading",
+        "崩溃",
+        "卡顿",
+        "闪退",
+        "加载"
+      ],
+      "数据与同步": [
+        "sync",
+        "data loss",
+        "backup",
+        "export",
+        "同步",
+        "数据丢失",
+        "备份",
+        "导出"
+      ],
+      "通知与提醒": [
+        "notification",
+        "reminder",
+        "alert",
+        "提醒",
+        "通知",
+        "警报"
+      ],
+      "内容与推荐": [
+        "recommendation",
+        "feed",
+        "search results",
+        "content quality",
+        "推荐",
+        "搜索",
+        "内容"
+      ],
+      "隐私与权限": [
+        "privacy",
+        "permission",
+        "tracking",
+        "data collection",
+        "隐私",
+        "权限"
+      ],
+      "客服与售后": [
+        "support",
+        "customer service",
+        "help",
+        "客服",
+        "售后"
+      ],
+      "界面与易用": [
+        "confusing",
+        "hard to use",
+        "navigation",
+        "layout",
+        "界面",
+        "难用",
+        "找不到"
+      ],
+      "配送与订单": [
+        "delivery",
+        "order",
+        "shipping",
+        "driver",
+        "配送",
+        "订单",
+        "外卖"
+      ],
+      "行程与导航": [
+        "route",
+        "navigation",
+        "trip",
+        "ride",
+        "路线",
+        "导航",
+        "行程"
+      ],
+      "社交与匹配": [
+        "match",
+        "friends",
+        "messages",
+        "block",
+        "匹配",
+        "好友",
+        "消息"
+      ],
+      "学习与课程": [
+        "lesson",
+        "course",
+        "streak",
+        "learning",
+        "课程",
+        "学习"
+      ],
+      "健康与记录": [
+        "workout",
+        "sleep",
+        "calorie",
+        "health",
+        "健康",
+        "运动",
+        "睡眠"
+      ],
+      "影音与播放": [
+        "playback",
+        "stream",
+        "video",
+        "audio",
+        "播放",
+        "视频",
+        "音频"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_smart_home": {
+    "name": "智能家居",
+    "name_en": "smart home",
+    "domain_terms": [
+      "smart",
+      "home"
+    ],
+    "scenes": {
+      "连接与配对": [
+        "wifi",
+        "wi-fi",
+        "pair",
+        "bluetooth",
+        "connect",
+        "reconnect",
+        "连接",
+        "配对",
+        "断连"
+      ],
+      "设备离线": [
+        "offline",
+        "unavailable",
+        "unreachable",
+        "disconnected",
+        "离线",
+        "掉线",
+        "不可用"
+      ],
+      "固件与更新": [
+        "firmware",
+        "update",
+        "upgrade",
+        "version",
+        "固件",
+        "更新",
+        "升级"
+      ],
+      "本地控制与云依赖": [
+        "local",
+        "cloud",
+        "mqtt",
+        "zigbee",
+        "thread",
+        "本地",
+        "云端",
+        "依赖"
+      ],
+      "语音助手集成": [
+        "alexa",
+        "google home",
+        "homekit",
+        "siri",
+        "语音",
+        "助手"
+      ],
+      "自动化与场景": [
+        "automation",
+        "scene",
+        "routine",
+        "trigger",
+        "自动化",
+        "场景",
+        "联动"
+      ],
+      "App 与控制": [
+        "app",
+        "control",
+        "dashboard",
+        "界面",
+        "控制",
+        "应用"
+      ],
+      "传感器与误报": [
+        "sensor",
+        "false",
+        "motion",
+        "detect",
+        "传感器",
+        "误报",
+        "检测"
+      ],
+      "通知与提醒": [
+        "notification",
+        "alert",
+        "reminder",
+        "通知",
+        "提醒",
+        "警报"
+      ],
+      "能耗与电池": [
+        "battery",
+        "power",
+        "energy",
+        "drain",
+        "电池",
+        "耗电",
+        "续航"
+      ],
+      "硬件故障": [
+        "broken",
+        "dead",
+        "failed",
+        "hardware",
+        "故障",
+        "坏了",
+        "硬件"
+      ],
+      "安装与配置": [
+        "install",
+        "setup",
+        "configure",
+        "installation",
+        "安装",
+        "配置",
+        "设置"
+      ],
+      "兼容性": [
+        "compatible",
+        "compatibility",
+        "supported",
+        "works with",
+        "兼容",
+        "支持"
+      ],
+      "数据与日志": [
+        "log",
+        "history",
+        "data",
+        "export",
+        "日志",
+        "历史",
+        "数据"
+      ],
+      "权限与隐私": [
+        "privacy",
+        "permission",
+        "account",
+        "privacy",
+        "隐私",
+        "权限",
+        "账号"
+      ],
+      "客服与售后": [
+        "support",
+        "warranty",
+        "refund",
+        "customer service",
+        "客服",
+        "售后",
+        "保修"
+      ],
+      "性能与稳定性": [
+        "crash",
+        "freeze",
+        "lag",
+        "slow",
+        "memory",
+        "崩溃",
+        "卡顿",
+        "内存"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_robot_vacuum": {
+    "name": "扫地机器人",
+    "name_en": "robot vacuum",
+    "domain_terms": [
+      "robot",
+      "vacuum"
+    ],
+    "scenes": {
+      "建图与导航": [
+        "map",
+        "mapping",
+        "navigation",
+        "route",
+        "lost",
+        "建图",
+        "地图",
+        "导航",
+        "迷路"
+      ],
+      "清扫覆盖": [
+        "miss",
+        "skip",
+        "coverage",
+        "corner",
+        "clean well",
+        "漏扫",
+        "覆盖",
+        "角落"
+      ],
+      "卡住与脱困": [
+        "stuck",
+        "trap",
+        "wedge",
+        "under the",
+        "卡住",
+        "缠住",
+        "困住"
+      ],
+      "尘盒与维护": [
+        "dust bin",
+        "empty",
+        "brush",
+        "roller",
+        "maintenance",
+        "尘盒",
+        "滚刷",
+        "清理"
+      ],
+      "基站与自清洁": [
+        "dock",
+        "base",
+        "self-clean",
+        "wash",
+        "基站",
+        "自清洁",
+        "洗拖布"
+      ],
+      "电池与续航": [
+        "battery",
+        "charge",
+        "runtime",
+        "drain",
+        "电池",
+        "续航",
+        "充电"
+      ],
+      "连接与配网": [
+        "wifi",
+        "pair",
+        "connect",
+        "offline",
+        "连接",
+        "配网",
+        "离线"
+      ],
+      "固件与更新": [
+        "firmware",
+        "update",
+        "upgrade",
+        "固件",
+        "更新",
+        "升级"
+      ],
+      "App 与控制": [
+        "app",
+        "control",
+        "schedule",
+        "应用",
+        "控制",
+        "定时"
+      ],
+      "语音助手": [
+        "alexa",
+        "google",
+        "siri",
+        "语音",
+        "助手"
+      ],
+      "噪音": [
+        "noise",
+        "loud",
+        "quiet",
+        "噪音",
+        "吵",
+        "安静"
+      ],
+      "地毯与地面": [
+        "carpet",
+        "rug",
+        "hard floor",
+        "地毯",
+        "地板"
+      ],
+      "耗材与配件": [
+        "filter",
+        "bag",
+        "consumable",
+        "配件",
+        "耗材",
+        "滤网"
+      ],
+      "数据与隐私": [
+        "privacy",
+        "data",
+        "camera",
+        "隐私",
+        "数据",
+        "摄像头"
+      ],
+      "客服与售后": [
+        "support",
+        "warranty",
+        "refund",
+        "客服",
+        "售后",
+        "保修"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_air_purifier": {
+    "name": "空气净化器",
+    "name_en": "air purifier",
+    "domain_terms": [
+      "air",
+      "purifier"
+    ],
+    "scenes": {
+      "滤芯与更换": [
+        "filter",
+        "replace",
+        "cartridge",
+        "滤芯",
+        "更换",
+        "滤网"
+      ],
+      "空气质量检测": [
+        "aqi",
+        "pm2.5",
+        "sensor reading",
+        "air quality",
+        "空气质量",
+        "检测",
+        "数值"
+      ],
+      "噪音与风量": [
+        "noise",
+        "loud",
+        "fan speed",
+        "噪音",
+        "风量",
+        "吵"
+      ],
+      "连接与配网": [
+        "wifi",
+        "pair",
+        "connect",
+        "offline",
+        "连接",
+        "配网",
+        "离线"
+      ],
+      "App 与控制": [
+        "app",
+        "control",
+        "应用",
+        "控制"
+      ],
+      "自动化与定时": [
+        "schedule",
+        "auto mode",
+        "timer",
+        "定时",
+        "自动模式"
+      ],
+      "传感器准确性": [
+        "inaccurate",
+        "wrong reading",
+        "calibrat",
+        "不准",
+        "校准",
+        "误报"
+      ],
+      "能耗": [
+        "power",
+        "energy",
+        "electricity",
+        "耗电",
+        "电费"
+      ],
+      "异味与净化效果": [
+        "smell",
+        "odor",
+        "not clean",
+        "异味",
+        "味道",
+        "净化"
+      ],
+      "固件与更新": [
+        "firmware",
+        "update",
+        "固件",
+        "更新"
+      ],
+      "客服与售后": [
+        "support",
+        "warranty",
+        "refund",
+        "客服",
+        "售后",
+        "保修"
+      ],
+      "价格与订阅": [
+        "subscription",
+        "price",
+        "expensive",
+        "订阅",
+        "价格",
+        "贵"
+      ],
+      "体积与摆放": [
+        "size",
+        "bulky",
+        "placement",
+        "体积",
+        "占地",
+        "摆放"
+      ],
+      "儿童锁与安全": [
+        "child lock",
+        "safe",
+        "儿童锁",
+        "安全"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_smart_lock": {
+    "name": "智能门锁",
+    "name_en": "smart lock",
+    "domain_terms": [
+      "smart",
+      "lock"
+    ],
+    "scenes": {
+      "功能与故障": [
+        "broken",
+        "stopped",
+        "doesn't work",
+        "not working",
+        "fail",
+        "error",
+        "故障",
+        "坏了",
+        "失灵",
+        "不能用"
+      ],
+      "连接与同步": [
+        "connect",
+        "sync",
+        "bluetooth",
+        "wifi",
+        "pair",
+        "app",
+        "连接",
+        "同步",
+        "断连",
+        "配对"
+      ],
+      "清洁与保养": [
+        "clean",
+        "wash",
+        "mold",
+        "filter",
+        "descale",
+        "清洗",
+        "清洁",
+        "发霉",
+        "滤芯",
+        "除垢"
+      ],
+      "价格与订阅": [
+        "subscription",
+        "price",
+        "expensive",
+        "paywall",
+        "refund",
+        "订阅",
+        "价格",
+        "贵",
+        "退款"
+      ],
+      "客服与售后": [
+        "support",
+        "warranty",
+        "customer service",
+        "replacement",
+        "客服",
+        "售后",
+        "保修",
+        "换货"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_developer_tools": {
+    "name": "开发工具",
+    "name_en": "developer tools",
+    "domain_terms": [
+      "developer",
+      "tools"
+    ],
+    "scenes": {
+      "安装与依赖": [
+        "install",
+        "dependency",
+        "dependencies",
+        "npm",
+        "pip",
+        "brew",
+        "依赖",
+        "安装"
+      ],
+      "版本与升级": [
+        "update",
+        "upgrade",
+        "version",
+        "breaking change",
+        "升级",
+        "版本",
+        "更新"
+      ],
+      "配置与环境": [
+        "config",
+        "yaml",
+        "env",
+        "path",
+        "配置",
+        "环境变量"
+      ],
+      "插件与扩展": [
+        "extension",
+        "plugin",
+        "addon",
+        "插件",
+        "扩展"
+      ],
+      "性能与资源": [
+        "slow",
+        "memory",
+        "cpu",
+        "build time",
+        "卡",
+        "内存",
+        "编译",
+        "性能"
+      ],
+      "错误与调试": [
+        "error",
+        "exception",
+        "stack trace",
+        "debug",
+        "报错",
+        "调试",
+        "日志"
+      ],
+      "权限与安全": [
+        "permission",
+        "sudo",
+        "auth",
+        "token",
+        "权限",
+        "认证",
+        "密钥"
+      ],
+      "跨平台兼容": [
+        "windows",
+        "macos",
+        "linux",
+        "wsl",
+        "兼容",
+        "平台"
+      ],
+      "同步与备份": [
+        "sync",
+        "backup",
+        "restore",
+        "同步",
+        "备份",
+        "恢复"
+      ],
+      "授权与付费": [
+        "license",
+        "subscription",
+        "price",
+        "授权",
+        "订阅",
+        "收费",
+        "买断"
+      ],
+      "数据与迁移": [
+        "export",
+        "import",
+        "migrate",
+        "导出",
+        "迁移",
+        "导入"
+      ],
+      "搜索与导航": [
+        "search",
+        "find",
+        "navigate",
+        "搜索",
+        "找不到",
+        "导航"
+      ],
+      "协作与共享": [
+        "share",
+        "team",
+        "collab",
+        "共享",
+        "协作",
+        "团队"
+      ],
+      "文档与帮助": [
+        "docs",
+        "documentation",
+        "文档",
+        "帮助",
+        "说明"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_productivity_tools": {
+    "name": "生产力工具",
+    "name_en": "productivity tools",
+    "domain_terms": [
+      "productivity",
+      "tools"
+    ],
+    "scenes": {
+      "同步与备份": [
+        "sync",
+        "backup",
+        "restore",
+        "同步",
+        "备份",
+        "恢复"
+      ],
+      "导入与导出": [
+        "export",
+        "import",
+        "migrate",
+        "导出",
+        "导入",
+        "迁移"
+      ],
+      "插件与扩展": [
+        "plugin",
+        "extension",
+        "addon",
+        "插件",
+        "扩展"
+      ],
+      "搜索与导航": [
+        "search",
+        "find",
+        "navigate",
+        "搜索",
+        "找不到",
+        "导航"
+      ],
+      "模板与自动化": [
+        "template",
+        "automation",
+        "workflow",
+        "模板",
+        "自动化",
+        "工作流"
+      ],
+      "权限与共享": [
+        "permission",
+        "share",
+        "team",
+        "权限",
+        "共享",
+        "团队"
+      ],
+      "订阅与付费": [
+        "subscription",
+        "price",
+        "paywall",
+        "订阅",
+        "收费",
+        "付费"
+      ],
+      "移动端体验": [
+        "ios",
+        "android",
+        "mobile",
+        "手机",
+        "移动端"
+      ],
+      "更新与兼容": [
+        "update",
+        "version",
+        "compat",
+        "更新",
+        "版本",
+        "兼容"
+      ],
+      "数据丢失": [
+        "lost",
+        "missing",
+        "deleted",
+        "丢失",
+        "消失",
+        "删了"
+      ],
+      "第三方集成": [
+        "integration",
+        "api",
+        "zapier",
+        "集成",
+        "接口"
+      ],
+      "性能与稳定性": [
+        "slow",
+        "crash",
+        "lag",
+        "卡",
+        "崩溃",
+        "慢"
+      ],
+      "界面与易用": [
+        "ui",
+        "confusing",
+        "layout",
+        "界面",
+        "难用",
+        "布局"
+      ],
+      "文档与帮助": [
+        "docs",
+        "help",
+        "文档",
+        "帮助",
+        "教程"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_small_business_operation": {
+    "name": "小企业运营",
+    "name_en": "small business operations",
+    "domain_terms": [
+      "small",
+      "business",
+      "operations"
+    ],
+    "scenes": {
+      "开票与收款": [
+        "invoice",
+        "billing",
+        "get paid",
+        "payment",
+        "开票",
+        "收款",
+        "账单"
+      ],
+      "记账与对账": [
+        "bookkeeping",
+        "reconcile",
+        "ledger",
+        "categorize",
+        "记账",
+        "对账",
+        "分类"
+      ],
+      "税务与合规": [
+        "tax",
+        "vat",
+        "compliance",
+        "filing",
+        "报税",
+        "税务",
+        "合规"
+      ],
+      "工资与人力": [
+        "payroll",
+        "hire",
+        "employee",
+        "timesheet",
+        "工资",
+        "招聘",
+        "员工"
+      ],
+      "库存与采购": [
+        "inventory",
+        "stock",
+        "supplier",
+        "purchase order",
+        "库存",
+        "采购",
+        "缺货"
+      ],
+      "订单与发货": [
+        "order",
+        "shipping",
+        "fulfillment",
+        "refund",
+        "订单",
+        "发货",
+        "退款"
+      ],
+      "客户与 CRM": [
+        "customer",
+        "crm",
+        "lead",
+        "follow up",
+        "客户",
+        "线索",
+        "跟进"
+      ],
+      "排班与预约": [
+        "schedule",
+        "appointment",
+        "booking",
+        "shift",
+        "排班",
+        "预约",
+        "排单"
+      ],
+      "报价与合同": [
+        "quote",
+        "estimate",
+        "contract",
+        "proposal",
+        "报价",
+        "合同",
+        "估算"
+      ],
+      "报表与分析": [
+        "report",
+        "dashboard",
+        "profit",
+        "margin",
+        "报表",
+        "利润",
+        "分析"
+      ],
+      "银行与支付": [
+        "bank",
+        "transaction",
+        "stripe",
+        "paypal",
+        "银行",
+        "流水",
+        "支付"
+      ],
+      "软件集成": [
+        "integration",
+        "sync",
+        "api",
+        "import",
+        "集成",
+        "同步",
+        "导入"
+      ],
+      "权限与协作": [
+        "permission",
+        "team",
+        "multi-user",
+        "权限",
+        "团队",
+        "多人"
+      ],
+      "定价与订阅": [
+        "subscription",
+        "pricing",
+        "plan",
+        "订阅",
+        "定价",
+        "套餐"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_media_download_and_archi": {
+    "name": "下载与收藏",
+    "name_en": "media download and archiving",
+    "domain_terms": [
+      "media",
+      "download",
+      "and",
+      "archiving"
+    ],
+    "scenes": {
+      "解析失败与不支持": [
+        "parse",
+        "not supported",
+        "unsupported",
+        "cannot find",
+        "解析",
+        "不支持",
+        "找不到"
+      ],
+      "下载中断与失败": [
+        "fail",
+        "error",
+        "interrupt",
+        "resume",
+        "失败",
+        "中断",
+        "断点"
+      ],
+      "画质与格式": [
+        "quality",
+        "1080",
+        "4k",
+        "format",
+        "mp4",
+        "画质",
+        "格式",
+        "清晰度"
+      ],
+      "批量与队列": [
+        "batch",
+        "queue",
+        "multiple",
+        "playlist",
+        "批量",
+        "队列",
+        "播放列表"
+      ],
+      "字幕与音频": [
+        "subtitle",
+        "caption",
+        "audio",
+        "mp3",
+        "字幕",
+        "音频",
+        "提取"
+      ],
+      "站点兼容与登录": [
+        "site",
+        "login",
+        "cookie",
+        "site support",
+        "站点",
+        "登录",
+        "兼容"
+      ],
+      "速度与限速": [
+        "slow",
+        "speed",
+        "throttle",
+        "限速",
+        "速度",
+        "慢"
+      ],
+      "存储与整理": [
+        "storage",
+        "organize",
+        "folder",
+        "rename",
+        "存储",
+        "整理",
+        "命名"
+      ],
+      "版权与合规": [
+        "copyright",
+        "legal",
+        "dmca",
+        "rights",
+        "版权",
+        "合法",
+        "授权"
+      ],
+      "付费与广告": [
+        "ads",
+        "subscription",
+        "paywall",
+        "price",
+        "广告",
+        "订阅",
+        "付费"
+      ],
+      "隐私与安全": [
+        "privacy",
+        "tracking",
+        "virus",
+        "安全",
+        "隐私",
+        "病毒"
+      ],
+      "跨设备与同步": [
+        "android",
+        "ios",
+        "sync",
+        "device",
+        "设备",
+        "同步",
+        "手机"
+      ],
+      "更新后失效": [
+        "update",
+        "broke",
+        "stopped working",
+        "更新",
+        "失效",
+        "坏了"
+      ],
+      "元数据与命名": [
+        "metadata",
+        "title",
+        "thumbnail",
+        "元数据",
+        "标题",
+        "封面"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_money_bills": {
+    "name": "钱与账单",
+    "name_en": "money bills",
+    "domain_terms": [
+      "money",
+      "bills"
+    ],
+    "scenes": {
+      "表格与文书": [
+        "form",
+        "paperwork",
+        "document",
+        "application",
+        "表格",
+        "文书",
+        "材料"
+      ],
+      "预约与等待": [
+        "appointment",
+        "wait",
+        "queue",
+        "预约",
+        "排队",
+        "等待"
+      ],
+      "费用与账单": [
+        "bill",
+        "cost",
+        "charge",
+        "fee",
+        "费用",
+        "账单",
+        "收费"
+      ],
+      "信息找不到": [
+        "confusing",
+        "unclear",
+        "don't know",
+        "找不到",
+        "不清楚",
+        "看不懂"
+      ],
+      "沟通与跟进": [
+        "call",
+        "email",
+        "follow up",
+        "no response",
+        "电话",
+        "邮件",
+        "没人回"
+      ],
+      "规则与资格": [
+        "eligible",
+        "requirement",
+        "policy",
+        "rule",
+        "资格",
+        "规定",
+        "政策"
+      ],
+      "出错与纠错": [
+        "error",
+        "wrong",
+        "mistake",
+        "denied",
+        "出错",
+        "错误",
+        "被拒"
+      ],
+      "多方协调": [
+        "coordinate",
+        "between",
+        "transfer",
+        "协调",
+        "转接",
+        "对接"
+      ],
+      "时间与期限": [
+        "deadline",
+        "late",
+        "delay",
+        "期限",
+        "延误",
+        "超时"
+      ],
+      "线上线下切换": [
+        "online",
+        "in person",
+        "portal",
+        "线上",
+        "线下",
+        "网站"
+      ],
+      "语言与理解": [
+        "language",
+        "translate",
+        "jargon",
+        "语言",
+        "翻译",
+        "术语"
+      ],
+      "隐私与安全": [
+        "privacy",
+        "identity",
+        "scam",
+        "隐私",
+        "身份",
+        "诈骗"
+      ],
+      "系统不可用": [
+        "down",
+        "broken",
+        "offline",
+        "崩",
+        "故障",
+        "打不开"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_care_health": {
+    "name": "照护与医疗",
+    "name_en": "care health",
+    "domain_terms": [
+      "care",
+      "health"
+    ],
+    "scenes": {
+      "表格与文书": [
+        "form",
+        "paperwork",
+        "document",
+        "application",
+        "表格",
+        "文书",
+        "材料"
+      ],
+      "预约与等待": [
+        "appointment",
+        "wait",
+        "queue",
+        "预约",
+        "排队",
+        "等待"
+      ],
+      "费用与账单": [
+        "bill",
+        "cost",
+        "charge",
+        "fee",
+        "费用",
+        "账单",
+        "收费"
+      ],
+      "信息找不到": [
+        "confusing",
+        "unclear",
+        "don't know",
+        "找不到",
+        "不清楚",
+        "看不懂"
+      ],
+      "沟通与跟进": [
+        "call",
+        "email",
+        "follow up",
+        "no response",
+        "电话",
+        "邮件",
+        "没人回"
+      ],
+      "规则与资格": [
+        "eligible",
+        "requirement",
+        "policy",
+        "rule",
+        "资格",
+        "规定",
+        "政策"
+      ],
+      "出错与纠错": [
+        "error",
+        "wrong",
+        "mistake",
+        "denied",
+        "出错",
+        "错误",
+        "被拒"
+      ],
+      "多方协调": [
+        "coordinate",
+        "between",
+        "transfer",
+        "协调",
+        "转接",
+        "对接"
+      ],
+      "时间与期限": [
+        "deadline",
+        "late",
+        "delay",
+        "期限",
+        "延误",
+        "超时"
+      ],
+      "线上线下切换": [
+        "online",
+        "in person",
+        "portal",
+        "线上",
+        "线下",
+        "网站"
+      ],
+      "语言与理解": [
+        "language",
+        "translate",
+        "jargon",
+        "语言",
+        "翻译",
+        "术语"
+      ],
+      "隐私与安全": [
+        "privacy",
+        "identity",
+        "scam",
+        "隐私",
+        "身份",
+        "诈骗"
+      ],
+      "系统不可用": [
+        "down",
+        "broken",
+        "offline",
+        "崩",
+        "故障",
+        "打不开"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_family_education": {
+    "name": "家庭与教育",
+    "name_en": "family education",
+    "domain_terms": [
+      "family",
+      "education"
+    ],
+    "scenes": {
+      "表格与文书": [
+        "form",
+        "paperwork",
+        "document",
+        "application",
+        "表格",
+        "文书",
+        "材料"
+      ],
+      "预约与等待": [
+        "appointment",
+        "wait",
+        "queue",
+        "预约",
+        "排队",
+        "等待"
+      ],
+      "费用与账单": [
+        "bill",
+        "cost",
+        "charge",
+        "fee",
+        "费用",
+        "账单",
+        "收费"
+      ],
+      "信息找不到": [
+        "confusing",
+        "unclear",
+        "don't know",
+        "找不到",
+        "不清楚",
+        "看不懂"
+      ],
+      "沟通与跟进": [
+        "call",
+        "email",
+        "follow up",
+        "no response",
+        "电话",
+        "邮件",
+        "没人回"
+      ],
+      "规则与资格": [
+        "eligible",
+        "requirement",
+        "policy",
+        "rule",
+        "资格",
+        "规定",
+        "政策"
+      ],
+      "出错与纠错": [
+        "error",
+        "wrong",
+        "mistake",
+        "denied",
+        "出错",
+        "错误",
+        "被拒"
+      ],
+      "多方协调": [
+        "coordinate",
+        "between",
+        "transfer",
+        "协调",
+        "转接",
+        "对接"
+      ],
+      "时间与期限": [
+        "deadline",
+        "late",
+        "delay",
+        "期限",
+        "延误",
+        "超时"
+      ],
+      "线上线下切换": [
+        "online",
+        "in person",
+        "portal",
+        "线上",
+        "线下",
+        "网站"
+      ],
+      "语言与理解": [
+        "language",
+        "translate",
+        "jargon",
+        "语言",
+        "翻译",
+        "术语"
+      ],
+      "隐私与安全": [
+        "privacy",
+        "identity",
+        "scam",
+        "隐私",
+        "身份",
+        "诈骗"
+      ],
+      "系统不可用": [
+        "down",
+        "broken",
+        "offline",
+        "崩",
+        "故障",
+        "打不开"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_home_repair": {
+    "name": "房屋与维修",
+    "name_en": "home repair",
+    "domain_terms": [
+      "home",
+      "repair"
+    ],
+    "scenes": {
+      "表格与文书": [
+        "form",
+        "paperwork",
+        "document",
+        "application",
+        "表格",
+        "文书",
+        "材料"
+      ],
+      "预约与等待": [
+        "appointment",
+        "wait",
+        "queue",
+        "预约",
+        "排队",
+        "等待"
+      ],
+      "费用与账单": [
+        "bill",
+        "cost",
+        "charge",
+        "fee",
+        "费用",
+        "账单",
+        "收费"
+      ],
+      "信息找不到": [
+        "confusing",
+        "unclear",
+        "don't know",
+        "找不到",
+        "不清楚",
+        "看不懂"
+      ],
+      "沟通与跟进": [
+        "call",
+        "email",
+        "follow up",
+        "no response",
+        "电话",
+        "邮件",
+        "没人回"
+      ],
+      "规则与资格": [
+        "eligible",
+        "requirement",
+        "policy",
+        "rule",
+        "资格",
+        "规定",
+        "政策"
+      ],
+      "出错与纠错": [
+        "error",
+        "wrong",
+        "mistake",
+        "denied",
+        "出错",
+        "错误",
+        "被拒"
+      ],
+      "多方协调": [
+        "coordinate",
+        "between",
+        "transfer",
+        "协调",
+        "转接",
+        "对接"
+      ],
+      "时间与期限": [
+        "deadline",
+        "late",
+        "delay",
+        "期限",
+        "延误",
+        "超时"
+      ],
+      "线上线下切换": [
+        "online",
+        "in person",
+        "portal",
+        "线上",
+        "线下",
+        "网站"
+      ],
+      "语言与理解": [
+        "language",
+        "translate",
+        "jargon",
+        "语言",
+        "翻译",
+        "术语"
+      ],
+      "隐私与安全": [
+        "privacy",
+        "identity",
+        "scam",
+        "隐私",
+        "身份",
+        "诈骗"
+      ],
+      "系统不可用": [
+        "down",
+        "broken",
+        "offline",
+        "崩",
+        "故障",
+        "打不开"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_career_jobs": {
+    "name": "求职与职业",
+    "name_en": "career jobs",
+    "domain_terms": [
+      "career",
+      "jobs"
+    ],
+    "scenes": {
+      "表格与文书": [
+        "form",
+        "paperwork",
+        "document",
+        "application",
+        "表格",
+        "文书",
+        "材料"
+      ],
+      "预约与等待": [
+        "appointment",
+        "wait",
+        "queue",
+        "预约",
+        "排队",
+        "等待"
+      ],
+      "费用与账单": [
+        "bill",
+        "cost",
+        "charge",
+        "fee",
+        "费用",
+        "账单",
+        "收费"
+      ],
+      "信息找不到": [
+        "confusing",
+        "unclear",
+        "don't know",
+        "找不到",
+        "不清楚",
+        "看不懂"
+      ],
+      "沟通与跟进": [
+        "call",
+        "email",
+        "follow up",
+        "no response",
+        "电话",
+        "邮件",
+        "没人回"
+      ],
+      "规则与资格": [
+        "eligible",
+        "requirement",
+        "policy",
+        "rule",
+        "资格",
+        "规定",
+        "政策"
+      ],
+      "出错与纠错": [
+        "error",
+        "wrong",
+        "mistake",
+        "denied",
+        "出错",
+        "错误",
+        "被拒"
+      ],
+      "多方协调": [
+        "coordinate",
+        "between",
+        "transfer",
+        "协调",
+        "转接",
+        "对接"
+      ],
+      "时间与期限": [
+        "deadline",
+        "late",
+        "delay",
+        "期限",
+        "延误",
+        "超时"
+      ],
+      "线上线下切换": [
+        "online",
+        "in person",
+        "portal",
+        "线上",
+        "线下",
+        "网站"
+      ],
+      "语言与理解": [
+        "language",
+        "translate",
+        "jargon",
+        "语言",
+        "翻译",
+        "术语"
+      ],
+      "隐私与安全": [
+        "privacy",
+        "identity",
+        "scam",
+        "隐私",
+        "身份",
+        "诈骗"
+      ],
+      "系统不可用": [
+        "down",
+        "broken",
+        "offline",
+        "崩",
+        "故障",
+        "打不开"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_travel_immigration": {
+    "name": "出行与身份",
+    "name_en": "travel immigration",
+    "domain_terms": [
+      "travel",
+      "immigration"
+    ],
+    "scenes": {
+      "表格与文书": [
+        "form",
+        "paperwork",
+        "document",
+        "application",
+        "表格",
+        "文书",
+        "材料"
+      ],
+      "预约与等待": [
+        "appointment",
+        "wait",
+        "queue",
+        "预约",
+        "排队",
+        "等待"
+      ],
+      "费用与账单": [
+        "bill",
+        "cost",
+        "charge",
+        "fee",
+        "费用",
+        "账单",
+        "收费"
+      ],
+      "信息找不到": [
+        "confusing",
+        "unclear",
+        "don't know",
+        "找不到",
+        "不清楚",
+        "看不懂"
+      ],
+      "沟通与跟进": [
+        "call",
+        "email",
+        "follow up",
+        "no response",
+        "电话",
+        "邮件",
+        "没人回"
+      ],
+      "规则与资格": [
+        "eligible",
+        "requirement",
+        "policy",
+        "rule",
+        "资格",
+        "规定",
+        "政策"
+      ],
+      "出错与纠错": [
+        "error",
+        "wrong",
+        "mistake",
+        "denied",
+        "出错",
+        "错误",
+        "被拒"
+      ],
+      "多方协调": [
+        "coordinate",
+        "between",
+        "transfer",
+        "协调",
+        "转接",
+        "对接"
+      ],
+      "时间与期限": [
+        "deadline",
+        "late",
+        "delay",
+        "期限",
+        "延误",
+        "超时"
+      ],
+      "线上线下切换": [
+        "online",
+        "in person",
+        "portal",
+        "线上",
+        "线下",
+        "网站"
+      ],
+      "语言与理解": [
+        "language",
+        "translate",
+        "jargon",
+        "语言",
+        "翻译",
+        "术语"
+      ],
+      "隐私与安全": [
+        "privacy",
+        "identity",
+        "scam",
+        "隐私",
+        "身份",
+        "诈骗"
+      ],
+      "系统不可用": [
+        "down",
+        "broken",
+        "offline",
+        "崩",
+        "故障",
+        "打不开"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_neuro_accessibility": {
+    "name": "神经多样与无障碍",
+    "name_en": "neuro accessibility",
+    "domain_terms": [
+      "neuro",
+      "accessibility"
+    ],
+    "scenes": {
+      "表格与文书": [
+        "form",
+        "paperwork",
+        "document",
+        "application",
+        "表格",
+        "文书",
+        "材料"
+      ],
+      "预约与等待": [
+        "appointment",
+        "wait",
+        "queue",
+        "预约",
+        "排队",
+        "等待"
+      ],
+      "费用与账单": [
+        "bill",
+        "cost",
+        "charge",
+        "fee",
+        "费用",
+        "账单",
+        "收费"
+      ],
+      "信息找不到": [
+        "confusing",
+        "unclear",
+        "don't know",
+        "找不到",
+        "不清楚",
+        "看不懂"
+      ],
+      "沟通与跟进": [
+        "call",
+        "email",
+        "follow up",
+        "no response",
+        "电话",
+        "邮件",
+        "没人回"
+      ],
+      "规则与资格": [
+        "eligible",
+        "requirement",
+        "policy",
+        "rule",
+        "资格",
+        "规定",
+        "政策"
+      ],
+      "出错与纠错": [
+        "error",
+        "wrong",
+        "mistake",
+        "denied",
+        "出错",
+        "错误",
+        "被拒"
+      ],
+      "多方协调": [
+        "coordinate",
+        "between",
+        "transfer",
+        "协调",
+        "转接",
+        "对接"
+      ],
+      "时间与期限": [
+        "deadline",
+        "late",
+        "delay",
+        "期限",
+        "延误",
+        "超时"
+      ],
+      "线上线下切换": [
+        "online",
+        "in person",
+        "portal",
+        "线上",
+        "线下",
+        "网站"
+      ],
+      "语言与理解": [
+        "language",
+        "translate",
+        "jargon",
+        "语言",
+        "翻译",
+        "术语"
+      ],
+      "隐私与安全": [
+        "privacy",
+        "identity",
+        "scam",
+        "隐私",
+        "身份",
+        "诈骗"
+      ],
+      "系统不可用": [
+        "down",
+        "broken",
+        "offline",
+        "崩",
+        "故障",
+        "打不开"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_paperwork_compliance": {
+    "name": "手续与合规",
+    "name_en": "paperwork compliance",
+    "domain_terms": [
+      "paperwork",
+      "compliance"
+    ],
+    "scenes": {
+      "表格与文书": [
+        "form",
+        "paperwork",
+        "document",
+        "application",
+        "表格",
+        "文书",
+        "材料"
+      ],
+      "预约与等待": [
+        "appointment",
+        "wait",
+        "queue",
+        "预约",
+        "排队",
+        "等待"
+      ],
+      "费用与账单": [
+        "bill",
+        "cost",
+        "charge",
+        "fee",
+        "费用",
+        "账单",
+        "收费"
+      ],
+      "信息找不到": [
+        "confusing",
+        "unclear",
+        "don't know",
+        "找不到",
+        "不清楚",
+        "看不懂"
+      ],
+      "沟通与跟进": [
+        "call",
+        "email",
+        "follow up",
+        "no response",
+        "电话",
+        "邮件",
+        "没人回"
+      ],
+      "规则与资格": [
+        "eligible",
+        "requirement",
+        "policy",
+        "rule",
+        "资格",
+        "规定",
+        "政策"
+      ],
+      "出错与纠错": [
+        "error",
+        "wrong",
+        "mistake",
+        "denied",
+        "出错",
+        "错误",
+        "被拒"
+      ],
+      "多方协调": [
+        "coordinate",
+        "between",
+        "transfer",
+        "协调",
+        "转接",
+        "对接"
+      ],
+      "时间与期限": [
+        "deadline",
+        "late",
+        "delay",
+        "期限",
+        "延误",
+        "超时"
+      ],
+      "线上线下切换": [
+        "online",
+        "in person",
+        "portal",
+        "线上",
+        "线下",
+        "网站"
+      ],
+      "语言与理解": [
+        "language",
+        "translate",
+        "jargon",
+        "语言",
+        "翻译",
+        "术语"
+      ],
+      "隐私与安全": [
+        "privacy",
+        "identity",
+        "scam",
+        "隐私",
+        "身份",
+        "诈骗"
+      ],
+      "系统不可用": [
+        "down",
+        "broken",
+        "offline",
+        "崩",
+        "故障",
+        "打不开"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  },
+  "custom_pdf_tools": {
+    "name": "PDF 工具",
+    "name_en": "pdf tools",
+    "domain_terms": [
+      "pdf",
+      "tools"
+    ],
+    "scenes": {
+      "合并与拆分": [
+        "merge",
+        "split",
+        "combine",
+        "合并",
+        "拆分",
+        "分割"
+      ],
+      "压缩与体积": [
+        "compress",
+        "size",
+        "mb",
+        "压缩",
+        "体积",
+        "太大"
+      ],
+      "OCR 与可搜索": [
+        "ocr",
+        "searchable",
+        "scan text",
+        "识别",
+        "可搜索",
+        "文字识别"
+      ],
+      "格式转换": [
+        "convert",
+        "word",
+        "excel",
+        "ppt",
+        "jpg",
+        "转换",
+        "导出"
+      ],
+      "编辑文字与图片": [
+        "edit text",
+        "edit image",
+        "modify",
+        "编辑",
+        "修改",
+        "替换"
+      ],
+      "签名与表单": [
+        "sign",
+        "signature",
+        "form",
+        "fill",
+        "签名",
+        "表单",
+        "填写"
+      ],
+      "批注与高亮": [
+        "annotate",
+        "highlight",
+        "comment",
+        "批注",
+        "高亮",
+        "评论"
+      ],
+      "扫描与拍照": [
+        "scan",
+        "camera",
+        "photo",
+        "扫描",
+        "拍照"
+      ],
+      "加密与权限": [
+        "password",
+        "encrypt",
+        "permission",
+        "密码",
+        "加密",
+        "权限"
+      ],
+      "页面整理": [
+        "rotate",
+        "reorder",
+        "delete page",
+        "旋转",
+        "排序",
+        "删页"
+      ],
+      "搜索与查找": [
+        "search",
+        "find text",
+        "搜索",
+        "查找"
+      ],
+      "打印与导出": [
+        "print",
+        "export",
+        "打印",
+        "导出"
+      ],
+      "水印与品牌": [
+        "watermark",
+        "brand",
+        "水印",
+        "品牌"
+      ],
+      "价格与订阅": [
+        "subscription",
+        "price",
+        "paywall",
+        "trial",
+        "订阅",
+        "价格",
+        "付费"
+      ],
+      "其他场景": []
+    },
+    "app_names": {}
+  }
+}

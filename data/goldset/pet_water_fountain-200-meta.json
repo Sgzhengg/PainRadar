@@ -1,0 +1,59 @@
+{
+  "category": "pet_water_fountain",
+  "db": "var\\gold.db",
+  "rule_run": "20261110T232931Z-bfed2e",
+  "requested": 200,
+  "selected": 200,
+  "pilot": 30,
+  "seed": 42,
+  "strata": {
+    "mid|L1": {
+      "available": 41,
+      "picked": 13
+    },
+    "mid|L2+": {
+      "available": 5,
+      "picked": 2
+    },
+    "mid|none": {
+      "available": 13,
+      "picked": 4
+    },
+    "neg|L1": {
+      "available": 263,
+      "picked": 83
+    },
+    "neg|L2+": {
+      "available": 64,
+      "picked": 20
+    },
+    "neg|none": {
+      "available": 102,
+      "picked": 32
+    },
+    "pos|L1": {
+      "available": 59,
+      "picked": 19
+    },
+    "pos|L2+": {
+      "available": 13,
+      "picked": 4
+    },
+    "pos|none": {
+      "available": 72,
+      "picked": 23
+    }
+  },
+  "apps": {
+    "1586120661": 85,
+    "1278520013": 44,
+    "994053492": 71
+  },
+  "levels": {
+    "L1": 115,
+    "none": 59,
+    "L2": 18,
+    "L4": 7,
+    "L3": 1
+  }
+}

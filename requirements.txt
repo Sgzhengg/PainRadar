@@ -1,0 +1,8 @@
+# Core (CLI, pipeline, tests)
+# Everything else is stdlib-only; these two power the HTTP UI.
+
+fastapi>=0.115
+uvicorn[standard]>=0.30
+
+# Optional: DOCX report export
+# python-docx>=1.1

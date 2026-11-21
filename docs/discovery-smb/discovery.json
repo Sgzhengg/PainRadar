@@ -1,0 +1,494 @@
+[
+  {
+    "demand_id": "dm_2265f5336d",
+    "label": "账户资金被无故冻结扣留",
+    "size": 91,
+    "type": "账户资金被无故冻结扣留",
+    "definition": "平台无明确理由冻结账户或扣留资金，不包括正常风控审核导致的临时冻结。",
+    "buyer": "小企业主/经营者",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "小企业主"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 91
+    },
+    "apps": [
+      "1014146758",
+      "1052884030",
+      "335393788",
+      "371294472",
+      "584606479",
+      "881629660"
+    ],
+    "l2_share": 0.396,
+    "intensity": 0.848,
+    "cost_share": 0.143,
+    "wtp_share": 0.055,
+    "score": 44.2,
+    "quote": "Square permanently closed my account without providing a specific explanation and is withholding $1,600 of my hard-earned money until December 9, possibly longer.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Square permanently closed my account without providing a specific explanation and is withholding $1,600 of my hard-earned money until December 9, possibly longer.",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "335393788"
+      },
+      {
+        "quote": "I spoke to customer service for 30 minutes trying to get an answer to what may be happening or what I may be doing wrong. No response, and he just abruptly hung up the line.",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "335393788"
+      },
+      {
+        "quote": "Two days of trying to get my bank accounts to work and no help from support.",
+        "domain": "custom_small_business_operation",
+        "level": "L4",
+        "app": "881629660"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_bed7abeac5",
+    "label": "订阅扣费不透明难取消",
+    "size": 54,
+    "type": "订阅扣费不透明难取消",
+    "definition": "用户对订阅费用产生疑问、被持续扣费或取消流程复杂，不包括一次性购买退款。",
+    "buyer": "小企业主/订阅用户",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "小企业主"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 54
+    },
+    "apps": [
+      "1014146758",
+      "1052884030",
+      "335393788",
+      "371294472",
+      "584606479",
+      "881629660"
+    ],
+    "l2_share": 0.389,
+    "intensity": 0.774,
+    "cost_share": 0.204,
+    "wtp_share": 0.074,
+    "score": 41.6,
+    "quote": "Shopify keeps hitting my accounts for 40 dollars I had to cancel all of my accounts to stop the charges",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Shopify keeps hitting my accounts for 40 dollars I had to cancel all of my accounts to stop the charges",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "371294472"
+      },
+      {
+        "quote": "Didn’t want to pay $50 a month. I was paying $10 for the ability to message customers through the app.",
+        "domain": "custom_small_business_operation",
+        "level": "L3",
+        "app": "335393788"
+      },
+      {
+        "quote": "they been trying to get $40 each month from my card",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "371294472"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "客服响应慢且无实质帮助",
+    "size": 56,
+    "type": "客服响应慢且无实质帮助",
+    "definition": "用户联系客服后长时间无回复、回复模板化或无法解决问题，不包括自助文档缺失。",
+    "buyer": "小企业主/经营者",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "小企业主"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 56
+    },
+    "apps": [
+      "1014146758",
+      "1052884030",
+      "335393788",
+      "371294472",
+      "584606479",
+      "881629660"
+    ],
+    "l2_share": 0.554,
+    "intensity": 0.65,
+    "cost_share": 0.036,
+    "wtp_share": 0.036,
+    "score": 39.4,
+    "quote": "You are better off giving your guys a timesheet every week, and having them log their hours and job name the old fashioned way.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "You are better off giving your guys a timesheet every week, and having them log their hours and job name the old fashioned way.",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "1014146758"
+      },
+      {
+        "quote": "So now I’m left with no support and an account that I will continue to be charged for.",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "371294472"
+      },
+      {
+        "quote": "If a customer asks how much do I owe you in total I should be able to trust that the app is correct but I can’t",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "1052884030"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_a7dc9aa658",
+    "label": "发票开具与收款对账困难",
+    "size": 49,
+    "type": "发票开具与收款对账困难",
+    "definition": "无法准确跟踪已开票未收款、手动核对耗时易错，不包括发票格式设计。",
+    "buyer": "自由职业者/小企业主",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "小企业主"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 49
+    },
+    "apps": [
+      "1014146758",
+      "1052884030",
+      "584606479",
+      "881629660"
+    ],
+    "l2_share": 0.49,
+    "intensity": 0.845,
+    "cost_share": 0.02,
+    "wtp_share": 0.061,
+    "score": 36.4,
+    "quote": "I decided maybe it was my phone issue so I created a new account under a new email address and I paid the fee again.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I decided maybe it was my phone issue so I created a new account under a new email address and I paid the fee again.",
+        "domain": "custom_small_business_operation",
+        "level": "L4",
+        "app": "881629660"
+      },
+      {
+        "quote": "Leaving me with more than $15,000 in open invoices.",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "881629660"
+      },
+      {
+        "quote": "You’ll need to put in manual time to ensure tracked time and expenses recorded via mobile device are accurate.",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "1052884030"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_12a750139c",
+    "label": "关键业务流程在移动端缺失",
+    "size": 20,
+    "type": "关键业务流程在移动端缺失",
+    "definition": "移动应用缺少核心操作功能（如打印标签、创建订单、复制跟踪号），不包括界面美观问题。",
+    "buyer": "移动办公的小企业主",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "为店铺做转化率优化的从业者"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 20
+    },
+    "apps": [
+      "1014146758",
+      "1052884030",
+      "335393788",
+      "371294472",
+      "881629660"
+    ],
+    "l2_share": 0.55,
+    "intensity": 0.7,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 34.7,
+    "quote": "So I have to go back and forth between Shopify and Chrome so I can see the tracking number and type it in.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "So I have to go back and forth between Shopify and Chrome so I can see the tracking number and type it in.",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "371294472"
+      },
+      {
+        "quote": "Can’t buy & print labels in app anymore, can’t create draft orders in app anymore, pretty much anything outside of looking at orders is now longer possible in this app.",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "371294472"
+      },
+      {
+        "quote": "With orders, you can no longer copy tracking numbers, view product information, or track packages within the app using the built-in browser—everything now opens in your default browser.",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "371294472"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2f434ba53b",
+    "label": "登录验证繁琐且不可靠",
+    "size": 16,
+    "type": "登录验证繁琐且不可靠",
+    "definition": "登录时频繁要求验证码、记住设备失效或邀请链接错误，不包括密码遗忘。",
+    "buyer": "多设备登录用户",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "3 名全职员工加 1 名虚拟助理的小企业主"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 16
+    },
+    "apps": [
+      "1014146758",
+      "1052884030",
+      "335393788",
+      "371294472",
+      "881629660"
+    ],
+    "l2_share": 0.312,
+    "intensity": 0.762,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 33.0,
+    "quote": "I clicked the invitation link my employer sent me, it asked me to sign up, I put in my email and created password it says page not found.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I clicked the invitation link my employer sent me, it asked me to sign up, I put in my email and created password it says page not found.",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "881629660"
+      },
+      {
+        "quote": "Doesn’t have support. This app does not have support they have locked my account and no support and all my things are locked down I already email them but nothing yet works",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "881629660"
+      },
+      {
+        "quote": "EVERY SINGLE TIME I go to sign in it asks for a code, even though EVERY SINGLE TIME I CLICK “REMEMBER THIS DEVICE “ and then half the time I finally get on it tells me I have no invoices and I can’t access my customers!",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "1052884030"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_e32ddc3033",
+    "label": "报表数据不一致难信任",
+    "size": 26,
+    "type": "报表数据不一致难信任",
+    "definition": "同一报表在不同入口显示不同数字，或无法导出可信报告，不包括报表格式偏好。",
+    "buyer": "财务/管理者",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "b2b SaaS 创始人"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 26
+    },
+    "apps": [
+      "1052884030",
+      "371294472",
+      "584606479",
+      "881629660"
+    ],
+    "l2_share": 0.615,
+    "intensity": 0.577,
+    "cost_share": 0.077,
+    "wtp_share": 0.038,
+    "score": 32.5,
+    "quote": "The dashboard shows the monthly P&L summary, but when you click it, it shows a completely different number for the same report for “this month.”",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "The dashboard shows the monthly P&L summary, but when you click it, it shows a completely different number for the same report for “this month.”",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "584606479"
+      },
+      {
+        "quote": "You can’t see any of your transaction or even pull up a simple report from the app",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "881629660"
+      },
+      {
+        "quote": "Getting from “we need new ads” to knowing what to make usually takes me an afternoon, and most of that is reading.",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_9102326afa",
+    "label": "税务代缴未履行致合规风险",
+    "size": 14,
+    "type": "税务代缴未履行致合规风险",
+    "definition": "平台代扣税款后未按时缴纳给税务机关，或未按约定申报，不包括用户自身申报错误。",
+    "buyer": "小企业主",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "小企业主"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 14
+    },
+    "apps": [
+      "1052884030",
+      "881629660"
+    ],
+    "l2_share": 0.571,
+    "intensity": 0.657,
+    "cost_share": 0.143,
+    "wtp_share": 0.0,
+    "score": 27.9,
+    "quote": "Didn’t file my year end tax forms like I paid them to, won’t respond to emails and can’t get thru their useless chat box. No phone line either. 1099s are incorrect and W2s were late.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Didn’t file my year end tax forms like I paid them to, won’t respond to emails and can’t get thru their useless chat box. No phone line either. 1099s are incorrect and W2s were late.",
+        "domain": "custom_small_business_operation",
+        "level": "L4",
+        "app": "881629660"
+      },
+      {
+        "quote": "They took the tax money from my paycheck but never made the payments to the irs",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "881629660"
+      },
+      {
+        "quote": "No, we use have to use copilot which has enterprise protection. Uploading sensitive financial information into ChatGPT is insanely stupid.",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_080f626098",
+    "label": "数据不同步致信息错漏",
+    "size": 7,
+    "type": "数据不同步致信息错漏",
+    "definition": "多端或跨模块数据更新延迟、不一致导致排班、库存、报表等出错，不包括初始设置错误。",
+    "buyer": "运营/财务人员",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "使用 Jobber 约 5-6 年的小企业运营者"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 7
+    },
+    "apps": [
+      "1014146758",
+      "335393788"
+    ],
+    "l2_share": 0.429,
+    "intensity": 0.771,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 26.3,
+    "quote": "I find it very difficult and slow to navigate, edit or update any of the information or online booking for the business",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I find it very difficult and slow to navigate, edit or update any of the information or online booking for the business",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "335393788"
+      },
+      {
+        "quote": "Our technician’s schedules are not updating live as I’m updating their schedules, and it is causing critical notes to be missed.",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "1014146758"
+      },
+      {
+        "quote": "Ive almost missed shifts because i did not know my schedule was changed",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "1014146758"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_d322de085a",
+    "label": "库存数量漂移致超卖",
+    "size": 6,
+    "type": "库存数量漂移致超卖",
+    "definition": "多销售渠道库存同步不及时导致实际库存与系统不符，不包括盘点误差。",
+    "buyer": "零售/电商运营",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "Shopify 商家，管理大量商品的小企业运营者"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 6
+    },
+    "apps": [
+      "335393788",
+      "371294472"
+    ],
+    "l2_share": 0.667,
+    "intensity": 0.6,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 26.0,
+    "quote": "I have a 1000 pieces I can't go through each one and make sure shopify didn't change it",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I have a 1000 pieces I can't go through each one and make sure shopify didn't change it",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "371294472"
+      },
+      {
+        "quote": "I have not conducted a single inventory that didn’t delete other inventory.",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "335393788"
+      },
+      {
+        "quote": "The failures come when stock counts drift and one channel sells a unit another channel already sold.",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  }
+]

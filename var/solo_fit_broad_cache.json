@@ -1,0 +1,252 @@
+{
+  "0dbee06d6e5b16df": {
+    "scores": {
+      "third_party_actionable": 5,
+      "leverage": 4,
+      "competition_gap": 4,
+      "software_only": 5,
+      "zero_onboarding": 3,
+      "no_docs": 2,
+      "low_ops": 5,
+      "frequency": 2,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "规则公开，第三方可做自查工具或替代方案。",
+      "leverage": "能帮用户判断资格，避免错误申请或错过福利。",
+      "competition_gap": "现有方案复杂或收费高，缺少简单自查工具。",
+      "software_only": "纯软件可实现，无需硬件或厂商配合。",
+      "zero_onboarding": "需用户输入个人情况，但可设计简单问卷。",
+      "no_docs": "需内置规则库，但可逐步构建，非客户文档。",
+      "low_ops": "无需实时运维，规则更新可定期进行。",
+      "frequency": "多数场景一年一次或更少，使用频率低。",
+      "self_serve_pay": "可提供免费基础版和付费高级版，自助订阅。"
+    },
+    "summary": "需求明确，软件可解，但需规则库和低频使用是挑战。"
+  },
+  "74a45436f59b9532": {
+    "scores": {
+      "third_party_actionable": 3,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 4,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 4,
+      "frequency": 3,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "可做跟进工具，但无法强制对方回应",
+      "leverage": "能改善跟进流程，但结果依赖对方",
+      "competition_gap": "现有跟进工具多面向销售，通用场景少",
+      "software_only": "纯软件可记录、提醒、升级，无需硬件",
+      "zero_onboarding": "需少量配置联系人、模板和规则",
+      "no_docs": "不依赖客户文档，仅需基本联系信息",
+      "low_ops": "无实时性要求，无需7x24运维",
+      "frequency": "同一买家可能数月一次，非高频",
+      "self_serve_pay": "可自助订阅，但价值感知需教育"
+    },
+    "summary": "需求真实但较泛，工具可辅助跟进但难根治，适合轻量SaaS试水。"
+  },
+  "daffda7e2eb82f38": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 4,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 4,
+      "frequency": 3,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "可做账单解析与扣费追踪工具，但无法改厂商计费",
+      "leverage": "能揭示隐藏费用并预警，但退款追讨仍需用户自己",
+      "competition_gap": "银行自带分类和Rocket Money已占位，空隙中等",
+      "software_only": "纯软件解析账单邮件/PDF即可，无需硬件",
+      "zero_onboarding": "需连银行或导入账单，首次配置有门槛",
+      "no_docs": "靠公开账单格式与规则，无需客户知识库",
+      "low_ops": "无实时SLA，定时拉取账单即可，运维轻",
+      "frequency": "订阅扣费每月一次，意外扣款偶发",
+      "self_serve_pay": "低价订阅自助购买可行，无需销售合同"
+    },
+    "summary": "可做账单扣费透视工具，但巨头已占位、杠杆有限，适合小而美订阅。"
+  },
+  "d014a894d0055b1b": {
+    "scores": {
+      "third_party_actionable": 5,
+      "leverage": 4,
+      "competition_gap": 3,
+      "software_only": 5,
+      "zero_onboarding": 4,
+      "no_docs": 4,
+      "low_ops": 5,
+      "frequency": 3,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "填表文书纯属用户侧任务，第三方工具可直接介入。",
+      "leverage": "能直接生成合规表述与格式，消除填写障碍。",
+      "competition_gap": "简历工具多，税务表格场景弱，空隙中等。",
+      "software_only": "纯文本处理与模板生成，无需硬件配合。",
+      "zero_onboarding": "粘贴表格即可用，但需少量引导选场景。",
+      "no_docs": "通用格式规则可内置，无需客户建知识库。",
+      "low_ops": "无实时性要求，无SLA或电信资源依赖。",
+      "frequency": "求职者换工作才用，税务按季年度发生。",
+      "self_serve_pay": "低价订阅或按次买断，可自助付费。"
+    },
+    "summary": "纯软件可做、杠杆高，但竞争有、频次中等，适合做轻量自助工具。"
+  },
+  "d35476407ad86eb2": {
+    "scores": {
+      "third_party_actionable": 3,
+      "leverage": 2,
+      "competition_gap": 2,
+      "software_only": 4,
+      "zero_onboarding": 3,
+      "no_docs": 3,
+      "low_ops": 4,
+      "frequency": 3,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "可做投递追踪或面试题库，但难改招聘方行为",
+      "leverage": "只能提醒和展示，无法让雇主回复或改变面试",
+      "competition_gap": "LinkedIn、Indeed自带状态追踪，免费工具多",
+      "software_only": "纯软件可做追踪与题库，无需硬件配合",
+      "zero_onboarding": "需导入投递记录和岗位偏好才能用",
+      "no_docs": "面试题库需持续维护，但不必客户建库",
+      "low_ops": "无实时SLA，常规Web服务即可",
+      "frequency": "求职期高频，但多数人几年才集中用一次",
+      "self_serve_pay": "可低价订阅，但求职者付费意愿偏弱"
+    },
+    "summary": "痛点真实但根因在招聘方，工具只能辅助，付费弱、竞争多，适合小工具而非长期产品。"
+  },
+  "83f2644c9291cdad": {
+    "scores": {
+      "third_party_actionable": 5,
+      "leverage": 4,
+      "competition_gap": 4,
+      "software_only": 5,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 5,
+      "frequency": 5,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "拖延根因在用户行为，第三方工具可介入辅助。",
+      "leverage": "能提供结构化任务分解与提醒，显著减少拖延。",
+      "competition_gap": "现有时间管理App多针对 neurotypical，缺乏神经多样性适配。",
+      "software_only": "纯软件应用即可实现任务管理、提醒、激励等功能。",
+      "zero_onboarding": "需一定设置（任务输入、偏好），但可模板化降低门槛。",
+      "no_docs": "无需客户提供文档，但需内置认知行为策略库。",
+      "low_ops": "无实时运维需求，可离线或轻量云同步。",
+      "frequency": "拖延是每日高频问题，用户每天都会遇到。",
+      "self_serve_pay": "可提供低价订阅或买断，自助付费可行。"
+    },
+    "summary": "需求明确，软件可解，竞争少，高频痛点，适合单人开发维护。"
+  },
+  "d99dbe39e3329feb": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 4,
+      "competition_gap": 4,
+      "software_only": 5,
+      "zero_onboarding": 3,
+      "no_docs": 3,
+      "low_ops": 5,
+      "frequency": 2,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "可做独立排错助手，不依赖厂商介入。",
+      "leverage": "能给出纠错步骤，真正消除卡点。",
+      "competition_gap": "现有方案是论坛问答，无结构化工具。",
+      "software_only": "纯软件决策树/诊断即可实现。",
+      "zero_onboarding": "需按维修场景预置流程，略需配置。",
+      "no_docs": "需内置常见故障知识库，非客户文档。",
+      "low_ops": "无实时性要求，无需7×24运维。",
+      "frequency": "住户一年遇几次维修出错，低频。",
+      "self_serve_pay": "可低价订阅或买断，自助付费可行。"
+    },
+    "summary": "纯软件可做、竞争空隙明显，但低频且需预置知识库，适合轻量工具。"
+  },
+  "63f4bb5d7a4f7977": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 3,
+      "competition_gap": 4,
+      "software_only": 5,
+      "zero_onboarding": 2,
+      "no_docs": 3,
+      "low_ops": 5,
+      "frequency": 3,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "第三方可做协调工具，但无法强制家人参与",
+      "leverage": "能结构化讨论，但难真正促成一致",
+      "competition_gap": "家庭协调类工具少，但需求模糊难定位",
+      "software_only": "纯软件可做投票、议程、共识流程",
+      "zero_onboarding": "需全家注册并约定使用，门槛高",
+      "no_docs": "需引导建立家庭议题与规则库",
+      "low_ops": "无实时性要求，纯异步即可",
+      "frequency": "重大决策数月一次，日常小分歧更频繁",
+      "self_serve_pay": "个人可自助订阅，但付费意愿偏弱"
+    },
+    "summary": "痛点真实但难量化，家人协同门槛高，适合轻量共识工具而非核心产品。"
+  },
+  "e8d620fc6a8d8e16": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 4,
+      "competition_gap": 4,
+      "software_only": 5,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 5,
+      "frequency": 5,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "第三方可做记忆辅助工具，无需厂商介入。",
+      "leverage": "能自动记录约定并提醒，直接减少遗忘。",
+      "competition_gap": "现有提醒工具不针对人际沟通记忆。",
+      "software_only": "纯软件方案，手机或电脑应用即可。",
+      "zero_onboarding": "需用户输入或授权数据，有初始设置。",
+      "no_docs": "依赖用户个人数据，但无需外部文档。",
+      "low_ops": "本地或云轻量服务，无需7x24运维。",
+      "frequency": "人际沟通每日发生，遗忘频繁。",
+      "self_serve_pay": "可低价订阅或买断，自助付费。"
+    },
+    "summary": "需求真实高频，软件可解，竞争小，适合单人开发订阅产品。"
+  },
+  "e454cdb2b558fbf7": {
+    "scores": {
+      "third_party_actionable": 5,
+      "leverage": 4,
+      "competition_gap": 2,
+      "software_only": 5,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 5,
+      "frequency": 5,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "预算追踪纯属用户侧问题，第三方工具完全可介入。",
+      "leverage": "自动聚合流水并给出可执行预算，能真正改变结果。",
+      "competition_gap": "YNAB、Mint、银行自带预算已成熟且免费。",
+      "software_only": "纯软件即可，最多接银行API或手动导入。",
+      "zero_onboarding": "需连账户或导入流水，首次配置有门槛。",
+      "no_docs": "无需客户文档，但需处理银行账单格式。",
+      "low_ops": "无实时SLA，本地或轻云即可运行。",
+      "frequency": "家庭预算每天都会遇到，使用频率极高。",
+      "self_serve_pay": "低价订阅或买断可自助，但免费替代多。"
+    },
+    "summary": "需求真实高频，但巨头免费产品林立，单人难靠通用预算工具突围，需切细分场景。"
+  }
+}

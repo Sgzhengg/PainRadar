@@ -1,0 +1,331 @@
+[
+  {
+    "pain": "托盘图标不显示活跃下载数量徽章",
+    "theme": "软件功能与界面",
+    "quote": "Tray icon is there but like all other download managers it does not should any badge how many downloads are active there.",
+    "product_area": "托盘图标/通知",
+    "severity": 2
+  },
+  {
+    "pain": "yt-dlp 被标记为盗版导致下载失败",
+    "theme": "网络与连接问题",
+    "quote": "having issues downloading from other site, due to yt dl flagging it as piracy.. any workaround?",
+    "product_area": "下载引擎",
+    "severity": 4
+  },
+  {
+    "pain": "P2P 难以找到其他用户和所需内容",
+    "theme": "网络与连接问题",
+    "quote": "But the issue is with finding other users and the content you want.",
+    "product_area": "P2P 网络",
+    "severity": 3
+  },
+  {
+    "pain": "旧剪贴板应用偶发内存问题崩溃",
+    "theme": "软件功能与界面",
+    "quote": "sometimes it does have a memory issue and craps out. Reboot fixes it.",
+    "product_area": "剪贴板工具",
+    "severity": 2
+  },
+  {
+    "pain": "非美国区亚马逊定价功能失效",
+    "theme": "软件功能与界面",
+    "quote": "Non-US based Amazon pricing isn't working yet (Problem occurred late Sept 2026)",
+    "product_area": "价格查询",
+    "severity": 4
+  },
+  {
+    "pain": "难以快速建立合适的素材库",
+    "theme": "软件功能与界面",
+    "quote": "I had problems getting a good library together in a reasonably quick manner.",
+    "product_area": "素材管理",
+    "severity": 3
+  },
+  {
+    "pain": "更换 flair 后发帖按钮变灰无法发布",
+    "theme": "软件功能与界面",
+    "quote": "the Post button is greyed out and I can’t seem to get it to let me post.",
+    "product_area": "发帖流程",
+    "severity": 4
+  },
+  {
+    "pain": "POST硬件故障导致电脑关机",
+    "theme": "硬件故障与排查",
+    "quote": "The PC is turning off as something is from with POST related to hardware.",
+    "product_area": "硬件诊断",
+    "severity": 4
+  },
+  {
+    "pain": "担心未来更新或硬件问题无保修",
+    "theme": "售后与保修担忧",
+    "quote": "Its future updates that I'm concerned about or if its a hardware issue",
+    "product_area": "保修与更新",
+    "severity": 3
+  },
+  {
+    "pain": "已过延保担心硬件问题无覆盖",
+    "theme": "售后与保修担忧",
+    "quote": "I'm already 1 day past extended warranty so I worry if there's a hardware issue",
+    "product_area": "保修",
+    "severity": 4
+  },
+  {
+    "pain": "新驱动存在SSD读写问题",
+    "theme": "驱动与系统兼容",
+    "quote": "With the issues new ones have had with SSD reading and writing?",
+    "product_area": "驱动管理",
+    "severity": 3
+  },
+  {
+    "pain": "用户信息不足难以诊断",
+    "theme": "用户信息与诊断",
+    "quote": "A lot of general advice but you didn’t give us much to work with",
+    "product_area": "故障排查",
+    "severity": 2
+  },
+  {
+    "pain": "软件排查无效疑似游戏问题",
+    "theme": "驱动与系统兼容",
+    "quote": "done everything on the software side... I think it’s an issue with the game now",
+    "product_area": "游戏兼容性",
+    "severity": 4
+  },
+  {
+    "pain": "VPN下仍无法访问网站",
+    "theme": "网络与连接问题",
+    "quote": "I'm already using a VPN and it really is not porn more like a smut novel site.",
+    "product_area": "网络访问",
+    "severity": 3
+  },
+  {
+    "pain": "移动端无法更改设置",
+    "theme": "软件功能与界面",
+    "quote": "I can't change on mobile due to an issue I'm about to post themselves",
+    "product_area": "移动端设置",
+    "severity": 3
+  },
+  {
+    "pain": "游戏导致主机过热关机",
+    "theme": "硬件故障与排查",
+    "quote": "It caused it to overheat and shut down.",
+    "product_area": "散热",
+    "severity": 4
+  },
+  {
+    "pain": "BSOD原因未隔离",
+    "theme": "硬件故障与排查",
+    "quote": "I haven’t tried unplugging my audio interface entirely and testing to see if I still get bsod",
+    "product_area": "故障排查",
+    "severity": 3
+  },
+  {
+    "pain": "找不到蓝牙配对跳线信息",
+    "theme": "网络与连接问题",
+    "quote": "I can’t find anything about the jumper that they talk there",
+    "product_area": "硬件维修",
+    "severity": 3
+  },
+  {
+    "pain": "装驱动后显示器灰屏循环",
+    "theme": "驱动与系统兼容",
+    "quote": "right as it was about to finish installing, my monitor went gray and now same issue again",
+    "product_area": "显卡驱动",
+    "severity": 5
+  },
+  {
+    "pain": "无法判断故障来自驱动还是硬件",
+    "theme": "驱动与系统兼容",
+    "quote": "I want to know if the issue is specific to one of the drivers or the hardware itself",
+    "product_area": "GPU驱动/硬件诊断",
+    "severity": 3
+  },
+  {
+    "pain": "液态金属老化导致过热",
+    "theme": "硬件故障与排查",
+    "quote": "Over time the liquid metal moves and loses contact with the CPU so heat no longer gets transferred away properly, causing it to overheat.",
+    "product_area": "散热维护",
+    "severity": 4
+  },
+  {
+    "pain": "驱动问题需重装系统排查",
+    "theme": "驱动与系统兼容",
+    "quote": "Sounds like problems with graphics/chipset drivers, you can try using DDU and install latest drivers",
+    "product_area": "驱动管理",
+    "severity": 3
+  },
+  {
+    "pain": "新机游戏黑屏风扇狂转",
+    "theme": "硬件故障与排查",
+    "quote": "black screen while gaming followed by the fans suddenly spinning at 100%—is a classic graphics card (GPU) crash or power delivery issue",
+    "product_area": "GPU/供电",
+    "severity": 5
+  },
+  {
+    "pain": "1080显卡不受当前驱动支持",
+    "theme": "驱动与系统兼容",
+    "quote": "the 1080 is unsupported in current drivers",
+    "product_area": "驱动兼容性",
+    "severity": 3
+  },
+  {
+    "pain": "内存超频导致不稳定",
+    "theme": "硬件故障与排查",
+    "quote": "The CPU supports 5600. Anything higher can lead to problems",
+    "product_area": "内存兼容性",
+    "severity": 3
+  },
+  {
+    "pain": "疑似电脑故障需逐项排查",
+    "theme": "硬件故障与排查",
+    "quote": "Sounds like an issue with the computer. I would update drivers",
+    "product_area": "系统排障",
+    "severity": 3
+  },
+  {
+    "pain": "软件冲突难以定位",
+    "theme": "驱动与系统兼容",
+    "quote": "That way you can pinpoint if some software is a culprit",
+    "product_area": "系统排障",
+    "severity": 3
+  },
+  {
+    "pain": "怀疑转接线故障误换显卡",
+    "theme": "硬件故障与排查",
+    "quote": "I even bought a new GPU thinking my 4080 was faulty.",
+    "product_area": "硬件/转接线",
+    "severity": 4
+  },
+  {
+    "pain": "频繁重启无法正常使用",
+    "theme": "硬件故障与排查",
+    "quote": "PC has been mostly unusable because it would restart within a minute of logging into windows.",
+    "product_area": "系统稳定性",
+    "severity": 5
+  },
+  {
+    "pain": "游戏高负载时崩溃",
+    "theme": "硬件故障与排查",
+    "quote": "if I go into a busy match I'll crash in the middle of a fight with the same Kernal events (41)",
+    "product_area": "GPU/驱动",
+    "severity": 5
+  },
+  {
+    "pain": "硬崩溃原因不明",
+    "theme": "硬件故障与排查",
+    "quote": "That's a hard crash and can be caused by anything",
+    "product_area": "硬件诊断",
+    "severity": 4
+  },
+  {
+    "pain": "疑似过热或供电问题",
+    "theme": "硬件故障与排查",
+    "quote": "Most likely thermal throttling or power issue.",
+    "product_area": "散热/供电",
+    "severity": 3
+  },
+  {
+    "pain": "疑似显存故障画面异常",
+    "theme": "硬件故障与排查",
+    "quote": "On a PC that is usually an issue with the VRAM on the GPU.",
+    "product_area": "GPU硬件",
+    "severity": 4
+  },
+  {
+    "pain": "M2驱动与Windows冲突蓝屏",
+    "theme": "驱动与系统兼容",
+    "quote": "It seems that Windows and the M2 drivers are conflicting, which is triggering the BSOD.",
+    "product_area": "驱动兼容性",
+    "severity": 5
+  },
+  {
+    "pain": "未排查riser等外设问题",
+    "theme": "外设与硬件检测",
+    "quote": "As for the PCIE Riser, I have not.",
+    "product_area": "硬件排查",
+    "severity": 3
+  },
+  {
+    "pain": "网站误报恶意软件警告",
+    "theme": "网络与连接问题",
+    "quote": "I don't believe the message about having malware. It could be a form of CAPTCHA, but if so, it's extremely misguided.",
+    "product_area": "网站安全提示",
+    "severity": 3
+  },
+  {
+    "pain": "黑屏无响应疑似屏幕排线故障",
+    "theme": "硬件故障与排查",
+    "quote": "It was on, or stuck in sleep, with a black unresponsive screen.",
+    "product_area": "显示/硬件",
+    "severity": 4
+  },
+  {
+    "pain": "无法确认麦克风是否工作",
+    "theme": "外设与硬件检测",
+    "quote": "dont rely on an app to determine if mic input is working while the audio connection is established",
+    "product_area": "音频设备",
+    "severity": 3
+  },
+  {
+    "pain": "卸载后问题仍未解决",
+    "theme": "驱动与系统兼容",
+    "quote": "uninstalled and it still does not fix the issue unfortunately",
+    "product_area": "故障排查",
+    "severity": 3
+  },
+  {
+    "pain": "无法进入安全模式",
+    "theme": "驱动与系统兼容",
+    "quote": "I can't seemingly do the power button trick to enter safe mode.",
+    "product_area": "系统启动/恢复",
+    "severity": 4
+  },
+  {
+    "pain": "驱动报错不知如何处理",
+    "theme": "驱动与系统兼容",
+    "quote": "my PC said my driver was having issues and I had no idea what to do",
+    "product_area": "驱动管理",
+    "severity": 3
+  },
+  {
+    "pain": "冷启动掉盘反复出现",
+    "theme": "硬件故障与排查",
+    "quote": "the cold boot drops stopped completely even at 6000mt/s",
+    "product_area": "BIOS/电压设置",
+    "severity": 5
+  },
+  {
+    "pain": "华硕支持无效只让重装",
+    "theme": "售后与保修担忧",
+    "quote": "asus support was useless just telling me to reinstall windows lol",
+    "product_area": "售后支持",
+    "severity": 4
+  },
+  {
+    "pain": "Windows卡在开机logo",
+    "theme": "驱动与系统兼容",
+    "quote": "Seeing the Acer logo means screen and board are alive windows is choking",
+    "product_area": "系统启动",
+    "severity": 4
+  },
+  {
+    "pain": "未用租户遭短信轰炸计费",
+    "theme": "计费与账户异常",
+    "quote": "unauthorized SMS pumping in an unused Azure AD B2C tenant",
+    "product_area": "Azure计费/安全",
+    "severity": 5
+  },
+  {
+    "pain": "重置电脑选项缺失无法操作",
+    "theme": "驱动与系统兼容",
+    "quote": "the option to reset simply isnt here",
+    "product_area": "系统恢复",
+    "severity": 5
+  },
+  {
+    "pain": "杀毒清除后问题依旧",
+    "theme": "驱动与系统兼容",
+    "quote": "i managed to delete them all however that did not seem to help with my issue",
+    "product_area": "恶意软件清除",
+    "severity": 3
+  }
+]

@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "description": "品类模板：新建品类时复用结构。每个模板包含主题表、建议板块、关键词与领域词。",
+  "templates": {
+    "pdf": {
+      "subreddits": ["pdf", "software", "macapps"],
+      "keywords": ["subscription", "cancel", "refund", "expensive", "price", "adobe"],
+      "domain_terms": ["pdf", "acrobat", "ocr", "document", "form"],
+      "themes": [
+        "付费与订阅",
+        "功能缺失与限制",
+        "配置与使用门槛",
+        "PDF 编辑与表单",
+        "格式转换与 OCR",
+        "性能与稳定性",
+        "界面与易用性",
+        "弹窗与广告",
+        "隐私与 AI 开关",
+        "文件管理",
+        "其他"
+      ]
+    },
+    "password": {
+      "subreddits": ["password_manager", "1password", "Bitwarden", "privacy"],
+      "keywords": ["subscription", "expensive", "autofill", "sync", "export", "migration"],
+      "domain_terms": ["password", "1password", "bitwarden", "vault", "autofill"],
+      "themes": [
+        "付费与订阅",
+        "自动填充与集成",
+        "同步与多设备",
+        "安全与信任",
+        "导入导出与迁移",
+        "界面与易用性",
+        "功能缺失与限制",
+        "性能与稳定性",
+        "客服与支持",
+        "其他"
+      ]
+    },
+    "generic_saas": {
+      "subreddits": [],
+      "keywords": ["subscription", "expensive", "bug", "slow", "export", "support"],
+      "domain_terms": [],
+      "themes": [
+        "付费与订阅",
+        "功能缺失与限制",
+        "性能与稳定性",
+        "界面与易用性",
+        "集成与兼容",
+        "数据与隐私",
+        "客服与支持",
+        "导入导出与迁移",
+        "其他"
+      ]
+    }
+  }
+}

@@ -1,0 +1,561 @@
+[
+  {
+    "demand_id": "dm_080f626098",
+    "label": "数据同步与准确性差",
+    "size": 105,
+    "type": "数据同步与准确性差",
+    "definition": "设备或App的数据记录、同步不准确或丢失，如睡眠记录中断、银行交易不同步、植物识别错误；不包括用户输入错误。",
+    "buyer": "依赖数据记录的用户",
+    "buyer_by_domain": {
+      "sleep_tech": "长期用户",
+      "budgeting": "记账理财应用用户",
+      "plant_care": "植物养护应用用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "budgeting": 44,
+      "sleep_tech": 37,
+      "plant_care": 24
+    },
+    "apps": [
+      "1138066420",
+      "1252497129",
+      "1410126781",
+      "1490078804",
+      "1612792132",
+      "320606217"
+    ],
+    "l2_share": 0.114,
+    "intensity": 0.465,
+    "cost_share": 0.067,
+    "wtp_share": 0.0,
+    "score": 63.5,
+    "quote": "The sleep app that comes on the watch always had me asleep when I was laying wide awake staring at my ceiling.",
+    "variants": 5,
+    "examples": [
+      {
+        "quote": "The sleep app that comes on the watch always had me asleep when I was laying wide awake staring at my ceiling.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "I start recording when I go to sleep but in the morning the app is frozen, no recording and I have to manually adjust sleeping times.",
+        "domain": "sleep_tech",
+        "level": "L2",
+        "app": "1138066420"
+      },
+      {
+        "quote": "I’ve used the app for years and had even bought it back before it was free, but now when I try to listen to a podcast or something while falling asleep, the sound randomly becomes SUPER LOUD, which is incredibly frustrating and counter productive.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "320606217"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_bed7abeac5",
+    "label": "设备/App频繁故障或崩溃",
+    "size": 16,
+    "type": "设备/App频繁故障或崩溃",
+    "definition": "硬件设备或应用程序出现停止工作、崩溃、冻结等影响正常使用的问题；不包括功能设计缺陷或缺失。",
+    "buyer": "智能设备/App用户",
+    "buyer_by_domain": {
+      "pet_water_fountain": "上班族",
+      "sleep_tech": "长期用户",
+      "plant_care": "植物养护应用用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "pet_water_fountain": 7,
+      "sleep_tech": 6,
+      "plant_care": 3
+    },
+    "apps": [
+      "1138066420",
+      "1252497129",
+      "1586120661",
+      "320606217",
+      "994053492"
+    ],
+    "l2_share": 0.062,
+    "intensity": 0.425,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 52.5,
+    "quote": "It’s definitely a cool design but the sensor only worked 1 time for my cat going to the bathroom and now I have to manually get it to scoop which is still easy just not what they say with the automatic scooping. Also to get kitty litter into it is almost impossible without making a mess.",
+    "variants": 4,
+    "examples": [
+      {
+        "quote": "It’s definitely a cool design but the sensor only worked 1 time for my cat going to the bathroom and now I have to manually get it to scoop which is still easy just not what they say with the automatic scooping. Also to get kitty litter into it is almost impossible without making a mess.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      },
+      {
+        "quote": "Every tune I put it in maintenance mode and add litter it messes up the sensor.",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "994053492"
+      },
+      {
+        "quote": "Cat in litterbox sensor keeps going off and won't turn after dumping waste in the container.",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "994053492"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_ed35195ae0",
+    "label": "提醒机制不灵活或缺失",
+    "size": 58,
+    "type": "提醒机制不灵活或缺失",
+    "definition": "用户需要自定义或接收重要提醒（如补水、清洁、预算超支），但现有提醒无法编辑、缺失或干扰日程；不包括社交通知。",
+    "buyer": "需要提醒管理的用户",
+    "buyer_by_domain": {
+      "pet_water_fountain": "上班族",
+      "plant_care": "植物养护应用用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "plant_care": 32,
+      "pet_water_fountain": 26
+    },
+    "apps": [
+      "1252497129",
+      "1410126781",
+      "1586120661",
+      "1612792132",
+      "994053492"
+    ],
+    "l2_share": 0.19,
+    "intensity": 0.493,
+    "cost_share": 0.034,
+    "wtp_share": 0.017,
+    "score": 41.1,
+    "quote": "the one feature the app needs is a push notification when the water gets low",
+    "variants": 3,
+    "examples": [
+      {
+        "quote": "the one feature the app needs is a push notification when the water gets low",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "994053492"
+      },
+      {
+        "quote": "I cannot even edit this reminder so I deleted it and will use a calendar reminder instead.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      },
+      {
+        "quote": "the sensor only worked 1 time for my cat going to the bathroom and now I have to manually get it to scoop",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_12a750139c",
+    "label": "关键功能需额外付费",
+    "size": 46,
+    "type": "关键功能需额外付费",
+    "definition": "产品的基础或宣传中的关键功能需要订阅或额外付费才能使用；不包括高级增值功能。",
+    "buyer": "已购买产品的用户",
+    "buyer_by_domain": {
+      "pet_water_fountain": "上班族",
+      "budgeting": "记账理财应用用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "budgeting": 25,
+      "pet_water_fountain": 21
+    },
+    "apps": [
+      "1586120661",
+      "1621020173",
+      "936422955",
+      "949414211",
+      "994053492"
+    ],
+    "l2_share": 0.109,
+    "intensity": 0.457,
+    "cost_share": 0.109,
+    "wtp_share": 0.0,
+    "score": 39.5,
+    "quote": "It’s easy to make you feel like you have made a mistake when your brand new machine requires hundreds of dollars worth of upgrades to work properly.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "It’s easy to make you feel like you have made a mistake when your brand new machine requires hundreds of dollars worth of upgrades to work properly.",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "1586120661"
+      },
+      {
+        "quote": "I thought it would at least record when sound detections were made but I wasn’t able to find any recordings.",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "1586120661"
+      },
+      {
+        "quote": "it does help a lot with budgeting but $13 a month isn’t worth it let alone $75 for a whole year when the whole point is for me to save money.",
+        "domain": "budgeting",
+        "level": "L1",
+        "app": "949414211"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "订阅自动续费不透明",
+    "size": 39,
+    "type": "订阅自动续费不透明",
+    "definition": "用户对订阅的自动续费、免费试用转付费、扣费时机不明确或未授权扣费感到不满；不包括一次性购买或硬件费用。",
+    "buyer": "订阅制App用户",
+    "buyer_by_domain": {
+      "sleep_tech": "睡眠应用用户",
+      "plant_care": "新手"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "plant_care": 36,
+      "sleep_tech": 3
+    },
+    "apps": [
+      "1252497129",
+      "1410126781",
+      "1490078804",
+      "1612792132"
+    ],
+    "l2_share": 0.051,
+    "intensity": 0.436,
+    "cost_share": 0.179,
+    "wtp_share": 0.0,
+    "score": 37.8,
+    "quote": "99 for a year that you think you are signing up for but you get seven day free trial when you click it they charge you the $59.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "99 for a year that you think you are signing up for but you get seven day free trial when you click it they charge you the $59.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1490078804"
+      },
+      {
+        "quote": "I thought I signed up for the free trail but it charged me $43 off the bat.",
+        "domain": "plant_care",
+        "level": "L1",
+        "app": "1410126781"
+      },
+      {
+        "quote": "I don’t think that is fair because if I used it I would understand but they charged me for a year when I deleted the app.",
+        "domain": "plant_care",
+        "level": "L1",
+        "app": "1252497129"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_9102326afa",
+    "label": "界面复杂难用",
+    "size": 29,
+    "type": "界面复杂难用",
+    "definition": "应用程序或设备界面设计混乱、操作繁琐、学习成本高；不包括功能缺失或性能问题。",
+    "buyer": "所有用户",
+    "buyer_by_domain": {
+      "pet_water_fountain": "宠物智能设备用户",
+      "budgeting": "记账理财应用用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "budgeting": 26,
+      "pet_water_fountain": 3
+    },
+    "apps": [
+      "1586120661",
+      "1621020173",
+      "936422955",
+      "949414211",
+      "994053492"
+    ],
+    "l2_share": 0.034,
+    "intensity": 0.428,
+    "cost_share": 0.103,
+    "wtp_share": 0.0,
+    "score": 37.1,
+    "quote": "I deleted the app within 10 minutes when I realized I couldn’t even add my expenses / savings and create a budget without subscribing for $25.",
+    "variants": 3,
+    "examples": [
+      {
+        "quote": "I deleted the app within 10 minutes when I realized I couldn’t even add my expenses / savings and create a budget without subscribing for $25.",
+        "domain": "budgeting",
+        "level": "L1",
+        "app": "1621020173"
+      },
+      {
+        "quote": "And OVERVIEW IS THE WORST it has a wheel that always shakes or moves when you scroll to the next month this is horribly distracting",
+        "domain": "budgeting",
+        "level": "L1",
+        "app": "936422955"
+      },
+      {
+        "quote": "I use it for the most basic budgeting approach, and its still frustrating.",
+        "domain": "budgeting",
+        "level": "L1",
+        "app": "936422955"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2265f5336d",
+    "label": "客服响应慢且不解决问题",
+    "size": 15,
+    "type": "客服响应慢且不解决问题",
+    "definition": "用户联系客服后等待时间长、得不到有效回复或问题无法解决；不包括自助服务或社区支持。",
+    "buyer": "需要售后支持的用户",
+    "buyer_by_domain": {
+      "pet_water_fountain": "上班族",
+      "sleep_tech": "长期用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "pet_water_fountain": 12,
+      "sleep_tech": 3
+    },
+    "apps": [
+      "1138066420",
+      "1586120661",
+      "994053492"
+    ],
+    "l2_share": 0.267,
+    "intensity": 0.44,
+    "cost_share": 0.133,
+    "wtp_share": 0.0,
+    "score": 36.8,
+    "quote": "When I call customer support, I'm told there are no agents available, that I need to leave a message and and I will hear back within 48 hours.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "When I call customer support, I'm told there are no agents available, that I need to leave a message and and I will hear back within 48 hours.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "1586120661"
+      },
+      {
+        "quote": "Their customer service is completely nonexistent and they think I’m going to pay $72 to return their nonfunctional garbage",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "1586120661"
+      },
+      {
+        "quote": "I’m able to fix most issues myself due to customer service being mostly useless, and I like the auto feeders I just think there are small improvements that could be made to make it a better user experience.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "1586120661"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_d322de085a",
+    "label": "广告过多干扰使用",
+    "size": 12,
+    "type": "广告过多干扰使用",
+    "definition": "应用程序中广告出现频繁、影响核心功能使用或用户体验；不包括应用内推广自身服务。",
+    "buyer": "免费版用户",
+    "buyer_by_domain": {
+      "sleep_tech": "长期用户",
+      "custom_coffee_maker": "咖啡机用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_coffee_maker": 8,
+      "sleep_tech": 4
+    },
+    "apps": [
+      "1591921962",
+      "1603584945",
+      "1610991235",
+      "320606217"
+    ],
+    "l2_share": 0.0,
+    "intensity": 0.5,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 34.6,
+    "quote": "I’ve used the app for years and have always liked it.",
+    "variants": 3,
+    "examples": [
+      {
+        "quote": "I’ve used the app for years and have always liked it.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "320606217"
+      },
+      {
+        "quote": "I am so disappointed that this app has ads now.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "320606217"
+      },
+      {
+        "quote": "But, the only problem is the amount of ads.",
+        "domain": "custom_coffee_maker",
+        "level": "L1",
+        "app": "1610991235"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_e32ddc3033",
+    "label": "外出时远程监控不可靠",
+    "size": 5,
+    "type": "外出时远程监控不可靠",
+    "definition": "用户外出时依赖设备远程监控宠物或家庭状态，但连接不稳定、功能失效或操作复杂；不包括日常在家使用。",
+    "buyer": "经常外出的宠物主人",
+    "buyer_by_domain": {
+      "pet_water_fountain": "经常出差旅行的养宠人"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "pet_water_fountain": 5
+    },
+    "apps": [
+      "1586120661",
+      "994053492"
+    ],
+    "l2_share": 0.2,
+    "intensity": 0.64,
+    "cost_share": 0.2,
+    "wtp_share": 0.2,
+    "score": 23.1,
+    "quote": "I have had to make them go and buy an old litter box at Walmart in place of the $600 litter box.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I have had to make them go and buy an old litter box at Walmart in place of the $600 litter box.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "1586120661"
+      },
+      {
+        "quote": "I travel a lot and it’s so good to able know when your is eating",
+        "domain": "pet_water_fountain",
+        "level": "L0",
+        "app": "994053492"
+      },
+      {
+        "quote": "This is so amazing I travel a lot and it’s so good to able know when your is eating I will recommend this product to others",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "994053492"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_8c53e7b896",
+    "label": "退款流程困难",
+    "size": 20,
+    "type": "退款流程困难",
+    "definition": "用户申请退款时遇到阻碍，如客服不回应、退款政策苛刻、流程复杂；不包括换货或维修。",
+    "buyer": "申请退款的用户",
+    "buyer_by_domain": {
+      "sleep_tech": "长期用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "sleep_tech": 20
+    },
+    "apps": [
+      "1138066420",
+      "1490078804",
+      "320606217"
+    ],
+    "l2_share": 0.15,
+    "intensity": 0.42,
+    "cost_share": 0.05,
+    "wtp_share": 0.0,
+    "score": 17.9,
+    "quote": "I used to love it. Has deteriorated over time. Doesn’t record sometimes. Tried getting support, sent data, asked to resend data, slow response. Today it will not refresh only crash.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I used to love it. Has deteriorated over time. Doesn’t record sometimes. Tried getting support, sent data, asked to resend data, slow response. Today it will not refresh only crash.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "Horrible experience, terrible interface and when I requested a refund they never responded to my email.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "320606217"
+      },
+      {
+        "quote": "Wonderful app till ios 18, when sleepwatch stopped working.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_a7dc9aa658",
+    "label": "硬件设计缺陷影响使用",
+    "size": 17,
+    "type": "硬件设计缺陷影响使用",
+    "definition": "硬件产品在设计上存在不合理之处，如开口太小、传感器不灵敏、不易清洁等；不包括软件问题。",
+    "buyer": "硬件产品用户",
+    "buyer_by_domain": {
+      "pet_water_fountain": "上班族"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "pet_water_fountain": 17
+    },
+    "apps": [
+      "1586120661",
+      "994053492"
+    ],
+    "l2_share": 0.235,
+    "intensity": 0.435,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 17.2,
+    "quote": "Petkit’s opening is smaller than my past and the cats did not like the tofu litter. I do have multiple cats and each one has their own issues. In order to make it work I had to go back to the clay type litter they were use too.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Petkit’s opening is smaller than my past and the cats did not like the tofu litter. I do have multiple cats and each one has their own issues. In order to make it work I had to go back to the clay type litter they were use too.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      },
+      {
+        "quote": "I used to receive updates when my cat food was low.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "1586120661"
+      },
+      {
+        "quote": "You broke it!. I just got an update and now I can’t load my videos at all.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "1586120661"
+      }
+    ]
+  }
+]

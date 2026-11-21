@@ -1,0 +1,452 @@
+[
+  {
+    "demand_id": "dm_080f626098",
+    "label": "订阅/付费模式不合理",
+    "size": 8,
+    "type": "订阅/付费模式不合理",
+    "definition": "用户认为订阅价格过高、付费墙限制核心功能或付费模式与价值不匹配；不包括一次性购买的价格争议。",
+    "buyer": "个人用户/小团队",
+    "buyer_by_domain": {
+      "custom_developer_tools": "开发者",
+      "custom_productivity_tools": "mac apps studio 联合创始人、学生"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_productivity_tools": 6,
+      "custom_developer_tools": 2
+    },
+    "apps": [],
+    "l2_share": 0.5,
+    "intensity": 0.575,
+    "cost_share": 0.125,
+    "wtp_share": 0.125,
+    "score": 39.1,
+    "quote": "very few companies actually care to pay for Docker Desktop or the other services they sell",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "very few companies actually care to pay for Docker Desktop or the other services they sell",
+        "domain": "custom_developer_tools",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "Honestly, even $500-1000 per year is more than enough to help me get by.",
+        "domain": "custom_productivity_tools",
+        "level": "L3",
+        "app": ""
+      },
+      {
+        "quote": "just go sign up for Claude, but not the max or new ultra plans, what you want is the API pricing, less headaches and stoppages",
+        "domain": "custom_developer_tools",
+        "level": "L3",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_e32ddc3033",
+    "label": "同步/备份状态不透明",
+    "size": 17,
+    "type": "同步/备份状态不透明",
+    "definition": "多设备同步或备份过程中缺乏状态反馈、冲突提示或恢复验证，用户无法确认数据一致性；不包括初始设置。",
+    "buyer": "多设备用户/自建服务者",
+    "buyer_by_domain": {
+      "custom_developer_tools": "Plex 用户/自建媒体服务器用户",
+      "custom_productivity_tools": "使用 Notion 和 Obsidian 做学习笔记的用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_productivity_tools": 13,
+      "custom_developer_tools": 4
+    },
+    "apps": [],
+    "l2_share": 0.647,
+    "intensity": 0.541,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 38.6,
+    "quote": "The two revisions are identical, there is no `cannot sync:` line, no `diverged on disk` line and no approval pending, so the user cannot tell what is out of sync or what to do.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "The two revisions are identical, there is no `cannot sync:` line, no `diverged on disk` line and no approval pending, so the user cannot tell what is out of sync or what to do.",
+        "domain": "custom_developer_tools",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "I couldn’t get it to sync nicely with my iPad",
+        "domain": "custom_productivity_tools",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "Nerobiť náhodný doplnok textu bez zistenia miesta straty.",
+        "domain": "custom_productivity_tools",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2265f5336d",
+    "label": "跨平台行为不一致",
+    "size": 15,
+    "type": "跨平台行为不一致",
+    "definition": "同一功能在不同操作系统或设备上表现不同，导致使用困难或结果差异；不包括单纯的平台专属功能缺失。",
+    "buyer": "跨平台用户",
+    "buyer_by_domain": {
+      "custom_developer_tools": "开发者",
+      "custom_productivity_tools": "Obsidian 与 ChatGPT 用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_developer_tools": 9,
+      "custom_productivity_tools": 6
+    },
+    "apps": [],
+    "l2_share": 0.533,
+    "intensity": 0.56,
+    "cost_share": 0.067,
+    "wtp_share": 0.0,
+    "score": 38.2,
+    "quote": "The only serious IDE is Windows-specific, starts at $600 for the typical company (with advanced editions costing more than a small    car   )... and THEN you need to pay $200 more for a JetBrains add-on called ReSharper",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "The only serious IDE is Windows-specific, starts at $600 for the typical company (with advanced editions costing more than a small    car   )... and THEN you need to pay $200 more for a JetBrains add-on called ReSharper",
+        "domain": "custom_developer_tools",
+        "level": "L3",
+        "app": ""
+      },
+      {
+        "quote": "Dictation styles don’t seem to work the same way on Mac as they do on iOS.",
+        "domain": "custom_productivity_tools",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "The package says it runs on any OS, and it is distributed through a Homebrew tap, but CI runs the test suite on Ubuntu only.",
+        "domain": "custom_developer_tools",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_9102326afa",
+    "label": "插件/扩展兼容性差",
+    "size": 16,
+    "type": "插件/扩展兼容性差",
+    "definition": "插件或扩展在特定版本、平台或环境下无法加载、功能失效或引发冲突；不包括插件市场缺失。",
+    "buyer": "插件开发者/高级用户",
+    "buyer_by_domain": {
+      "custom_developer_tools": "Jellyfin 自建服务器用户（Docker/Linux）",
+      "custom_productivity_tools": "Echo 的开发者/设计者"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_productivity_tools": 9,
+      "custom_developer_tools": 7
+    },
+    "apps": [],
+    "l2_share": 0.5,
+    "intensity": 0.5,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 36.4,
+    "quote": "Disabling grouping and selecting individual libraries in the plugin settings resolves and trailers play.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Disabling grouping and selecting individual libraries in the plugin settings resolves and trailers play.",
+        "domain": "custom_developer_tools",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "Currently, I directly modify `main.js`. Changing the three instances of `slice(0, 10)` to `slice(0, 20)` allows up to 20 images to be displayed. However, this change is lost every time the plugin is updated.",
+        "domain": "custom_productivity_tools",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "Plugin fails to load on Obsidian 1.15+: Class constructor cannot be invoked without 'new'.",
+        "domain": "custom_productivity_tools",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_a7dc9aa658",
+    "label": "社区发帖被自动删除",
+    "size": 6,
+    "type": "社区发帖被自动删除",
+    "definition": "在论坛或社区发帖时因规则不明确或自动审核被移除，且缺乏解释或申诉渠道；不包括内容违规。",
+    "buyer": "社区新用户/开发者",
+    "buyer_by_domain": {
+      "custom_developer_tools": "VS Code 扩展开发者",
+      "custom_productivity_tools": "macOS 应用开发者"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_developer_tools": 4,
+      "custom_productivity_tools": 2
+    },
+    "apps": [],
+    "l2_share": 0.5,
+    "intensity": 0.433,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 34.2,
+    "quote": "VS Code character edits held in a destroyed webview, or still in transit, are lost without a dirty marker.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "VS Code character edits held in a destroyed webview, or still in transit, are lost without a dirty marker.",
+        "domain": "custom_developer_tools",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "Your post has been automatically removed.",
+        "domain": "custom_developer_tools",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "Your post has been automatically removed.",
+        "domain": "custom_developer_tools",
+        "level": "L1",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "工具崩溃/卡死无提示",
+    "size": 13,
+    "type": "工具崩溃/卡死无提示",
+    "definition": "应用或编辑器在运行中意外崩溃、冻结或卡死，且没有错误信息或恢复机制；不包括功能缺失或性能缓慢。",
+    "buyer": "开发者/终端用户",
+    "buyer_by_domain": {
+      "custom_developer_tools": "Linux x64 上的 VS Code 用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_developer_tools": 13
+    },
+    "apps": [],
+    "l2_share": 0.615,
+    "intensity": 0.646,
+    "cost_share": 0.0,
+    "wtp_share": 0.077,
+    "score": 23.1,
+    "quote": "it practically crashed (freezing the whole editor) 1/2 of the times so I reverted back to atom",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "it practically crashed (freezing the whole editor) 1/2 of the times so I reverted back to atom",
+        "domain": "custom_developer_tools",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "Windows: publishing a port on a host IP (-p IP:port:port) fails with 'Address not available (os error 99)'; 0.0.0.0 is loopback-only.",
+        "domain": "custom_developer_tools",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "I just updated to the recent version TODAY and had it freeze literally 3-4 times and fully crash once",
+        "domain": "custom_developer_tools",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_d322de085a",
+    "label": "资源占用高导致卡顿",
+    "size": 6,
+    "type": "资源占用高导致卡顿",
+    "definition": "应用或后台进程消耗过多内存、CPU，导致设备变慢或应用被系统终止；不包括网络延迟。",
+    "buyer": "移动端/低配设备用户",
+    "buyer_by_domain": {
+      "custom_developer_tools": "安卓掌机玩家"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_developer_tools": 6
+    },
+    "apps": [],
+    "l2_share": 0.5,
+    "intensity": 0.6,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 19.7,
+    "quote": "Also lately it has been very error prone. Randomly failing at mounting files, or cleaning up networking rules, or suddenly becoming bog slow so I have to restart the VM.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "Also lately it has been very error prone. Randomly failing at mounting files, or cleaning up networking rules, or suddenly becoming bog slow so I have to restart the VM.",
+        "domain": "custom_developer_tools",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "Android closed DS Forever because the device ran low on memory. The game was running (still loading, 1 min in).",
+        "domain": "custom_developer_tools",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "Docker desktop on mac does not work well (uses lots of resources) and my current alternative is OrbStack (very slick, uses far less resources, but freemium).",
+        "domain": "custom_developer_tools",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_ed35195ae0",
+    "label": "权限提示干扰操作",
+    "size": 9,
+    "type": "权限提示干扰操作",
+    "definition": "频繁或强制的权限请求、授权弹窗打断工作流，或权限模型设计不合理；不包括安全漏洞本身。",
+    "buyer": "开发者/运维人员",
+    "buyer_by_domain": {
+      "custom_developer_tools": "开发者"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_developer_tools": 9
+    },
+    "apps": [],
+    "l2_share": 0.556,
+    "intensity": 0.533,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 19.6,
+    "quote": "Permission prompts is a TERRIBLE model, and never should have existed.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Permission prompts is a TERRIBLE model, and never should have existed.",
+        "domain": "custom_developer_tools",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "The screens still use the demo adapter.",
+        "domain": "custom_developer_tools",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "with privilege separation the token starts with no permissions at all, so PVEAuditor needs granting on the token itself or the inventory quietly comes back empty",
+        "domain": "custom_developer_tools",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_12a750139c",
+    "label": "数据导入导出困难",
+    "size": 4,
+    "type": "数据导入导出困难",
+    "definition": "在不同应用或格式之间迁移数据时步骤繁琐、丢失内容或无法自动化；不包括备份与恢复场景。",
+    "buyer": "迁移用户/知识工作者",
+    "buyer_by_domain": {
+      "custom_productivity_tools": "Notion 用户，考虑迁移到 Obsidian"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_productivity_tools": 4
+    },
+    "apps": [],
+    "l2_share": 0.5,
+    "intensity": 0.55,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 18.7,
+    "quote": "Today this takes four manual steps: build `.rtdd/graph.json`, run graphify's `export obsidian` on it, register the folder as a vault, and open it. On bangwa the whole chain took about 8 seconds. The command should make it one step.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Today this takes four manual steps: build `.rtdd/graph.json`, run graphify's `export obsidian` on it, register the folder as a vault, and open it. On bangwa the whole chain took about 8 seconds. The command should make it one step.",
+        "domain": "custom_productivity_tools",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "There is no way to bring\none into SpeakoFlow and get the same result a live meeting gets",
+        "domain": "custom_productivity_tools",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "The notion files can be exported as .md files, right? So rehoming the notion files on obsidian would be annoying but possible? Anyone got workflow suggestions?",
+        "domain": "custom_productivity_tools",
+        "level": "L1",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2f434ba53b",
+    "label": "搜索/导航找不到内容",
+    "size": 17,
+    "type": "搜索/导航找不到内容",
+    "definition": "在应用内搜索、启动器或导航中无法定位目标文件、功能或信息；不包括网络搜索。",
+    "buyer": "普通用户/知识工作者",
+    "buyer_by_domain": {
+      "custom_productivity_tools": "Notion 部署管理员"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_productivity_tools": 17
+    },
+    "apps": [],
+    "l2_share": 0.294,
+    "intensity": 0.518,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 17.7,
+    "quote": "It seems I can't type anything to get weather in a city with unique characters. I.e check Malmö (Sweden). Malmo, Malm, Malmö - nothing works.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "It seems I can't type anything to get weather in a city with unique characters. I.e check Malmö (Sweden). Malmo, Malm, Malmö - nothing works.",
+        "domain": "custom_productivity_tools",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "Launchers start with a minimal `PATH` that usually can't find `node` (exit 127 when tried). Use an absolute path, or one through mise or Homebrew.",
+        "domain": "custom_productivity_tools",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "On install, Nimbus doesn't find my MacPorts installed rclone in /opt/local/bin/.  I let the app download its own copy which is fine.",
+        "domain": "custom_productivity_tools",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  }
+]

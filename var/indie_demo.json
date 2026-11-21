@@ -1,0 +1,107 @@
+[
+  {
+    "note_id": "demo-1",
+    "title": "受够了 Smallpdf 的订阅，有没有一次买断的 PDF 工具？",
+    "desc": "每个月就转几个文件，结果订阅 12 美元，取消还找不到入口。",
+    "url": "https://example.com/posts/demo-1",
+    "liked_count": 342,
+    "comments": [
+      {
+        "comment_id": "c11",
+        "content": "Smallpdf 最恶心的是取消订阅：网页里根本没入口，要找客服发邮件。",
+        "like_count": 286,
+        "sub_comments": [
+          {"comment_id": "c11r1", "content": "我也是被扣了三个月才发现，求一个能本地处理、一次买断的", "like_count": 74},
+          {"comment_id": "c11r2", "content": "同求平替，最好支持合并和压缩就行", "like_count": 31}
+        ]
+      },
+      {
+        "comment_id": "c12",
+        "content": "Adobe 更贵，一年两千多，功能我一年用不到三次。",
+        "like_count": 143,
+        "sub_comments": []
+      },
+      {
+        "comment_id": "c13",
+        "content": "👍👍👍",
+        "like_count": 2,
+        "sub_comments": []
+      },
+      {
+        "comment_id": "c14",
+        "content": "@小王 你看这个",
+        "like_count": 1,
+        "sub_comments": []
+      },
+      {
+        "comment_id": "c15",
+        "content": "想要同款的加V私我，链接在主页，免费领取",
+        "like_count": 0,
+        "sub_comments": []
+      }
+    ]
+  },
+  {
+    "note_id": "demo-2",
+    "title": "每天手动把 200 份 PDF 里的表格抄进 Excel，快疯了",
+    "desc": "财务对账，扫描件多，人工录入一天，错一个数就要重来。",
+    "url": "https://example.com/posts/demo-2",
+    "liked_count": 198,
+    "comments": [
+      {
+        "comment_id": "c21",
+        "content": "我们也是，扫描件 OCR 出来格式全乱，还得手动调表格，一天就没了。",
+        "like_count": 167,
+        "sub_comments": [
+          {"comment_id": "c21r1", "content": "试过几个工具，表格识别都不行，最后只能人工", "like_count": 45}
+        ]
+      },
+      {
+        "comment_id": "c22",
+        "content": "如果有能批量识别扫描件表格并导出 Excel 的，我愿意花钱买，按次也行。",
+        "like_count": 132,
+        "sub_comments": []
+      },
+      {
+        "comment_id": "c23",
+        "content": "哈哈",
+        "like_count": 0,
+        "sub_comments": []
+      }
+    ]
+  },
+  {
+    "note_id": "demo-3",
+    "title": "PDF 表单填完打印出来是空白的，有人遇到过吗",
+    "desc": "公司报销单，填完在预览里正常，打印就变白纸。",
+    "url": "https://example.com/posts/demo-3",
+    "liked_count": 96,
+    "comments": [
+      {
+        "comment_id": "c31",
+        "content": "用 Acrobat 填完必须压平表单再打印，不然就这样，但压平又要订阅版。",
+        "like_count": 88,
+        "sub_comments": [
+          {"comment_id": "c31r1", "content": "对，免费版没有压平，最后只能截图打印，糊得没法看", "like_count": 26}
+        ]
+      },
+      {
+        "comment_id": "c32",
+        "content": "有没有免费工具能填表加压平的？求推荐",
+        "like_count": 41,
+        "sub_comments": []
+      }
+    ]
+  },
+  {
+    "note_id": "demo-4",
+    "title": "PDF 合并软件推荐",
+    "desc": "就想把几个 PDF 合在一起。",
+    "url": "https://example.com/posts/demo-4",
+    "liked_count": 12,
+    "comments": [
+      {"comment_id": "c41", "content": "系统预览就能合并，拖进去就行", "like_count": 9, "sub_comments": []},
+      {"comment_id": "c42", "content": "确实", "like_count": 3, "sub_comments": []}
+    ]
+  }
+]

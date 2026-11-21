@@ -1,0 +1,524 @@
+[
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "订阅取消与退款不透明",
+    "size": 215,
+    "type": "订阅取消与退款不透明",
+    "definition": "用户难以取消订阅、被意外扣费或申请退款受阻；不包括应用内广告过多的问题。",
+    "buyer": "付费订阅用户",
+    "buyer_by_domain": {
+      "sleep_tech": "使用该应用五六年的 Apple Watch 用户",
+      "budgeting": "从 Mint 迁移、使用过 PocketGuard 的预算应用用户",
+      "plant_care": "植物养护应用用户",
+      "pet_water_fountain": "付费订阅用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "budgeting": 91,
+      "pet_water_fountain": 86,
+      "sleep_tech": 30,
+      "plant_care": 8
+    },
+    "apps": [
+      "1138066420",
+      "1252497129",
+      "1410126781",
+      "1490078804",
+      "1586120661",
+      "1621020173"
+    ],
+    "l2_share": 0.316,
+    "intensity": 0.788,
+    "cost_share": 0.126,
+    "wtp_share": 0.047,
+    "score": 88.0,
+    "quote": "after I woke up it wouldn’t let me view the recordings without paying for a ridiculous subscription",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "after I woke up it wouldn’t let me view the recordings without paying for a ridiculous subscription",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "I answered all this information just to have it say that I need premium to see what happened when I slept so if you don’t want to pay for something don’t try this app.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "my data and recordings only belong to me if I pay $58 for membership",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "320606217"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2f434ba53b",
+    "label": "关键提醒与警报不可靠",
+    "size": 201,
+    "type": "关键提醒与警报不可靠",
+    "definition": "应用发出的提醒（浇水、喂食、闹钟）未按时触发、误触发或无法关闭；不包括设备故障导致的提醒失败。",
+    "buyer": "依赖提醒功能的用户",
+    "buyer_by_domain": {
+      "sleep_tech": "多年使用该应用的老用户",
+      "plant_care": "10岁女孩，第一次使用该应用",
+      "pet_water_fountain": "养狗人士"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "sleep_tech": 80,
+      "pet_water_fountain": 71,
+      "plant_care": 50
+    },
+    "apps": [
+      "1138066420",
+      "1252497129",
+      "1410126781",
+      "1490078804",
+      "1586120661",
+      "1612792132"
+    ],
+    "l2_share": 0.358,
+    "intensity": 0.709,
+    "cost_share": 0.025,
+    "wtp_share": 0.05,
+    "score": 71.7,
+    "quote": "Sounds stop after half hour.",
+    "variants": 5,
+    "examples": [
+      {
+        "quote": "Sounds stop after half hour.",
+        "domain": "sleep_tech",
+        "level": "L2",
+        "app": "1490078804"
+      },
+      {
+        "quote": "Why does this app send you notifications at 3 am!  You’re trying to sleep and it wakes you up in the middle of the night.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "Push notification at 3:50 am???",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_bed7abeac5",
+    "label": "设备连接与同步不稳定",
+    "size": 102,
+    "type": "设备连接与同步不稳定",
+    "definition": "硬件设备与App之间、或App与外部设备（如手表、银行）连接断开、同步失败；不包括应用自身崩溃。",
+    "buyer": "依赖硬件或外部数据的用户",
+    "buyer_by_domain": {
+      "sleep_tech": "iPhone 17 Pro Max 与 Apple Watch Ultra 3 用户",
+      "budgeting": "付费订阅用户",
+      "pet_water_fountain": "养狗人士，使用 iPhone 17"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "budgeting": 78,
+      "pet_water_fountain": 20,
+      "sleep_tech": 4
+    },
+    "apps": [
+      "1138066420",
+      "1586120661",
+      "1621020173",
+      "320606217",
+      "720151500",
+      "936422955"
+    ],
+    "l2_share": 0.431,
+    "intensity": 0.745,
+    "cost_share": 0.039,
+    "wtp_share": 0.088,
+    "score": 68.4,
+    "quote": "it decided I wasn’t wearing my Apple Watch",
+    "variants": 3,
+    "examples": [
+      {
+        "quote": "it decided I wasn’t wearing my Apple Watch",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "After uninstalling Sleep Watch, then resetting the sleep permissions on my iPhone, and reinstalling Sleep Watch I THINK I have the app working correctly again.",
+        "domain": "sleep_tech",
+        "level": "L2",
+        "app": "1138066420"
+      },
+      {
+        "quote": "I reloaded the app and rebooted both the watch and phone. No joy.",
+        "domain": "sleep_tech",
+        "level": "L2",
+        "app": "1138066420"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_12a750139c",
+    "label": "更新后功能异常或数据丢失",
+    "size": 53,
+    "type": "更新后功能异常或数据丢失",
+    "definition": "应用更新或固件升级后出现功能故障、数据丢失或账户异常；不包括更新前的既有问题。",
+    "buyer": "长期使用的老用户",
+    "buyer_by_domain": {
+      "sleep_tech": "长期使用该应用的老用户",
+      "budgeting": "iPhone 用户",
+      "pet_water_fountain": "iOS 用户，刚购买两台宠物饮水机"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "pet_water_fountain": 47,
+      "sleep_tech": 3,
+      "budgeting": 3
+    },
+    "apps": [
+      "1138066420",
+      "1490078804",
+      "1586120661",
+      "720151500",
+      "921588809",
+      "936422955"
+    ],
+    "l2_share": 0.17,
+    "intensity": 0.766,
+    "cost_share": 0.019,
+    "wtp_share": 0.0,
+    "score": 62.5,
+    "quote": "It doesn’t even track in the middle of the night anymore",
+    "variants": 3,
+    "examples": [
+      {
+        "quote": "It doesn’t even track in the middle of the night anymore",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1490078804"
+      },
+      {
+        "quote": "Stopped working. No longer tracking after last update.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "App is not opening and crashing everytime it is opened after faceid authentication post 10/01/2024 updat",
+        "domain": "budgeting",
+        "level": "L1",
+        "app": "936422955"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_ed35195ae0",
+    "label": "客服响应慢且售后推诿",
+    "size": 63,
+    "type": "客服响应慢且售后推诿",
+    "definition": "用户联系客服困难、问题得不到解决、保修或退款被拒；不包括订阅取消流程本身。",
+    "buyer": "需要售后支持的用户",
+    "buyer_by_domain": {
+      "sleep_tech": "付费订阅用户",
+      "pet_water_fountain": "使用PETLIBRO App和多台RFID喂食器、需要为猫控制单独饮食的宠物主人"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "pet_water_fountain": 41,
+      "sleep_tech": 22
+    },
+    "apps": [
+      "1138066420",
+      "1490078804",
+      "1586120661",
+      "320606217",
+      "720151500",
+      "921588809"
+    ],
+    "l2_share": 0.238,
+    "intensity": 0.857,
+    "cost_share": 0.079,
+    "wtp_share": 0.032,
+    "score": 48.8,
+    "quote": "No chance of a refund and I can’t get ahold of a live person to save my life.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "No chance of a refund and I can’t get ahold of a live person to save my life.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1490078804"
+      },
+      {
+        "quote": "DO NOT buy this app. If the app doesn’t function properly, you won’t get your money back, even if you troubleshoot with a dev.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "I canceled the annual subscription almost immediately after being charged $62.77 and did not use the app’s services, not even during the free trial.",
+        "domain": "sleep_tech",
+        "level": "L4",
+        "app": "320606217"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_080f626098",
+    "label": "数据记录与统计不准确",
+    "size": 39,
+    "type": "数据记录与统计不准确",
+    "definition": "应用记录或统计的数据（如睡眠时长、交易分类）与实际不符或丢失；不包括数据导出迁移问题。",
+    "buyer": "依赖数据做决策的用户",
+    "buyer_by_domain": {
+      "sleep_tech": "把手机放在床头柜上使用睡眠追踪的用户",
+      "budgeting": "不再是独自生活的学生、当前人生阶段的成年人"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "budgeting": 30,
+      "sleep_tech": 9
+    },
+    "apps": [
+      "1138066420",
+      "1490078804",
+      "1621020173",
+      "320606217",
+      "936422955",
+      "949414211"
+    ],
+    "l2_share": 0.333,
+    "intensity": 0.697,
+    "cost_share": 0.026,
+    "wtp_share": 0.026,
+    "score": 43.9,
+    "quote": "It says I’m getting 1-2 hours of sleep a night when I’m getting 7-8.",
+    "variants": 3,
+    "examples": [
+      {
+        "quote": "It says I’m getting 1-2 hours of sleep a night when I’m getting 7-8.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1490078804"
+      },
+      {
+        "quote": "After 2 days, it says I am only sleeping 90 minutes a night.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1490078804"
+      },
+      {
+        "quote": "it says you only got 30 minutes of sleep when you’ve been asleep for 12 hours",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1490078804"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2265f5336d",
+    "label": "核心功能频繁崩溃闪退",
+    "size": 46,
+    "type": "核心功能频繁崩溃闪退",
+    "definition": "应用启动、使用中闪退或冻结，导致无法正常使用；不包括设备连接或同步问题。",
+    "buyer": "所有应用用户",
+    "buyer_by_domain": {
+      "sleep_tech": "睡眠应用用户",
+      "budgeting": "与伴侣合并财务、需要区分家庭与个人支出的用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "budgeting": 42,
+      "sleep_tech": 4
+    },
+    "apps": [
+      "1138066420",
+      "1621020173",
+      "936422955",
+      "949414211"
+    ],
+    "l2_share": 0.304,
+    "intensity": 0.73,
+    "cost_share": 0.022,
+    "wtp_share": 0.043,
+    "score": 42.3,
+    "quote": "the app closes out when you open it",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "the app closes out when you open it",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "it keeps dimming and freezing, becoming unusable",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "App keeps freezing when I open it",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_e32ddc3033",
+    "label": "硬件设备耐用性差易故障",
+    "size": 27,
+    "type": "硬件设备耐用性差易故障",
+    "definition": "硬件产品（水泵、传感器、电池等）在短期内损坏或性能下降；不包括软件或连接问题。",
+    "buyer": "硬件产品购买者",
+    "buyer_by_domain": {
+      "pet_water_fountain": "养猫用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "pet_water_fountain": 27
+    },
+    "apps": [
+      "1586120661",
+      "921588809",
+      "994053492",
+      "999707163"
+    ],
+    "l2_share": 0.556,
+    "intensity": 0.726,
+    "cost_share": 0.0,
+    "wtp_share": 0.111,
+    "score": 27.6,
+    "quote": "There is no way to gauge water level without removing top to look, and to fill.",
+    "variants": 3,
+    "examples": [
+      {
+        "quote": "There is no way to gauge water level without removing top to look, and to fill.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      },
+      {
+        "quote": "This product requires daily cleaning and only makes taking care of my cats much more arduous",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      },
+      {
+        "quote": "I have to manually clean it more times than not.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_a7dc9aa658",
+    "label": "识别与诊断准确性低",
+    "size": 79,
+    "type": "识别与诊断准确性低",
+    "definition": "图像识别、植物诊断或健康建议错误率高，导致误判；不包括数据统计错误。",
+    "buyer": "依赖识别功能的用户",
+    "buyer_by_domain": {
+      "plant_care": "新用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "plant_care": 79
+    },
+    "apps": [
+      "1252497129",
+      "1410126781",
+      "1612792132"
+    ],
+    "l2_share": 0.316,
+    "intensity": 0.722,
+    "cost_share": 0.0,
+    "wtp_share": 0.051,
+    "score": 25.1,
+    "quote": "Followed the advice for helping rid of plant pest. Within a week, the plant rotted and died",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "Followed the advice for helping rid of plant pest. Within a week, the plant rotted and died",
+        "domain": "plant_care",
+        "level": "L1",
+        "app": "1252497129"
+      },
+      {
+        "quote": "Wrong diagnosis. You told me the plant is overwatered. In fact it’s the opposite",
+        "domain": "plant_care",
+        "level": "L1",
+        "app": "1410126781"
+      },
+      {
+        "quote": "Lately my app has crashed/frozen in the diagnose my plant chat feature…it freezes every time and I have to close out of the app and go back in.",
+        "domain": "plant_care",
+        "level": "L2",
+        "app": "1410126781"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_9102326afa",
+    "label": "外出时远程监控与喂食失效",
+    "size": 8,
+    "type": "外出时远程监控与喂食失效",
+    "definition": "用户外出时无法通过App远程监控或控制设备（喂食、摄像头），设备离线或服务器宕机；不包括日常连接问题。",
+    "buyer": "经常外出的宠物主人",
+    "buyer_by_domain": {
+      "pet_water_fountain": "养猫的宠物主人"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "pet_water_fountain": 8
+    },
+    "apps": [
+      "1586120661"
+    ],
+    "l2_share": 0.125,
+    "intensity": 0.9,
+    "cost_share": 0.25,
+    "wtp_share": 0.0,
+    "score": 23.6,
+    "quote": "It works until you're out of town and it stopped working. What's the point of having batteries but not dispensing food??????",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "It works until you're out of town and it stopped working. What's the point of having batteries but not dispensing food??????",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "1586120661"
+      },
+      {
+        "quote": "they’re both offline and we’re out of town",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "1586120661"
+      },
+      {
+        "quote": "I have had to make them go and buy an old litter box at Walmart in place of the $600 litter box.",
+        "domain": "pet_water_fountain",
+        "level": "L4",
+        "app": "1586120661"
+      }
+    ]
+  }
+]

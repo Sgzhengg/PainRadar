@@ -1,0 +1,509 @@
+{
+  "generated_at": "2026-11-14T15:55:12+08:00",
+  "source": "var\\llm.db",
+  "taxonomy_version": 1,
+  "demands": [
+    {
+      "demand_id": "dm_33a123e5d4",
+      "label": "订阅取消后仍被扣费",
+      "size": 47,
+      "type": "订阅取消后仍被扣费",
+      "definition": "用户取消订阅或试用后仍被收费，且退款困难；不包括正常续费或主动购买。",
+      "buyer": "订阅制App用户",
+      "buyer_by_domain": {
+        "sleep_tech": "睡眠应用用户",
+        "budgeting": "从 Mint 迁移过来的预算应用用户",
+        "plant_care": "10岁女孩"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "budgeting": 24,
+        "plant_care": 20,
+        "sleep_tech": 3
+      },
+      "apps": [
+        "1252497129",
+        "1410126781",
+        "1490078804",
+        "1612792132",
+        "1621020173",
+        "320606217"
+      ],
+      "l2_share": 0.34,
+      "intensity": 0.787,
+      "cost_share": 0.17,
+      "wtp_share": 0.043,
+      "score": 68.6,
+      "quote": "I signed up for free trial cancelled and was still charged",
+      "variants": 2,
+      "examples": [
+        {
+          "quote": "I signed up for free trial cancelled and was still charged",
+          "domain": "sleep_tech",
+          "level": "L1",
+          "app": "320606217"
+        },
+        {
+          "quote": "They will charge your card even if you tell them not to before the trial ends. Now they refuse to refund me.",
+          "domain": "sleep_tech",
+          "level": "L1",
+          "app": "1490078804"
+        },
+        {
+          "quote": "I paid for the test long subscription and it hasn’t worked in months.",
+          "domain": "sleep_tech",
+          "level": "L4",
+          "app": "1490078804"
+        }
+      ]
+    },
+    {
+      "demand_id": "dm_12a750139c",
+      "label": "提醒功能不准确或无法编辑",
+      "size": 31,
+      "type": "提醒功能不准确或无法编辑",
+      "definition": "提醒（如喂食、浇水、闹钟）触发错误、无法自定义或编辑；不包括提醒内容本身的设计。",
+      "buyer": "依赖提醒功能的用户",
+      "buyer_by_domain": {
+        "pet_water_fountain": "住在社区住宅、院子较大的养狗用户",
+        "sleep_tech": "多年使用该应用的老用户",
+        "plant_care": "iPhone 用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "sleep_tech": 11,
+        "pet_water_fountain": 10,
+        "plant_care": 10
+      },
+      "apps": [
+        "1252497129",
+        "1410126781",
+        "1490078804",
+        "1612792132",
+        "320606217",
+        "720151500"
+      ],
+      "l2_share": 0.323,
+      "intensity": 0.697,
+      "cost_share": 0.0,
+      "wtp_share": 0.065,
+      "score": 65.4,
+      "quote": "I cannot even edit this reminder so I deleted it and will use a calendar reminder instead.",
+      "variants": 4,
+      "examples": [
+        {
+          "quote": "I cannot even edit this reminder so I deleted it and will use a calendar reminder instead.",
+          "domain": "pet_water_fountain",
+          "level": "L2",
+          "app": "994053492"
+        },
+        {
+          "quote": "the sensor only worked 1 time for my cat going to the bathroom and now I have to manually get it to scoop",
+          "domain": "pet_water_fountain",
+          "level": "L2",
+          "app": "994053492"
+        },
+        {
+          "quote": "Does not work :(. Says my dogs have moved out of the safe zone when they are sleeping right in front of me and one day they both dug out from under our fence and ran off and it never even alerted me.  To top it off when my husband tried to locate them, it showed they were still home.  Do not spend your money on this.",
+          "domain": "pet_water_fountain",
+          "level": "L1",
+          "app": "921588809"
+        }
+      ]
+    },
+    {
+      "demand_id": "dm_2265f5336d",
+      "label": "设备频繁断连或离线",
+      "size": 84,
+      "type": "设备频繁断连或离线",
+      "definition": "智能设备与App或网络连接不稳定，导致功能失效；不包括初次配网失败。",
+      "buyer": "智能设备用户",
+      "buyer_by_domain": {
+        "pet_water_fountain": "Furbo 长期用户",
+        "sleep_tech": "iPhone 15 Pro Max 用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "pet_water_fountain": 74,
+        "sleep_tech": 10
+      },
+      "apps": [
+        "1138066420",
+        "1586120661",
+        "320606217",
+        "720151500",
+        "921588809",
+        "994053492"
+      ],
+      "l2_share": 0.333,
+      "intensity": 0.767,
+      "cost_share": 0.012,
+      "wtp_share": 0.0,
+      "score": 51.1,
+      "quote": "Waste of money. Didn’t renew subscription because pet cam is always offline.",
+      "variants": 3,
+      "examples": [
+        {
+          "quote": "Waste of money. Didn’t renew subscription because pet cam is always offline.",
+          "domain": "pet_water_fountain",
+          "level": "L1",
+          "app": "999707163"
+        },
+        {
+          "quote": "I was going to buy a third Everett device but know I May just return them instead!",
+          "domain": "pet_water_fountain",
+          "level": "L1",
+          "app": "994053492"
+        },
+        {
+          "quote": "I was charged even though I have been trying to cancel for a week.",
+          "domain": "pet_water_fountain",
+          "level": "L1",
+          "app": "1586120661"
+        }
+      ]
+    },
+    {
+      "demand_id": "dm_ed35195ae0",
+      "label": "数据记录丢失或错乱",
+      "size": 43,
+      "type": "数据记录丢失或错乱",
+      "definition": "用户记录的数据（交易、睡眠、梦境等）意外消失、合并或分类错误；不包括数据导出问题。",
+      "buyer": "记录数据的用户",
+      "buyer_by_domain": {
+        "sleep_tech": "iPhone 16 Pro Max用户",
+        "budgeting": "与他人分摊账单的家庭用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "sleep_tech": 32,
+        "budgeting": 11
+      },
+      "apps": [
+        "1138066420",
+        "1490078804",
+        "1621020173",
+        "320606217",
+        "936422955",
+        "949414211"
+      ],
+      "l2_share": 0.279,
+      "intensity": 0.721,
+      "cost_share": 0.047,
+      "wtp_share": 0.0,
+      "score": 45.9,
+      "quote": "把梦境记录删了. 为什么把记录做梦的删了？以前记录的梦境也没有了？这是乐趣，为什么没了？除了一堆数据，我辛辛苦苦记录的梦境呢？也没给我保留",
+      "variants": 2,
+      "examples": [
+        {
+          "quote": "把梦境记录删了. 为什么把记录做梦的删了？以前记录的梦境也没有了？这是乐趣，为什么没了？除了一堆数据，我辛辛苦苦记录的梦境呢？也没给我保留",
+          "domain": "sleep_tech",
+          "level": "L1",
+          "app": "1490078804"
+        },
+        {
+          "quote": "I’ve had this for about a year and it’s still nothing but straight line on the sleep graph.",
+          "domain": "sleep_tech",
+          "level": "L1",
+          "app": "320606217"
+        },
+        {
+          "quote": "It stopped tracking my sleep after that.",
+          "domain": "sleep_tech",
+          "level": "L1",
+          "app": "1138066420"
+        }
+      ]
+    },
+    {
+      "demand_id": "dm_e32ddc3033",
+      "label": "App内广告干扰正常使用",
+      "size": 55,
+      "type": "App内广告干扰正常使用",
+      "definition": "广告弹出频繁或无法关闭，影响用户操作流程；不包括订阅推广邮件。",
+      "buyer": "免费版或试用期用户",
+      "buyer_by_domain": {
+        "sleep_tech": "12岁用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "sleep_tech": 55
+      },
+      "apps": [
+        "1138066420",
+        "1490078804",
+        "320606217"
+      ],
+      "l2_share": 0.382,
+      "intensity": 0.789,
+      "cost_share": 0.145,
+      "wtp_share": 0.018,
+      "score": 29.9,
+      "quote": "Must be 16 to enter??!. I mean I get that some apps have age restricting content but what I don’t get is how you must be 16 to enter a sleep tracking app.",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "Must be 16 to enter??!. I mean I get that some apps have age restricting content but what I don’t get is how you must be 16 to enter a sleep tracking app.",
+          "domain": "sleep_tech",
+          "level": "L1",
+          "app": "1138066420"
+        },
+        {
+          "quote": "Immediately deleted the app once it forced commercials down my throat. Kept a competitor app instead.",
+          "domain": "sleep_tech",
+          "level": "L2",
+          "app": "1138066420"
+        },
+        {
+          "quote": "I am now using another sleep tracker.",
+          "domain": "sleep_tech",
+          "level": "L2",
+          "app": "1138066420"
+        }
+      ]
+    },
+    {
+      "demand_id": "dm_080f626098",
+      "label": "客服响应慢且不解决问题",
+      "size": 6,
+      "type": "客服响应慢且不解决问题",
+      "definition": "用户联系客服后得不到有效技术支持或解决方案；不包括售前咨询。",
+      "buyer": "需要售后支持的用户",
+      "buyer_by_domain": {
+        "pet_water_fountain": "使用双追踪器约四年的宠物主人"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "pet_water_fountain": 6
+      },
+      "apps": [
+        "720151500",
+        "921588809",
+        "994053492"
+      ],
+      "l2_share": 0.333,
+      "intensity": 0.867,
+      "cost_share": 0.0,
+      "wtp_share": 0.333,
+      "score": 28.4,
+      "quote": "I am actively looking for better and more reliable products with decent customer service if anyone has a recommendation.",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "I am actively looking for better and more reliable products with decent customer service if anyone has a recommendation.",
+          "domain": "pet_water_fountain",
+          "level": "L2",
+          "app": "921588809"
+        },
+        {
+          "quote": "My Tractive unit stop working two months ago. I sent a email to customer support and they sent me a new cord. This didn’t work and I’ve sent three emails asking for the unit to be replaced. Tractive won’t even acknowledge the email.",
+          "domain": "pet_water_fountain",
+          "level": "L1",
+          "app": "921588809"
+        },
+        {
+          "quote": "I emailed support but got no technical support. Only endless questions to answer.",
+          "domain": "pet_water_fountain",
+          "level": "L1",
+          "app": "994053492"
+        }
+      ]
+    },
+    {
+      "demand_id": "dm_9102326afa",
+      "label": "银行同步失败或中断",
+      "size": 25,
+      "type": "银行同步失败或中断",
+      "definition": "财务App无法连接银行或同步交易记录；不包括手动记账错误。",
+      "buyer": "使用自动同步的用户",
+      "buyer_by_domain": {
+        "budgeting": "Redwood Credit Union 银行用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "budgeting": 25
+      },
+      "apps": [
+        "1621020173",
+        "936422955",
+        "949414211"
+      ],
+      "l2_share": 0.52,
+      "intensity": 0.76,
+      "cost_share": 0.08,
+      "wtp_share": 0.08,
+      "score": 28.4,
+      "quote": "Now they’re not responding at all, since I’ve paid and couldn’t get the issue resolved before my trial period ended.",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "Now they’re not responding at all, since I’ve paid and couldn’t get the issue resolved before my trial period ended.",
+          "domain": "budgeting",
+          "level": "L4",
+          "app": "936422955"
+        },
+        {
+          "quote": "Paid for premium - stopped working. Will not sync with my credit card at chase.  Have tried to connect it multiple times.  Will be seeking refund.",
+          "domain": "budgeting",
+          "level": "L4",
+          "app": "936422955"
+        },
+        {
+          "quote": "doesn’t synchronize with bank statements",
+          "domain": "budgeting",
+          "level": "L1",
+          "app": "936422955"
+        }
+      ]
+    },
+    {
+      "demand_id": "dm_d322de085a",
+      "label": "报表分析功能缺失或崩溃",
+      "size": 6,
+      "type": "报表分析功能缺失或崩溃",
+      "definition": "用户需要深度分析数据时，App报表功能不足、导出困难或闪退；不包括基础数据展示。",
+      "buyer": "需要分析数据的用户",
+      "buyer_by_domain": {
+        "budgeting": "使用PocketGuard超过一年的忠实用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "budgeting": 6
+      },
+      "apps": [
+        "936422955",
+        "949414211"
+      ],
+      "l2_share": 0.667,
+      "intensity": 0.767,
+      "cost_share": 0.0,
+      "wtp_share": 0.0,
+      "score": 25.8,
+      "quote": "Going back to the Dave Ramsey app.",
+      "variants": 2,
+      "examples": [
+        {
+          "quote": "Going back to the Dave Ramsey app.",
+          "domain": "budgeting",
+          "level": "L2",
+          "app": "949414211"
+        },
+        {
+          "quote": "every time I click on the breakdown of categories, the app forces closes",
+          "domain": "budgeting",
+          "level": "L1",
+          "app": "949414211"
+        },
+        {
+          "quote": "As a result I’ve incurred several late payment fees.",
+          "domain": "budgeting",
+          "level": "L1",
+          "app": "949414211"
+        }
+      ]
+    },
+    {
+      "demand_id": "dm_2f434ba53b",
+      "label": "核心功能识别或追踪不准",
+      "size": 12,
+      "type": "核心功能识别或追踪不准",
+      "definition": "App的核心功能（如植物识别、睡眠追踪、传感器检测）结果不准确或失效；不包括辅助功能。",
+      "buyer": "依赖核心功能的用户",
+      "buyer_by_domain": {
+        "plant_care": "夏威夷用户"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "plant_care": 12
+      },
+      "apps": [
+        "1252497129",
+        "1410126781",
+        "1612792132"
+      ],
+      "l2_share": 0.25,
+      "intensity": 0.7,
+      "cost_share": 0.0,
+      "wtp_share": 0.0,
+      "score": 22.2,
+      "quote": "I am canceling and asking for a full refund! Not worth the money or time I spent trying to get this app to recognize my plant!",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "I am canceling and asking for a full refund! Not worth the money or time I spent trying to get this app to recognize my plant!",
+          "domain": "plant_care",
+          "level": "L1",
+          "app": "1410126781"
+        },
+        {
+          "quote": "IDs not accurate. Has worked OK when ID-ing outdoor plants, however when I’ve tried it on houseplants in stores and in my large collection, it hits about 50-50.",
+          "domain": "plant_care",
+          "level": "L1",
+          "app": "1252497129"
+        },
+        {
+          "quote": "I have an unhealthy Lantana that this app first said was basil then scorpions tail and four times could not identify it.",
+          "domain": "plant_care",
+          "level": "L1",
+          "app": "1252497129"
+        }
+      ]
+    },
+    {
+      "demand_id": "dm_bed7abeac5",
+      "label": "更新后功能异常或数据丢失",
+      "size": 7,
+      "type": "更新后功能异常或数据丢失",
+      "definition": "固件或App更新后出现无法使用、数据丢失或账户异常；不包括更新前的旧问题。",
+      "buyer": "依赖自动更新的用户",
+      "buyer_by_domain": {
+        "pet_water_fountain": "使用自动喂食器 App 的宠物主人"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "pet_water_fountain": 7
+      },
+      "apps": [
+        "1586120661",
+        "994053492"
+      ],
+      "l2_share": 0.143,
+      "intensity": 0.743,
+      "cost_share": 0.0,
+      "wtp_share": 0.0,
+      "score": 20.3,
+      "quote": "Updated app and it deleted my account. Worked fine until they forced update and now I can’t feed my pets.",
+      "variants": 1,
+      "examples": [
+        {
+          "quote": "Updated app and it deleted my account. Worked fine until they forced update and now I can’t feed my pets.",
+          "domain": "pet_water_fountain",
+          "level": "L1",
+          "app": "1586120661"
+        },
+        {
+          "quote": "I’ve left my phone sitting on the PetKit fountain for literally hours trying to give it time to complete an update—nothing",
+          "domain": "pet_water_fountain",
+          "level": "L2",
+          "app": "994053492"
+        },
+        {
+          "quote": "Unable to connect to WiFi after the recent update.",
+          "domain": "pet_water_fountain",
+          "level": "L1",
+          "app": "1586120661"
+        }
+      ]
+    }
+  ]
+}

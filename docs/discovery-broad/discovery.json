@@ -1,0 +1,456 @@
+[
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "规则资格不透明难自查",
+    "size": 53,
+    "type": "规则资格不透明难自查",
+    "definition": "涉及各类申请、福利、税务等场景中，用户因规则复杂或资格标准不明确而无法自行判断是否符合条件；不包括费用问题或沟通跟进问题。",
+    "buyer": "申请人/纳税人/员工",
+    "buyer_by_domain": {
+      "custom_money_bills": "前校车司机",
+      "custom_career_jobs": "担心为上大学而贷款的学生",
+      "custom_travel_immigration": "20多岁绿卡持有者，约5.5年前通过家庭获得绿卡，目前与家人失联，在美国有稳定高薪工作和就业记录",
+      "custom_paperwork_compliance": "LLC 所有者/小企业主"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_paperwork_compliance": 21,
+      "custom_travel_immigration": 18,
+      "custom_career_jobs": 8,
+      "custom_money_bills": 6
+    },
+    "apps": [],
+    "l2_share": 0.245,
+    "intensity": 0.502,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 68.6,
+    "quote": "Your submission has been removed because that subreddit is not pre-approved for crossposts.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Your submission has been removed because that subreddit is not pre-approved for crossposts.",
+        "domain": "custom_money_bills",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "Do I need to hire a lawyer to understand the process better/see how straightforward my case might be and timeline/docs needed?",
+        "domain": "custom_travel_immigration",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "Uscis said I don’t meet the qualifications to get an expedite on my case even though I am currently homeless.  The Uscis website it not currently showing cases so I can not upload and of my proof of my situation",
+        "domain": "custom_travel_immigration",
+        "level": "L1",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_bed7abeac5",
+    "label": "沟通无回应跟进困难",
+    "size": 18,
+    "type": "沟通无回应跟进困难",
+    "definition": "用户主动联系相关方（公司、机构、学校等）后得不到有效回应或问题迟迟未解决；不包括信息查找困难或规则理解问题。",
+    "buyer": "求助者/投诉者",
+    "buyer_by_domain": {
+      "custom_family_education": "与青少年打交道的人",
+      "custom_travel_immigration": "H1B申请人",
+      "custom_paperwork_compliance": "VA（退伍军人事务）医保覆盖者"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_family_education": 11,
+      "custom_travel_immigration": 4,
+      "custom_paperwork_compliance": 3
+    },
+    "apps": [],
+    "l2_share": 0.5,
+    "intensity": 0.589,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 55.4,
+    "quote": "raised a e service request, no response, unable to reach out congress person as they are not taking up such cases, what can be done",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "raised a e service request, no response, unable to reach out congress person as they are not taking up such cases, what can be done",
+        "domain": "custom_travel_immigration",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "RECORD EVERYTHING!  If you can stomach it,  write down brief notes about your interactions with the kids.  And definetly write down your interactions with her.",
+        "domain": "custom_family_education",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "I've voiced things and nothings getting done",
+        "domain": "custom_family_education",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2265f5336d",
+    "label": "费用不透明与意外扣费",
+    "size": 31,
+    "type": "费用不透明与意外扣费",
+    "definition": "用户对收费结构、隐藏费用或意外扣款感到困惑或不满，涉及订阅、服务、法律费用等；不包括单纯的价格比较或预算规划。",
+    "buyer": "消费者/付费用户",
+    "buyer_by_domain": {
+      "custom_money_bills": "38岁、从20岁起一直精打细算的人",
+      "custom_paperwork_compliance": "年收入超过15万美元的纳税人"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_money_bills": 27,
+      "custom_paperwork_compliance": 4
+    },
+    "apps": [],
+    "l2_share": 0.613,
+    "intensity": 0.594,
+    "cost_share": 0.258,
+    "wtp_share": 0.032,
+    "score": 44.4,
+    "quote": "IT IS BY FAR CHEAPER THAN YNAB! YNAB is up to $109/year. Pikapods plus SimpleFin importing is $30.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "IT IS BY FAR CHEAPER THAN YNAB! YNAB is up to $109/year. Pikapods plus SimpleFin importing is $30.",
+        "domain": "custom_money_bills",
+        "level": "L3",
+        "app": ""
+      },
+      {
+        "quote": "The employer clawed back more than $6000 extra out of their personal banking account and two weeks later still hadn't addressed the situation.",
+        "domain": "custom_money_bills",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "Well I’m 38 and have been penny pinching since 20. It is not and will never be the solution.",
+        "domain": "custom_money_bills",
+        "level": "L1",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_080f626098",
+    "label": "表格文书复杂难填写",
+    "size": 23,
+    "type": "表格文书复杂难填写",
+    "definition": "用户在填写申请、税务、简历等表格或文书时遇到困难，如格式要求不清、选项缺失、表述困难；不包括规则资格判断或沟通问题。",
+    "buyer": "求职者/纳税人/申请人",
+    "buyer_by_domain": {
+      "custom_career_jobs": "求职者",
+      "custom_paperwork_compliance": "税务会计从业者"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_career_jobs": 13,
+      "custom_paperwork_compliance": 10
+    },
+    "apps": [],
+    "l2_share": 0.739,
+    "intensity": 0.496,
+    "cost_share": 0.043,
+    "wtp_share": 0.0,
+    "score": 40.6,
+    "quote": "Instead of \"Head Server\" you can call yourself \"Team Lead\" and pull back on the restaurant-specific words.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Instead of \"Head Server\" you can call yourself \"Team Lead\" and pull back on the restaurant-specific words.",
+        "domain": "custom_career_jobs",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "When you bunch the text up together like this, it makes it difficult to read.",
+        "domain": "custom_career_jobs",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "Then tailoring is just 10 minutes: read the posting, pull the top 3 things they actually want, and make sure those exact words show up in your top third with a bullet to back each one.",
+        "domain": "custom_career_jobs",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_8c53e7b896",
+    "label": "求职申请无反馈与面试质疑",
+    "size": 6,
+    "type": "求职申请无反馈与面试质疑",
+    "definition": "求职者投递简历后很少收到回复，或面试中遇到不合理问题，感到挫败；不包括简历文书撰写或职业规划。",
+    "buyer": "求职者",
+    "buyer_by_domain": {
+      "custom_career_jobs": "在职员工，三年内无法离职"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_career_jobs": 6
+    },
+    "apps": [],
+    "l2_share": 1.0,
+    "intensity": 0.7,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 26.4,
+    "quote": "I get endless rejections when I apply on LinkedIn, Sprout, or Indeed, and it's as if they don't even take a glance at my resume.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I get endless rejections when I apply on LinkedIn, Sprout, or Indeed, and it's as if they don't even take a glance at my resume.",
+        "domain": "custom_career_jobs",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "a 50% gap for a similar role at the same company is a strong reason to ask, and you don't need to threaten to leave to do it.",
+        "domain": "custom_career_jobs",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "Start looking elsewhere.",
+        "domain": "custom_career_jobs",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_ed35195ae0",
+    "label": "时间管理拖延与 deadline",
+    "size": 5,
+    "type": "时间管理拖延与 deadline",
+    "definition": "用户因注意力、动力或组织能力不足导致任务拖延、错过截止日期或效率低下；不包括外部因素导致的时间冲突。",
+    "buyer": "ADHD/拖延者",
+    "buyer_by_domain": {
+      "custom_neuro_accessibility": "27岁才被诊断的神经多样性人士"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_neuro_accessibility": 5
+    },
+    "apps": [],
+    "l2_share": 0.8,
+    "intensity": 0.68,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 23.9,
+    "quote": "Procrastination was the norm at all times, followed by \"emergency mode\" where I would work sometimes for days straight with no or minimal sleep",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Procrastination was the norm at all times, followed by \"emergency mode\" where I would work sometimes for days straight with no or minimal sleep",
+        "domain": "custom_neuro_accessibility",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "I waste a good chunk of the day and then have to work later to make up for the time I lost, and I will take longer than i should to do it since I am terrified of making mistakes.",
+        "domain": "custom_neuro_accessibility",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "I was diagnosed at 27 after yrs of missed deadlines and I thought it was me being lazy.",
+        "domain": "custom_neuro_accessibility",
+        "level": "L1",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_a7dc9aa658",
+    "label": "流程出错与纠错困难",
+    "size": 12,
+    "type": "流程出错与纠错困难",
+    "definition": "用户在操作流程（如维修、申请、系统使用）中出现错误后，不知如何纠正或修复，导致问题持续；不包括规则理解或沟通问题。",
+    "buyer": "操作失误者",
+    "buyer_by_domain": {
+      "custom_home_repair": "1992年楼房的住户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_home_repair": 12
+    },
+    "apps": [],
+    "l2_share": 0.667,
+    "intensity": 0.533,
+    "cost_share": 0.0,
+    "wtp_share": 0.083,
+    "score": 22.2,
+    "quote": "All of them make more noise than I think they should.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "All of them make more noise than I think they should.",
+        "domain": "custom_home_repair",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "We ended up having the painter skim coat over it and try to match the wall texture.",
+        "domain": "custom_home_repair",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "I basically depressurised the whole system I’m pretty sure, then the gauge stopped working and is now stuck on 0.",
+        "domain": "custom_home_repair",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_9102326afa",
+    "label": "多方协调家庭决策难",
+    "size": 4,
+    "type": "多方协调家庭决策难",
+    "definition": "家庭成员在财务、育儿、工作等决策上需要协调多方意见，难以达成一致或平衡需求；不包括个人时间管理或外部沟通。",
+    "buyer": "家庭决策者",
+    "buyer_by_domain": {
+      "custom_family_education": "关心家庭关系的伴侣或家人"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_family_education": 4
+    },
+    "apps": [],
+    "l2_share": 0.5,
+    "intensity": 0.6,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 19.6,
+    "quote": "This is a financial decision. Sit down with your husband & figure out what your family needs for the next year. Next 5 years. Make a plan, set some goals.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "This is a financial decision. Sit down with your husband & figure out what your family needs for the next year. Next 5 years. Make a plan, set some goals.",
+        "domain": "custom_family_education",
+        "level": "L2",
+        "app": ""
+      },
+      {
+        "quote": "I want a bit more support, but I also want my husband home.",
+        "domain": "custom_family_education",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "Why not just have him quit the second job? That’s pretty much just going to cover the extra help, and he’ll have more time with you and the kids?",
+        "domain": "custom_family_education",
+        "level": "L1",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2f434ba53b",
+    "label": "记忆沟通遗漏与误解",
+    "size": 4,
+    "type": "记忆沟通遗漏与误解",
+    "definition": "用户在人际沟通中因记忆问题遗忘约定或信息，导致误解或冲突；不包括语言表达困难或信息查找问题。",
+    "buyer": "有记忆困扰者",
+    "buyer_by_domain": {
+      "custom_neuro_accessibility": "38岁、自述短期记忆变差的人"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_neuro_accessibility": 4
+    },
+    "apps": [],
+    "l2_share": 0.25,
+    "intensity": 0.7,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 18.6,
+    "quote": "But it fucks me up, not remembering when friends told me personal things.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "But it fucks me up, not remembering when friends told me personal things.",
+        "domain": "custom_neuro_accessibility",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "my wife will swear blind she’s told me about something we’ve committed to doing on a weekend several times and I literally have zero memory of it!",
+        "domain": "custom_neuro_accessibility",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "they just blame me for not focusing even though I've told them alot about my issues but they always chalk it up to laziness that I just gave up explaining myself to them",
+        "domain": "custom_neuro_accessibility",
+        "level": "L1",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_d322de085a",
+    "label": "预算规划与支出追踪难",
+    "size": 9,
+    "type": "预算规划与支出追踪难",
+    "definition": "用户难以掌握资金流向、制定预算或控制支出，感到财务压力；不包括对特定费用结构的质疑或意外扣费。",
+    "buyer": "预算紧张者",
+    "buyer_by_domain": {
+      "custom_family_education": "双职工、有四个孩子的家长"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_family_education": 9
+    },
+    "apps": [],
+    "l2_share": 0.222,
+    "intensity": 0.511,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 16.2,
+    "quote": "I also couldn’t tell you exactly where every dollar is going right now",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I also couldn’t tell you exactly where every dollar is going right now",
+        "domain": "custom_family_education",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "We’re trying to work out what changes would actually make life easier and what we can realistically afford.",
+        "domain": "custom_family_education",
+        "level": "L1",
+        "app": ""
+      },
+      {
+        "quote": "I do agree that we need to sit down and properly reassess our budget and priorities.",
+        "domain": "custom_family_education",
+        "level": "L1",
+        "app": ""
+      }
+    ]
+  }
+]

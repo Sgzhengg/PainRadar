@@ -1,0 +1,372 @@
+{
+  "订阅/付费模式不合理": {
+    "scores": {
+      "third_party_actionable": 3,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 4,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 4,
+      "frequency": 3,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "可做比价/替代推荐工具，但难直接改变厂商定价",
+      "leverage": "能帮用户找替代或优化用量，但无法消除付费墙",
+      "competition_gap": "已有免费比价和替代方案，但针对开发者订阅的少",
+      "software_only": "纯软件可做，无需硬件或厂商配合",
+      "zero_onboarding": "需用户输入订阅信息或授权，有一定配置",
+      "no_docs": "不依赖客户文档，但需维护订阅数据库",
+      "low_ops": "无需7x24运维，但需定期更新价格数据",
+      "frequency": "开发者每季度或每年评估订阅，频率中等",
+      "self_serve_pay": "可低价订阅或买断，但用户对付费敏感"
+    },
+    "summary": "需求真实但第三方杠杆有限，适合做轻量比价工具，需谨慎定价。",
+    "total": 56,
+    "weights": {
+      "third_party_actionable": 0.2,
+      "leverage": 0.15,
+      "competition_gap": 0.15,
+      "software_only": 0.1,
+      "zero_onboarding": 0.1,
+      "no_docs": 0.05,
+      "low_ops": 0.1,
+      "frequency": 0.05,
+      "self_serve_pay": 0.1
+    }
+  },
+  "同步/备份状态不透明": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 4,
+      "competition_gap": 4,
+      "software_only": 5,
+      "zero_onboarding": 3,
+      "no_docs": 3,
+      "low_ops": 4,
+      "frequency": 4,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "可做独立同步校验/冲突可视化工具，无需厂商介入",
+      "leverage": "能定位差异、提示冲突并验证恢复，真正消除不确定性",
+      "competition_gap": "Syncthing/Obsidian 同步状态弱，成熟免费方案少",
+      "software_only": "纯读日志与文件哈希比对，无需硬件配合",
+      "zero_onboarding": "需接入各同步源与路径，首次配置略重",
+      "no_docs": "依赖用户指定同步目录与工具，无需建知识库",
+      "low_ops": "本地运行无 SLA，仅需轻量更新维护",
+      "frequency": "多设备用户几乎每周遇同步异常",
+      "self_serve_pay": "可低价买断或订阅，开发者自助购买"
+    },
+    "summary": "痛点真实、纯软件可解，做同步状态与冲突可视化工具，单人可长期维护。",
+    "total": 74,
+    "weights": {
+      "third_party_actionable": 0.2,
+      "leverage": 0.15,
+      "competition_gap": 0.15,
+      "software_only": 0.1,
+      "zero_onboarding": 0.1,
+      "no_docs": 0.05,
+      "low_ops": 0.1,
+      "frequency": 0.05,
+      "self_serve_pay": 0.1
+    }
+  },
+  "跨平台行为不一致": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 4,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 4,
+      "frequency": 3,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "可做跨平台一致性检测/兼容层工具，但根因常在厂商实现。",
+      "leverage": "能定位差异并部分绕过，难彻底消除平台行为分歧。",
+      "competition_gap": "CI 矩阵与容器已覆盖部分场景，但本地差异检测仍弱。",
+      "software_only": "纯软件可做静态分析与运行时对比，无需硬件配合。",
+      "zero_onboarding": "需接入项目与多平台环境，首次配置有门槛。",
+      "no_docs": "靠自动探测与规则库，基本不需客户喂文档。",
+      "low_ops": "本地或 CI 插件形态，无 7×24 与电信资源需求。",
+      "frequency": "开发者偶发踩坑，非每日高频但持续出现。",
+      "self_serve_pay": "开发者工具可低价订阅或买断，自助付费可行。"
+    },
+    "summary": "可做跨平台一致性检测工具，纯软件、可自助付费，但杠杆有限、需环境配置。",
+    "total": 64,
+    "weights": {
+      "third_party_actionable": 0.2,
+      "leverage": 0.15,
+      "competition_gap": 0.15,
+      "software_only": 0.1,
+      "zero_onboarding": 0.1,
+      "no_docs": 0.05,
+      "low_ops": 0.1,
+      "frequency": 0.05,
+      "self_serve_pay": 0.1
+    }
+  },
+  "插件/扩展兼容性差": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 4,
+      "competition_gap": 4,
+      "software_only": 5,
+      "zero_onboarding": 3,
+      "no_docs": 3,
+      "low_ops": 4,
+      "frequency": 3,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "第三方可做兼容层/补丁工具，但需适配各宿主平台。",
+      "leverage": "能自动修复或绕过加载失败，直接消除障碍。",
+      "competition_gap": "宿主自带兼容机制弱，无成熟通用修复工具。",
+      "software_only": "纯代码层检测与补丁，无需硬件或厂商配合。",
+      "zero_onboarding": "需指定宿主与插件环境，首次配置略多。",
+      "no_docs": "依赖插件API与版本知识，需内置规则库。",
+      "low_ops": "本地运行工具，无7×24服务或电信资源。",
+      "frequency": "插件更新或宿主升级时才触发，非每日。",
+      "self_serve_pay": "开发者愿为省时工具小额买断或订阅。"
+    },
+    "summary": "痛点真实且纯软件可解，适合做兼容修复工具，但需维护规则库。",
+    "total": 73,
+    "weights": {
+      "third_party_actionable": 0.2,
+      "leverage": 0.15,
+      "competition_gap": 0.15,
+      "software_only": 0.1,
+      "zero_onboarding": 0.1,
+      "no_docs": 0.05,
+      "low_ops": 0.1,
+      "frequency": 0.05,
+      "self_serve_pay": 0.1
+    }
+  },
+  "社区发帖被自动删除": {
+    "scores": {
+      "third_party_actionable": 2,
+      "leverage": 2,
+      "competition_gap": 3,
+      "software_only": 2,
+      "zero_onboarding": 2,
+      "no_docs": 2,
+      "low_ops": 3,
+      "frequency": 3,
+      "self_serve_pay": 2
+    },
+    "reasons": {
+      "third_party_actionable": "删帖发生在平台审核系统内，第三方无法介入或替代。",
+      "leverage": "只能提示规则或草稿备份，无法阻止平台删帖。",
+      "competition_gap": "平台自带申诉入口，独立工具空间有限。",
+      "software_only": "需平台API或审核日志，纯软件难获取。",
+      "zero_onboarding": "需逐平台配置规则和账号，无法即装即用。",
+      "no_docs": "需建各社区规则库，依赖持续喂资料。",
+      "low_ops": "无实时SLA，但规则库需持续更新维护。",
+      "frequency": "开发者发帖频率中等，非每日高频痛点。",
+      "self_serve_pay": "价值弱且可替代，难支撑自助付费意愿。"
+    },
+    "summary": "根因在平台审核黑箱，第三方只能做提醒备份，杠杆低、付费弱，不建议做。",
+    "total": 33,
+    "weights": {
+      "third_party_actionable": 0.2,
+      "leverage": 0.15,
+      "competition_gap": 0.15,
+      "software_only": 0.1,
+      "zero_onboarding": 0.1,
+      "no_docs": 0.05,
+      "low_ops": 0.1,
+      "frequency": 0.05,
+      "self_serve_pay": 0.1
+    }
+  },
+  "工具崩溃/卡死无提示": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 4,
+      "competition_gap": 4,
+      "software_only": 5,
+      "zero_onboarding": 4,
+      "no_docs": 5,
+      "low_ops": 5,
+      "frequency": 4,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "第三方可开发监控/恢复工具，但根因在编辑器内部。",
+      "leverage": "能自动恢复或提示崩溃，显著减少数据丢失。",
+      "competition_gap": "VS Code 自带崩溃报告弱，第三方方案少。",
+      "software_only": "纯软件方案，无需硬件或厂商配合。",
+      "zero_onboarding": "安装即用，无需复杂配置。",
+      "no_docs": "不依赖客户文档，工具自动运行。",
+      "low_ops": "本地工具，无需7x24运维。",
+      "frequency": "开发者每天使用编辑器，崩溃频繁发生。",
+      "self_serve_pay": "可低价订阅或买断，自助付费。"
+    },
+    "summary": "需求明确，第三方可做崩溃监控恢复工具，纯软件易推广，适合单人开发。",
+    "total": 81,
+    "weights": {
+      "third_party_actionable": 0.2,
+      "leverage": 0.15,
+      "competition_gap": 0.15,
+      "software_only": 0.1,
+      "zero_onboarding": 0.1,
+      "no_docs": 0.05,
+      "low_ops": 0.1,
+      "frequency": 0.05,
+      "self_serve_pay": 0.1
+    }
+  },
+  "资源占用高导致卡顿": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 4,
+      "competition_gap": 3,
+      "software_only": 5,
+      "zero_onboarding": 4,
+      "no_docs": 5,
+      "low_ops": 5,
+      "frequency": 4,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "第三方可开发资源监控与优化工具，但需系统权限。",
+      "leverage": "能自动清理内存、限制后台，直接缓解卡顿。",
+      "competition_gap": "已有清理大师等，但针对掌机优化不足。",
+      "software_only": "纯软件方案，无需硬件改动。",
+      "zero_onboarding": "安装即用，自动检测高占用进程。",
+      "no_docs": "无需客户文档，基于系统API。",
+      "low_ops": "本地工具，无需服务器运维。",
+      "frequency": "玩家经常遇到卡顿，需求频繁。",
+      "self_serve_pay": "可低价买断或订阅，自助付费。"
+    },
+    "summary": "需求明确，纯软件可解，竞争适中，适合单人开发维护。",
+    "total": 77,
+    "weights": {
+      "third_party_actionable": 0.2,
+      "leverage": 0.15,
+      "competition_gap": 0.15,
+      "software_only": 0.1,
+      "zero_onboarding": 0.1,
+      "no_docs": 0.05,
+      "low_ops": 0.1,
+      "frequency": 0.05,
+      "self_serve_pay": 0.1
+    }
+  },
+  "权限提示干扰操作": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 4,
+      "zero_onboarding": 3,
+      "no_docs": 3,
+      "low_ops": 4,
+      "frequency": 4,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "可做工具层拦截/自动化授权，但根因在OS/应用权限模型，无法根治。",
+      "leverage": "能减少打断、批量授权，但无法改变底层权限模型，效果有限。",
+      "competition_gap": "系统自带权限管理，已有自动化工具，空隙不大。",
+      "software_only": "纯软件可做辅助层，但深度集成需系统API/厂商配合。",
+      "zero_onboarding": "需适配不同应用权限流程，首次配置较重。",
+      "no_docs": "需理解各应用权限语义，部分靠规则库积累。",
+      "low_ops": "本地工具为主，无需7×24运维。",
+      "frequency": "开发者每天多次遭遇权限弹窗，高频。",
+      "self_serve_pay": "开发者可自助买断，但价值感知弱，付费意愿一般。"
+    },
+    "summary": "高频痛点但根因在系统层，第三方只能做辅助缓解，付费意愿有限。",
+    "total": 61,
+    "weights": {
+      "third_party_actionable": 0.2,
+      "leverage": 0.15,
+      "competition_gap": 0.15,
+      "software_only": 0.1,
+      "zero_onboarding": 0.1,
+      "no_docs": 0.05,
+      "low_ops": 0.1,
+      "frequency": 0.05,
+      "self_serve_pay": 0.1
+    }
+  },
+  "数据导入导出困难": {
+    "scores": {
+      "third_party_actionable": 5,
+      "leverage": 4,
+      "competition_gap": 4,
+      "software_only": 5,
+      "zero_onboarding": 4,
+      "no_docs": 4,
+      "low_ops": 5,
+      "frequency": 2,
+      "self_serve_pay": 4
+    },
+    "reasons": {
+      "third_party_actionable": "格式转换纯属第三方可做的独立工具，无需厂商介入。",
+      "leverage": "能真正消除迁移障碍，把多步手工变成一键。",
+      "competition_gap": "官方导出残缺，现有转换脚本零散难用。",
+      "software_only": "解析 Markdown/JSON 并转换，纯软件即可。",
+      "zero_onboarding": "拖入文件夹即转，但格式映射需少量选择。",
+      "no_docs": "靠公开格式规范，无需客户提供知识库。",
+      "low_ops": "本地或轻量云工具，无 SLA 与电信资源。",
+      "frequency": "同一用户迁移一次后长期不再需要。",
+      "self_serve_pay": "可低价买断或订阅，适合自助付费。"
+    },
+    "summary": "迁移痛点真实、纯软件可解、竞争空隙好，但属一次性低频需求，宜做买断小工具。",
+    "total": 82,
+    "weights": {
+      "third_party_actionable": 0.2,
+      "leverage": 0.15,
+      "competition_gap": 0.15,
+      "software_only": 0.1,
+      "zero_onboarding": 0.1,
+      "no_docs": 0.05,
+      "low_ops": 0.1,
+      "frequency": 0.05,
+      "self_serve_pay": 0.1
+    }
+  },
+  "搜索/导航找不到内容": {
+    "scores": {
+      "third_party_actionable": 4,
+      "leverage": 3,
+      "competition_gap": 3,
+      "software_only": 5,
+      "zero_onboarding": 3,
+      "no_docs": 4,
+      "low_ops": 5,
+      "frequency": 3,
+      "self_serve_pay": 3
+    },
+    "reasons": {
+      "third_party_actionable": "搜索/路径解析在应用层，第三方可做索引或路径修复工具。",
+      "leverage": "能绕过路径与字符匹配障碍，但难根治各应用内搜索。",
+      "competition_gap": "系统搜索与 Spotlight 已覆盖大半，空隙在跨应用索引。",
+      "software_only": "纯软件可解，无需硬件或厂商固件配合。",
+      "zero_onboarding": "需按应用与路径配置索引，陌生人难开箱即用。",
+      "no_docs": "依赖用户环境路径与文件结构，但无需建知识库。",
+      "low_ops": "本地工具无 7×24 运维与 SLA 需求。",
+      "frequency": "路径找不到偶发，非每日高频痛点。",
+      "self_serve_pay": "可低价买断，但价值感知弱，付费转化一般。"
+    },
+    "summary": "纯软件可做、运维轻，但痛点偶发且系统搜索已占位，适合小工具而非长期产品。",
+    "total": 66,
+    "weights": {
+      "third_party_actionable": 0.2,
+      "leverage": 0.15,
+      "competition_gap": 0.15,
+      "software_only": 0.1,
+      "zero_onboarding": 0.1,
+      "no_docs": 0.05,
+      "low_ops": 0.1,
+      "frequency": 0.05,
+      "self_serve_pay": 0.1
+    }
+  }
+}

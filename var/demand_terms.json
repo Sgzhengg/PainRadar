@@ -1,0 +1,13 @@
+{
+  "设备连接与同步不稳定": ["device won't connect to wifi", "app keeps disconnecting"],
+  "关键提醒与警报不可靠": ["app notification not working", "reminder not working"],
+  "更新后功能异常或数据丢失": ["update broke my app"],
+  "订阅取消与退款不透明": ["cancel subscription", "refund subscription"],
+  "核心功能频繁崩溃闪退": ["app keeps crashing"],
+  "硬件设备耐用性差易故障": ["device stopped working"],
+  "客服响应慢且售后推诿": ["customer support not responding"],
+  "数据记录与统计不准确": ["app data inaccurate"],
+  "数据导出与迁移困难": ["export data from app"],
+  "外出时远程监控与喂食失效": ["pet feeder offline"],
+  "识别与诊断准确性低": ["plant diagnosis app"]
+}

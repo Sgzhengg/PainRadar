@@ -1,0 +1,282 @@
+{
+  "0a7d8a6e97ad0ae5": {
+    "key": "0a7d8a6e97ad0ae5",
+    "demand": "固件更新后设备功能异常",
+    "type": "固件更新故障",
+    "buyer": "智能宠物设备用户",
+    "workaround": "重启设备或等待修复",
+    "cost": "视频无法加载、设备频繁误报"
+  },
+  "8a72ba8af989663c": {
+    "key": "8a72ba8af989663c",
+    "demand": "说明书难懂产品设计差",
+    "type": "说明书与设计",
+    "buyer": "宠物饮水机用户",
+    "workaround": "自行摸索使用",
+    "cost": "使用受挫、体验差"
+  },
+  "f9fd4343f781e448": {
+    "key": "f9fd4343f781e448",
+    "demand": "App故障导致设备无法使用",
+    "type": "App故障阻断使",
+    "buyer": "智能宠物设备用户",
+    "workaround": "",
+    "cost": "设备完全无法使用"
+  },
+  "24d7d7926c7df342": {
+    "key": "24d7d7926c7df342",
+    "demand": "外出时设备不可靠",
+    "type": "外出托管可靠性",
+    "buyer": "常出行的宠物主人",
+    "workaround": "仅日常使用、外出不用",
+    "cost": "外出无法安心托管"
+  },
+  "c88c55bec84ae987": {
+    "key": "c88c55bec84ae987",
+    "demand": "多猫识别不准难区分",
+    "type": "多猫识别准确性",
+    "buyer": "多猫家庭用户",
+    "workaround": "人工观察判断",
+    "cost": "无法准确追踪各猫数据"
+  },
+  "34a26f9a4842f3fe": {
+    "key": "34a26f9a4842f3fe",
+    "demand": "核心功能被订阅锁住",
+    "type": "功能订阅付费墙",
+    "buyer": "智能喂食器用户",
+    "workaround": "放弃使用付费功能",
+    "cost": "额外付费、取消订阅困难"
+  },
+  "21705a81ef83bbb2": {
+    "key": "21705a81ef83bbb2",
+    "demand": "感应器失灵需手动清理",
+    "type": "感应器失灵",
+    "buyer": "上班族养猫用户",
+    "workaround": "手动触发清理",
+    "cost": "额外手动操作时间"
+  },
+  "4c924ada60f025f7": {
+    "key": "4c924ada60f025f7",
+    "demand": "设备不制冷且不支持5G",
+    "type": "制冷与网络兼容",
+    "buyer": "宠物饮水机用户",
+    "workaround": "",
+    "cost": "设备无法正常使用"
+  },
+  "51ec87f8373153b4": {
+    "key": "51ec87f8373153b4",
+    "demand": "客服失联售后无门",
+    "type": "客服响应缺失",
+    "buyer": "智能宠物设备用户",
+    "workaround": "自行维修设备",
+    "cost": "等待48小时、自费退换"
+  },
+  "db858ab83ee233ce": {
+    "key": "db858ab83ee233ce",
+    "demand": "清洁提醒干扰且清理卡顿",
+    "type": "清洁提醒与卡料",
+    "buyer": "自动猫砂盆用户",
+    "workaround": "手动清理、关闭提醒",
+    "cost": "频繁手动清理、日程被打乱"
+  },
+  "f2c591ec32c09f8d": {
+    "key": "f2c591ec32c09f8d",
+    "demand": "更新后应用变得无用",
+    "type": "更新致功能失效",
+    "buyer": "睡眠监测App用户",
+    "workaround": "",
+    "cost": "原有功能丧失"
+  },
+  "dedf69bfb353a27a": {
+    "key": "dedf69bfb353a27a",
+    "demand": "免费应用充斥广告",
+    "type": "广告干扰体验",
+    "buyer": "睡眠监测App用户",
+    "workaround": "忍受广告",
+    "cost": "使用体验变差"
+  },
+  "b4c90f5f5e070f70": {
+    "key": "b4c90f5f5e070f70",
+    "demand": "睡眠记录不准且应用冻结",
+    "type": "睡眠记录准确性",
+    "buyer": "睡眠监测App用户",
+    "workaround": "手动调整睡眠时间",
+    "cost": "记录丢失、情绪挫败"
+  },
+  "cdc8af94be733b2f": {
+    "key": "cdc8af94be733b2f",
+    "demand": "夜间起夜中断睡眠追踪",
+    "type": "睡眠追踪中断",
+    "buyer": "睡眠监测App用户",
+    "workaround": "",
+    "cost": "整夜数据不完整"
+  },
+  "b4de3cffd01a634f": {
+    "key": "b4de3cffd01a634f",
+    "demand": "误判清醒且客服不解决",
+    "type": "睡眠误判与客服",
+    "buyer": "长期睡眠App用户",
+    "workaround": "",
+    "cost": "数据失真、求助无果"
+  },
+  "bb8d1ec66a4e29ff": {
+    "key": "bb8d1ec66a4e29ff",
+    "demand": "设备同步始终不工作",
+    "type": "设备同步故障",
+    "buyer": "睡眠监测设备用户",
+    "workaround": "",
+    "cost": "设备形同虚设"
+  },
+  "d7263ab07107ecf6": {
+    "key": "d7263ab07107ecf6",
+    "demand": "免费试用期被提前扣年费",
+    "type": "试用期扣费",
+    "buyer": "睡眠App试用用户",
+    "workaround": "申请退款",
+    "cost": "被扣59美元年费"
+  },
+  "f682e70fa52c6aac": {
+    "key": "f682e70fa52c6aac",
+    "demand": "退款无回应且莫名扣费",
+    "type": "退款与乱扣费",
+    "buyer": "睡眠App付费用户",
+    "workaround": "发邮件申请退款",
+    "cost": "被扣69美元、退款无门"
+  },
+  "055c6b856a3668d2": {
+    "key": "055c6b856a3668d2",
+    "demand": "银行同步失败需手动记账",
+    "type": "银行同步失败",
+    "buyer": "预算记账App用户",
+    "workaround": "手动录入每笔交易",
+    "cost": "额外记账时间、付费无效果"
+  },
+  "f778934fdd132077": {
+    "key": "f778934fdd132077",
+    "demand": "界面难用且缺基础功能",
+    "type": "界面与基础功能",
+    "buyer": "预算记账App用户",
+    "workaround": "换用其他应用",
+    "cost": "无法替代原有工具"
+  },
+  "46f3291d0b34c9c4": {
+    "key": "46f3291d0b34c9c4",
+    "demand": "账单问题致应用无用",
+    "type": "账单与可用性",
+    "buyer": "预算记账App用户",
+    "workaround": "",
+    "cost": "应用无法使用"
+  },
+  "247bed619e11e68b": {
+    "key": "247bed619e11e68b",
+    "demand": "基础预算功能需付费解锁",
+    "type": "基础功能付费墙",
+    "buyer": "预算记账App用户",
+    "workaround": "删除应用或换用他款",
+    "cost": "10分钟内弃用、数据迁移难"
+  },
+  "5cea364b641cddc1": {
+    "key": "5cea364b641cddc1",
+    "demand": "订阅费高且数据会丢失",
+    "type": "订阅费与数据丢失",
+    "buyer": "预算记账App用户",
+    "workaround": "手动记录、换应用",
+    "cost": "年费75美元、数据丢失"
+  },
+  "fe71e252facc4d20": {
+    "key": "fe71e252facc4d20",
+    "demand": "应用功能与宣传不符",
+    "type": "功能与宣传不符",
+    "buyer": "植物识别App用户",
+    "workaround": "",
+    "cost": "应用无法使用"
+  },
+  "7046cfa056296168": {
+    "key": "7046cfa056296168",
+    "demand": "同一植物识别结果混乱",
+    "type": "植物识别准确性",
+    "buyer": "植物识别App用户",
+    "workaround": "多次尝试识别",
+    "cost": "无法获得可靠养护信息"
+  },
+  "2900faacd0c76627": {
+    "key": "2900faacd0c76627",
+    "demand": "诊断功能崩溃且误诊",
+    "type": "诊断崩溃与误诊",
+    "buyer": "植物养护App用户",
+    "workaround": "重启应用重试",
+    "cost": "植物死亡、反复崩溃"
+  },
+  "9a35da729732a429": {
+    "key": "9a35da729732a429",
+    "demand": "浇水提醒贵且任务堆积",
+    "type": "浇水提醒与同步",
+    "buyer": "多植物养护用户",
+    "workaround": "自行记录浇水时间",
+    "cost": "年费40美元、任务列表爆炸"
+  },
+  "6a2807cca84659af": {
+    "key": "6a2807cca84659af",
+    "demand": "光照建议与实际不符",
+    "type": "光照位置建议",
+    "buyer": "室内植物养护用户",
+    "workaround": "忽略建议自行判断",
+    "cost": "建议不可信"
+  },
+  "45cc3c9b80d2590a": {
+    "key": "45cc3c9b80d2590a",
+    "demand": "误订年费且退款无门",
+    "type": "误订与退款",
+    "buyer": "植物识别App用户",
+    "workaround": "勉强使用已付费应用",
+    "cost": "被扣49-65美元"
+  },
+  "d484b0004177ac4a": {
+    "key": "d484b0004177ac4a",
+    "demand": "广告过多干扰使用",
+    "type": "广告干扰",
+    "buyer": "咖啡制作游戏用户",
+    "workaround": "忍受广告",
+    "cost": "体验被打断"
+  },
+  "9ea8ddeb171fa029": {
+    "key": "9ea8ddeb171fa029",
+    "demand": "广告频繁且含内购",
+    "type": "广告与内购",
+    "buyer": "咖啡制作游戏用户",
+    "workaround": "换玩其他同类游戏",
+    "cost": "每两分钟一次广告"
+  },
+  "f9d7a8a54c973ecd": {
+    "key": "f9d7a8a54c973ecd",
+    "demand": "高价设备故障需另购替代",
+    "type": "高价设备可靠性",
+    "buyer": "常出行的宠物主人",
+    "workaround": "另买普通猫砂盆",
+    "cost": "600美元设备闲置"
+  },
+  "8d2adfd5359e2a93": {
+    "key": "8d2adfd5359e2a93",
+    "demand": "缺水无推送且感应失灵",
+    "type": "缺水提醒与感应",
+    "buyer": "养猫宠物主",
+    "workaround": "手动检查水位",
+    "cost": "额外手动操作"
+  },
+  "b4c7d2414092aeca": {
+    "key": "b4c7d2414092aeca",
+    "demand": "清洁需App操作不便托管",
+    "type": "清洁操作依赖Ap",
+    "buyer": "多宠家庭用户",
+    "workaround": "宠物保姆求助主人",
+    "cost": "托管时无法独立清洁"
+  },
+  "54f120f7dc574182": {
+    "key": "54f120f7dc574182",
+    "demand": "水位误报且提醒无法编辑",
+    "type": "水位误报与提醒",
+    "buyer": "养猫宠物主",
+    "workaround": "拆机查看水位、改用日历提醒",
+    "cost": "反复拆装、误报频繁"
+  }
+}

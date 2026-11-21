@@ -1,0 +1,154 @@
+[
+  {
+    "demand_id": "dm_ed35195ae0",
+    "label": "客服响应慢且售后推诿",
+    "size": 177,
+    "type": "客服响应慢且售后推诿",
+    "definition": "用户联系客服困难、问题得不到解决、保修或退款被拒；不包括订阅取消流程本身。",
+    "buyer": "需要售后支持的用户",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "小企业主"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 177
+    },
+    "apps": [
+      "1014146758",
+      "1052884030",
+      "335393788",
+      "371294472",
+      "584606479",
+      "881629660"
+    ],
+    "l2_share": 0.452,
+    "intensity": 0.763,
+    "cost_share": 0.096,
+    "wtp_share": 0.04,
+    "score": 48.1,
+    "quote": "Square permanently closed my account without providing a specific explanation and is withholding $1,600 of my hard-earned money until December 9, possibly longer.",
+    "variants": 5,
+    "examples": [
+      {
+        "quote": "Square permanently closed my account without providing a specific explanation and is withholding $1,600 of my hard-earned money until December 9, possibly longer.",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "335393788"
+      },
+      {
+        "quote": "I spoke to customer service for 30 minutes trying to get an answer to what may be happening or what I may be doing wrong. No response, and he just abruptly hung up the line.",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "335393788"
+      },
+      {
+        "quote": "Two days of trying to get my bank accounts to work and no help from support.",
+        "domain": "custom_small_business_operation",
+        "level": "L4",
+        "app": "881629660"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "订阅取消与退款不透明",
+    "size": 54,
+    "type": "订阅取消与退款不透明",
+    "definition": "用户难以取消订阅、被意外扣费或申请退款受阻；不包括应用内广告过多的问题。",
+    "buyer": "付费订阅用户",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "小企业主"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 54
+    },
+    "apps": [
+      "1014146758",
+      "1052884030",
+      "335393788",
+      "371294472",
+      "584606479",
+      "881629660"
+    ],
+    "l2_share": 0.389,
+    "intensity": 0.774,
+    "cost_share": 0.204,
+    "wtp_share": 0.074,
+    "score": 41.6,
+    "quote": "Shopify keeps hitting my accounts for 40 dollars I had to cancel all of my accounts to stop the charges",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Shopify keeps hitting my accounts for 40 dollars I had to cancel all of my accounts to stop the charges",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "371294472"
+      },
+      {
+        "quote": "Didn’t want to pay $50 a month. I was paying $10 for the ability to message customers through the app.",
+        "domain": "custom_small_business_operation",
+        "level": "L3",
+        "app": "335393788"
+      },
+      {
+        "quote": "they been trying to get $40 each month from my card",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "371294472"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_080f626098",
+    "label": "数据记录与统计不准确",
+    "size": 32,
+    "type": "数据记录与统计不准确",
+    "definition": "应用记录或统计的数据（如睡眠时长、交易分类）与实际不符或丢失；不包括数据导出迁移问题。",
+    "buyer": "依赖数据做决策的用户",
+    "buyer_by_domain": {
+      "custom_small_business_operation": "Shopify 商家，管理大量商品的小企业运营者"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_small_business_operation": 32
+    },
+    "apps": [
+      "1052884030",
+      "335393788",
+      "371294472",
+      "584606479",
+      "881629660"
+    ],
+    "l2_share": 0.625,
+    "intensity": 0.581,
+    "cost_share": 0.062,
+    "wtp_share": 0.031,
+    "score": 35.4,
+    "quote": "The dashboard shows the monthly P&L summary, but when you click it, it shows a completely different number for the same report for “this month.”",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "The dashboard shows the monthly P&L summary, but when you click it, it shows a completely different number for the same report for “this month.”",
+        "domain": "custom_small_business_operation",
+        "level": "L1",
+        "app": "584606479"
+      },
+      {
+        "quote": "You can’t see any of your transaction or even pull up a simple report from the app",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": "881629660"
+      },
+      {
+        "quote": "Getting from “we need new ads” to knowing what to make usually takes me an afternoon, and most of that is reading.",
+        "domain": "custom_small_business_operation",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  }
+]

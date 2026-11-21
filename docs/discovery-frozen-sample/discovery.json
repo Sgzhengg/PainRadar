@@ -1,0 +1,315 @@
+[
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "订阅取消与退款不透明",
+    "size": 47,
+    "type": "订阅取消与退款不透明",
+    "definition": "用户难以取消订阅、被意外扣费或申请退款受阻；不包括应用内广告过多的问题。",
+    "buyer": "付费订阅用户",
+    "buyer_by_domain": {
+      "sleep_tech": "睡眠应用用户",
+      "budgeting": "从 Mint 迁移过来的预算应用用户",
+      "plant_care": "10岁女孩"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "budgeting": 24,
+      "plant_care": 20,
+      "sleep_tech": 3
+    },
+    "apps": [
+      "1252497129",
+      "1410126781",
+      "1490078804",
+      "1612792132",
+      "1621020173",
+      "320606217"
+    ],
+    "l2_share": 0.34,
+    "intensity": 0.787,
+    "cost_share": 0.17,
+    "wtp_share": 0.043,
+    "score": 68.6,
+    "quote": "I signed up for free trial cancelled and was still charged",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "I signed up for free trial cancelled and was still charged",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "320606217"
+      },
+      {
+        "quote": "They will charge your card even if you tell them not to before the trial ends. Now they refuse to refund me.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1490078804"
+      },
+      {
+        "quote": "I paid for the test long subscription and it hasn’t worked in months.",
+        "domain": "sleep_tech",
+        "level": "L4",
+        "app": "1490078804"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2f434ba53b",
+    "label": "关键提醒与警报不可靠",
+    "size": 31,
+    "type": "关键提醒与警报不可靠",
+    "definition": "应用发出的提醒（浇水、喂食、闹钟）未按时触发、误触发或无法关闭；不包括设备故障导致的提醒失败。",
+    "buyer": "依赖提醒功能的用户",
+    "buyer_by_domain": {
+      "pet_water_fountain": "住在社区住宅、院子较大的养狗用户",
+      "sleep_tech": "多年使用该应用的老用户",
+      "plant_care": "iPhone 用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "sleep_tech": 11,
+      "pet_water_fountain": 10,
+      "plant_care": 10
+    },
+    "apps": [
+      "1252497129",
+      "1410126781",
+      "1490078804",
+      "1612792132",
+      "320606217",
+      "720151500"
+    ],
+    "l2_share": 0.323,
+    "intensity": 0.697,
+    "cost_share": 0.0,
+    "wtp_share": 0.065,
+    "score": 65.4,
+    "quote": "I cannot even edit this reminder so I deleted it and will use a calendar reminder instead.",
+    "variants": 4,
+    "examples": [
+      {
+        "quote": "I cannot even edit this reminder so I deleted it and will use a calendar reminder instead.",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      },
+      {
+        "quote": "the sensor only worked 1 time for my cat going to the bathroom and now I have to manually get it to scoop",
+        "domain": "pet_water_fountain",
+        "level": "L2",
+        "app": "994053492"
+      },
+      {
+        "quote": "Does not work :(. Says my dogs have moved out of the safe zone when they are sleeping right in front of me and one day they both dug out from under our fence and ran off and it never even alerted me.  To top it off when my husband tried to locate them, it showed they were still home.  Do not spend your money on this.",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "921588809"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_bed7abeac5",
+    "label": "设备连接与同步不稳定",
+    "size": 35,
+    "type": "设备连接与同步不稳定",
+    "definition": "硬件设备与App之间、或App与外部设备（如手表、银行）连接断开、同步失败；不包括应用自身崩溃。",
+    "buyer": "依赖硬件或外部数据的用户",
+    "buyer_by_domain": {
+      "sleep_tech": "iPhone 15 Pro Max 用户",
+      "budgeting": "Redwood Credit Union 银行用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "budgeting": 25,
+      "sleep_tech": 10
+    },
+    "apps": [
+      "1138066420",
+      "1621020173",
+      "320606217",
+      "936422955",
+      "949414211"
+    ],
+    "l2_share": 0.543,
+    "intensity": 0.76,
+    "cost_share": 0.057,
+    "wtp_share": 0.057,
+    "score": 48.1,
+    "quote": "I tried everything—permissions, settings, reinstalling the app—nothing works.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "I tried everything—permissions, settings, reinstalling the app—nothing works.",
+        "domain": "sleep_tech",
+        "level": "L2",
+        "app": "1138066420"
+      },
+      {
+        "quote": "The app no longer works on my apple watch ultra 3.  I reloaded the app and rebooted both the watch and phone. No joy.",
+        "domain": "sleep_tech",
+        "level": "L2",
+        "app": "1138066420"
+      },
+      {
+        "quote": "for the past three days my watch battery goes from 100% at bedtime to 27% when I wake up!",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_080f626098",
+    "label": "数据记录与统计不准确",
+    "size": 46,
+    "type": "数据记录与统计不准确",
+    "definition": "应用记录或统计的数据（如睡眠时长、交易分类）与实际不符或丢失；不包括数据导出迁移问题。",
+    "buyer": "依赖数据做决策的用户",
+    "buyer_by_domain": {
+      "sleep_tech": "iPhone 16 Pro Max用户",
+      "budgeting": "与他人分摊账单的家庭用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "sleep_tech": 32,
+      "budgeting": 14
+    },
+    "apps": [
+      "1138066420",
+      "1490078804",
+      "1621020173",
+      "320606217",
+      "936422955",
+      "949414211"
+    ],
+    "l2_share": 0.304,
+    "intensity": 0.726,
+    "cost_share": 0.043,
+    "wtp_share": 0.0,
+    "score": 46.4,
+    "quote": "把梦境记录删了. 为什么把记录做梦的删了？以前记录的梦境也没有了？这是乐趣，为什么没了？除了一堆数据，我辛辛苦苦记录的梦境呢？也没给我保留",
+    "variants": 3,
+    "examples": [
+      {
+        "quote": "把梦境记录删了. 为什么把记录做梦的删了？以前记录的梦境也没有了？这是乐趣，为什么没了？除了一堆数据，我辛辛苦苦记录的梦境呢？也没给我保留",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1490078804"
+      },
+      {
+        "quote": "I’ve had this for about a year and it’s still nothing but straight line on the sleep graph.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "320606217"
+      },
+      {
+        "quote": "It stopped tracking my sleep after that.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_9102326afa",
+    "label": "外出时远程监控与喂食失效",
+    "size": 74,
+    "type": "外出时远程监控与喂食失效",
+    "definition": "用户外出时无法通过App远程监控或控制设备（喂食、摄像头），设备离线或服务器宕机；不包括日常连接问题。",
+    "buyer": "经常外出的宠物主人",
+    "buyer_by_domain": {
+      "pet_water_fountain": "Furbo 长期用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "pet_water_fountain": 74
+    },
+    "apps": [
+      "1586120661",
+      "720151500",
+      "921588809",
+      "994053492",
+      "999707163"
+    ],
+    "l2_share": 0.297,
+    "intensity": 0.768,
+    "cost_share": 0.014,
+    "wtp_share": 0.0,
+    "score": 30.8,
+    "quote": "Waste of money. Didn’t renew subscription because pet cam is always offline.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "Waste of money. Didn’t renew subscription because pet cam is always offline.",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "999707163"
+      },
+      {
+        "quote": "I was going to buy a third Everett device but know I May just return them instead!",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "994053492"
+      },
+      {
+        "quote": "I was charged even though I have been trying to cancel for a week.",
+        "domain": "pet_water_fountain",
+        "level": "L1",
+        "app": "1586120661"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_8c53e7b896",
+    "label": "广告与通知骚扰影响体验",
+    "size": 55,
+    "type": "广告与通知骚扰影响体验",
+    "definition": "应用内广告过多或在不合适时间推送通知，干扰用户；不包括关键功能提醒。",
+    "buyer": "免费版或所有用户",
+    "buyer_by_domain": {
+      "sleep_tech": "12岁用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "sleep_tech": 55
+    },
+    "apps": [
+      "1138066420",
+      "1490078804",
+      "320606217"
+    ],
+    "l2_share": 0.382,
+    "intensity": 0.789,
+    "cost_share": 0.145,
+    "wtp_share": 0.018,
+    "score": 29.9,
+    "quote": "Must be 16 to enter??!. I mean I get that some apps have age restricting content but what I don’t get is how you must be 16 to enter a sleep tracking app.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Must be 16 to enter??!. I mean I get that some apps have age restricting content but what I don’t get is how you must be 16 to enter a sleep tracking app.",
+        "domain": "sleep_tech",
+        "level": "L1",
+        "app": "1138066420"
+      },
+      {
+        "quote": "Immediately deleted the app once it forced commercials down my throat. Kept a competitor app instead.",
+        "domain": "sleep_tech",
+        "level": "L2",
+        "app": "1138066420"
+      },
+      {
+        "quote": "I am now using another sleep tracker.",
+        "domain": "sleep_tech",
+        "level": "L2",
+        "app": "1138066420"
+      }
+    ]
+  }
+]

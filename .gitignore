@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+
+# Runtime data (databases, caches, corpora)
+var/*.db
+var/*.db-journal
+var/indie_cache/
+var/deepdive_corpus/
+var/assignment_cache*.json
+var/deepdive_cache.json
+var/deepdive_history.json
+var/discovery_*.json
+var/secondhand/
+var/*.jsonl
+var/_*
+var/llm*.json
+
+# Keep small, hand-maintained configs
+!var/category_templates.json
+!var/pain_taxonomy_*.json
+!var/demand_taxonomy_*.json
+
+# Reports: keep markdown deliverables, skip generated media dumps
+reports/demo/
+reports/*.docx
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Secrets
+.env
+*.pem

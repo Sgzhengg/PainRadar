@@ -1,0 +1,97 @@
+[
+  {
+    "demand_id": "dm_8c53e7b896",
+    "label": "广告与通知骚扰影响体验",
+    "size": 71,
+    "type": "广告与通知骚扰影响体验",
+    "definition": "应用内广告过多或在不合适时间推送通知，干扰用户；不包括关键功能提醒。",
+    "buyer": "免费版或所有用户",
+    "buyer_by_domain": {
+      "custom_coffee_maker": "游戏玩家"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_coffee_maker": 71
+    },
+    "apps": [
+      "1591921962",
+      "1603584945",
+      "1610991235"
+    ],
+    "l2_share": 0.085,
+    "intensity": 0.656,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 53.4,
+    "quote": "Why so many adds😡😡😡. This game has so many adds it’s like the game is about adds after you do the coffee or another drink it said add break for like 40 seconds",
+    "variants": 3,
+    "examples": [
+      {
+        "quote": "Why so many adds😡😡😡. This game has so many adds it’s like the game is about adds after you do the coffee or another drink it said add break for like 40 seconds",
+        "domain": "custom_coffee_maker",
+        "level": "L1",
+        "app": "1610991235"
+      },
+      {
+        "quote": "we have to wait like 3 minute for you to play another round",
+        "domain": "custom_coffee_maker",
+        "level": "L1",
+        "app": "1591921962"
+      },
+      {
+        "quote": "the milk game is so hard to understand and it doesn’t let me do it like the tutorial shows.",
+        "domain": "custom_coffee_maker",
+        "level": "L1",
+        "app": "1603584945"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "订阅取消与退款不透明",
+    "size": 7,
+    "type": "订阅取消与退款不透明",
+    "definition": "用户难以取消订阅、被意外扣费或申请退款受阻；不包括应用内广告过多的问题。",
+    "buyer": "付费订阅用户",
+    "buyer_by_domain": {
+      "custom_coffee_maker": "喜欢杯子皮肤的玩家"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_coffee_maker": 7
+    },
+    "apps": [
+      "1603584945",
+      "1610991235"
+    ],
+    "l2_share": 0.286,
+    "intensity": 0.686,
+    "cost_share": 0.0,
+    "wtp_share": 0.286,
+    "score": 33.2,
+    "quote": "无广告版本要付费，但是付费途径里没有中国的微信、支付宝支付，也没有中国银行卡支付",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "无广告版本要付费，但是付费途径里没有中国的微信、支付宝支付，也没有中国银行卡支付",
+        "domain": "custom_coffee_maker",
+        "level": "L1",
+        "app": "1603584945"
+      },
+      {
+        "quote": "三种杯子的皮肤，只在登陆外国I D后才能购买，且一套大概要27人民币，只买的到三个杯子的皮肤而已，虽然很喜欢但总觉得不值，刚开始还以为是人民币3.99都打算买入了，结果发现是US3.99呜呜呜🥹[ADDR]登陆压根不能支付，[ADDR]才能用信用卡支付，没有微信和支付宝，有钱且想买都花不出去呜呜🥹可以再便宜些或者开放钻石购买吗？如果只用钻石也买的到限时杯子皮肤的话充值钻石也没关系，别太贵呜呜🥹",
+        "domain": "custom_coffee_maker",
+        "level": "L3",
+        "app": "1603584945"
+      },
+      {
+        "quote": "I don’t wanna pay 5 bucks a week for free ads because I’m broke",
+        "domain": "custom_coffee_maker",
+        "level": "L1",
+        "app": "1610991235"
+      }
+    ]
+  }
+]

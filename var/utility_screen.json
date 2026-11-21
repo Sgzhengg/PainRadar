@@ -1,0 +1,79 @@
+[
+  {
+    "category": "pdf_tools",
+    "term": "pdf editor",
+    "apps": [
+      "PDF Expert: Editor & Reader",
+      "Acrobat Reader: PDF Editor"
+    ],
+    "reviews": 182,
+    "subscription_share": 0.148,
+    "lifetime_share": 0.027
+  },
+  {
+    "category": "scanner",
+    "term": "document scanner",
+    "apps": [
+      "Scanner App. JPG, Photo to PDF",
+      "CamScanner - PDF Scanner App"
+    ],
+    "reviews": 136,
+    "subscription_share": 0.11,
+    "lifetime_share": 0.007
+  },
+  {
+    "category": "cleaner",
+    "term": "phone cleaner",
+    "apps": [
+      "Cleanup: Phone Storage Cleaner",
+      "Phone Storage Cleaner: Free up"
+    ],
+    "reviews": 131,
+    "subscription_share": 0.099,
+    "lifetime_share": 0.0
+  },
+  {
+    "category": "photo_editor",
+    "term": "photo editor",
+    "apps": [
+      "Picsart AI Photo Editor, Video",
+      "Lightroom Photo Editor & Video"
+    ],
+    "reviews": 173,
+    "subscription_share": 0.081,
+    "lifetime_share": 0.0
+  },
+  {
+    "category": "video_editor",
+    "term": "video editor",
+    "apps": [
+      "CapCut: Photo & Video Editor",
+      "InShot - Video Editor"
+    ],
+    "reviews": 178,
+    "subscription_share": 0.051,
+    "lifetime_share": 0.0
+  },
+  {
+    "category": "translate",
+    "term": "translate camera",
+    "apps": [
+      "Google Translate",
+      "Camera Translator: AI Picture"
+    ],
+    "reviews": 148,
+    "subscription_share": 0.034,
+    "lifetime_share": 0.014
+  },
+  {
+    "category": "file_transfer",
+    "term": "file transfer",
+    "apps": [
+      "File Transfer App",
+      "Send Anywhere - File Transfer"
+    ],
+    "reviews": 169,
+    "subscription_share": 0.012,
+    "lifetime_share": 0.0
+  }
+]

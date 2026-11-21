@@ -1,0 +1,408 @@
+[
+  {
+    "demand_id": "dm_8c53e7b896",
+    "label": "广告与通知骚扰影响体验",
+    "size": 216,
+    "type": "广告与通知骚扰影响体验",
+    "definition": "应用内广告过多或在不合适时间推送通知，干扰用户；不包括关键功能提醒。",
+    "buyer": "免费版或所有用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "应用总榜用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 216
+    },
+    "apps": [
+      "1058959277",
+      "1064216828",
+      "1113153706",
+      "1116186798",
+      "1500855883",
+      "1641486558"
+    ],
+    "l2_share": 0.0,
+    "intensity": 0.437,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 38.0,
+    "quote": "I use Reddit to follow communities I want to follow, not have unnecessary junk shoved in my face.",
+    "variants": 4,
+    "examples": [
+      {
+        "quote": "I use Reddit to follow communities I want to follow, not have unnecessary junk shoved in my face.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "1064216828"
+      },
+      {
+        "quote": "Why did you introduce random subs when I try to scroll through videos on “My feed”?",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "1064216828"
+      },
+      {
+        "quote": "I can always count on Lyft when I’m traveling .",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "529379082"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_ed35195ae0",
+    "label": "客服响应慢且售后推诿",
+    "size": 93,
+    "type": "客服响应慢且售后推诿",
+    "definition": "用户联系客服困难、问题得不到解决、保修或退款被拒；不包括订阅取消流程本身。",
+    "buyer": "需要售后支持的用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "应用总榜用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 93
+    },
+    "apps": [
+      "1058959277",
+      "1064216828",
+      "1113153706",
+      "1116186798",
+      "1500855883",
+      "283646709"
+    ],
+    "l2_share": 0.032,
+    "intensity": 0.447,
+    "cost_share": 0.022,
+    "wtp_share": 0.0,
+    "score": 27.5,
+    "quote": "As soon as I try to login with the app it tells me the phone number isn’t found or the email isn’t found when it is the same one I use on the website.",
+    "variants": 4,
+    "examples": [
+      {
+        "quote": "As soon as I try to login with the app it tells me the phone number isn’t found or the email isn’t found when it is the same one I use on the website.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "6462904878"
+      },
+      {
+        "quote": "So I’ve been using College Board on site but I recently just downloaded to my cellphone and I can’t seem to login using my phone number or email and every time I put the number associated with my account it doesn’t let me login due to the saying of “unable to login” so any help?",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "6462904878"
+      },
+      {
+        "quote": "When I try to log in I get a black screen with NO WAY or nowhere to log in.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "333903271"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "订阅取消与退款不透明",
+    "size": 51,
+    "type": "订阅取消与退款不透明",
+    "definition": "用户难以取消订阅、被意外扣费或申请退款受阻；不包括应用内广告过多的问题。",
+    "buyer": "付费订阅用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "应用总榜用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 51
+    },
+    "apps": [
+      "1058959277",
+      "1116186798",
+      "1500855883",
+      "283646709",
+      "324684580",
+      "338137227"
+    ],
+    "l2_share": 0.078,
+    "intensity": 0.482,
+    "cost_share": 0.137,
+    "wtp_share": 0.0,
+    "score": 24.2,
+    "quote": "paypal refunded my bank but took the money from paypal, saying I had to pay $100 which put me in the negatives. paypal never paid for anything because money was never taken out.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "paypal refunded my bank but took the money from paypal, saying I had to pay $100 which put me in the negatives. paypal never paid for anything because money was never taken out.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "283646709"
+      },
+      {
+        "quote": "Real-time, unmistakable confirmation whenever a paid feature is applied.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "1500855883"
+      },
+      {
+        "quote": "Force me to watch an ad when I click on an aircraft.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "382233851"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_12a750139c",
+    "label": "更新后功能异常或数据丢失",
+    "size": 31,
+    "type": "更新后功能异常或数据丢失",
+    "definition": "应用更新或固件升级后出现功能故障、数据丢失或账户异常；不包括更新前的既有问题。",
+    "buyer": "长期使用的老用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "应用总榜用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 31
+    },
+    "apps": [
+      "1116186798",
+      "283646709",
+      "310633997",
+      "333903271",
+      "389801252",
+      "422689480"
+    ],
+    "l2_share": 0.032,
+    "intensity": 0.49,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 19.4,
+    "quote": "Latest update allows you to delete messages but they show up as undeleted when you next access that page/feature.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Latest update allows you to delete messages but they show up as undeleted when you next access that page/feature.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "283646709"
+      },
+      {
+        "quote": "Frenzy is amazing but when I go to delete messages it shows that I deleted them I don’t want to show that.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "6753807741"
+      },
+      {
+        "quote": "Every time I post it keeps on saying ai content when it’s just normal photos of me and my friends.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "389801252"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2265f5336d",
+    "label": "核心功能频繁崩溃闪退",
+    "size": 21,
+    "type": "核心功能频繁崩溃闪退",
+    "definition": "应用启动、使用中闪退或冻结，导致无法正常使用；不包括设备连接或同步问题。",
+    "buyer": "所有应用用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "应用总榜用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 21
+    },
+    "apps": [
+      "1116186798",
+      "1641486558",
+      "283646709",
+      "368677368",
+      "422689480",
+      "429047995"
+    ],
+    "l2_share": 0.0,
+    "intensity": 0.467,
+    "cost_share": 0.048,
+    "wtp_share": 0.0,
+    "score": 17.9,
+    "quote": "Every time I try to get a ride there is zero drivers near by, I need to get home, this app blows.",
+    "variants": 2,
+    "examples": [
+      {
+        "quote": "Every time I try to get a ride there is zero drivers near by, I need to get home, this app blows.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "368677368"
+      },
+      {
+        "quote": "Awful Picture. The video is horrible, grainy, jerky, sometimes not on the players. Many times the upcoming games are posted wrong. I just watched a high school football game on the schools YouTube channel for free.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "1116186798"
+      },
+      {
+        "quote": "Unacceptable Issue. I recently began experiencing a problem with account access on the Lyft app. Attempting to access my ride history or anything else related to my account resulted in the app simply closing on its own. I use Lyft a lot bc I travel frequently for work.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "529379082"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_d322de085a",
+    "label": "数据导出与迁移困难",
+    "size": 5,
+    "type": "数据导出与迁移困难",
+    "definition": "用户无法导出数据到其他平台、迁移数据丢失或格式错乱；不包括应用内数据记录错误。",
+    "buyer": "需要备份或换应用的用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "应用总榜用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 5
+    },
+    "apps": [
+      "1500855883",
+      "422689480",
+      "545519333",
+      "983156458"
+    ],
+    "l2_share": 0.2,
+    "intensity": 0.52,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 16.6,
+    "quote": "I HATE THIS APP SO MUCH I HAD TO DELETE IT TO KEEP MY SANITY, IF YOU GO TO TEMPLETES, SEARCH, “don’t export” OR “no look Sus” AND EXPORT TO EDIT AND DELETE THE GREEN SCREEN, YOU WILL FIND VERY EXPLICT CONTENT, LIKE SEX AND DICK SUCKING, DO NOT GET THIS APP EVER.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I HATE THIS APP SO MUCH I HAD TO DELETE IT TO KEEP MY SANITY, IF YOU GO TO TEMPLETES, SEARCH, “don’t export” OR “no look Sus” AND EXPORT TO EDIT AND DELETE THE GREEN SCREEN, YOU WILL FIND VERY EXPLICT CONTENT, LIKE SEX AND DICK SUCKING, DO NOT GET THIS APP EVER.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "1500855883"
+      },
+      {
+        "quote": "This app is so dumb I literally spent two hours making a makup video and I went to export it and it said video deleted I did not touch anything besides export now I just made and worked hours on a video that showed nothing so you should fix that developer",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "1500855883"
+      },
+      {
+        "quote": "Amazon has removed the ability to sync the app manually, this has always been a problem with the app, but now there is no way to put it in sync",
+        "domain": "custom_app_store_top_charts",
+        "level": "L2",
+        "app": "545519333"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_bed7abeac5",
+    "label": "设备连接与同步不稳定",
+    "size": 12,
+    "type": "设备连接与同步不稳定",
+    "definition": "硬件设备与App之间、或App与外部设备（如手表、银行）连接断开、同步失败；不包括应用自身崩溃。",
+    "buyer": "依赖硬件或外部数据的用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "应用总榜用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 12
+    },
+    "apps": [
+      "1116186798",
+      "1500855883",
+      "284815942",
+      "429047995",
+      "544007664",
+      "545519333"
+    ],
+    "l2_share": 0.0,
+    "intensity": 0.45,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 15.1,
+    "quote": "Great app for video editing but there’s one issue.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Great app for video editing but there’s one issue.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "1500855883"
+      },
+      {
+        "quote": "The app is always buffering and loosing connection.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "545519333"
+      },
+      {
+        "quote": "I cannot watch movies in landscape.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "545519333"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2f434ba53b",
+    "label": "关键提醒与警报不可靠",
+    "size": 9,
+    "type": "关键提醒与警报不可靠",
+    "definition": "应用发出的提醒（浇水、喂食、闹钟）未按时触发、误触发或无法关闭；不包括设备故障导致的提醒失败。",
+    "buyer": "依赖提醒功能的用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "应用总榜用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 9
+    },
+    "apps": [
+      "1113153706",
+      "368677368",
+      "518684914",
+      "544007664",
+      "6462904878",
+      "983156458"
+    ],
+    "l2_share": 0.0,
+    "intensity": 0.467,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 14.8,
+    "quote": "I just didn’t get a notification when I got my score, I just kept checking the app until I saw it.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I just didn’t get a notification when I got my score, I just kept checking the app until I saw it.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "6462904878"
+      },
+      {
+        "quote": "Whenever you try to enter the code, the approve or decline buttons do not show up making it impossible to approve the notification.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "983156458"
+      },
+      {
+        "quote": "Latest version has an issue when selecting a notification, the app opens and goes to a black screen.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "544007664"
+      }
+    ]
+  }
+]

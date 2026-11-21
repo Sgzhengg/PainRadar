@@ -1,0 +1,443 @@
+[
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "免费试用被立即扣费",
+    "size": 123,
+    "type": "免费试用被立即扣费",
+    "definition": "指试用期未生效或未到期即被收费、取消入口难找；不含正常订阅续费或明码标价购买。",
+    "buyer": "试用期订阅用户",
+    "buyer_by_domain": {
+      "custom_pdf_tools": "CEO"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_pdf_tools": 123
+    },
+    "apps": [
+      "1199564834",
+      "1515133401",
+      "1627156674",
+      "381786507",
+      "388627783",
+      "469337564"
+    ],
+    "l2_share": 0.211,
+    "intensity": 0.761,
+    "cost_share": 0.154,
+    "wtp_share": 0.041,
+    "score": 47.6,
+    "quote": "Your company just charged me $15.17 for selecting your 7 day free trial",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Your company just charged me $15.17 for selecting your 7 day free trial",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "743974925"
+      },
+      {
+        "quote": "Subscription says try it for 3 days THEN pay 9.99/weekly. Well, they charge you immediately. So there is no 3 day trial.",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "1515133401"
+      },
+      {
+        "quote": "constantly asking you to pay money to save your files",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "1199564834"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_a7dc9aa658",
+    "label": "格式转换收费且失败",
+    "size": 28,
+    "type": "格式转换收费且失败",
+    "definition": "指PDF与Word等互转需额外付费、转换结果错误或无法取消；不含打印导出。",
+    "buyer": "格式转换需求者",
+    "buyer_by_domain": {
+      "custom_pdf_tools": "2018 年买断 PDF Converter 的老用户，使用近八年"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_pdf_tools": 28
+    },
+    "apps": [
+      "1199564834",
+      "1515133401",
+      "381786507",
+      "388627783",
+      "469337564",
+      "6502760201"
+    ],
+    "l2_share": 0.357,
+    "intensity": 0.671,
+    "cost_share": 0.071,
+    "wtp_share": 0.0,
+    "score": 33.8,
+    "quote": "I’m paying $70 for the year to have a PDF converter to try to make my life a little bit more easier and unfortunately it’s not doing so every time I try to create a PDF it tells me that it’s too big try a drop now what’s the sense of me paying all this money and it doesn’t serve my purpose so unfortunately, after this year is up I will not be renewing my sub",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "I’m paying $70 for the year to have a PDF converter to try to make my life a little bit more easier and unfortunately it’s not doing so every time I try to create a PDF it tells me that it’s too big try a drop now what’s the sense of me paying all this money and it doesn’t serve my purpose so unfortunately, after this year is up I will not be renewing my sub",
+        "domain": "custom_pdf_tools",
+        "level": "L4",
+        "app": "1515133401"
+      },
+      {
+        "quote": "I paid a small fee to convert a single document and now it’s trying to charge me $50 and there is NO WAY to cancel.",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "1515133401"
+      },
+      {
+        "quote": "Yahoo's web download just renames them to .pdf, which seems to happen when its preview of the attachment fails and it falls back to \"Download instead\".",
+        "domain": "custom_pdf_tools",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_d322de085a",
+    "label": "签名表单流程走不通",
+    "size": 25,
+    "type": "签名表单流程走不通",
+    "definition": "指填写、签名、发送签署受限或无法完成打印；不含普通文字编辑。",
+    "buyer": "表单签署用户",
+    "buyer_by_domain": {
+      "custom_pdf_tools": "企业用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_pdf_tools": 25
+    },
+    "apps": [
+      "1627156674",
+      "381786507",
+      "469337564",
+      "6745093574"
+    ],
+    "l2_share": 0.6,
+    "intensity": 0.728,
+    "cost_share": 0.04,
+    "wtp_share": 0.16,
+    "score": 33.0,
+    "quote": "Even after paying $99 for the year, you are only allowed to send off 5 documents per month to be signed.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Even after paying $99 for the year, you are only allowed to send off 5 documents per month to be signed.",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "381786507"
+      },
+      {
+        "quote": "Used another one that took a minute to complete. Look elsewhere.",
+        "domain": "custom_pdf_tools",
+        "level": "L2",
+        "app": "6745093574"
+      },
+      {
+        "quote": "I downloaded this app to fill out and print a pdf template and accomplished nothing.",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "1627156674"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_080f626098",
+    "label": "编辑后文件损坏或丢失",
+    "size": 22,
+    "type": "编辑后文件损坏或丢失",
+    "definition": "指编辑、批注、保存过程中PDF被破坏、内容丢失或强制关闭；不含导出格式不兼容问题。",
+    "buyer": "文档编辑用户",
+    "buyer_by_domain": {
+      "custom_pdf_tools": "Pro 版用户，从 Files > OneDrive 打开文件"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_pdf_tools": 22
+    },
+    "apps": [
+      "1199564834",
+      "1627156674",
+      "469337564",
+      "6745093574",
+      "743974925"
+    ],
+    "l2_share": 0.364,
+    "intensity": 0.645,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 28.8,
+    "quote": "Can’t edit text on graphic. It can’t edit text on graphic from my phone screen shot.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Can’t edit text on graphic. It can’t edit text on graphic from my phone screen shot.",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "743974925"
+      },
+      {
+        "quote": "it keeps corrupting my PDFs when I edit them",
+        "domain": "custom_pdf_tools",
+        "level": "L2",
+        "app": "743974925"
+      },
+      {
+        "quote": "No way to drag and drop text so you need to hope it will detect the correct size of the text box, it never does so it’s useless.",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "743974925"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_8c53e7b896",
+    "label": "广告多且强制登录授权",
+    "size": 27,
+    "type": "广告多且强制登录授权",
+    "definition": "指免费版广告干扰、使用前强制注册并交出邮箱等个人信息；不含订阅扣费。",
+    "buyer": "免费版新用户",
+    "buyer_by_domain": {
+      "custom_pdf_tools": "使用 iPad Pro 扫描书籍的用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_pdf_tools": 27
+    },
+    "apps": [
+      "1199564834",
+      "388627783",
+      "6502760201"
+    ],
+    "l2_share": 0.259,
+    "intensity": 0.785,
+    "cost_share": 0.074,
+    "wtp_share": 0.074,
+    "score": 28.5,
+    "quote": "Way too many ads just for a simple scanner app",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Way too many ads just for a simple scanner app",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "388627783"
+      },
+      {
+        "quote": "the app keeps crashing after I take a picture at the beginning of a new scan",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "1199564834"
+      },
+      {
+        "quote": "The app crashes if you scan a slightly larger pdf. I have the newest iPad Pro, and even with it the app crashes when scanning a large pdf (it was around 90 pages)",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "1199564834"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_12a750139c",
+    "label": "批注高亮操作难且易丢",
+    "size": 6,
+    "type": "批注高亮操作难且易丢",
+    "definition": "指高亮、批注定位不准、误触移动文本、笔记丢失；不含文字排版编辑。",
+    "buyer": "批注笔记用户",
+    "buyer_by_domain": {
+      "custom_pdf_tools": "土木图纸标注用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_pdf_tools": 6
+    },
+    "apps": [
+      "1627156674",
+      "469337564",
+      "743974925"
+    ],
+    "l2_share": 0.667,
+    "intensity": 0.733,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 28.3,
+    "quote": "Just lost an hour’s worth of highlights and notes.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Just lost an hour’s worth of highlights and notes.",
+        "domain": "custom_pdf_tools",
+        "level": "L2",
+        "app": "469337564"
+      },
+      {
+        "quote": "I bought the subscription after being disappointed by the iPad version of Bluebeam.",
+        "domain": "custom_pdf_tools",
+        "level": "L2",
+        "app": "743974925"
+      },
+      {
+        "quote": "Every time I try to highlight text in a text box it’s a 5 minute process to try to get it right without the app thinking I’m moving the text box around.",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "743974925"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_ed35195ae0",
+    "label": "OCR识别差且速度慢",
+    "size": 7,
+    "type": "OCR识别差且速度慢",
+    "definition": "指扫描件或旧书文字识别准确率低、耗时过长；不含普通PDF文字编辑。",
+    "buyer": "文献与档案用户",
+    "buyer_by_domain": {
+      "custom_pdf_tools": "扫描旧书的用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_pdf_tools": 7
+    },
+    "apps": [
+      "1199564834",
+      "1627156674",
+      "743974925"
+    ],
+    "l2_share": 0.571,
+    "intensity": 0.629,
+    "cost_share": 0.0,
+    "wtp_share": 0.143,
+    "score": 27.3,
+    "quote": "It also has a poor OCR (by today’s standards) esp with older typeset books so I always end up using Claude to extract the text",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "It also has a poor OCR (by today’s standards) esp with older typeset books so I always end up using Claude to extract the text",
+        "domain": "custom_pdf_tools",
+        "level": "L2",
+        "app": "1199564834"
+      },
+      {
+        "quote": "I think I won't renew the pro subscription next year if it doesn't have OCR.",
+        "domain": "custom_pdf_tools",
+        "level": "L4",
+        "app": "743974925"
+      },
+      {
+        "quote": "with hundreds of pages worth of text it will probably take at least days",
+        "domain": "custom_pdf_tools",
+        "level": "L2",
+        "app": ""
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_9102326afa",
+    "label": "文件管理混乱难定位",
+    "size": 6,
+    "type": "文件管理混乱难定位",
+    "definition": "指标签页无标题、文件被应用接管、无法移动到iCloud等目录；不含合并拆分操作。",
+    "buyer": "多文件整理用户",
+    "buyer_by_domain": {
+      "custom_pdf_tools": "AEC 行业用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_pdf_tools": 6
+    },
+    "apps": [
+      "1627156674",
+      "469337564",
+      "743974925"
+    ],
+    "l2_share": 0.167,
+    "intensity": 0.767,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 23.8,
+    "quote": "All my tabs are blank, the files are there, but have to open each one to see which one it is, as all the tabs show no title.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "All my tabs are blank, the files are there, but have to open each one to see which one it is, as all the tabs show no title.",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "743974925"
+      },
+      {
+        "quote": "I will take hours on a document and as soon as I get to save it, it force close and shut the whole program down and then I have to do document all over",
+        "domain": "custom_pdf_tools",
+        "level": "L2",
+        "app": "469337564"
+      },
+      {
+        "quote": "I cannot even find a way to move a file to an iCloud folder that I opened from my Files.app download folder",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "743974925"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_e32ddc3033",
+    "label": "打印与邮件导出失败",
+    "size": 4,
+    "type": "打印与邮件导出失败",
+    "definition": "指打印到打印机、发送到Outlook或AirPlay投屏时出错；不含格式转换失败。",
+    "buyer": "办公打印用户",
+    "buyer_by_domain": {
+      "custom_pdf_tools": "iPhone 17 Pro 用户，使用 CamScanner 扫描文档"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_pdf_tools": 4
+    },
+    "apps": [
+      "388627783",
+      "469337564",
+      "743974925"
+    ],
+    "l2_share": 0.0,
+    "intensity": 0.75,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 21.6,
+    "quote": "Bombs out when trying to print to HP. PDF files will not cooperate with my HP printer. I don’t know if the settings. Totally incompatible.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Bombs out when trying to print to HP. PDF files will not cooperate with my HP printer. I don’t know if the settings. Totally incompatible.",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "469337564"
+      },
+      {
+        "quote": "Can’t send docs to outlook. Consistently having problems sending a scanned document as a PDF or Word file to Outlook. As soon as outlook opens, it immediately closes. So I’m not able to type in the email of where I need the document from Cam scanner to go.  Using iPhone 17 pro",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "388627783"
+      },
+      {
+        "quote": "Since the iOS 27 update, the presentation view is broken. Instead of showing only the current page to the AirPlay receiver, it only enters the “limited interface” view, and still shows the editing interface and swipe page transitions to the audience. I contacted support yesterday and have not yet heard back.",
+        "domain": "custom_pdf_tools",
+        "level": "L1",
+        "app": "743974925"
+      }
+    ]
+  }
+]

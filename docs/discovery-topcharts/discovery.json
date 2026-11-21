@@ -1,0 +1,206 @@
+[
+  {
+    "demand_id": "dm_33a123e5d4",
+    "label": "订阅取消与退款不透明",
+    "size": 46,
+    "type": "订阅取消与退款不透明",
+    "definition": "用户难以取消订阅、被意外扣费或申请退款受阻；不包括应用内广告过多的问题。",
+    "buyer": "付费订阅用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "CapCut用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 46
+    },
+    "apps": [
+      "1058959277",
+      "1116186798",
+      "1500855883",
+      "1641486558",
+      "283646709",
+      "324684580"
+    ],
+    "l2_share": 0.217,
+    "intensity": 0.765,
+    "cost_share": 0.217,
+    "wtp_share": 0.0,
+    "score": 39.6,
+    "quote": "Now I can’t log in on my iPhone cus anytime I try they say I should pay for premium. There’s no option for opting it out.",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Now I can’t log in on my iPhone cus anytime I try they say I should pay for premium. There’s no option for opting it out.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "686449807"
+      },
+      {
+        "quote": "Getting rid of cap cut and going to DaVinci because despite paying I get a thousand ads.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L2",
+        "app": "1500855883"
+      },
+      {
+        "quote": "The $1 for a canceled ride that hasn’t even found a driver is OUTRAGEOUS",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "529379082"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_ed35195ae0",
+    "label": "客服响应慢且售后推诿",
+    "size": 39,
+    "type": "客服响应慢且售后推诿",
+    "definition": "用户联系客服困难、问题得不到解决、保修或退款被拒；不包括订阅取消流程本身。",
+    "buyer": "需要售后支持的用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "Cash App 用户，身边有人依赖该应用"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 39
+    },
+    "apps": [
+      "1058959277",
+      "1116186798",
+      "1641486558",
+      "283646709",
+      "389801252",
+      "407558537"
+    ],
+    "l2_share": 0.103,
+    "intensity": 0.826,
+    "cost_share": 0.077,
+    "wtp_share": 0.026,
+    "score": 34.9,
+    "quote": "No sirve. Me han tumbado mi cuenta alegando que no cumpli unas normas las cuales entiendo que no falte pero aún así nunca recibes respuesta de ellos . Ahora todo es un error de la meta Ai y ahí se queda sin respuesta , no me puedo crear otras cuentas porque automáticamente me las tumban y son mi fuente de ingreso",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "No sirve. Me han tumbado mi cuenta alegando que no cumpli unas normas las cuales entiendo que no falte pero aún así nunca recibes respuesta de ellos . Ahora todo es un error de la meta Ai y ahí se queda sin respuesta , no me puedo crear otras cuentas porque automáticamente me las tumban y son mi fuente de ingreso",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "389801252"
+      },
+      {
+        "quote": "you said your not refunding my money for the order. So now I’m out $35",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "719972451"
+      },
+      {
+        "quote": "I will be switching to another service.",
+        "domain": "custom_app_store_top_charts",
+        "level": "L2",
+        "app": "711923939"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_2265f5336d",
+    "label": "核心功能频繁崩溃闪退",
+    "size": 32,
+    "type": "核心功能频繁崩溃闪退",
+    "definition": "应用启动、使用中闪退或冻结，导致无法正常使用；不包括设备连接或同步问题。",
+    "buyer": "所有应用用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "iPhone Duo 用户"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 32
+    },
+    "apps": [
+      "1113153706",
+      "283646709",
+      "324684580",
+      "382233851",
+      "389801252",
+      "422689480"
+    ],
+    "l2_share": 0.125,
+    "intensity": 0.669,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 28.0,
+    "quote": "Ads. Can’t use because of all the ads now",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "Ads. Can’t use because of all the ads now",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "429047995"
+      },
+      {
+        "quote": "TOO MANY ADS. There are to many ads and too many of them are AI!",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "429047995"
+      },
+      {
+        "quote": "Please make the app FULLY compatible with iPhone Duo, when i share or repost content the ratio is so off and does not fit the screen",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "389801252"
+      }
+    ]
+  },
+  {
+    "demand_id": "dm_bed7abeac5",
+    "label": "设备连接与同步不稳定",
+    "size": 9,
+    "type": "设备连接与同步不稳定",
+    "definition": "硬件设备与App之间、或App与外部设备（如手表、银行）连接断开、同步失败；不包括应用自身崩溃。",
+    "buyer": "依赖硬件或外部数据的用户",
+    "buyer_by_domain": {
+      "custom_app_store_top_charts": "付费用户，想远程观看侄女游戏的亲友"
+    },
+    "workaround": "",
+    "cost": "",
+    "domains": {
+      "custom_app_store_top_charts": 9
+    },
+    "apps": [
+      "1113153706",
+      "1116186798",
+      "407558537",
+      "422689480",
+      "6447582581",
+      "922103212"
+    ],
+    "l2_share": 0.111,
+    "intensity": 0.711,
+    "cost_share": 0.0,
+    "wtp_share": 0.0,
+    "score": 21.5,
+    "quote": "we never have issues with zoom or google",
+    "variants": 1,
+    "examples": [
+      {
+        "quote": "we never have issues with zoom or google",
+        "domain": "custom_app_store_top_charts",
+        "level": "L2",
+        "app": "1113153706"
+      },
+      {
+        "quote": "Not connecting to games. I downloaded this app today and it’s not scanning the qr code at all. When it eventually does scan the qr code it says that it’s not active or says there’s a connection error. Fix this please!",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "6447582581"
+      },
+      {
+        "quote": "It won’t load me in to the game with my brother",
+        "domain": "custom_app_store_top_charts",
+        "level": "L1",
+        "app": "6447582581"
+      }
+    ]
+  }
+]
