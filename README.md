@@ -431,3 +431,34 @@ python -m unittest discover -s tests -v
 ## 10. 许可与来源
 
 本项目为自研代码。参考项目 MediaCrawler 采用《非商业学习使用许可证 1.1》，本仓库**不包含其任何代码、注释或数据结构**，仅借鉴其"平台适配器 + 统一模型"的架构思想（见开发方案 §2）。
+
+---
+
+## 新增能力（2026-11）
+
+### 1. 专项挖掘（deepdive）
+
+面向单个产品/平台/系统的深挖：对话澄清 → 预检（命中率 + 关键词建议）→ 抓取（Reddit + App Store）→ 固定主题归并 → 带图表/证据链的 Markdown 报告，支持缓存与趋势对比。
+
+- 文档：`docs/deepdive-feature.md`
+- Web 入口：顶栏「专项挖掘」
+
+### 2. 独立开发者商机流水线（indie）
+
+针对 MediaCrawler 导出数据的高精度、低噪音管线：
+
+```
+JSON/JSONL → 规则降噪 → 对话上下文（原帖+高赞+楼中楼）
+           → Map（4 类信号，JSON 强约束） → Reduce（聚类 + 1-10 商机分） → 商机研报
+```
+
+- 文档：`docs/indie-pipeline.md`
+- 诊断：`docs/refactor-diagnosis.md`（旧流程为什么精度低）
+- 用法：
+
+```bash
+python tools/indie_mine.py --input data/export.json --keyword "PDF工具" \
+  --filter "pdf,adobe,acrobat" --workers 3 --out reports/report_PDF.md
+```
+
+- 特性：批次级缓存（重跑 0 token）、token 账本、并发限流、证据链要求 quote 必须可在原文定位。
