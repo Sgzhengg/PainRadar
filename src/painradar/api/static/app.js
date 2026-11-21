@@ -630,6 +630,7 @@ async function showDiscovery(corpus) {
   const statsBox = document.getElementById("stats");
   if (statsBox) statsBox.innerHTML = chips.map(([k, v]) => `<div class="stat">${k}<b>${esc(v)}</b></div>`).join("");
   renderDiscoveryCards();
+  if (!snap.demands.length) await maybeAutoBuild(state.discoveryCorpus);
   const dparams = new URLSearchParams(location.hash.slice(1));
   if (dparams.has("demand")) openDemand(+dparams.get("demand"));
   history.replaceState(null, "", "#discover");
@@ -702,7 +703,7 @@ async function buildCorpus() {
 function renderDiscoveryCards() {
   const list = state.discovery ? state.discovery.demands : [];
   if (!list.length) {
-    renderDiscoverySetup();
+    renderDiscoverySetup("当前快照没有可聚类的需求。总榜从已有语料生成，不会实时抓取；可先补数据或换语料。");
     return;
   }
   $("#cards").innerHTML = list.map((d, i) => {
@@ -1278,6 +1279,7 @@ async function showDiscovery(corpus) {
   const statsBox = document.getElementById("stats");
   if (statsBox) statsBox.innerHTML = chips.map(([k, v]) => `<div class="stat">${k}<b>${esc(v)}</b></div>`).join("");
   renderDiscoveryCards();
+  if (!snap.demands.length) await maybeAutoBuild(state.discoveryCorpus);
   const dparams = new URLSearchParams(location.hash.slice(1));
   if (dparams.has("demand")) openDemand(+dparams.get("demand"));
   history.replaceState(null, "", "#discover");
@@ -1350,7 +1352,7 @@ async function buildCorpus() {
 function renderDiscoveryCards() {
   const list = state.discovery ? state.discovery.demands : [];
   if (!list.length) {
-    renderDiscoverySetup();
+    renderDiscoverySetup("当前快照没有可聚类的需求。总榜从已有语料生成，不会实时抓取；可先补数据或换语料。");
     return;
   }
   $("#cards").innerHTML = list.map((d, i) => {
@@ -2578,4 +2580,18 @@ async function renderDiscoverySetup(note = "") {
     }, 150);
   });
   $("#dsExplore").addEventListener("click", openExplore);
+}
+
+const autoBuildTried = new Set();
+
+async function maybeAutoBuild(corpus) {
+  if (!corpus || autoBuildTried.has(corpus)) return;
+  const key = `discAuto:${corpus}`;
+  try {
+    if (sessionStorage.getItem(key)) return;
+    sessionStorage.setItem(key, "1");
+  } catch (err) { /* private mode */ }
+  autoBuildTried.add(corpus);
+  toast("快照为空，正在从现有语料生成总榜…");
+  await buildCorpus();
 }
