@@ -431,6 +431,24 @@ class SQLiteStore:
         return self._conn.execute(
             "SELECT * FROM atoms WHERE run_id=? ORDER BY atom_id", (run_id,)
         ).fetchall()
+    def sample_atoms(self, limit: int = 40, category: str | None = None) -> list[sqlite3.Row]:
+        """Evidence rows for the exploratory coach (highest-liked first)."""
+        sql = """SELECT a.quote, a.scene, a.level, a.persona, a.intensity,
+                          i.likes AS likes, c.label AS cluster_label, r.category AS category
+                   FROM atoms a
+                   JOIN items i ON i.comment_uid=a.comment_uid
+                   JOIN atom_cluster ac ON ac.atom_id=a.atom_id AND ac.run_id=a.run_id
+                   JOIN clusters c ON c.cluster_id=ac.cluster_id AND c.run_id=ac.run_id
+                   JOIN runs r ON r.run_id=a.run_id
+                   WHERE a.level IN ('L2','L3','L4') AND i.deleted_at IS NULL"""
+        params: list[Any] = []
+        if category:
+            sql += " AND r.category=?"
+            params.append(category)
+        sql += " ORDER BY i.likes DESC, a.confidence DESC LIMIT ?"
+        params.append(max(1, limit))
+        return self._conn.execute(sql, params).fetchall()
+
 
     # -- clusters ----------------------------------------------------------
     def insert_clusters(self, run_id: str, clusters: Sequence[dict[str, Any]], assignments: dict[str, str]) -> None:

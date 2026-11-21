@@ -57,3 +57,7 @@ painradar-crawler/*.zip
 painradar-crawler/browser_data/
 *.zip
 
+
+# local exploration sessions
+var/explore_sessions/
+

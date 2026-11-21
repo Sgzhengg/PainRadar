@@ -170,3 +170,10 @@ painradar demo --reset
 - 归档 `cloudflare/`、`wrangler.toml`、`docs/deploy-cloudflare.md` 到 `docs/archive/`；
 - 重写 `docs/deploy-zeabur.md`：同项目双服务、内网地址、卷挂载、环境变量与排错；
 - `doctor` 检查数据目录可写、管理员密码、内网采集连通性。
+
+## 2026-11-21 · 探索方向（对话式）
+
+- 新增 `explore.py` 与 `/api/explore/*`：证据采样 → 方向卡 → 反应 → 收敛；
+- 种子关键词相关性过滤，无相关证据时明确提示先抓数据；
+- WebUI 新增「🧭 探索方向」全屏面板，方向卡可点击反馈；
+- 会话持久化到 `var/explore_sessions/`。

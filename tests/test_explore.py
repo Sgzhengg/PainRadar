@@ -1,0 +1,102 @@
+import tempfile
+import unittest
+from datetime import datetime, timezone
+from pathlib import Path
+
+from fastapi.testclient import TestClient
+
+from painradar import explore as explore_mod
+from painradar.api.app import create_app
+from painradar.store import Store
+
+
+def _atom(i: int, quote: str, level: str = "L3") -> dict:
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    return {
+        "atom_id": f"pa_{i}", "run_id": "run_explore", "comment_uid": f"cm_{i}",
+        "quote": quote, "span_start": 0, "span_end": len(quote),
+        "match_score": "exact", "scene": "PDF 合并", "trigger": "", "job": "合并",
+        "obstacle": "付费墙", "workaround": "截图", "cost_type": "money",
+        "cost_estimate": "30", "persona": "小团队运营", "intensity": 4,
+        "expression": "complaint", "level": level, "wtp_level": "strong",
+        "wtp_quote": "愿意付费", "domain": "pdf", "confidence": 0.8,
+        "model_version": "t", "prompt_version": "t", "taxonomy_version": "t",
+        "supersedes": None, "canonical_pain": "合并收费", "created_at": now,
+    }
+
+
+class ExploreApiTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        base = Path(self.tmp.name)
+        self.db = base / "explore.db"
+        store = Store(self.db)
+        now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        store.save_run("run_explore", "pet_water_fountain", {"items": 2})
+        store.insert_clusters(
+            "run_explore",
+            [{"cluster_id": "cl_pdf", "label": "PDF 合并收费", "size": 2, "noise": 0,
+              "medoid_atom_id": "pa_1", "members": ["pa_1", "pa_2"]}],
+            {"pa_1": "cl_pdf", "pa_2": "cl_pdf"},
+        )
+        for i, quote in enumerate(("合并个 PDF 也要开会员，最后只能截图", "公司每周都要合并报表，付费墙太烦")):
+            store.insert_item({
+                "comment_uid": f"cm_{i}", "platform": "xhs", "item_id": f"n{i}",
+                "url": f"https://example.com/{i}", "published_at": "2026-11-01",
+                "lang": "zh", "category": "pet_water_fountain", "text_masked": quote,
+                "text_sha": f"s{i}", "author_key": f"a{i}", "rating": None, "tier": "A",
+                "tos_basis": "user_provided", "minhash_json": "[]", "duplicate_of": None,
+                "ingested_at": now, "parent_context": "", "likes": 100 - i * 10,
+                "replies": 0, "post_id": f"n{i}",
+            })
+        store.insert_atoms([
+            _atom(1, "合并个 PDF 也要开会员，最后只能截图"),
+            _atom(2, "公司每周都要合并报表，付费墙太烦"),
+        ])
+        store.close()
+
+        explore_mod.SESSION_DIR = base / "sessions"
+        self.client = TestClient(create_app([str(self.db)]))
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def test_start_returns_evidence_and_directions(self):
+        res = self.client.post(
+            "/api/explore/sessions", json={"seed": "我想做 PDF 相关的东西"}
+        )
+        self.assertEqual(res.status_code, 200, res.text)
+        body = res.json()
+        self.assertEqual(body["seed"], "我想做 PDF 相关的东西")
+        self.assertTrue(body["evidence"])
+        self.assertTrue(body["directions"])
+        self.assertTrue(body["directions"][0]["evidence"])
+        self.assertIn("question", body)
+        self.assertTrue(Path(explore_mod.SESSION_DIR, f"{body['session_id']}.json").exists())
+
+    def test_turn_records_reaction(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        sid = start["session_id"]
+        res = self.client.post(
+            f"/api/explore/sessions/{sid}/turn",
+            json={"message": "第一条有点意思", "reaction": {"title": "PDF 合并收费", "reaction": "like"}},
+        )
+        self.assertEqual(res.status_code, 200, res.text)
+        body = res.json()
+        self.assertEqual(len(body["reactions"]), 1)
+        self.assertGreaterEqual(len(body["messages"]), 3)
+
+    def test_converge_returns_brief(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        res = self.client.post(f"/api/explore/sessions/{start['session_id']}/converge")
+        self.assertEqual(res.status_code, 200)
+        markdown = res.json()["markdown"]
+        self.assertIn("评论证据", markdown)
+        self.assertIn("下一步验证", markdown)
+
+    def test_unknown_session(self):
+        self.assertEqual(self.client.get("/api/explore/sessions/nope").status_code, 404)
+
+
+if __name__ == "__main__":
+    unittest.main()

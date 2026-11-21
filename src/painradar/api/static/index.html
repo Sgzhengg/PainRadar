@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PainRadar · 机会雷达</title>
-<link rel="stylesheet" href="/static/style.css?v=90">
+<link rel="stylesheet" href="/static/style.css?v=110">
 </head>
 <body>
 <header class="top">
@@ -16,6 +16,7 @@
   <div class="actions">
     <button class="btn primary" id="importbtn">＋ 抓取新商机</button>
     <button class="btn accent" id="runbtn" disabled>▶ 运行分析</button>
+    <button class="btn ghost" id="explorebtn">🧭 探索方向</button>
     <button class="btn ghost" id="discoverbtn">🌐 跨品类商机总榜</button>
   </div>
 </header>
@@ -71,6 +72,27 @@
   <div class="discbar" id="discbar" hidden></div>
   <section class="cards" id="cards"></section>
 </main>
+
+<div class="explore" id="explorepanel" hidden>
+  <div class="explore-box">
+    <header class="explore-head">
+      <div><h2>🧭 探索方向</h2><p>从真实评论出发，一次只问一个关键问题</p></div>
+      <div class="explore-actions">
+        <button class="btn small" id="exconverge" hidden>收敛成机会简报</button>
+        <button class="btn small" id="exreset">重新开始</button>
+        <button class="close" id="exclose">×</button>
+      </div>
+    </header>
+    <div class="explore-body">
+      <section class="explore-chat" id="exchat"></section>
+      <aside class="explore-side" id="exside"></aside>
+    </div>
+    <form class="explore-input" id="exform">
+      <input id="exinput" placeholder="说说你的感觉，或直接点右侧方向…" autocomplete="off">
+      <button class="btn primary" type="submit">发送</button>
+    </form>
+  </div>
+</div>
 
 <div class="drawer" id="drawer" hidden>
   <div class="sheet" id="sheet"></div>
@@ -214,6 +236,6 @@
 </div>
 
 <div class="toast" id="toast" hidden></div>
-<script src="/static/app.js?v=100"></script>
+<script src="/static/app.js?v=110"></script>
 </body>
 </html>

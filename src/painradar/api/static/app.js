@@ -1433,6 +1433,11 @@ async function init() {
   }
   if (params.has("newcat")) openNewCat();
   if (params.has("import")) openImport();
+  if (params.has("explore")) {
+    openExplore();
+    const seed = params.get("seed");
+    if (seed) startExplore(seed);
+  }
   restoreActiveJob();
 }
 
@@ -1964,3 +1969,185 @@ function ddPrint() {
   w.focus();
   setTimeout(() => w.print(), 300);
 }
+
+
+// ===================== Evidence-grounded exploration =====================
+const EX_KEY = "pr_explore_session";
+
+function openExplore() {
+  const panel = document.getElementById("explorepanel");
+  if (!panel) return;
+  panel.hidden = false;
+  if (state.explore) {
+    renderExplore();
+  } else {
+    restoreExplore();
+  }
+}
+
+async function restoreExplore() {
+  const id = localStorage.getItem(EX_KEY);
+  if (id) {
+    try {
+      state.explore = await api(`/api/explore/sessions/${encodeURIComponent(id)}`);
+      renderExplore();
+      return;
+    } catch (err) {
+      localStorage.removeItem(EX_KEY);
+    }
+  }
+  renderExploreStart();
+}
+
+function closeExplore() {
+  const panel = document.getElementById("explorepanel");
+  if (panel) panel.hidden = true;
+}
+
+function renderExploreStart() {
+  state.explore = null;
+  $("#exconverge").hidden = true;
+  $("#exside").innerHTML = "";
+  $("#exchat").innerHTML = `
+    <div class="ex-start">
+      <h3>你最近在琢磨什么？</h3>
+      <p>可以很模糊，比如“想做点和 PDF 相关的东西”“想找个副业”。
+         完全没方向也行，我会从评论里挑几条真实抱怨给你看。</p>
+      <input id="exseed" placeholder="例如：我想做点和 PDF 相关的东西" autocomplete="off">
+      <div class="row">
+        <button class="btn primary" id="exstart" type="button">开始探索</button>
+        <button class="btn small" id="exnodir" type="button">我完全没方向</button>
+      </div>
+    </div>`;
+  $("#exstart").addEventListener("click", () => startExplore($("#exseed").value.trim()));
+  $("#exnodir").addEventListener("click", () => startExplore(""));
+  $("#exseed").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") startExplore($("#exseed").value.trim());
+  });
+  $("#exseed").focus();
+}
+
+async function startExplore(seed) {
+  $("#exchat").innerHTML = `<div class="ex-bubble coach">正在从评论里找线索…</div>`;
+  try {
+    state.explore = await api("/api/explore/sessions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ seed, mode: $("#runmode") ? checkedMode("runmode") : "b2c" }),
+    });
+    localStorage.setItem(EX_KEY, state.explore.session_id);
+    renderExplore();
+  } catch (err) {
+    $("#exchat").innerHTML = `<div class="ex-bubble coach">启动失败：${esc(err.message)}</div>`;
+  }
+}
+
+async function exploreTurn(message, reaction) {
+  if (!state.explore) return;
+  $("#exchat").innerHTML += `<div class="ex-bubble user">${esc(message || "（继续）")}</div>`;
+  $("#exchat").scrollTop = $("#exchat").scrollHeight;
+  try {
+    state.explore = await api(
+      `/api/explore/sessions/${encodeURIComponent(state.explore.session_id)}/turn`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, reaction }),
+      }
+    );
+    renderExplore();
+  } catch (err) {
+    $("#exchat").innerHTML += `<div class="ex-bubble coach">出错了：${esc(err.message)}</div>`;
+  }
+}
+
+async function convergeExplore() {
+  if (!state.explore) return;
+  try {
+    const res = await api(
+      `/api/explore/sessions/${encodeURIComponent(state.explore.session_id)}/converge`,
+      { method: "POST" }
+    );
+    state.explore.brief = res.markdown;
+    renderExplore();
+  } catch (err) {
+    $("#exside").innerHTML = `<div class="ex-brief">收敛失败：${esc(err.message)}</div>`;
+  }
+}
+
+function renderExplore() {
+  const session = state.explore;
+  if (!session) return renderExploreStart();
+  const messages = session.messages || [];
+  const lastCoach = [...messages].reverse().find((m) => m.role === "assistant");
+  const directions = (lastCoach && lastCoach.directions) || [];
+  const chips = (lastCoach && lastCoach.chips) || [];
+
+  const bubbles = messages.map((m) => {
+    if (m.role === "user") return `<div class="ex-bubble user">${esc(m.content)}</div>`;
+    if (m.role === "assistant") {
+      return `<div class="ex-bubble coach">${esc(m.content)}</div>`;
+    }
+    return "";
+  }).join("");
+
+  $("#exchat").innerHTML = bubbles + (chips.length
+    ? `<div class="ex-chips">${chips.map((c) => `<button class="ex-chip" type="button">${esc(c)}</button>`).join("")}</div>`
+    : "");
+  $("#exchat").querySelectorAll(".ex-chip").forEach((el) =>
+    el.addEventListener("click", () => exploreTurn(el.textContent, null))
+  );
+  $("#exchat").scrollTop = $("#exchat").scrollHeight;
+
+  $("#exconverge").hidden = !messages.some((m) => m.role === "assistant");
+  $("#exside").innerHTML = (session.brief
+    ? `<div class="ex-brief">${renderMarkdown(session.brief)}</div>`
+    : `<div class="ex-side-title">方向卡（点一个反应，我会继续收敛）</div>` +
+      directions.map((d) => `
+        <article class="dir-card">
+          <h4>${esc(d.title || "")}</h4>
+          <div class="dir-who">${esc(d.who || "")}</div>
+          <p class="dir-pain">${esc(d.pain || "")}</p>
+          <div class="dir-wedge">切口：${esc(d.wedge || "")}</div>
+          ${(d.evidence || []).map((e) => `<div class="dir-quote">“${esc(e.quote)}”<br>👍 ${e.likes}</div>`).join("")}
+          <div class="dir-actions">
+            <button type="button" data-act="like" data-title="${esc(d.title || "")}">有点意思</button>
+            <button type="button" data-act="more" data-title="${esc(d.title || "")}">再具体点</button>
+            <button type="button" data-act="dislike" data-title="${esc(d.title || "")}">不感兴趣</button>
+          </div>
+        </article>`).join(""));
+}
+
+$("#explorebtn")?.addEventListener("click", openExplore);
+$("#exclose")?.addEventListener("click", closeExplore);
+$("#exreset")?.addEventListener("click", () => {
+  localStorage.removeItem(EX_KEY);
+  state.explore = null;
+  renderExploreStart();
+});
+$("#exconverge")?.addEventListener("click", convergeExplore);
+$("#exform")?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const input = $("#exinput");
+  const value = input.value.trim();
+  if (!value) return;
+  input.value = "";
+  if (!state.explore) startExplore(value);
+  else exploreTurn(value, null);
+});
+$("#exside")?.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-act]");
+  if (!btn) return;
+  const title = btn.dataset.title || "";
+  const act = btn.dataset.act;
+  if (act === "like") {
+    exploreTurn(`我对「${title}」有点感觉，能再具体一点吗？`, { title, reaction: "like" });
+  } else if (act === "dislike") {
+    exploreTurn(`「${title}」我不太感兴趣`, { title, reaction: "dislike" });
+  } else {
+    exploreTurn(`展开说说「${title}」`, null);
+  }
+});
+document.getElementById("explorepanel")?.addEventListener("click", (e) => {
+  if (e.target.id === "explorepanel") closeExplore();
+});

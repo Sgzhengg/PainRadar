@@ -602,6 +602,46 @@ def create_app(db_paths: list[str]) -> FastAPI:
             raise HTTPException(status_code=404, detail=f"job not found: {job_id}")
         return {"job": job.as_dict()}
 
+    @app.post("/api/explore/sessions")
+    def explore_start(payload: dict) -> dict:
+        from .. import explore
+
+        seed = str(payload.get("seed") or "").strip()
+        mode = str(payload.get("mode") or "b2c")
+        category = str(payload.get("category") or "").strip() or None
+        return explore.start_session(db_paths, seed=seed, mode=mode, category=category)
+
+    @app.get("/api/explore/sessions/{session_id}")
+    def explore_get(session_id: str) -> dict:
+        from .. import explore
+
+        session = explore.load_session(session_id)
+        if session is None:
+            raise HTTPException(status_code=404, detail="unknown session")
+        return session
+
+    @app.post("/api/explore/sessions/{session_id}/turn")
+    def explore_turn(session_id: str, payload: dict) -> dict:
+        from .. import explore
+
+        try:
+            return explore.add_turn(
+                session_id,
+                message=str(payload.get("message") or ""),
+                reaction=payload.get("reaction") if isinstance(payload.get("reaction"), dict) else None,
+            )
+        except KeyError:
+            raise HTTPException(status_code=404, detail="unknown session")
+
+    @app.post("/api/explore/sessions/{session_id}/converge")
+    def explore_converge(session_id: str) -> dict:
+        from .. import explore
+
+        try:
+            return explore.converge(session_id)
+        except KeyError:
+            raise HTTPException(status_code=404, detail="unknown session")
+
     _dd_sessions: dict = {}
     _dd_jobs: dict = {}
 
