@@ -940,7 +940,7 @@ async function submitCloudFetch() {
       need_login: "登录态已过期",
     };
     for (;;) {
-      const s = await api(`/api/run/${jobId}`);
+      const { job: s } = await api(`/api/run/${jobId}`);
       el.className = s.status === "failed" ? "runstate err" : "runstate";
       el.textContent = `${labels[s.stage] || labels[s.status] || s.status}${s.progress ? " " + s.progress + "%" : ""}`;
       if (s.status !== "running" && s.status !== "queued") {
@@ -996,7 +996,7 @@ async function submitMediaIngest() {
       body: JSON.stringify({ category, extractor: "rule", mode: "b2c" }),
     });
     for (;;) {
-      const s = await api(`/api/run/${job.job.job_id}`);
+      const { job: s } = await api(`/api/run/${job.job.job_id}`);
       if (s.status === "done") {
         el.className = "runstate ok";
         el.textContent = `完成：导入 ${res.ingest.inserted} 条，已生成机会卡。`;
@@ -2163,8 +2163,8 @@ async function startTrendScan() {
     const jobId = res.job.job_id;
     const labels = { starting: "连接平台…", analyzing: "聚类分析中…", done: "完成" };
     for (;;) {
-      const s = await api(`/api/run/${jobId}`);
-      let stage = s.stage || s.status;
+      const { job: s } = await api(`/api/run/${jobId}`);
+      let stage = s.stage || s.status || "running";
       if (stage.startsWith("scanning:")) {
         stage = `正在扫 ${stage.split(":")[1]}`;
       } else {
@@ -2474,7 +2474,7 @@ async function startValidation() {
       analyzing: "AI 提纯聚类中…", done: "完成", need_login: "登录态已过期",
     };
     for (;;) {
-      const job = await api(`/api/run/${res.job.job_id}`);
+      const { job } = await api(`/api/run/${res.job.job_id}`);
       status.className = job.status === "failed" ? "runstate err" : "runstate";
       status.textContent = labels[job.stage] || labels[job.status] || job.status;
       if (job.status !== "running" && job.status !== "queued") {
