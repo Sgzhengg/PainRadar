@@ -22,6 +22,13 @@ sys.path.insert(0, str(ROOT / "src"))
 from painradar.config import category as get_category  # noqa: E402
 from painradar.store import Store  # noqa: E402
 
+SOLO_CSS = """
+.solo{margin:6px 0 14px;font-size:13px;padding:5px 10px;border-radius:8px;display:inline-block}
+.solo.low{background:#ecfdf5;color:#047857}
+.solo.mid{background:#fffbeb;color:#b45309}
+.solo.high{background:#fef2f2;color:#b91c1c}
+"""
+
 FACTOR_LABEL = {
     "frequency": "频次",
     "breadth": "人群广度",
@@ -150,7 +157,7 @@ def render(store: Store, run_id: str | None, spec_key: str) -> str:
 
     parts: list[str] = []
     parts.append("<!doctype html><html lang='zh-CN'><head><meta charset='utf-8'>")
-    parts.append(f"<title>{html.escape(spec.name)} · 机会雷达</title><style>{CSS}</style></head><body>")
+    parts.append(f"<title>{html.escape(spec.name)} · 机会雷达</title><style>{CSS}{SOLO_CSS}</style></head><body>")
     parts.append("<div class='wrap'>")
 
     parts.append("<header>")
@@ -187,6 +194,10 @@ def render(store: Store, run_id: str | None, spec_key: str) -> str:
     for idx, o in enumerate(opps, start=1):
         score = scores.get(o["cluster_id"])
         factors = json.loads(score["factors_json"]) if score else {}
+        try:
+            solo = json.loads(o["solo_fit_json"] or "{}")
+        except (KeyError, ValueError):
+            solo = {}
         members = store.cluster_members(run["run_id"], o["cluster_id"])
         ladder: dict[str, int] = {}
         for m in members:
@@ -202,6 +213,13 @@ def render(store: Store, run_id: str | None, spec_key: str) -> str:
         )
         parts.append("</div>")
         parts.append(f"<div class='one-liner'>{html.escape(o['one_liner'])}</div>")
+        if solo.get("level"):
+            cls = {"低": "low", "中": "mid", "高": "high"}.get(solo["level"], "mid")
+            parts.append(
+                f"<div class='solo {cls}'>⚡ {html.escape(str(solo.get('mvp_days', '')))} 可做 · "
+                f"{html.escape(str(solo.get('form', '')))} · {html.escape(str(solo.get('monetization', '')))}"
+                f"（难度 {html.escape(str(solo.get('level')))}）</div>"
+            )
 
         parts.append("<div class='scores'>")
         if score:
@@ -226,7 +244,9 @@ def render(store: Store, run_id: str | None, spec_key: str) -> str:
             parts.append(
                 f"<span class='meta'>{html.escape(str(m['platform']))} · "
                 f"{html.escape(_app_label(m['item_id'], spec))} · {html.escape(str(m['published_at']))} · "
-                f"置信度 {m['confidence']:.2f} · 梯子 {html.escape(str(m['level']))}</span>"
+                f"置信度 {m['confidence']:.2f} · 梯子 {html.escape(str(m['level']))}"
+                + (f" · 👍 {m['likes']}" if "likes" in m.keys() and m["likes"] else "")
+                + "</span>"
             )
             parts.append("</blockquote>")
 

@@ -78,6 +78,16 @@ $env:PAINRADAR_LLM_MODEL="deepseek-chat"
 python run.py --db var/live.db run --category pet_water_fountain --extractor llm
 ```
 
+**默认单跑 + 思维链（CoT）**：模型先输出 `reasoning` 再抽取，配合原文三道闸
+（exact / normalized / fuzzy）校验，成本约为原来的 50%。需要更强的稳定性时再加：
+
+```bash
+python run.py run --category pet_water_fountain --extractor llm --double-run
+```
+
+`--double-run` 会以更高温度再跑一次并做一致性比对，token 翻倍；
+单跑模式下锚定失败仍会自动回退规则抽取器，不会产生无出处的原子。
+
 没有 Key 也能验证链路——仓库自带一个确定性假端点：
 
 ```powershell
@@ -106,6 +116,16 @@ python run.py ingest --source mediacrawler --category pet_water_fountain \
 
 连接器会自动识别字段、保留「原帖标题 + 正文 + 高赞评论 + 楼中楼」上下文，
 并按评论点赞数入库；过短 / 纯表情 / 广告评论在入库前丢弃。
+
+### 聚类与机会卡（2026-11 升级）
+
+- **语义优先聚类**：先按模型给出的 `canonical_pain`（4–12 字需求短语）分桶，
+  再把语义相近的桶合并；`scene` 只在模型没给出短语时作兜底。
+  新赛道不配场景词典也能聚出痛点簇。
+- **一人开发可行性**：每张机会卡带 `solo_dev_feasibility`
+  （难度 / MVP 周期 / 产品形态 / 变现），硬件或重运营需求会被降权。
+- **种子用户外联**：WebUI 下钻抽屉可导出 `outreach.csv`
+  （仅 L2–L4，按点赞降序，含自动生成的破冰话术），用于第一轮私信/评论触达。
 
 ## 2. 命令
 
