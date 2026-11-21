@@ -154,6 +154,7 @@ def run_category(
     llm_model: str | None = None,
     llm_base_url: str | None = None,
     llm_consistency: bool = True,
+    mode: str = "b2c",
     validity_filter: bool = True,
     before: str | None = None,
     apps: list[str] | None = None,
@@ -178,6 +179,7 @@ def run_category(
         llm_model=llm_model,
         llm_base_url=llm_base_url,
         llm_consistency=llm_consistency,
+        mode=mode,
     )
     gate = SpanGate()
 
@@ -218,6 +220,8 @@ def run_category(
             "taxonomy_version": a.taxonomy_version,
             "supersedes": a.supersedes,
             "canonical_pain": a.canonical_pain,
+            "buyer_role": a.buyer_role,
+            "b2b_score": a.b2b_score,
             "created_at": now,
         }
 
@@ -284,7 +288,7 @@ def run_category(
     for atom_id, cid in result.assignments.items():
         atoms_by_cluster.setdefault(cid, []).append(by_id[atom_id])
 
-    scores = score_clusters(atoms_by_cluster, authors_by_atom, dates_by_atom)
+    scores = score_clusters(atoms_by_cluster, authors_by_atom, dates_by_atom, mode=mode)
     store.insert_scores(run_id, [s.as_dict() for s in scores])
 
     # Opportunities
@@ -357,6 +361,7 @@ def run_category(
         "noise_rate": round(result.noise_rate, 4),
         "levels": levels,
         "extractor": extractor_name,
+        "mode": mode,
         "threshold": threshold,
         "min_size": min_size,
         "platforms": sorted({r["platform"] for r in items}),

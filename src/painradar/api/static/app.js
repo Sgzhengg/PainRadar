@@ -166,7 +166,7 @@ function renderCards() {
     return `<article class="card opp" data-cluster="${esc(o.cluster_id)}">
       <div class="opp-head">
         <div class="opp-title">
-          <h2>${esc(o.title)}</h2>
+          <h2>${esc(o.title)}${state.detail?.stats?.mode === "b2b" ? ' <span class="dom b2b">B端</span>' : ""}</h2>
           ${soloBadge(o.solo_fit)}
         </div>
         <div class="opp-score">
@@ -214,7 +214,7 @@ function drawerShell(o) {
     ? `<div class="warn">该簇以纯抱怨（L1）为主，先做人群验证，不要直接立项。</div>` : "";
   return `<button class="close" id="close">×</button>
     <div class="outreach top">
-      <a class="btn primary" href="/api/runs/${state.runId}/clusters/${encodeURIComponent(o.cluster_id)}/outreach.csv">⬇ 导出种子用户外联表 (CSV)</a>
+      <a class="btn primary" href="/api/runs/${state.runId}/clusters/${encodeURIComponent(o.cluster_id)}/outreach.csv?mode=${state.detail?.stats?.mode || "b2c"}">⬇ 导出种子用户外联表 (CSV)</a>
       <span class="hint">仅 L2–L4，按点赞降序，含破冰话术</span>
     </div>
     <h2>${esc(o.title)}</h2>
@@ -396,7 +396,7 @@ async function startRun() {
     const res = await fetch("/api/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ category, extractor }),
+      body: JSON.stringify({ category, extractor, mode: $("#runmode")?.value || "b2c" }),
     });
     const body = await res.json();
     if (!res.ok) throw new Error(body.detail || res.status);
@@ -1006,7 +1006,7 @@ async function startRun() {
     const res = await fetch("/api/run", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ category, extractor }),
+      body: JSON.stringify({ category, extractor, mode: $("#runmode")?.value || "b2c" }),
     });
     const body = await res.json();
     if (!res.ok) throw new Error(body.detail || res.status);

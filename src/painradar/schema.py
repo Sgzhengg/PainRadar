@@ -101,6 +101,8 @@ class PainAtom:
     run_id: str
     supersedes: str | None = None
     canonical_pain: str = ""
+    buyer_role: str = ""  # 老板 / 管理者 / 员工 / 不确定（B 端模式）
+    b2b_score: int = 0  # 0-3，决策者身份信号强度
 
     def signature(self) -> str:
         """Text used for clustering — slots, not the raw sentence."""

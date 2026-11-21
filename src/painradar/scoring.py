@@ -30,6 +30,14 @@ OPP_WEIGHTS = {
     "serviceability": 0.15,
     "timing": 0.15,
 }
+PAIN_WEIGHTS_B2B = {
+    "frequency": 0.25,
+    "breadth": 0.15,
+    "intensity": 0.15,
+    "cost_clarity": 0.20,
+    "persistence": 0.10,
+    "buyer": 0.15,
+}
 COMPETITION_EXP = 0.10
 
 
@@ -50,6 +58,7 @@ def score_clusters(
     atoms_by_cluster: dict[str, list[PainAtom]],
     authors_by_atom: dict[str, str],
     dates_by_atom: dict[str, str] | None = None,
+    mode: str = "b2c",
 ) -> list[Score]:
     """Compute pain and opportunity scores for every non-noise cluster."""
     dates_by_atom = dates_by_atom or {}
@@ -84,6 +93,7 @@ def score_clusters(
             / n,
             "workaround": sum(1 for a in atoms if a.workaround) / n,
             "action": sum(1 for a in atoms if a.level in ("L3", "L4")) / n,
+            "buyer": sum(int(getattr(a, "b2b_score", 0) or 0) for a in atoms) / (3 * n),
         }
 
     if not raw:
@@ -100,8 +110,10 @@ def score_clusters(
             "intensity": v["intensity"],
             "cost_clarity": v["cost_clarity"],
             "persistence": v["persistence"],
+            "buyer": v["buyer"],
         }
-        pain = 100.0 * sum(PAIN_WEIGHTS[k] * factors[k] for k in PAIN_WEIGHTS)
+        weights = PAIN_WEIGHTS_B2B if mode == "b2b" else PAIN_WEIGHTS
+        pain = 100.0 * sum(weights[k] * factors[k] for k in weights)
 
         # Supply gap: heavy workaround use plus L3/L4 activity means the market
         # is patching around an unmet need. Illustrative heuristic until the
@@ -127,7 +139,7 @@ def score_clusters(
         ) / (competition ** COMPETITION_EXP)
 
         factors_out = {
-            **{k: round(factors[k], 4) for k in PAIN_WEIGHTS},
+            **{k: round(factors[k], 4) for k in weights},
             "supply_gap": round(supply_gap, 4),
             "wtp": round(wtp, 4),
             "wtp_coverage": round(coverage, 4),
@@ -136,7 +148,7 @@ def score_clusters(
             "competition": competition,
         }
         contributions = {
-            **{k: round(PAIN_WEIGHTS[k] * factors[k] * 100, 2) for k in PAIN_WEIGHTS},
+            **{k: round(weights[k] * factors[k] * 100, 2) for k in weights},
             "supply_gap": round(OPP_WEIGHTS["supply_gap"] * supply_gap * 100, 2),
             "wtp": round(OPP_WEIGHTS["wtp"] * wtp * 100, 2),
         }

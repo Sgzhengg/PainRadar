@@ -34,6 +34,7 @@ class Job:
     error: str | None = None
     stage: str | None = None
     progress: int = 0
+    mode: str = "b2c"
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -90,13 +91,13 @@ class JobRegistry:
                 store.close()
         raise ValueError(f"no items for category {category!r} in any database")
 
-    def submit(self, category: str, extractor: str = "rule") -> Job:
+    def submit(self, category: str, extractor: str = "rule", mode: str = "b2c") -> Job:
         with self._lock:
             current = self.active()
             if current is not None and current.status in ("queued", "running"):
                 raise RuntimeError(f"job {current.job_id} is still {current.status}")
             db_path = self._db_for(category)
-            job = Job(job_id=f"job_{uuid.uuid4().hex[:10]}", category=category, extractor=extractor)
+            job = Job(job_id=f"job_{uuid.uuid4().hex[:10]}", category=category, extractor=extractor, mode=mode)
             self._jobs[job.job_id] = job
             self._active = job.job_id
         threading.Thread(target=self._run, args=(job, db_path), daemon=True).start()
@@ -132,6 +133,7 @@ class JobRegistry:
         max_notes: int,
         cookies: dict[str, str] | None = None,
         extractor: str = "rule",
+        mode: str = "b2c",
     ) -> Job:
         """Start a Zeabur crawl job and ingest/analyze it asynchronously."""
         with self._lock:
@@ -144,6 +146,7 @@ class JobRegistry:
                 extractor=extractor,
                 kind="fetch_remote",
                 stage="starting",
+                mode=mode,
             )
             self._jobs[job.job_id] = job
             self._active = job.job_id
@@ -199,7 +202,7 @@ class JobRegistry:
             job.stage = "analyzing"
             if ingest.get("inserted", 0) > 0:
                 result = run_category(
-                    store, job.category, extractor_name=job.extractor, min_size=self.min_size
+                    store, job.category, extractor_name=job.extractor, min_size=self.min_size, mode=job.mode
                 )
                 job.run_id = result.run_id
                 job.stats = {**job.stats, "extraction": result.stats}
@@ -268,7 +271,7 @@ class JobRegistry:
         try:
             store = Store(db_path)
             result = run_category(
-                store, job.category, extractor_name=job.extractor, min_size=self.min_size
+                store, job.category, extractor_name=job.extractor, min_size=self.min_size, mode=job.mode
             )
             job.run_id = result.run_id
             job.stats = result.stats

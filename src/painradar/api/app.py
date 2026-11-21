@@ -27,11 +27,13 @@ STATIC = Path(__file__).parent / "static"
 class RunRequest(BaseModel):
     category: str
     extractor: str = "rule"
+    mode: str = "b2c"
 
 
 class FetchRequest(BaseModel):
     platform: str
     category: str
+    mode: str = "b2c"
     keywords: list[str] = []
     max_notes: int = 50
     cookie: str = ""
@@ -161,35 +163,54 @@ def create_app(db_paths: list[str]) -> FastAPI:
             store.close()
 
     @app.get("/api/runs/{run_id}/clusters/{cluster_id}/outreach.csv")
-    def outreach_csv(run_id: str, cluster_id: str) -> Response:
+    def outreach_csv(run_id: str, cluster_id: str, mode: str = Query("")) -> Response:
+        import json as _json
+
         store, row = _find_run(db_paths, run_id)
         try:
             members = store.cluster_members(run_id, cluster_id)
         finally:
             store.close()
+        try:
+            run_mode = _json.loads(row["stats_json"] or "{}").get("mode", "b2c")
+        except Exception:  # noqa: BLE001
+            run_mode = "b2c"
+        b2b = (mode or run_mode) == "b2b"
+
         # Only people who described an obstacle / paid / compared: L0-L1 are
         # emotions and make poor outreach targets.
         rows = [m for m in members if m["level"] in ("L2", "L3", "L4")]
         rows.sort(key=lambda m: (m["likes"] if "likes" in m.keys() else 0), reverse=True)
         buf = io.StringIO()
         writer = csv.writer(buf)
-        writer.writerow(["url", "quote", "likes", "level", "scene", "icebreaker"])
+        writer.writerow(["url", "quote", "likes", "level", "scene", "buyer_role", "icebreaker"])
         for m in rows:
             scene = m["scene"] or ""
             quote = (m["quote"] or "").replace("\n", " ")[:60]
-            icebreaker = (
-                f"看到你在「{scene}」里提到「{quote}」，"
-                f"我正在做一个只解决这件事的小工具，想邀请你免费内测，愿意聊聊吗？"
-            )
+            role = m["buyer_role"] if "buyer_role" in m.keys() else ""
+            if b2b:
+                greeting = f"{role}您好" if role in ("老板", "管理者") else "您好"
+                icebreaker = (
+                    f"{greeting}，看到您在「{scene}」提到「{quote}」。"
+                    f"我们正在为传统行业做一套 AI 提效方案，可免费为贵司做一次流程诊断 + Demo 试用；"
+                    f"如果方便，想约 15 分钟交流一下，可以吗？"
+                )
+            else:
+                icebreaker = (
+                    f"看到你在「{scene}」里提到「{quote}」，"
+                    f"我正在做一个只解决这件事的小工具，想邀请你免费内测，愿意聊聊吗？"
+                )
             writer.writerow([
                 m["url"],
                 m["quote"],
                 m["likes"] if "likes" in m.keys() else 0,
                 m["level"],
                 scene,
+                role,
                 icebreaker,
             ])
-        filename = f"outreach_{cluster_id}.csv"
+        suffix = "_b2b" if b2b else ""
+        filename = f"outreach{suffix}_{cluster_id}.csv"
         return Response(
             content=buf.getvalue().encode("utf-8-sig"),
             media_type="text/csv; charset=utf-8",
@@ -490,6 +511,7 @@ def create_app(db_paths: list[str]) -> FastAPI:
                 max_notes=max(1, min(req.max_notes, 1000)),
                 cookies=cookies or None,
                 extractor=req.extractor if req.extractor in ("rule", "llm") else "rule",
+                mode=req.mode if req.mode in ("b2c", "b2b") else "b2c",
             )
         except RuntimeError as exc:
             raise HTTPException(status_code=409, detail=str(exc))
@@ -504,7 +526,7 @@ def create_app(db_paths: list[str]) -> FastAPI:
         except SystemExit:
             raise HTTPException(status_code=400, detail=f"unknown category: {req.category}")
         try:
-            job = registry.submit(req.category, req.extractor)
+            job = registry.submit(req.category, req.extractor, mode=req.mode if req.mode in ("b2c", "b2b") else "b2c")
         except ValueError as exc:
             raise HTTPException(status_code=400, detail=str(exc))
         except RuntimeError as exc:

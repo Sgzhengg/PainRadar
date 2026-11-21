@@ -201,6 +201,47 @@ class ExtractionStats:
         }
 
 
+
+
+# ---------------------------------------------------------------------------
+# B2B identity signals (traditional industries / high-ticket mode)
+
+B2B_TERMS = {
+    "老板": 3, "厂长": 3, "店主": 3, "自己开": 3, "法人": 3,
+    "采购": 3, "负责人": 2, "经理": 2, "管理层": 2, "合伙人": 2,
+    "厂里": 2, "工厂": 2, "店里": 2, "门店": 2, "车间": 2,
+    "员工": 2, "工人": 2, "人工": 2, "人工成本": 3,
+    "接单": 2, "报价": 2, "订单": 2, "供应商": 2, "同行": 1,
+    "团队": 1, "客户": 1, "招人": 2, "外包": 2,
+}
+_B2B_ROLES = ("老板", "管理者", "员工", "不确定")
+
+
+def b2b_identity(text: str) -> tuple[str, int]:
+    """Return (buyer_role, 0-3 signal strength) from a comment."""
+    low = (text or "").lower()
+    hits = {w for w in B2B_TERMS if w in low}
+    score = min(3, sum(B2B_TERMS[w] for w in hits) // 2 or (1 if hits else 0))
+    if any(w in low for w in ("老板", "厂长", "店主", "自己开", "开厂", "开店", "开公司", "法人")):
+        role = "老板"
+    elif any(w in low for w in ("采购", "负责人", "经理", "管理层", "合伙人")):
+        role = "管理者"
+    elif any(w in low for w in ("员工", "工人", "打工", "操作工")):
+        role = "员工"
+    elif hits:
+        role = "不确定"
+    else:
+        role = ""
+    return role, score
+
+
+def _b2b_role(value: object, text: str) -> str:
+    role = str(value or "").strip()
+    if role in _B2B_ROLES:
+        return role
+    return b2b_identity(text)[0]
+
+
 class RuleExtractor:
     """Deterministic baseline extractor (no network, no API key)."""
 
@@ -386,6 +427,8 @@ class RuleExtractor:
             span_end=end,
             match_score=match,
             canonical_pain=canonical_pain,
+            buyer_role=b2b_identity(quote)[0],
+            b2b_score=b2b_identity(quote)[1],
             scene=scene,
             trigger=trigger,
             job=job,
@@ -449,6 +492,10 @@ Return ONE JSON object with the fields below. Rules:
   product ("订阅取消入口难找" is a need; "Smallpdf" is not). Used for clustering.
 - The thread context helps you understand the review, but `quote` MUST be an exact
   substring of `text`, never of the context.
+- If `mode` is `b2b`, also decide whether the author is a business decision maker
+  (老板 / 管理者 / 员工 / 不确定) and list the B2B signal words you saw
+  (厂里、店里、员工、人工成本、接单、报价、同行). Keep `reasoning` focused on the
+  business cost or workflow, not consumer convenience.
 - quote MUST be an exact substring of the input text (copy it verbatim, no edits).
 - If a field is not supported by the text, return an empty string. Never invent.
 - scene MUST be exactly one of the provided `scenes`, or "其他场景" when none fits.
@@ -474,6 +521,8 @@ Return ONE JSON object with the fields below. Rules:
 FIELD_SPEC = {
     "reasoning": "1-2 sentences: goal + obstacle",
     "canonical_pain": "4-12 char Chinese noun phrase, cluster key",
+    "buyer_role": "老板|管理者|员工|不确定 (empty if unknown)",
+    "b2b_signals": ["lender/labor/quote words found, e.g. 厂里, 人工成本, 接单"],
     "quote": "string, verbatim substring",
     "scene": "short noun phrase",
     "trigger": "short phrase or empty",
@@ -575,6 +624,7 @@ class LLMExtractor:
         temperature: float = 0.0,
         consistency: bool = False,
         fallback: "RuleExtractor | None" = None,
+        mode: str = "b2c",
     ):
         self.category = category
         self.gate = gate or SpanGate()
@@ -584,6 +634,7 @@ class LLMExtractor:
         self.temperature = temperature
         self.consistency = consistency
         self.fallback = fallback
+        self.mode = mode
         if client is not None:
             self.client = client
         else:
@@ -614,6 +665,7 @@ class LLMExtractor:
                             "scenes": list(self.category.scenes.keys()),
                             "text": text,
                             "thread_context": (context or "")[:900],
+                            "mode": getattr(self, "mode", "b2c"),
                             "fields": FIELD_SPEC,
                         },
                         ensure_ascii=False,
@@ -781,6 +833,8 @@ class LLMExtractor:
             span_end=end,
             match_score=match,
             canonical_pain=_as_str(data.get("canonical_pain"), 24),
+            buyer_role=_b2b_role(data.get("buyer_role"), quote),
+            b2b_score=max(b2b_identity(quote)[1], min(3, len(data.get("b2b_signals") or []))),
             scene=self._normalise_scene(data.get("scene"), quote),
             trigger=_as_str(data.get("trigger")),
             job=_as_str(data.get("job")),
@@ -855,6 +909,7 @@ def build_extractor(
     llm_model: str | None = None,
     llm_base_url: str | None = None,
     llm_consistency: bool = False,
+    mode: str = "b2c",
 ):
     if name == "rule":
         return RuleExtractor(category)
@@ -865,6 +920,7 @@ def build_extractor(
             base_url=llm_base_url,
             consistency=llm_consistency,
             fallback=RuleExtractor(category),
+            mode=mode,
         )
     raise SystemExit(f"unknown extractor {name!r}; use 'rule' or 'llm'")
 

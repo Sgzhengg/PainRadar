@@ -81,6 +81,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             llm_model=args.llm_model,
             llm_base_url=args.llm_base_url,
             llm_consistency=args.double_run or args.llm_consistency,
+            mode=getattr(args, "mode", "b2c"),
             validity_filter=args.validity_filter,
         )
     except LLMNotConfigured as exc:
@@ -638,6 +639,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--llm-consistency", action=argparse.BooleanOptionalAction, default=False)
     sp.add_argument("--double-run", action="store_true", help="enable the second consistency pass (2x tokens)")
     sp.add_argument("--validity-filter", action=argparse.BooleanOptionalAction, default=True)
+    sp.add_argument("--mode", default="b2c", choices=["b2c", "b2b"],
+                    help="b2b: traditional-industry / high-ticket mode")
     sp.set_defaults(func=cmd_run)
 
     sp = sub.add_parser("report", help="render a report for a run")

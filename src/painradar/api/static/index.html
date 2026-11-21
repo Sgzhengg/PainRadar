@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PainRadar · 机会雷达</title>
-<link rel="stylesheet" href="/static/style.css?v=70">
+<link rel="stylesheet" href="/static/style.css?v=80">
 </head>
 <body>
 <header class="top">
@@ -109,6 +109,13 @@
         <input type="number" id="fcmax" value="50" min="1" max="1000">
       </div>
       <div class="field">
+        <label>分析模式</label>
+        <select id="fcmode">
+          <option value="b2c">C 端消费</option>
+          <option value="b2b">B 端 / 传统行业（高客单价）</option>
+        </select>
+      </div>
+      <div class="field">
         <label>临时 Cookie（可选，覆盖服务端默认）</label>
         <input type="text" id="fccookie" placeholder="key=value; key2=value2">
       </div>
@@ -144,6 +151,13 @@
     <div class="field">
       <label>品类</label>
       <select id="runcat"></select>
+    </div>
+    <div class="field">
+      <label>分析模式</label>
+      <select id="runmode">
+        <option value="b2c">C 端消费</option>
+        <option value="b2b">B 端 / 传统行业（高客单价）</option>
+      </select>
     </div>
     <div class="field">
       <label>抽取器</label>
@@ -202,6 +216,6 @@
 </div>
 
 <div class="toast" id="toast" hidden></div>
-<script src="/static/app.js?v=72"></script>
+<script src="/static/app.js?v=80"></script>
 </body>
 </html>

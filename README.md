@@ -251,6 +251,20 @@ python tools/build_app.py --db var/gold200.db --db var/gold.db --out reports/app
 - [docs/deploy-zeabur.md](docs/deploy-zeabur.md)：采集服务接口契约、无头浏览器、Cookie 与结果格式
 - [docs/deploy-cloudflare.md](docs/deploy-cloudflare.md)：wrangler.toml、D1 建表、环境变量清单与边界
 
+### B 端 / 传统行业模式（高客单价）
+
+`ash
+python run.py run --category pet_water_fountain --extractor rule --mode b2b
+`
+
+- **身份识别**：评论里出现「厂里 / 店里 / 员工 / 人工成本 / 接单 / 报价 / 同行 / 采购」
+  等信号时，原子会记录 uyer_role（老板 / 管理者 / 员工）与 2b_score（0–3）；
+- **评分**：B 端模式把 uyer 因子（决策者信号）按 15% 权重计入痛感分，
+  人工成本、报价、接单类需求更靠前；
+- **外联话术**：outreach.csv 自动切换为商务口吻——
+  “可免费为贵司做一次流程诊断 + Demo 试用”，并新增 uyer_role 列；
+- **界面**：运行 / 抓取弹窗可选「B 端 / 传统行业」，B 端运行的机会卡会标 B端。
+
 ## 4. 已实现 / 未实现
 对照开发方案的 M0–M1：
 

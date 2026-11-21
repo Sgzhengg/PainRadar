@@ -146,3 +146,10 @@ painradar demo --reset
 - 快捷筛选（纯软件 / 1 周可做 / L3–L4）与三种排序；
 - 抽屉顶部固定「导出种子用户外联表 (CSV)」；
 - 新增 `POST /api/ingest`，支持在界面里导入 MediaCrawler JSON/JSONL/CSV。
+
+## 2026-11-21 · B 端 / 传统行业模式
+
+- `--mode b2b`：识别老板/管理者/员工与人工成本、接单、报价等信号；
+- 评分新增 `buyer` 因子（B 端权重 15%），原子记录 `buyer_role` / `b2b_score`；
+- 外联 CSV 切换为商务口吻（免费流程诊断 + Demo），新增 `buyer_role` 列；
+- WebUI 运行/抓取弹窗增加模式选择，B 端机会卡显示 `B端`。
