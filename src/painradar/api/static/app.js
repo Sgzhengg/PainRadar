@@ -2058,7 +2058,7 @@ function renderExploreStart() {
       <h3>你最近在琢磨什么？</h3>
       <p>可以很模糊，比如“想做点和 PDF 相关的东西”“想找个副业”。
          完全没方向也行，我会从评论里挑几条真实抱怨给你看。</p>
-      <input id="exseed" placeholder="例如：我想做点和 PDF 相关的东西" autocomplete="off">
+      <textarea id="exseed" rows="2" placeholder="例如：我想做点和 PDF 相关的东西（Shift+Enter 换行）" autocomplete="off"></textarea>
       <div class="row">
         <button class="btn primary" id="exstart" type="button">开始探索</button>
         <button class="btn small" id="exnodir" type="button">我完全没方向，帮我从评论里找灵感</button>
@@ -2067,9 +2067,19 @@ function renderExploreStart() {
   $("#exstart").addEventListener("click", () => startExplore($("#exseed").value.trim()));
   $("#exnodir").addEventListener("click", () => startExplore(""));
   $("#exseed").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") startExplore($("#exseed").value.trim());
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      startExplore($("#exseed").value.trim());
+    }
   });
-  $("#exseed").focus();
+  const seedInput = $("#exseed");
+  function autosizeSeed() {
+    seedInput.style.height = "auto";
+    seedInput.style.height = `${Math.min(seedInput.scrollHeight, 160)}px`;
+  }
+  seedInput.addEventListener("input", autosizeSeed);
+  autosizeSeed();
+  seedInput.focus();
 }
 
 async function startExplore(seed) {
