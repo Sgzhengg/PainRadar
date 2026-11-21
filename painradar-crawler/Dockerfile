@@ -12,15 +12,21 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends curl ca-certificates \
+    && apt-get install -y --no-install-recommends curl ca-certificates git \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# MediaCrawler must be vendored before building:
-#   git clone --depth 1 https://github.com/NanmiCoder/MediaCrawler painradar-crawler/MediaCrawler
-COPY MediaCrawler/ ./MediaCrawler/
+# MediaCrawler is cloned at build time, so the third-party repo never has to be
+# committed. Pin a commit/tag with --build-arg MEDIACRAWLER_REF=<sha-or-tag>.
+ARG MEDIACRAWLER_REPO=https://github.com/NanmiCoder/MediaCrawler.git
+ARG MEDIACRAWLER_REF=main
+RUN rm -rf /app/MediaCrawler \
+    && (git clone --depth 1 --branch "${MEDIACRAWLER_REF}" "${MEDIACRAWLER_REPO}" /app/MediaCrawler \
+        || (rm -rf /app/MediaCrawler \
+            && git clone "${MEDIACRAWLER_REPO}" /app/MediaCrawler \
+            && cd /app/MediaCrawler && git checkout "${MEDIACRAWLER_REF}"))
 RUN pip install --no-cache-dir -r MediaCrawler/requirements.txt \
     && python -m playwright install --with-deps chromium
 

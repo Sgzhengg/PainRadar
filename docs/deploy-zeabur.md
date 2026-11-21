@@ -71,12 +71,8 @@ TASK_CONCURRENCY=2
 painradar-crawler/ 已经包含桥接服务：FastAPI 任务 API + MediaCrawler 适配器 +
 Dockerfile，一个容器搞定，**不用再单独部署 MediaCrawler**。
 
-1. 把 MediaCrawler 源码放进桥接目录：
-
-   `ash
-   cd painradar-crawler
-   git clone --depth 1 https://github.com/NanmiCoder/MediaCrawler MediaCrawler
-   `
+1. 不需要手动放入 MediaCrawler：桥接服务的 Dockerfile 会在构建阶段自动 clone；
+   建议加构建参数 MEDIACRAWLER_REF=<commit> 锁定版本。
 
 2. 把 painradar-crawler/ 推到独立仓库（或在 Zeabur 用该子目录构建）；
 3. 同一个 Project → Add Service → 部署该仓库，服务名 **mediacrawler**，端口 **8080**；

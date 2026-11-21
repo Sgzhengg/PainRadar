@@ -1,5 +1,4 @@
 .git
 __pycache__
 *.pyc
-MediaCrawler/.git
-MediaCrawler/browser_data
+MediaCrawler/

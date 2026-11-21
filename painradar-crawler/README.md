@@ -20,18 +20,25 @@ PainRadar 的 MediaCrawler 桥接服务：把不支持 HTTP 的 MediaCrawler 包
 
 ## 1. 准备 MediaCrawler 源码
 
-Dockerfile 会把 `MediaCrawler/` 打进镜像，构建前先 vendor：
+Dockerfile 在**构建阶段自动 clone** MediaCrawler 到 /app/MediaCrawler，
+所以第三方仓库不需要提交进 Git（MediaCrawler/ 已在 .gitignore 与
+.dockerignore 中）。
 
-```bash
+锁定版本（推荐，避免上游改 CLI 导致构建后行为漂移）：
+
+`ash
+docker build -t painradar-crawler \
+  --build-arg MEDIACRAWLER_REF=<commit-or-tag> .
+`
+
+Zeabur 上在服务设置里加构建参数 MEDIACRAWLER_REF=<commit> 即可。
+
+只在本地不用 Docker 跑时，才需要手动 clone：
+
+`ash
 cd painradar-crawler
 git clone --depth 1 https://github.com/NanmiCoder/MediaCrawler MediaCrawler
-```
-
-建议锁定 commit（可复现构建）：
-
-```bash
-git -C MediaCrawler checkout <commit>
-```
+`
 
 > MediaCrawler 各版本 CLI 参数不同，若默认命令跑不通，改
 > `CRAWLER_CMD_TEMPLATE`（见下）而不是改代码。
