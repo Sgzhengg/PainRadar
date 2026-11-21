@@ -1,7 +1,6 @@
-import json
 import os
-import tempfile
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -12,23 +11,36 @@ import runner as crawler_runner  # noqa: E402
 
 
 class EnvCookieTests(unittest.TestCase):
-    def test_platform_cookie_env_is_written(self):
+    def test_env_cookie_becomes_cli_argument(self):
         with tempfile.TemporaryDirectory() as tmp:
             crawler = crawler_runner.MediaCrawlerRunner(home=tmp)
             crawler.cookie_dir = Path(tmp) / "cookies"
-            os.environ["PLATFORM_COOKIES_XHS"] = "sid=abc; uid=1"
+            os.environ["PLATFORM_COOKIES_XHS"] = "web_session=abc; a1=xyz"
             try:
-                crawler._write_cookies(
-                    crawler_runner.CrawlSpec(platform="xhs", keywords=["x"])
-                )
+                spec = crawler_runner.CrawlSpec(platform="xhs", keywords=["PDF"])
+                cookies = crawler.resolve_cookies(spec)
+                command = crawler.build_command(spec, cookies)
             finally:
                 os.environ.pop("PLATFORM_COOKIES_XHS", None)
 
-            target = Path(tmp) / "browser_data" / "xhs_cookies.json"
-            self.assertTrue(target.exists())
-            cookies = json.loads(target.read_text(encoding="utf-8"))
-            self.assertEqual(cookies[0]["name"], "sid")
-            self.assertEqual(cookies[0]["value"], "abc")
+            self.assertIn("web_session=abc", cookies)
+            self.assertIn("--cookies", command)
+            self.assertEqual(command[command.index("--cookies") + 1], cookies)
+            self.assertTrue((Path(tmp) / "cookies" / "xhs.txt").exists())
+
+    def test_request_cookie_wins_over_env(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            crawler = crawler_runner.MediaCrawlerRunner(home=tmp)
+            crawler.cookie_dir = Path(tmp) / "cookies"
+            os.environ["PLATFORM_COOKIES_XHS"] = "web_session=env"
+            try:
+                spec = crawler_runner.CrawlSpec(
+                    platform="xhs", keywords=["PDF"], cookies="web_session=request"
+                )
+                cookies = crawler.resolve_cookies(spec)
+            finally:
+                os.environ.pop("PLATFORM_COOKIES_XHS", None)
+            self.assertIn("request", cookies)
 
 
 if __name__ == "__main__":

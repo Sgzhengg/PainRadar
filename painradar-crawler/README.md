@@ -95,16 +95,42 @@ curl -X POST http://127.0.0.1:8080/api/crawl \
 
 ## 4. Cookie 怎么给
 
-两种方式，优先用请求里的临时 Cookie（PainRadar 抓取弹窗可填）：
+桥接服务把 Cookie 通过 MediaCrawler 的真实 CLI 参数传入：
 
-1. **请求体**：`"cookies": "a=1; b=2"` 或 `[{name,value,domain,path}]`；
-2. **环境变量**：`PLATFORM_COOKIES_XHS=...`。
+`ash
+python main.py --platform xhs --lt cookie --type search --keywords ... --cookies "web_session=..."
+`
 
-服务会把 Cookie 持久化到 `/data/cookies/<platform>.json`，并复制到
-`MediaCrawler/browser_data/<platform>_cookies.json`（MediaCrawler 常见读取路径）。
-如果你的 MediaCrawler 版本读取路径不同，改 `runner.py` 的 `_browser_cookie_path`。
+来源优先级：
 
-Cookie 失效时任务返回 `need_login: true`，PainRadar 会提示更新 Cookie。
+1. 请求体 cookies（PainRadar 抓取弹窗里的临时 Cookie）；
+2. 环境变量 PLATFORM_COOKIES_<PLATFORM>；
+3. /data/cookies/<platform>.txt 上次持久化的值。
+
+### 小红书只需要 web_session
+
+看 media_platform/xhs/login.py 的 login_by_cookies()：它只应用
+web_session 这一个 Cookie，其余会被忽略。所以小红书最小配置就是：
+
+`env
+PLATFORM_COOKIES_XHS=web_session=你的值
+`
+
+（浏览器里 1 等由页面自己生成；完整字符串也能传，只是会被过滤。）
+
+### 其它平台
+
+ilibili / douyin / zhihu 的 cookie 登录会应用整串 Cookie。
+抖音通常还需要 	twid、msToken 等，直接粘贴浏览器导出的完整 Cookie 最稳。
+
+### 怎么拿 Cookie
+
+- 本机 Chrome 登录对应站点 → DevTools → Application → Cookies → 复制
+  
+ame=value; name2=value2；
+- 或本机跑一次 MediaCrawler 扫码登录（--lt qrcode），从
+  rowser_data/<platform>_user_data_dir 里取登录态；
+- Cookie 等于账号权限，不要提交 Git，不要截图外发。
 
 ## 5. 结果格式
 

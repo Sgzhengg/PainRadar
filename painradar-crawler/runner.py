@@ -10,6 +10,10 @@ keeps every version-specific choice in environment variables:
 - ``CRAWLER_DATA_DIR``    output root (default ``<home>/data``)
 - ``COOKIE_DIR``          persistent cookie directory (default ``/data/cookies``)
 
+Cookies are passed through MediaCrawler's real CLI option ``--cookies`` (the
+version pinned here supports it). For xhs only ``web_session`` is required by
+its login implementation; other platforms apply the whole cookie string.
+
 The bridge never invents data: it only normalizes what MediaCrawler wrote.
 """
 
@@ -19,7 +23,6 @@ import json
 import os
 import re
 import shlex
-import shutil
 import subprocess
 import time
 from dataclasses import dataclass
@@ -85,6 +88,10 @@ def parse_cookies(raw: Any, platform: str) -> list[dict[str, Any]] | None:
     return None
 
 
+def cookie_string(cookies: list[dict[str, Any]]) -> str:
+    return "; ".join(f"{c['name']}={c['value']}" for c in cookies if c.get("name"))
+
+
 def _first(record: dict[str, Any], keys: tuple[str, ...]) -> Any:
     for key in keys:
         if record.get(key) not in (None, ""):
@@ -148,36 +155,32 @@ class MediaCrawlerRunner:
         )
 
     # -- cookies ---------------------------------------------------------
-    def _browser_cookie_path(self, platform: str) -> Path:
-        return self.home / "browser_data" / f"{platform}_cookies.json"
+    def resolve_cookies(self, spec: CrawlSpec) -> str:
+        """Request cookie > PLATFORM_COOKIES_* env > persisted file."""
+        self.cookie_dir.mkdir(parents=True, exist_ok=True)
+        persisted = self.cookie_dir / f"{spec.platform}.txt"
 
-    def _write_cookies(self, spec: CrawlSpec) -> None:
         cookies = parse_cookies(spec.cookies, spec.platform)
         if not cookies:
             env_raw = os.environ.get(f"PLATFORM_COOKIES_{spec.platform.upper()}", "")
             cookies = parse_cookies(env_raw, spec.platform)
-        if not cookies:
-            return
-        self.cookie_dir.mkdir(parents=True, exist_ok=True)
-        persisted = self.cookie_dir / f"{spec.platform}.json"
-        persisted.write_text(json.dumps(cookies, ensure_ascii=False), encoding="utf-8")
-        target = self._browser_cookie_path(spec.platform)
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(persisted, target)
-
-    def _restore_cookies(self, platform: str) -> None:
-        persisted = self.cookie_dir / f"{platform}.json"
+        if cookies:
+            value = cookie_string(cookies)
+            persisted.write_text(value, encoding="utf-8")
+            return value
         if persisted.exists():
-            target = self._browser_cookie_path(platform)
-            target.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(persisted, target)
+            return persisted.read_text(encoding="utf-8").strip()
+        return ""
 
-    # -- run -------------------------------------------------------------
-    def build_command(self, spec: CrawlSpec) -> list[str]:
+    def build_command(self, spec: CrawlSpec, cookies: str = "") -> list[str]:
         keywords = ",".join(spec.keywords)
         rendered = self.template.format(platform=spec.platform, keywords=keywords)
-        return shlex.split(rendered)
+        args = shlex.split(rendered)
+        if cookies and "--cookies" not in args:
+            args.extend(["--cookies", cookies])
+        return args
 
+    # -- run -------------------------------------------------------------
     def run(
         self,
         spec: CrawlSpec,
@@ -185,15 +188,14 @@ class MediaCrawlerRunner:
     ) -> list[dict[str, Any]]:
         if not self.home.exists():
             raise RunnerError(f"MediaCrawler checkout not found at {self.home}")
-        self._restore_cookies(spec.platform)
-        self._write_cookies(spec)
+        cookies = self.resolve_cookies(spec)
         started = time.time()
         if on_progress:
             on_progress("crawling", 20, f"启动 MediaCrawler: {spec.platform}")
 
         try:
             proc = subprocess.run(
-                self.build_command(spec),
+                self.build_command(spec, cookies),
                 cwd=str(self.home),
                 capture_output=True,
                 text=False,
