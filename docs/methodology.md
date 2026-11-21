@@ -8,7 +8,7 @@
 
 ```
 L0 采集   L1 净化        L2 原子化        L3 聚类        L4 机会化        L5 验证
-file/API → 脱敏·去重 → 痛点原子(span) → 场景优先聚类 → 评分+市场区间 → 验证包
+file/API → 脱敏·去重 → 痛点原子(span) → 语义聚类(canonical 优先) → 评分+市场区间 → 验证包
 ```
 
 实现位置：
@@ -17,8 +17,8 @@ file/API → 脱敏·去重 → 痛点原子(span) → 场景优先聚类 → �
 |---|---|---|
 | L0 | `connectors/` | 目前只有 `FileConnector`（BYOD）。官方 API 连接器是 M1 下一批。 |
 | L1 | `textproc.py` + `store.find_duplicate` | NFKC 归一、PII 脱敏、MinHash 近似去重。 |
-| L2 | `extract.py` | 规则抽取器为主，LLM 抽取器已接线；两道 span 闸。 |
-| L3 | `cluster.py` | 场景优先，场景内相似度切分；噪声如实统计。 |
+| L2 | `extract.py` | 规则抽取器为主，LLM 抽取器已接线；三道 span 闸（exact/normalized/fuzzy）。 |
+| L3 | `cluster.py` | canonical_pain 语义分桶 + 跨桶合并 + 大簇切分；scene 仅兜底；噪声如实统计。 |
 | L4 | `scoring.py` + `pipeline.py` | 痛感/机会双分、蒙特卡洛市场区间、机会卡。 |
 | L5 | `pipeline.VALIDATION_KIT` | 每张卡固定三个实验与阈值。 |
 
@@ -52,7 +52,7 @@ LLM 只负责"读句子、填槽位"，不负责"下结论"。为此加了四道
 |---|---|---|
 | 结构化输出 | `response_format=json_object` + 解析容错（裸 JSON / ```json 围栏 / 夹在散文里） | 回退规则 |
 | 原文锚定 | 复用 `SpanGate`；quote 失败时依次尝试 `obstacle`、`wtp_quote`；最短 20 字符（中文 12） | 回退规则 |
-| 双跑一致性 | 第二次温度 +0.3，比较 level / scene / wtp_level / obstacle 相似度（≥0.6） | 有回退器则回退，否则置信度 ×0.6 并标 `disagree` |
+| 双跑一致性（可选，默认关闭） | `--double-run`：第二次温度 +0.3，比较 level / scene / wtp_level / obstacle 相似度（≥0.6） | 有回退器则回退，否则置信度 ×0.6 并标 `disagree` |
 | 枚举收敛 | level 非法则按字段推断；intensity 夹到 1–5；expression/wtp/cost 非法则归一到默认值 | — |
 
 每次结果都会把路径写进 `model_version`：`extract-llm-v0.2|agree`、`|disagree`、
@@ -282,7 +282,7 @@ A 集回答"抽得准不准"，B 集回答"预测有没有用"。实现方式是
 |---|---|
 | 新平台（Reddit/Amazon） | 实现 `connectors.base.Connector`，在 `registry` 注册 |
 | LLM 抽取 | 设 `PAINRADAR_LLM_*`，`--extractor llm` |
-| 新品类 | `config.CATEGORIES` 增加 `CategorySpec`（场景词典 + 市场假设） |
+| 新品类 | `config.CATEGORIES` 增加 `CategorySpec`（场景词典 + 市场假设）；LLM 抽取器给出 `canonical_pain` 时，聚类不依赖该词典 |
 | 新评分因子 | `scoring.score_clusters` + `report.FACTOR_LABEL` |
 | 新报告格式 | `report.render_*` |
 | Web API | 在 `pipeline` 之上包 FastAPI，勿把逻辑写进路由 |
@@ -326,7 +326,7 @@ Amazon PA-API 不返回评论正文，抓取评论违反 ToS。因此本项目�
 
 | 方案 | 实现 | 原因 |
 |---|---|---|
-| HDBSCAN 聚类 | 场景优先 + 平均连接 | 短文本上 HDBSCAN 噪声率过高，先保证可解释 |
+| HDBSCAN 聚类 | canonical 语义分桶 + 跨桶合并 + 平均连接 | 短文本上 HDBSCAN 噪声率过高，先保证可解释 |
 | LLM 抽取为主 | 已实现，但默认仍用规则 | 规则离线可跑、可测试；LLM 需端点与预算，按品类开启 |
 | 8 个数据源 | 2 个实时源（App Store RSS、Reddit）+ 文件导入 | 先验证链路与质量，再扩源 |
 | 评分对外三档 | 已实现 | 一致 |
