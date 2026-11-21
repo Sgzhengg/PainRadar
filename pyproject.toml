@@ -1,4 +1,4 @@
-[build-system]
+﻿[build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "PainRadar: turn public comments into evidence-backed product opportunities"
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "Proprietary" }
+license = { file = "LICENSE" }
 authors = [{ name = "PainRadar" }]
 dependencies = []
 
