@@ -2082,6 +2082,15 @@ function renderExplore() {
   const lastCoach = [...messages].reverse().find((m) => m.role === "assistant");
   const directions = (lastCoach && lastCoach.directions) || [];
   const chips = (lastCoach && lastCoach.chips) || [];
+  const probe = lastCoach && lastCoach.probe;
+  const probeLabels = {
+    direction: "先选方向",
+    counterfactual: "反常识验证",
+    payment: "付费意愿",
+    substitute: "替代方案",
+    competition: "竞争判断",
+    fetch: "先补数据",
+  };
 
   const bubbles = messages.map((m) => {
     if (m.role === "user") return `<div class="ex-bubble user">${esc(m.content)}</div>`;
@@ -2091,7 +2100,17 @@ function renderExplore() {
     return "";
   }).join("");
 
-  $("#exchat").innerHTML = bubbles + (chips.length
+  const probeChips = (probe && probe.chips) || [];
+  const probeHtml = probe
+    ? `<div class="ex-probe">
+         <span class="ex-probe-kind">${esc(probeLabels[probe.kind] || "追问")}</span>
+         <p>${esc(probe.question)}</p>
+         ${probe.why ? `<div class="ex-probe-why">${esc(probe.why)}</div>` : ""}
+         <div class="ex-chips">${probeChips.map((c) => `<button class="ex-chip ex-probe-chip" type="button">${esc(c)}</button>`).join("")}</div>
+       </div>`
+    : "";
+
+  $("#exchat").innerHTML = bubbles + probeHtml + (!probe && chips.length
     ? `<div class="ex-chips">${chips.map((c) => `<button class="ex-chip" type="button">${esc(c)}</button>`).join("")}</div>`
     : "");
   $("#exchat").querySelectorAll(".ex-chip").forEach((el) =>

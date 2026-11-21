@@ -48,9 +48,22 @@ SYSTEM = """你是一位产品发现教练，不是报告生成器。你在和�
      "evidence_ids": [1,2]}
   ],
   "question": "一个具体问题（≤60字）",
+  "probe": {
+    "kind": "direction|counterfactual|payment|substitute|competition",
+    "question": "一个更尖锐的追问（≤60字）",
+    "why": "为什么现在问这个（≤30字）",
+    "chips": ["可选回复1", "可选回复2", "可选回复3"]
+  },
   "chips": ["可选回复1", "可选回复2", "可选回复3"]
 }
-只返回 JSON。"""
+只返回 JSON。
+
+压力测试顺序（重要）：
+- 用户还没选方向时：kind=direction，先让他挑一条；
+- 选定方向后第一轮：kind=counterfactual，问“如果这个痛点是假的，最可能的原因是什么”；
+- 第二轮：kind=payment，问“谁会第一个掏钱、愿意付多少、现在这笔预算花在哪”；
+- 之后：kind=substitute 或 competition，问“他们为什么不会一直用 Excel/微信群凑合”。
+不要一次问两个问题；不要把 payment 放在 direction 之前。"""
 
 
 def _llm(messages: list[dict[str, str]], temperature: float = 0.7) -> dict[str, Any] | None:
@@ -161,6 +174,37 @@ def load_session(session_id: str) -> dict[str, Any] | None:
         return None
 
 
+def _probe(turn_index: int, seed: str = "") -> dict[str, Any]:
+    label = f"「{seed}」" if seed else "这个方向"
+    if turn_index <= 0:
+        return {
+            "kind": "direction",
+            "question": "这三条里，哪一条最像你身边真实发生的事？",
+            "why": "先确认方向，再往下挖",
+            "chips": ["第一条", "第二条", "第三条", "都不是"],
+        }
+    if turn_index == 1:
+        return {
+            "kind": "counterfactual",
+            "question": f"假设{label}这个痛点其实不成立——最可能的原因是什么？",
+            "why": "先试着证伪，避免自嗨",
+            "chips": ["他们其实能忍", "有免费替代", "不是高频问题", "我说不好"],
+        }
+    if turn_index == 2:
+        return {
+            "kind": "payment",
+            "question": "如果现在收 ¥199/年，谁会第一个掏钱？这笔预算现在花在哪？",
+            "why": "付费意愿比“觉得有用”更可靠",
+            "chips": ["老板会买", "员工自费", "走公司报销", "没人会付"],
+        }
+    return {
+        "kind": "substitute",
+        "question": "他们现在用 Excel/微信群凑合，为什么不会一直凑合下去？",
+        "why": "找出现有替代方案撑不住的那条缝",
+        "chips": ["量大了会崩", "出错代价高", "老板开始盯", "监管要求"],
+    }
+
+
 def _fallback_directions(evidence: list[dict[str, Any]], seed: str = "") -> dict[str, Any]:
     if not evidence:
         label = f"「{seed}」" if seed else "这个方向"
@@ -175,6 +219,12 @@ def _fallback_directions(evidence: list[dict[str, Any]], seed: str = "") -> dict
                 "evidence_ids": [],
             }],
             "question": f"要不要先去抓一批{label}的评论？",
+            "probe": {
+                "kind": "fetch",
+                "question": f"先去抓 20-50 条{label}评论，还是换个更大的关键词？",
+                "why": "没有证据时先补数据",
+                "chips": ["好，先去抓", "换个更大的关键词"],
+            },
             "chips": ["好，先去抓", "换个更大的关键词", "用现有语料随便看看"],
         }
     groups: dict[str, list[dict[str, Any]]] = {}
@@ -227,6 +277,7 @@ def _coach_payload(session: dict[str, Any], user_message: str, reaction: dict[st
     payload = {
         "seed": session.get("seed", ""),
         "mode": session.get("mode", "b2c"),
+        "turn_index": sum(1 for m in session.get("messages", []) if m.get("role") == "assistant"),
         "reactions": session.get("reactions", [])[-8:],
         "evidence": session.get("evidence", []),
         "user_message": user_message,
@@ -264,10 +315,17 @@ def _round(session: dict[str, Any], user_message: str = "", reaction: dict[str, 
         direction.setdefault("evidence", [])
     _attach_quotes(directions, session.get("evidence", []))
 
+    turn_index = sum(1 for m in session.get("messages", []) if m.get("role") == "assistant")
+    probe = data.get("probe") if isinstance(data.get("probe"), dict) else None
+    if not probe or not probe.get("question"):
+        probe = _probe(turn_index, session.get("seed", ""))
+    probe["chips"] = [str(c) for c in (probe.get("chips") or [])][:4]
+
     result = {
         "reflection": str(data.get("reflection") or "").strip(),
         "directions": directions,
-        "question": str(data.get("question") or "哪一条最像你身边真实发生的事？").strip(),
+        "question": str(data.get("question") or probe["question"]).strip(),
+        "probe": probe,
         "chips": [str(c) for c in (data.get("chips") or [])][:4],
     }
     session.setdefault("messages", []).append({
@@ -275,6 +333,7 @@ def _round(session: dict[str, Any], user_message: str = "", reaction: dict[str, 
         "content": f"{result['reflection']}\n\n{result['question']}".strip(),
         "directions": directions,
         "chips": result["chips"],
+        "probe": result["probe"],
         "ts": time.time(),
     })
     save_session(session)
@@ -357,6 +416,10 @@ def converge(session_id: str) -> dict[str, Any]:
     for item in quotes:
         lines.append(f"- “{item['quote']}” （👍 {item['likes']}）")
     lines += [
+        "",
+        "## 付费假设（需要当面验证）",
+        f"- 目标买家是否愿意为「{chosen.get('title', '这个方向')}」支付 ¥199–999/年？",
+        "- 不要只问“愿不愿意”，要问“这笔钱现在从哪个预算出、谁签字”。",
         "",
         "## 下一步验证（7 天）",
         "1. 找 3 个符合“人群”描述的人聊 15 分钟，确认这个阻碍真实存在。",

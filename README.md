@@ -282,6 +282,7 @@ python run.py run --category pet_water_fountain --extractor rule --mode b2b
 
 - 证据按种子关键词过滤；语料里没有相关评论时，会明确提示先抓一批，而不是拿无关评论充数；
 - 配置了 PAINRADAR_LLM_* 时，追问和方向由模型生成；未配置时退回规则模板（可用，但不够灵活）；
+- **压力测试**：选定方向后，先问“如果这个痛点是假的，最可能的原因是什么”，再问“谁会掏钱、愿意付多少、这笔预算现在花在哪”，避免只收集赞同；
 - 会话保存在 ar/explore_sessions/*.json，刷新/重启不丢；
 - 接口：POST /api/explore/sessions、POST .../{id}/turn、POST .../{id}/converge。
 

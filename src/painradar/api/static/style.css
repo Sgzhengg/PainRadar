@@ -329,3 +329,11 @@ body{background:#F8FAFC}
   .explore-side{border-left:0;border-top:1px solid #e5e7eb;max-height:42vh}
   .explore-box{height:94vh}
 }
+
+.ex-probe{background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;
+  padding:12px 14px;margin:4px 0 14px;max-width:92%}
+.ex-probe-kind{display:inline-block;background:#f59e0b;color:#fff;border-radius:999px;
+  padding:2px 8px;font-size:11px;font-weight:700;letter-spacing:.03em}
+.ex-probe p{margin:8px 0 6px;font-size:14px;font-weight:600;color:#78350f;line-height:1.55}
+.ex-probe-why{font-size:12px;color:#92400e;margin-bottom:8px}
+.ex-probe .ex-chips{margin:0}

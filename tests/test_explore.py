@@ -97,6 +97,27 @@ class ExploreApiTests(unittest.TestCase):
     def test_unknown_session(self):
         self.assertEqual(self.client.get("/api/explore/sessions/nope").status_code, 404)
 
+    def test_pressure_rounds_progress(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        sid = start["session_id"]
+        self.assertEqual(start["probe"]["kind"], "direction")
+
+        first = self.client.post(
+            f"/api/explore/sessions/{sid}/turn",
+            json={"message": "第一条有点意思", "reaction": {"title": "PDF 合并收费", "reaction": "like"}},
+        ).json()
+        self.assertEqual(first["probe"]["kind"], "counterfactual")
+
+        second = self.client.post(
+            f"/api/explore/sessions/{sid}/turn", json={"message": "他们其实能忍"}
+        ).json()
+        self.assertEqual(second["probe"]["kind"], "payment")
+
+    def test_converge_has_payment_hypothesis(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        markdown = self.client.post(f"/api/explore/sessions/{start['session_id']}/converge").json()["markdown"]
+        self.assertIn("付费假设", markdown)
+
 
 if __name__ == "__main__":
     unittest.main()
