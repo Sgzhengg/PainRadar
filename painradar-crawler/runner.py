@@ -154,6 +154,9 @@ class MediaCrawlerRunner:
     def _write_cookies(self, spec: CrawlSpec) -> None:
         cookies = parse_cookies(spec.cookies, spec.platform)
         if not cookies:
+            env_raw = os.environ.get(f"PLATFORM_COOKIES_{spec.platform.upper()}", "")
+            cookies = parse_cookies(env_raw, spec.platform)
+        if not cookies:
             return
         self.cookie_dir.mkdir(parents=True, exist_ok=True)
         persisted = self.cookie_dir / f"{spec.platform}.json"
