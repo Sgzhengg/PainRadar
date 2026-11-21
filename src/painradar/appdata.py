@@ -70,11 +70,64 @@ def build_run(store: Store, run_id: str, max_members: int = 12) -> dict[str, Any
                         "likes": (m["likes"] if "likes" in m.keys() else 0),
                         "replies": (m["replies"] if "replies" in m.keys() else 0),
                         "canonical_pain": (m["canonical_pain"] if "canonical_pain" in m.keys() else ""),
+                        "manual_bottleneck": (m["manual_bottleneck"] if "manual_bottleneck" in m.keys() else ""),
+                        "cost_type": (m["cost_type"] if "cost_type" in m.keys() else ""),
+                        "wtp_level": (m["wtp_level"] if "wtp_level" in m.keys() else ""),
                     }
                     for m in members[:max_members]
                 ],
             }
         )
+
+        likes = [int(m["likes"] or 0) for m in members]
+        max_likes = max(likes, default=0)
+        total_likes = sum(likes)
+        text = " ".join(
+            f"{m['quote']} {m['scene']} {m['workaround']} "
+            f"{(m['manual_bottleneck'] if 'manual_bottleneck' in m.keys() else '')}"
+            for m in members
+        ).lower()
+        manual = any(
+            (m["manual_bottleneck"] if "manual_bottleneck" in m.keys() else "")
+            for m in members
+        ) or any(w in text for w in (
+            "excel", "手工", "人工", "微信", "表格", "粘贴", "复制",
+            "对账", "核对", "排产", "录入", "台账",
+        ))
+        money = any(
+            (m["cost_type"] if "cost_type" in m.keys() else "") == "money"
+            or (m["wtp_level"] if "wtp_level" in m.keys() else "") == "strong"
+            for m in members
+        ) or any(w in text for w in ("订阅", "会员", "付费", "太贵", "价格", "收费", "买断"))
+        if manual:
+            tag = "纯人工太繁琐"
+        elif money:
+            tag = "现有软件难用/太贵"
+        else:
+            tag = "流程低效"
+        ai_fit = manual or any(w in text for w in (
+            "自动", "批量", "识别", "整理", "生成", "excel", "表格", "录入", "对账",
+        ))
+        ease = {"低": 1.0, "中": 0.55, "高": 0.10}.get(solo_fit.get("level"), 0.40)
+        hot = min(1.0, max_likes / 200.0 * 0.6 + total_likes / 2000.0 * 0.4)
+        l3_l4 = ladder.get("L3", 0) + ladder.get("L4", 0)
+        wtp_share = l3_l4 / max(1, len(members))
+        opps[-1].update({
+            "hotness": {
+                "total_likes": total_likes,
+                "max_likes": max_likes,
+                "top_quotes": [
+                    {"quote": m["quote"], "likes": int(m["likes"] or 0), "level": m["level"]}
+                    for m in members
+                    if m["quote"]
+                ][:2],
+            },
+            "inspiration_tag": tag,
+            "ai_fit": ai_fit,
+            "inspiration_score": round(100.0 * (0.55 * hot + 0.35 * ease + 0.10 * wtp_share), 1),
+        })
+
+    opps.sort(key=lambda x: x.get("inspiration_score", 0.0), reverse=True)
 
     anchors = [
         {"metric": a["metric"], "value": a["value"], "source": a["source"], "grade": a["grade"]}

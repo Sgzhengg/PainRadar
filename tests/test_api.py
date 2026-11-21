@@ -66,6 +66,12 @@ class TestApi(unittest.TestCase):
         opp = body["opportunities"][0]
         self.assertIn("members", opp)
         self.assertLessEqual(len(opp["members"]), 12)
+        self.assertIn("hotness", opp)
+        self.assertIn("inspiration_score", opp)
+        self.assertIn("inspiration_tag", opp)
+        self.assertIn("ai_fit", opp)
+        scores = [o["inspiration_score"] for o in body["opportunities"]]
+        self.assertEqual(scores, sorted(scores, reverse=True))
 
     def test_members_pagination(self) -> None:
         detail = self.client.get(f"/api/runs/{self.run.run_id}").json()

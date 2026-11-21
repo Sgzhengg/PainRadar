@@ -13,8 +13,8 @@ const FACTORS = {
 const state = {
   runs: [], detail: null, category: null, runId: null,
   members: [], total: 0, cluster: null, loading: false,
-  filters: { software: false, week: false, wtp: false },
-  sort: "opportunity",
+  filters: { software: false, week: false, wtp: false, hot: false, ai: false },
+  sort: "inspiration",
 };
 
 async function api(path, options) {
@@ -123,6 +123,8 @@ function filtered() {
   const list = state.detail.opportunities.filter((o) => {
     if (state.filters.software && isHardware(o)) return false;
     if (state.filters.week && !isWeek(o)) return false;
+    if (state.filters.hot && (o.hotness?.max_likes ?? topLikes(o)) < 50) return false;
+    if (state.filters.ai && !o.ai_fit) return false;
     if (state.filters.wtp) {
       const hot = (o.ladder?.L3 || 0) + (o.ladder?.L4 || 0);
       if (!hot) return false;
@@ -136,7 +138,11 @@ function filtered() {
   else if (state.sort === "easy") {
     list.sort((a, b) => (diffRank[a.solo_fit?.level] ?? 3) - (diffRank[b.solo_fit?.level] ?? 3)
       || (b.opportunity || 0) - (a.opportunity || 0));
-  } else list.sort((a, b) => (b.opportunity || 0) - (a.opportunity || 0));
+  } else if (state.sort === "opportunity") {
+    list.sort((a, b) => (b.opportunity || 0) - (a.opportunity || 0));
+  } else {
+    list.sort((a, b) => (b.inspiration_score || 0) - (a.inspiration_score || 0));
+  }
   return list;
 }
 
@@ -162,37 +168,59 @@ function tierClass(t) {
 function renderCards() {
   const list = filtered();
   if (!list.length) {
-    $("#cards").innerHTML = `<div class="empty">没有符合筛选的机会卡；试试关掉筛选或换一个品类。</div>`;
+    $("#cards").innerHTML = `<div class="empty">没有符合筛选的灵感；试试关掉筛选或换一个品类。</div>`;
     return;
   }
   $("#cards").innerHTML = list.map((o) => {
-    const top = (o.members || [])[0];
+    const hot = o.hotness || {
+      total_likes: (o.members || []).reduce((sum, m) => sum + (m.likes || 0), 0),
+      max_likes: topLikes(o),
+    };
+    const quotes = (hot.top_quotes && hot.top_quotes.length)
+      ? hot.top_quotes
+      : (o.members || []).slice(0, 2).map((m) => ({ quote: m.quote, likes: m.likes || 0 }));
     const l24 = (o.ladder?.L2 || 0) + (o.ladder?.L3 || 0) + (o.ladder?.L4 || 0);
     const share = o.member_count ? Math.round((l24 / o.member_count) * 100) : 0;
     const scenes = [...new Set((o.members || []).map((m) => m.scene).filter(Boolean))].slice(0, 3);
+    const tagClass = o.inspiration_tag === "纯人工太繁琐" ? "manual" : "software";
     return `<article class="card opp" data-cluster="${esc(o.cluster_id)}">
       <div class="opp-head">
         <div class="opp-title">
-          <h2>${esc(o.title)}${state.detail?.stats?.mode === "b2b" ? ' <span class="b2b-badge">🏢 B端高客单</span>' : ""}</h2>
-          ${soloBadge(o.solo_fit)}
+          <h2>${esc(o.one_liner || o.title)}</h2>
+          <div class="opp-badges">
+            ${soloBadge(o.solo_fit)}
+            <span class="hot-badge">🔥 ${hot.total_likes || 0} 总赞 · 最高 ${hot.max_likes || 0}</span>
+          </div>
         </div>
-        <div class="opp-score">
-          <b>${o.opportunity ?? "—"}</b><small>机会分</small>
-          <span class="tier ${tierClass(o.opportunity_tier)}">${esc(o.opportunity_tier)}机会</span>
-        </div>
+        <div class="insp-score"><b>${o.inspiration_score ?? "—"}</b><small>灵感分</small></div>
       </div>
-      ${top ? `<blockquote class="evidence">“${esc(top.quote)}”
-        ${top.likes ? `<span class="likes">👍 ${top.likes}</span>` : ""}</blockquote>` : ""}
+      <div class="hot-quotes">
+        ${quotes.map((q) => `<blockquote>“${esc(q.quote)}”${q.likes ? `<span class="likes">👍 ${q.likes}</span>` : ""}</blockquote>`).join("")}
+        ${o.inspiration_tag ? `<span class="insp-tag ${tagClass}">${esc(o.inspiration_tag)}</span>` : ""}
+      </div>
+      <details class="deep">
+        <summary>查看深度市场测算 ▾</summary>
+        <div class="deep-body">
+          <div class="deep-stats">
+            <span>痛感 ${o.pain ?? "—"}</span><span>机会 ${o.opportunity ?? "—"}</span>
+            <span>SOM ${money(o.market_mid)}</span>
+          </div>
+          ${factorBars(o)}
+        </div>
+      </details>
       <div class="opp-foot">
         <span>${o.member_count} 条证据</span>
         <span>L2+ ${share}%</span>
         ${scenes.map((s) => `<span class="dom">${esc(s)}</span>`).join("")}
-        <button class="btn small open-detail" data-cluster="${esc(o.cluster_id)}">查看详情 &amp; 导出外联表</button>
+        <button class="btn small open-detail" data-cluster="${esc(o.cluster_id)}">查看详情 &amp; 导出</button>
       </div>
     </article>`;
   }).join("");
   $("#cards").querySelectorAll(".card").forEach((el) =>
-    el.addEventListener("click", () => openCard(el.dataset.cluster))
+    el.addEventListener("click", (e) => {
+      if (e.target.closest("details")) return;
+      openCard(el.dataset.cluster);
+    })
   );
   $("#cards").querySelectorAll(".open-detail").forEach((el) =>
     el.addEventListener("click", (e) => { e.stopPropagation(); openCard(el.dataset.cluster); })
@@ -226,8 +254,13 @@ function drawerShell(o) {
     </div>
     <h2>${esc(o.title)}</h2>
     <div class="line">${esc(o.one_liner)}</div>
-    <div class="nums"><span><b>${o.pain ?? "—"}</b>痛感</span><span><b>${o.opportunity ?? "—"}</b>机会</span>
-      <span><b>${o.member_count}</b>证据</span></div>
+    <div class="nums">
+      <span><b>${o.hotness?.total_likes || 0}</b>总赞</span>
+      <span><b>${o.hotness?.max_likes || 0}</b>最高单条</span>
+      <span><b>${o.member_count}</b>证据</span>
+      <span><b>${o.inspiration_score ?? "—"}</b>灵感分</span>
+    </div>
+    ${o.inspiration_tag ? `<span class="insp-tag ${o.inspiration_tag === "纯人工太繁琐" ? "manual" : "software"}">${esc(o.inspiration_tag)}</span>` : ""}
     ${warn}
     <div class="kv">
       <span class="k">人群</span><span>${esc(o.persona || "待补")}</span>
@@ -236,10 +269,17 @@ function drawerShell(o) {
       <span class="k">一人开发</span><span>${o.solo_fit && o.solo_fit.level
         ? `${esc(o.solo_fit.level)}难度 · ${esc(o.solo_fit.mvp_days)} · ${esc(o.solo_fit.form)} · ${esc(o.solo_fit.monetization)}（${esc(o.solo_fit.note || "")}）`
         : "未评估"}</span>
-      <span class="k">SOM</span><span>${money(o.market_low)} – ${money(o.market_high)}（中值 ${money(o.market_mid)}）</span>
-      <span class="k">证伪条件</span><span>${esc(o.falsifier)}</span>
     </div>
-    <h3 class="sec">评分因子</h3>${factorBars(o)}
+    <details class="deep">
+      <summary>查看深度市场测算 ▾</summary>
+      <div class="kv">
+        <span class="k">痛感</span><span>${o.pain ?? "—"}</span>
+        <span class="k">机会</span><span>${o.opportunity ?? "—"}</span>
+        <span class="k">SOM</span><span>${money(o.market_low)} – ${money(o.market_high)}（中值 ${money(o.market_mid)}）</span>
+        <span class="k">证伪条件</span><span>${esc(o.falsifier)}</span>
+      </div>
+      <h3 class="sec">评分因子</h3>${factorBars(o)}
+    </details>
     <h3 class="sec">证据（<span id="mcount">${state.members.length}</span>/${state.total}）</h3>
     <div id="quotes">${state.members.map(quoteHtml).join("")}</div>
     <div id="morewrap">${state.members.length < state.total ? `<button class="more" id="more">加载更多证据</button>` : ""}</div>`;
@@ -1456,6 +1496,8 @@ function togglePill(id, key) {
     renderCards();
   });
 }
+togglePill("#fHot", "hot");
+togglePill("#fAI", "ai");
 togglePill("#fSoftware", "software");
 togglePill("#fWeek", "week");
 togglePill("#fWtp", "wtp");
@@ -1471,7 +1513,7 @@ $("#fcsubmit").addEventListener("click", submitCloudFetch);
 $("#runbtn").addEventListener("click", openRunModal);
 $("#discoverbtn").addEventListener("click", () => showDiscovery());
 $("#guideimport").addEventListener("click", openImport);
-$("#guiderun").addEventListener("click", openRunModal);
+$("#guideexplore").addEventListener("click", openExplore);
 $("#guidemvp").addEventListener("click", () => {
   state.filters.software = true;
   state.filters.week = true;
@@ -2019,7 +2061,7 @@ function renderExploreStart() {
       <input id="exseed" placeholder="例如：我想做点和 PDF 相关的东西" autocomplete="off">
       <div class="row">
         <button class="btn primary" id="exstart" type="button">开始探索</button>
-        <button class="btn small" id="exnodir" type="button">我完全没方向</button>
+        <button class="btn small" id="exnodir" type="button">我完全没方向，帮我从评论里找灵感</button>
       </div>
     </div>`;
   $("#exstart").addEventListener("click", () => startExplore($("#exseed").value.trim()));
@@ -2128,10 +2170,12 @@ function renderExplore() {
     : `<div class="ex-side-title">方向卡（点一个反应，我会继续收敛）</div>` +
       directions.map((d) => `
         <article class="dir-card">
+          <div class="dir-label">灵感切入点</div>
           <h4>${esc(d.title || "")}${d.memory_note ? ` <span class="dir-memory">${esc(d.memory_note)}</span>` : ""}</h4>
-          <div class="dir-who">${esc(d.who || "")}</div>
-          <p class="dir-pain">${esc(d.pain || "")}</p>
-          <div class="dir-wedge">切口：${esc(d.wedge || "")}</div>
+          <div class="dir-who">人群：${esc(d.who || "")}</div>
+          <p class="dir-pain">痛点：${esc(d.pain || "")}</p>
+          ${d.why_now ? `<div class="dir-why">为什么是热点：${esc(d.why_now)}</div>` : ""}
+          <div class="dir-wedge">最小 MVP：${esc(d.wedge || "")}</div>
           ${(d.evidence || []).map((e) => `<div class="dir-quote">“${esc(e.quote)}”<br>👍 ${e.likes}</div>`).join("")}
           <div class="dir-actions">
             <button type="button" data-act="like" data-title="${esc(d.title || "")}">有点意思</button>
