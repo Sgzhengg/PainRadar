@@ -31,7 +31,8 @@ RUN rm -rf /app/MediaCrawler \
 RUN pip install --no-cache-dir -r MediaCrawler/requirements.txt \
     && python -m playwright install --with-deps chromium
 
-COPY app.py runner.py storage.py ./
+COPY app.py runner.py storage.py entrypoint.sh ./
+RUN chmod +x /app/entrypoint.sh
 
 RUN mkdir -p /data/cookies /data/results /app/MediaCrawler/browser_data
 
@@ -40,4 +41,5 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
     CMD curl -fsS http://127.0.0.1:8080/health || exit 1
 
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8080"]

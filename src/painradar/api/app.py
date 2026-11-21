@@ -11,7 +11,7 @@ import io
 import json
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException, Query, Response
+from fastapi import FastAPI, File, HTTPException, Query, Response, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -485,6 +485,52 @@ def create_app(db_paths: list[str]) -> FastAPI:
             finally:
                 store.close()
         return {"category": category, "anchors": []}
+
+    @app.post("/api/crawler/profiles/{platform}")
+    async def upload_crawler_profile(platform: str, file: UploadFile = File(...)) -> dict:
+        """Forward a zipped Chrome profile to the crawler service (no public crawler URL)."""
+        import httpx
+
+        from ..config import MEDIACRAWLER_API_TOKEN, MEDIACRAWLER_API_URL
+
+        if platform not in {"xhs", "dy", "bili", "zhihu"}:
+            raise HTTPException(status_code=400, detail="platform must be xhs|dy|bili|zhihu")
+        if not MEDIACRAWLER_API_URL:
+            raise HTTPException(status_code=400, detail="MEDIACRAWLER_API_URL is not configured")
+        payload = await file.read()
+        if len(payload) > 300 * 1024 * 1024:
+            raise HTTPException(status_code=413, detail="profile archive is too large")
+        headers = {"Authorization": f"Bearer {MEDIACRAWLER_API_TOKEN}"} if MEDIACRAWLER_API_TOKEN else {}
+        try:
+            async with httpx.AsyncClient(timeout=180) as client:
+                response = await client.post(
+                    f"{MEDIACRAWLER_API_URL}/api/profiles/{platform}",
+                    headers=headers,
+                    files={"file": (file.filename or "profile.zip", payload, "application/zip")},
+                )
+        except Exception as exc:  # noqa: BLE001
+            raise HTTPException(status_code=502, detail=f"crawler upload failed: {exc}") from exc
+        if response.status_code >= 400:
+            raise HTTPException(status_code=response.status_code, detail=response.text[:300])
+        return response.json()
+
+    @app.get("/api/crawler/profiles")
+    def list_crawler_profiles() -> dict:
+        import httpx
+
+        from ..config import MEDIACRAWLER_API_TOKEN, MEDIACRAWLER_API_URL
+
+        if not MEDIACRAWLER_API_URL:
+            return {"profiles": [], "configured": False}
+        headers = {"Authorization": f"Bearer {MEDIACRAWLER_API_TOKEN}"} if MEDIACRAWLER_API_TOKEN else {}
+        try:
+            with httpx.Client(timeout=30) as client:
+                response = client.get(f"{MEDIACRAWLER_API_URL}/api/profiles", headers=headers)
+            if response.status_code >= 400:
+                return {"profiles": [], "configured": True, "error": response.text[:200]}
+            return {**response.json(), "configured": True}
+        except Exception as exc:  # noqa: BLE001
+            return {"profiles": [], "configured": True, "error": str(exc)}
 
     @app.post("/api/fetch", status_code=202)
     def start_remote_fetch(req: FetchRequest) -> dict:

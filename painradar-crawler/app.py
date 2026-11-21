@@ -5,6 +5,8 @@ Endpoints (Bearer token when MEDIACRAWLER_API_TOKEN is set):
     POST /api/crawl              {platform, keywords, max_notes, cookies}
     GET  /api/tasks/{task_id}
     GET  /api/tasks/{task_id}/results
+    POST /api/profiles/{platform}  upload a zipped Chrome profile
+    GET  /api/profiles             list uploaded profiles
     GET  /health
 
 The crawl runs in a background thread, so the caller gets a task_id immediately
@@ -14,19 +16,23 @@ and PainRadar polls it without holding a long HTTP connection.
 from __future__ import annotations
 
 import hmac
+import io
 import json
 import os
+import shutil
 import tempfile
 import threading
 import uuid
+import zipfile
 from pathlib import Path
 from typing import Any
 
-from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi import Depends, FastAPI, File, Header, HTTPException, UploadFile
 from pydantic import BaseModel
 
 from runner import CrawlSpec, MediaCrawlerRunner, NeedLoginError, RunnerError
 from storage import TaskStore
+
 
 def _default_data_dir() -> Path:
     """/data on Zeabur; temp dir in CI/dev where /data is not writable."""
@@ -44,12 +50,16 @@ def _default_data_dir() -> Path:
 DATA_ROOT = Path(os.environ.get("DATA_DIR", _default_data_dir()))
 TASK_DB = os.environ.get("TASK_DB", str(DATA_ROOT / "tasks.db"))
 RESULT_DIR = Path(os.environ.get("RESULT_DIR", DATA_ROOT / "results"))
+PROFILE_ROOT = Path(os.environ.get("PROFILE_DIR", DATA_ROOT / "browser_data"))
 API_TOKEN = os.environ.get("MEDIACRAWLER_API_TOKEN", "").strip()
+MAX_PROFILE_BYTES = int(os.environ.get("MAX_PROFILE_BYTES", str(300 * 1024 * 1024)))
+PLATFORMS = {"xhs", "dy", "bili", "zhihu"}
 
-app = FastAPI(title="PainRadar Crawler Bridge", version="0.1.0")
+app = FastAPI(title="PainRadar Crawler Bridge", version="0.2.0")
 store = TaskStore(TASK_DB)
 runner = MediaCrawlerRunner()
 RESULT_DIR.mkdir(parents=True, exist_ok=True)
+PROFILE_ROOT.mkdir(parents=True, exist_ok=True)
 
 
 class CrawlRequest(BaseModel):
@@ -93,7 +103,7 @@ def _execute(task_id: str, spec: CrawlSpec) -> None:
             status="failed",
             stage="need_login",
             need_login=1,
-            error=f"登录态已过期，请在配置中更新平台 Cookie（{exc}）",
+            error=f"登录态已过期，请在配置中更新平台 Cookie 或重新上传 profile（{exc}）",
         )
     except RunnerError as exc:
         store.update(task_id, status="failed", stage="failed", error=f"远程抓取失败：{exc}")
@@ -103,13 +113,18 @@ def _execute(task_id: str, spec: CrawlSpec) -> None:
 
 @app.get("/health")
 def health() -> dict[str, Any]:
-    return {"ok": True, "service": "painradar-crawler", "home": str(runner.home)}
+    return {
+        "ok": True,
+        "service": "painradar-crawler",
+        "home": str(runner.home),
+        "profiles": str(PROFILE_ROOT),
+    }
 
 
 @app.post("/api/crawl", status_code=202)
 def start_crawl(req: CrawlRequest, _: None = Depends(require_token)) -> dict[str, Any]:
     platform = req.platform.strip().lower()
-    if platform not in {"xhs", "dy", "bili", "zhihu"}:
+    if platform not in PLATFORMS:
         raise HTTPException(status_code=400, detail="platform must be xhs|dy|bili|zhihu")
     keywords = [k.strip() for k in req.keywords if k.strip()]
     if not keywords:
@@ -148,3 +163,79 @@ def task_results(task_id: str, _: None = Depends(require_token)) -> list[dict[st
     if not path.exists():
         raise HTTPException(status_code=404, detail="result file missing")
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _safe_extract(archive: zipfile.ZipFile, target: Path) -> None:
+    infos = archive.infolist()
+    if len(infos) > 20000:
+        raise HTTPException(status_code=400, detail="archive has too many entries")
+    for info in infos:
+        name = Path(info.filename)
+        if name.is_absolute() or ".." in name.parts:
+            raise HTTPException(status_code=400, detail="archive contains unsafe path")
+    archive.extractall(target)
+
+
+@app.post("/api/profiles/{platform}")
+async def upload_profile(
+    platform: str,
+    file: UploadFile = File(...),
+    _: None = Depends(require_token),
+) -> dict[str, Any]:
+    platform = platform.strip().lower()
+    if platform not in PLATFORMS:
+        raise HTTPException(status_code=400, detail="platform must be xhs|dy|bili|zhihu")
+
+    payload = await file.read()
+    if len(payload) > MAX_PROFILE_BYTES:
+        raise HTTPException(status_code=413, detail="profile archive is too large")
+    if not payload:
+        raise HTTPException(status_code=400, detail="empty upload")
+
+    PROFILE_ROOT.mkdir(parents=True, exist_ok=True)
+    staging = Path(tempfile.mkdtemp(prefix=f"profile-{platform}-", dir=str(PROFILE_ROOT)))
+    try:
+        try:
+            with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+                _safe_extract(archive, staging)
+        except zipfile.BadZipFile as exc:
+            raise HTTPException(status_code=400, detail="upload must be a .zip") from exc
+
+        preferred = staging / f"{platform}_user_data_dir"
+        entries = [p for p in staging.iterdir()]
+        if preferred.is_dir():
+            source = preferred
+        elif len(entries) == 1 and entries[0].is_dir():
+            source = entries[0]
+        else:
+            source = staging
+
+        destination = PROFILE_ROOT / f"{platform}_user_data_dir"
+        incoming = PROFILE_ROOT / f".{platform}-incoming"
+        shutil.rmtree(incoming, ignore_errors=True)
+        shutil.copytree(source, incoming)
+        shutil.rmtree(destination, ignore_errors=True)
+        incoming.replace(destination)
+    finally:
+        shutil.rmtree(staging, ignore_errors=True)
+
+    return {
+        "ok": True,
+        "platform": platform,
+        "path": str(destination),
+        "files": sum(1 for _ in destination.rglob("*") if _.is_file()),
+    }
+
+
+@app.get("/api/profiles")
+def list_profiles(_: None = Depends(require_token)) -> dict[str, Any]:
+    items = []
+    for path in sorted(PROFILE_ROOT.glob("*_user_data_dir")):
+        if not path.is_dir():
+            continue
+        items.append({
+            "platform": path.name.removesuffix("_user_data_dir"),
+            "path": str(path),
+            "files": sum(1 for _ in path.rglob("*") if _.is_file()),
+        })
+    return {"profiles": items}
