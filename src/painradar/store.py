@@ -212,8 +212,13 @@ class SQLiteStore:
             return
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        self._conn = sqlite3.connect(str(self.path))
+        self._conn = sqlite3.connect(str(self.path), timeout=30.0)
         self._conn.row_factory = sqlite3.Row
+        # WebUI polling and background jobs share one file; WAL plus a long busy
+        # timeout prevents "database is locked" under concurrent reads/writes.
+        self._conn.execute("PRAGMA journal_mode=WAL")
+        self._conn.execute("PRAGMA synchronous=NORMAL")
+        self._conn.execute("PRAGMA busy_timeout=30000")
         self._conn.executescript(SCHEMA)
         self._conn.commit()
         self._ensure_columns()

@@ -53,6 +53,9 @@ RESULT_DIR = Path(os.environ.get("RESULT_DIR", DATA_ROOT / "results"))
 PROFILE_ROOT = Path(os.environ.get("PROFILE_DIR", DATA_ROOT / "browser_data"))
 API_TOKEN = os.environ.get("MEDIACRAWLER_API_TOKEN", "").strip()
 MAX_PROFILE_BYTES = int(os.environ.get("MAX_PROFILE_BYTES", str(300 * 1024 * 1024)))
+# One Chromium crawl at a time by default: prevents OOM on a small Zeabur plan.
+MAX_CONCURRENT_TASKS = max(1, int(os.environ.get("MAX_CONCURRENT_TASKS", "1")))
+TASK_SLOTS = threading.BoundedSemaphore(MAX_CONCURRENT_TASKS)
 PLATFORMS = {"xhs", "dy", "bili", "zhihu"}
 
 app = FastAPI(title="PainRadar Crawler Bridge", version="0.2.0")
@@ -111,6 +114,13 @@ def _execute(task_id: str, spec: CrawlSpec) -> None:
         store.update(task_id, status="failed", stage="failed", error=f"{type(exc).__name__}: {exc}")
 
 
+def _execute_and_release(task_id: str, spec: CrawlSpec) -> None:
+    try:
+        _execute(task_id, spec)
+    finally:
+        TASK_SLOTS.release()
+
+
 @app.get("/health")
 def health() -> dict[str, Any]:
     return {
@@ -118,6 +128,7 @@ def health() -> dict[str, Any]:
         "service": "painradar-crawler",
         "home": str(runner.home),
         "profiles": str(PROFILE_ROOT),
+        "max_concurrent_tasks": MAX_CONCURRENT_TASKS,
     }
 
 
@@ -130,15 +141,27 @@ def start_crawl(req: CrawlRequest, _: None = Depends(require_token)) -> dict[str
     if not keywords:
         raise HTTPException(status_code=400, detail="keywords is required")
 
-    task_id = uuid.uuid4().hex[:16]
-    store.create(task_id, platform, keywords)
-    spec = CrawlSpec(
-        platform=platform,
-        keywords=keywords,
-        max_notes=max(1, min(req.max_notes, 1000)),
-        cookies=req.cookies,
-    )
-    threading.Thread(target=_execute, args=(task_id, spec), daemon=True).start()
+    if not TASK_SLOTS.acquire(blocking=False):
+        raise HTTPException(
+            status_code=429,
+            detail=f"crawler busy: max {MAX_CONCURRENT_TASKS} concurrent task(s); retry later",
+        )
+
+    try:
+        task_id = uuid.uuid4().hex[:16]
+        store.create(task_id, platform, keywords)
+        spec = CrawlSpec(
+            platform=platform,
+            keywords=keywords,
+            max_notes=max(1, min(req.max_notes, 1000)),
+            cookies=req.cookies,
+        )
+        threading.Thread(
+            target=_execute_and_release, args=(task_id, spec), daemon=True
+        ).start()
+    except Exception:
+        TASK_SLOTS.release()
+        raise
     return {"task_id": task_id, "status": "queued"}
 
 

@@ -7,9 +7,13 @@ venv/
 build/
 dist/
 
-# Runtime data (databases, caches, corpora)
+# Runtime data (databases, caches, corpora).
+# Runtime DB naming: var/painradar.db (default), var/live.db, var/media.db.
+# Demo DBs, if ever needed, must be var/demo_*.db and are still ignored.
 var/*.db
 var/*.db-journal
+var/*.db-wal
+var/*.db-shm
 var/indie_cache/
 var/deepdive_corpus/
 var/assignment_cache*.json

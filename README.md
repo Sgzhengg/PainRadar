@@ -27,7 +27,7 @@ python run.py demo --reset --docx
 
 # 交互式界面（可选）
 pip install -r requirements.txt
-python run.py serve --db var\gold200.db --db var\gold.db
+python run.py serve --port 8770
 ```
 
 输出：
@@ -142,7 +142,7 @@ python run.py ingest --source mediacrawler --category pet_water_fountain \
 | `python run.py anchor --source file --category X --file anchors.csv` | 从 CSV 导入价格/BSR/广告数等锚 |
 | `python run.py ingest --category X --file data.jsonl` | 导入 BYOD 文件 |
 | `python run.py run --category X` | 抽取 → 聚类 → 评分 → 机会卡 |
-| `python run.py discover --db var\gold.db --db var\gold200.db` | **无品类发现**：丢掉品类标签，跨域合并簇并排序需求 |
+| `python run.py discover --db var/live.db` | **无品类发现**：丢掉品类标签，跨域合并簇并排序需求 |
 | `python run.py discover --canonical ...` | 先做需求归一化（LLM）再合并，跨域率从 1/11 提到 5/6 |
 | `python run.py report --category X --docx` | 为最近一次 run 出报告 |
 | `python run.py stats` | 台账统计与最近 runs |
@@ -169,7 +169,7 @@ Google Trends 集成（无官方 API，Cookie + 内部接口）见 [docs/trends-
 把任意一次运行渲染成单文件 HTML（无服务器、无 JS 依赖，双击即开）：
 
 ```powershell
-python tools/build_html.py --db var/gold200.db --category pet_water_fountain --out reports/ui-demo.html
+python tools/build_html.py --db var/live.db --category pet_water_fountain --out reports/ui-demo.html
 ```
 
 截图：`reports/ui-demo-v2.png`（修复后：宠物智能设备 · LLM，证据带来源 App）、
@@ -187,7 +187,7 @@ python tools/build_html.py --db var/gold200.db --category pet_water_fountain --o
 
 ```powershell
 pip install -r requirements.txt
-python run.py serve --db var\gold200.db --db var\gold.db --port 8770
+python run.py serve --port 8770 --port 8770
 # 打开 http://127.0.0.1:8770/
 ```
 
@@ -227,7 +227,7 @@ API（OpenAPI 文档在 `/docs`）：
 离线单文件仍保留（无服务、可邮件发送）：
 
 ```powershell
-python tools/build_app.py --db var/gold200.db --db var/gold.db --out reports/app.html
+python tools/build_app.py --db var/live.db --out reports/app.html
 ```
 
 **边界**：目前是只读查看器 + API，没有账号、权限、任务队列和写操作。
@@ -288,7 +288,7 @@ python run.py run --category pet_water_fountain --extractor rule --mode b2b
 - **机会卡草案**：验证后可生成完整草案（MVP 范围 / 定价 / 风险 / 7 天计划），支持下载 Markdown；
 - **记忆管理**：探索面板「记忆」可查看每条结论、删除单条或清空全部；
 - **验证回灌**：新运行完成后自动判断“支持 / 削弱 / 样本不足”，把结论和下一步问题写回对话框，可查看新运行或继续探索；
-- 会话保存在 ar/explore_sessions/*.json，刷新/重启不丢；
+- 会话保存在 var/explore_sessions/*.json，刷新/重启不丢；
 - 接口：POST /api/explore/sessions、POST .../{id}/turn、POST .../{id}/converge。
 
 ![探索方向](reports/explore-ui.png)
@@ -321,7 +321,11 @@ python run.py run --category pet_water_fountain --extractor rule --mode b2b
 | B 集：前向测试登记与守卫 | ✅ 已登记（2027-11 回看） | `tools/forward_register.py` / `tools/forward_check.py` |
 | 有效性预过滤（好评/品类外） | ✅ 已实现 | `validity.py` |
 | 官方 API 连接器（Amazon PA-API 等） | ⏳ M1 下一批 | — |
-| Web UI / FastAPI | ⏳ M2 | — |
+| Web UI / FastAPI | ✅ 已实现 | `api/app.py` · `api/static/` |
+| 单人访问锁（登录页 / Basic Auth / 30 天 Cookie） | ✅ 已实现 | `api/auth.py` |
+| 探索方向（证据卡 + 反常识/付费追问 + 验证闭环） | ✅ 已实现 | `explore.py` · `api/static/app.js` |
+| 跨会话探索记忆 + 机会卡草案 | ✅ 已实现 | `explore.py` |
+| 远程 MediaCrawler 异步抓取 | ✅ 已实现 | `connectors/remote_mediacrawler.py` |
 | 回测集与校准 | ⏳ M2 | — |
 | 多租户 RLS / 计费 | ⏳ M2 | — |
 
@@ -426,8 +430,10 @@ python -m unittest discover -s tests -v
 6. **聚类是语义优先但不用 embedding**：`canonical_pain` 分桶 + TF-IDF 余弦合并，
    同义不同词（"取消入口难找" vs "退订按钮藏得深"）仍可能分到两簇；
    模型对同一痛点写出不同短语时，需要冻结词表做二次归并。
-7. **WebUI/API 是单机单用户的**：有 FastAPI + 前端看板与 CSV 导出，
-   但没有多租户、鉴权与并发配额。
+7. **WebUI/API 已实现，但仍是单机单用户**：FastAPI + 前端看板、探索模式与可选访问锁；
+   没有多租户、RBAC、审计与并发配额，SQLite 也不适合多副本同时写。
+8. **云端采集默认单任务串行**（`MAX_CONCURRENT_TASKS=1`）：并发过高会 OOM；
+   超时会终止整个浏览器进程组，但平台风控仍可能让 Cookie 失效。
 
 ---
 

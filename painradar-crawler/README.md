@@ -91,7 +91,7 @@ curl -X POST http://127.0.0.1:8080/api/crawl \
 | `PLATFORM_COOKIES_ZHIHU` | 按平台 | 知乎 |
 | `CRAWLER_CMD_TEMPLATE` | 可选 | 默认 `python main.py --platform {platform} --lt cookie --type search --keywords {keywords}` |
 | `CRAWLER_TIMEOUT` | 可选 | 默认 1200 秒 |
-| `TASK_CONCURRENCY` | 可选 | 建议 1–2（当前实现按请求起线程，未限流） |
+| `MAX_CONCURRENT_TASKS` | 可选 | 默认 **1**（串行）；超出直接返回 429，避免 Chromium 并发 OOM |
 
 ## 4. Cookie 怎么给
 
@@ -242,5 +242,5 @@ python run.py doctor
    `browser_data` Cookie 路径按常见版本写，跑不通时改环境变量或两处小函数即可；
 2. **登录**：无头容器不能扫码，必须注入 Cookie；Cookie 过期只能手动更新；
 3. **风控**：机房 IP 抓小红书/抖音可能被限流，这是平台侧限制；
-4. **并发**：当前按请求起线程，没有队列限流；单容器建议串行；
+4. **并发**：默认 `MAX_CONCURRENT_TASKS=1`，第二个任务直接 429；超时会终止整个浏览器进程组（SIGTERM，5 秒后 SIGKILL）；
 5. **合规**：MediaCrawler 仅用于学习研究，请遵守平台 ToS 与当地法律，不要公开分发抓取数据。

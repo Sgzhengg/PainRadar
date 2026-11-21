@@ -1,6 +1,7 @@
 import json
 import sys
 import tempfile
+import threading
 import time
 import unittest
 from pathlib import Path
@@ -140,6 +141,67 @@ class ApiTests(unittest.TestCase):
         results = self.client.get(f"/api/tasks/{task_id}/results", headers=headers)
         self.assertEqual(results.status_code, 200)
         self.assertEqual(results.json()[0]["note_id"], "n1")
+
+
+class BlockingRunner:
+    home = "/tmp/blocking"
+
+    def __init__(self):
+        self.started = threading.Event()
+        self.release = threading.Event()
+
+    def run(self, spec, on_progress=None):
+        self.started.set()
+        self.release.wait(10)
+        return [{
+            "note_id": "n1", "title": "t", "desc": "", "url": "https://example.com/n1",
+            "liked_count": 1,
+            "comments": [{"comment_id": "c1", "content": "x", "like_count": 1, "sub_comments": []}],
+        }]
+
+
+class ConcurrencyTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        base = Path(self.tmp.name)
+        bridge.store = crawler_storage.TaskStore(base / "tasks.db")
+        bridge.RESULT_DIR = base / "results"
+        bridge.RESULT_DIR.mkdir()
+        bridge.API_TOKEN = "tok"
+        self.runner = BlockingRunner()
+        bridge.runner = self.runner
+        self.old_slots = bridge.TASK_SLOTS
+        bridge.TASK_SLOTS = threading.BoundedSemaphore(1)
+        self.client = TestClient(bridge.app)
+
+    def tearDown(self):
+        self.runner.release.set()
+        bridge.TASK_SLOTS = self.old_slots
+        self.tmp.cleanup()
+
+    def test_second_concurrent_task_is_rejected(self):
+        headers = {"Authorization": "Bearer tok"}
+        first = self.client.post(
+            "/api/crawl", headers=headers,
+            json={"platform": "xhs", "keywords": ["PDF"], "max_notes": 5},
+        )
+        self.assertEqual(first.status_code, 202)
+        self.assertTrue(self.runner.started.wait(5))
+
+        second = self.client.post(
+            "/api/crawl", headers=headers,
+            json={"platform": "xhs", "keywords": ["PDF"], "max_notes": 5},
+        )
+        self.assertEqual(second.status_code, 429)
+
+        self.runner.release.set()
+        task_id = first.json()["task_id"]
+        for _ in range(50):
+            status = self.client.get(f"/api/tasks/{task_id}", headers=headers).json()
+            if status["status"] in ("completed", "failed"):
+                break
+            time.sleep(0.05)
+        self.assertEqual(status["status"], "completed", status)
 
 
 if __name__ == "__main__":

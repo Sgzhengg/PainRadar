@@ -23,6 +23,7 @@ import json
 import os
 import re
 import shlex
+import signal
 import subprocess
 import sys
 import time
@@ -205,6 +206,42 @@ class MediaCrawlerRunner:
         return args
 
     # -- run -------------------------------------------------------------
+    def _spawn(self, args: list[str]) -> subprocess.Popen:
+        kwargs: dict[str, Any] = {
+            "cwd": str(self.home),
+            "stdout": subprocess.PIPE,
+            "stderr": subprocess.PIPE,
+            "env": {**os.environ, "PYTHONUNBUFFERED": "1"},
+        }
+        if os.name == "posix":
+            # New session so a timeout can kill Chromium children together.
+            kwargs["start_new_session"] = True
+        else:
+            kwargs["creationflags"] = getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0)
+        return subprocess.Popen(args, **kwargs)
+
+    def _terminate_tree(self, proc: subprocess.Popen) -> None:
+        if proc.poll() is not None:
+            return
+        if os.name == "posix":
+            try:
+                os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+            except Exception:  # noqa: BLE001
+                pass
+            try:
+                proc.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                try:
+                    os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+                except Exception:  # noqa: BLE001
+                    pass
+        else:
+            subprocess.run(
+                ["taskkill", "/T", "/F", "/PID", str(proc.pid)],
+                capture_output=True,
+                check=False,
+            )
+
     def run(
         self,
         spec: CrawlSpec,
@@ -217,16 +254,15 @@ class MediaCrawlerRunner:
         if on_progress:
             on_progress("crawling", 20, f"启动 MediaCrawler: {spec.platform}")
 
+        proc = self._spawn(self.build_command(spec, cookies))
         try:
-            proc = subprocess.run(
-                self.build_command(spec, cookies),
-                cwd=str(self.home),
-                capture_output=True,
-                text=False,
-                timeout=self.timeout,
-                env={**os.environ, "PYTHONUNBUFFERED": "1"},
-            )
+            stdout, stderr = proc.communicate(timeout=self.timeout)
         except subprocess.TimeoutExpired as exc:
+            self._terminate_tree(proc)
+            try:
+                proc.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                pass
             raise RunnerError(f"crawler timed out after {self.timeout}s") from exc
 
         def decode(value: bytes | str | None) -> str:
@@ -239,7 +275,7 @@ class MediaCrawlerRunner:
                     continue
             return value.decode("utf-8", errors="replace")
 
-        output = f"{decode(proc.stdout)}\n{decode(proc.stderr)}"
+        output = f"{decode(stdout)}\n{decode(stderr)}"
         if NEED_LOGIN_RE.search(output):
             raise NeedLoginError("登录态已过期，请在配置中更新平台 Cookie")
         if proc.returncode != 0:

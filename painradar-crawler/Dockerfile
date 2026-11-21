@@ -7,7 +7,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     MEDIACRAWLER_HOME=/app/MediaCrawler \
     COOKIE_DIR=/data/cookies \
     TASK_DB=/data/tasks.db \
-    RESULT_DIR=/data/results
+    RESULT_DIR=/data/results \
+    MAX_CONCURRENT_TASKS=1
 
 WORKDIR /app
 
