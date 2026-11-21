@@ -43,6 +43,14 @@ git clone --depth 1 https://github.com/NanmiCoder/MediaCrawler MediaCrawler
 > MediaCrawler 各版本 CLI 参数不同，若默认命令跑不通，改
 > `CRAWLER_CMD_TEMPLATE`（见下）而不是改代码。
 
+## 1.1 构建常见错误
+
+| 报错 | 处理 |
+|---|---|
+| libatomic.so.1: cannot open shared object file | 镜像已预装 libatomic1；若你的分支较旧，在 apt 列表里加 libatomic1 后重建 |
+| playwright install --with-deps 失败 | 先 pt-get install -y libatomic1 libnss3 libnspr4 libasound2，再执行 python -m playwright install chromium |
+| Chromium 启动即退出 | 启动参数加 --no-sandbox --disable-dev-shm-usage，并确认容器内存 ≥ 1 GB |
+
 ## 2. 本地跑
 
 ```bash
