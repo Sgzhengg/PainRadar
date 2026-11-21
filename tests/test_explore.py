@@ -59,6 +59,7 @@ class ExploreApiTests(unittest.TestCase):
         store.close()
 
         explore_mod.SESSION_DIR = base / "sessions"
+        explore_mod.MEMORY_PATH = base / "memory.json"
         self.client = TestClient(create_app([str(self.db)]))
 
     def tearDown(self):
@@ -164,6 +165,35 @@ class ExploreApiTests(unittest.TestCase):
         stored = self.client.get(f"/api/explore/sessions/{start['session_id']}").json()
         self.assertEqual(stored["validation_result"]["verdict"], body["verdict"])
         self.assertGreaterEqual(len(stored["messages"]), 3)
+
+    def test_validation_memory_used_by_next_session(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        self.client.post(
+            f"/api/explore/sessions/{start['session_id']}/validation-result",
+            json={"run_id": "run_explore"},
+        )
+        self.assertTrue(explore_mod.MEMORY_PATH.exists())
+
+        again = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        self.assertTrue(again["memory"])
+        notes = [
+            d.get("memory_note")
+            for msg in again["messages"]
+            for d in (msg.get("directions") or [])
+            if d.get("memory_note")
+        ]
+        self.assertTrue(notes)
+
+    def test_payment_answer_is_remembered(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        sid = start["session_id"]
+        self.client.post(f"/api/explore/sessions/{sid}/turn", json={"message": "第一条有点意思"})
+        self.client.post(f"/api/explore/sessions/{sid}/turn", json={"message": "他们其实能忍"})
+        self.client.post(f"/api/explore/sessions/{sid}/turn", json={"message": "老板会买，走公司报销"})
+
+        again = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        answers = [m.get("answer", "") for m in again["memory"] if m.get("answer")]
+        self.assertIn("老板会买，走公司报销", answers)
 
 
 if __name__ == "__main__":

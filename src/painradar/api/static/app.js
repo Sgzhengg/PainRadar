@@ -2127,7 +2127,7 @@ function renderExplore() {
     : `<div class="ex-side-title">方向卡（点一个反应，我会继续收敛）</div>` +
       directions.map((d) => `
         <article class="dir-card">
-          <h4>${esc(d.title || "")}</h4>
+          <h4>${esc(d.title || "")}${d.memory_note ? ` <span class="dir-memory">${esc(d.memory_note)}</span>` : ""}</h4>
           <div class="dir-who">${esc(d.who || "")}</div>
           <p class="dir-pain">${esc(d.pain || "")}</p>
           <div class="dir-wedge">切口：${esc(d.wedge || "")}</div>

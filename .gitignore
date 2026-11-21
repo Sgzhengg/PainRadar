@@ -61,3 +61,6 @@ painradar-crawler/browser_data/
 # local exploration sessions
 var/explore_sessions/
 
+
+var/explore_memory.json
+

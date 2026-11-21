@@ -25,6 +25,89 @@ from .config import VAR_DIR
 from .store import Store
 
 SESSION_DIR = VAR_DIR / "explore_sessions"
+MEMORY_PATH = VAR_DIR / "explore_memory.json"
+
+
+def _load_memory() -> dict[str, Any]:
+    if not MEMORY_PATH.exists():
+        return {"directions": [], "payments": []}
+    try:
+        data = json.loads(MEMORY_PATH.read_text(encoding="utf-8"))
+    except ValueError:
+        return {"directions": [], "payments": []}
+    data.setdefault("directions", [])
+    data.setdefault("payments", [])
+    return data
+
+
+def _save_memory(data: dict[str, Any]) -> None:
+    MEMORY_PATH.parent.mkdir(parents=True, exist_ok=True)
+    data["directions"] = data["directions"][-100:]
+    data["payments"] = data["payments"][-100:]
+    data["updated_at"] = time.time()
+    MEMORY_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def relevant_memory(seed: str, limit: int = 8) -> list[dict[str, Any]]:
+    data = _load_memory()
+    tokens = _seed_tokens(seed)
+    entries = list(data["directions"]) + list(data["payments"])
+    if tokens:
+        matched = [
+            e for e in entries
+            if any(tok in f"{e.get('seed', '')} {e.get('title', '')} {e.get('direction', '')}".lower()
+                   for tok in tokens)
+        ]
+    else:
+        matched = entries[-limit:]
+    return matched[-limit:]
+
+
+def remember_validation(session: dict[str, Any], result: dict[str, Any]) -> None:
+    data = _load_memory()
+    seed = str(session.get("seed", ""))
+    title = str(result.get("direction") or "")
+    entry = {
+        "seed": seed,
+        "title": title,
+        "verdict": result.get("verdict", ""),
+        "summary": result.get("summary", ""),
+        "run_id": (result.get("metrics") or {}).get("run_id", ""),
+        "at": time.time(),
+    }
+    data["directions"] = [
+        e for e in data["directions"]
+        if not (e.get("seed") == seed and e.get("title") == title)
+    ]
+    data["directions"].append(entry)
+    _save_memory(data)
+
+
+def remember_payment(session: dict[str, Any], answer: str) -> None:
+    if not answer.strip():
+        return
+    directions = []
+    for msg in reversed(session.get("messages", [])):
+        if msg.get("role") == "assistant" and msg.get("directions"):
+            directions = msg["directions"]
+            break
+    data = _load_memory()
+    seed = str(session.get("seed", ""))
+    title = str((directions[0] if directions else {}).get("title", ""))
+    data["payments"] = [
+        e for e in data["payments"]
+        if not (e.get("seed") == seed and e.get("direction") == title)
+    ]
+    data["payments"].append({
+        "seed": seed,
+        "direction": title,
+        "answer": answer.strip()[:120],
+        "at": time.time(),
+    })
+    _save_memory(data)
+
+
+
 
 SYSTEM = """你是一位产品发现教练，不是报告生成器。你在和一位独立开发者对话，
 帮他从模糊兴趣走到一个值得做的产品方向。
@@ -37,7 +120,8 @@ SYSTEM = """你是一位产品发现教练，不是报告生成器。你在和�
 5. 避免“做一个平台/AI 助手/一站式解决方案”这种空话。
 6. 如果用户说“不知道”，就给 2-3 个差异很大的方向让他挑，而不是继续追问。
 7. 用户点“不感兴趣”的方向不要再提；用户说“有点意思”的方向要往下深挖。
-8. 语气像合伙人，不像咨询报告；中文，短句。
+8. 如果 payload.memory 里有上次验证结论：被削弱的方向不要再推荐；被支持的方向可以深入。
+9. 语气像合伙人，不像咨询报告；中文，短句。
 
 返回 JSON：
 {
@@ -205,7 +289,11 @@ def _probe(turn_index: int, seed: str = "") -> dict[str, Any]:
     }
 
 
-def _fallback_directions(evidence: list[dict[str, Any]], seed: str = "") -> dict[str, Any]:
+def _fallback_directions(
+    evidence: list[dict[str, Any]],
+    seed: str = "",
+    memory: list[dict[str, Any]] | None = None,
+) -> dict[str, Any]:
     if not evidence:
         label = f"「{seed}」" if seed else "这个方向"
         return {
@@ -227,10 +315,19 @@ def _fallback_directions(evidence: list[dict[str, Any]], seed: str = "") -> dict
             },
             "chips": ["好，先去抓", "换个更大的关键词", "用现有语料随便看看"],
         }
+    memory = memory or []
+    weakened = {str(m.get("title", "")) for m in memory if m.get("verdict") == "weakens" and m.get("title")}
     groups: dict[str, list[dict[str, Any]]] = {}
     for item in evidence:
         key = item["cluster"] or item["scene"] or "未分类"
         groups.setdefault(key, []).append(item)
+    if weakened and len(groups) > 1:
+        filtered = {
+            k: v for k, v in groups.items()
+            if not any(w in k or k in w for w in weakened)
+        }
+        if filtered:
+            groups = filtered
     ranked = sorted(
         groups.items(),
         key=lambda kv: max((x["likes"] for x in kv[1]), default=0),
@@ -240,14 +337,22 @@ def _fallback_directions(evidence: list[dict[str, Any]], seed: str = "") -> dict
     directions = []
     for label, items in ranked:
         best = items[0]
-        directions.append({
+        direction = {
             "title": (label or "一个具体场景")[:12],
             "who": best.get("persona") or "这个场景里的高频用户",
             "pain": best["quote"][:50],
             "wedge": f"把「{best['scene'] or label}」里反复出现的人工步骤做成一步式工具",
             "why_now": f"{len(items)} 条 L2+ 证据，最高赞 {best['likes']}",
             "evidence_ids": [x["id"] for x in items[:3]],
-        })
+        }
+        for memo in memory:
+            if memo.get("title") and (memo["title"] in direction["title"] or direction["title"] in memo["title"]):
+                direction["memory_note"] = "上次验证：" + (
+                    "支持" if memo.get("verdict") == "supports" else
+                    "削弱" if memo.get("verdict") == "weakens" else "样本不足"
+                )
+                break
+        directions.append(direction)
     if not directions:
         directions = [{
             "title": "先找一个具体场景",
@@ -258,6 +363,8 @@ def _fallback_directions(evidence: list[dict[str, Any]], seed: str = "") -> dict
             "evidence_ids": [],
         }]
     reflection = "我先从评论里挑了几条最高赞的抱怨；先不急着定产品，看哪条最像你身边真实发生的事。"
+    if weakened:
+        reflection = f"上次「{sorted(weakened)[0]}」被数据削弱过，这次我先避开它。" + reflection
     if seed:
         reflection = f"我先按「{seed}」筛了一遍评论，挑出这几条最相关的抱怨。"
     return {
@@ -278,6 +385,7 @@ def _coach_payload(session: dict[str, Any], user_message: str, reaction: dict[st
         "seed": session.get("seed", ""),
         "mode": session.get("mode", "b2c"),
         "turn_index": sum(1 for m in session.get("messages", []) if m.get("role") == "assistant"),
+        "memory": session.get("memory", []),
         "reactions": session.get("reactions", [])[-8:],
         "evidence": session.get("evidence", []),
         "user_message": user_message,
@@ -307,13 +415,25 @@ def _round(session: dict[str, Any], user_message: str = "", reaction: dict[str, 
         ]
         data = _llm(messages)
     if not isinstance(data, dict) or not isinstance(data.get("directions"), list) or not data["directions"]:
-        data = _fallback_directions(session.get("evidence", []), session.get("seed", ""))
+        data = _fallback_directions(
+            session.get("evidence", []),
+            session.get("seed", ""),
+            session.get("memory", []),
+        )
 
     directions = data.get("directions", [])[:3]
     for direction in directions:
         direction.setdefault("evidence_ids", [])
         direction.setdefault("evidence", [])
     _attach_quotes(directions, session.get("evidence", []))
+    for direction in directions:
+        for memo in session.get("memory", []):
+            if memo.get("title") and (memo["title"] in direction.get("title", "") or direction.get("title", "") in memo["title"]):
+                direction["memory_note"] = "上次验证：" + (
+                    "支持" if memo.get("verdict") == "supports" else
+                    "削弱" if memo.get("verdict") == "weakens" else "样本不足"
+                )
+                break
 
     turn_index = sum(1 for m in session.get("messages", []) if m.get("role") == "assistant")
     probe = data.get("probe") if isinstance(data.get("probe"), dict) else None
@@ -353,6 +473,7 @@ def start_session(
         "mode": mode if mode in ("b2c", "b2b") else "b2c",
         "category": category or "",
         "evidence": evidence,
+        "memory": relevant_memory(seed),
         "messages": [{
             "role": "user",
             "content": seed.strip() or "我还没有明确方向，想从评论里找找看。",
@@ -374,6 +495,13 @@ def add_turn(
     if session is None:
         raise KeyError("unknown session")
     if message.strip():
+        last_probe = None
+        for msg in reversed(session.get("messages", [])):
+            if msg.get("role") == "assistant" and msg.get("probe"):
+                last_probe = msg["probe"]
+                break
+        if last_probe and last_probe.get("kind") == "payment":
+            remember_payment(session, message.strip())
         session["messages"].append({"role": "user", "content": message.strip(), "ts": time.time()})
     if reaction:
         session.setdefault("reactions", []).append({**reaction, "ts": time.time()})
@@ -416,6 +544,9 @@ def converge(session_id: str) -> dict[str, Any]:
     for item in quotes:
         lines.append(f"- “{item['quote']}” （👍 {item['likes']}）")
     lines += [
+        "",
+        "## 历史验证记忆",
+        *([f"- 上次「{m.get('title')}」：{m.get('verdict')} — {m.get('summary')}" for m in session.get("memory", [])[:3]] or ["- 暂无"]),
         "",
         "## 付费假设（需要当面验证）",
         f"- 目标买家是否愿意为「{chosen.get('title', '这个方向')}」支付 ¥199–999/年？",
@@ -529,6 +660,7 @@ def reflect_validation(session_id: str, metrics: dict[str, Any]) -> dict[str, An
         "direction": direction.get("title", ""),
     }
     session["validation_result"] = result
+    remember_validation(session, result)
     session.setdefault("messages", []).append({
         "role": "assistant",
         "content": f"验证结果：{summary}\n\n{next_question}",
