@@ -157,7 +157,6 @@ class MediaCrawlerRunner:
     # -- cookies ---------------------------------------------------------
     def resolve_cookies(self, spec: CrawlSpec) -> str:
         """Request cookie > PLATFORM_COOKIES_* env > persisted file."""
-        self.cookie_dir.mkdir(parents=True, exist_ok=True)
         persisted = self.cookie_dir / f"{spec.platform}.txt"
 
         cookies = parse_cookies(spec.cookies, spec.platform)
@@ -166,10 +165,18 @@ class MediaCrawlerRunner:
             cookies = parse_cookies(env_raw, spec.platform)
         if cookies:
             value = cookie_string(cookies)
-            persisted.write_text(value, encoding="utf-8")
+            try:
+                self.cookie_dir.mkdir(parents=True, exist_ok=True)
+                persisted.write_text(value, encoding="utf-8")
+            except OSError:
+                # Read-only /data or no volume: keep the cookie in-memory only.
+                pass
             return value
         if persisted.exists():
-            return persisted.read_text(encoding="utf-8").strip()
+            try:
+                return persisted.read_text(encoding="utf-8").strip()
+            except OSError:
+                return ""
         return ""
 
     def build_command(self, spec: CrawlSpec, cookies: str = "") -> list[str]:
