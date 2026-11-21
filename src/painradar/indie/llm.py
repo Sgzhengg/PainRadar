@@ -63,6 +63,7 @@ class LLM:
         min_interval: float = 0.4,
         timeout: float = 180.0,
         temperature: float = 0.0,
+        offline: bool = False,
     ) -> None:
         self.model = model or os.environ.get("PAINRADAR_LLM_MODEL", "deepseek-chat")
         self.base_url = (base_url or os.environ.get("PAINRADAR_LLM_BASE_URL", "https://api.deepseek.com/v1")).rstrip("/")
@@ -72,6 +73,7 @@ class LLM:
         self.min_interval = min_interval
         self.timeout = timeout
         self.temperature = temperature
+        self.offline = offline or os.environ.get("PAINRADAR_LLM_OFFLINE") == "1"
         self.tokens = TokenAccount()
         self._last_call = 0.0
         self._rate_lock = threading.Lock()
@@ -120,6 +122,8 @@ class LLM:
         if cached is not None:
             self.tokens.hit_cache()
             return cached
+        if self.offline:
+            raise LLMError(f"offline cache miss for {key}")
 
         last_error: Exception | None = None
         for attempt in range(max_retries):

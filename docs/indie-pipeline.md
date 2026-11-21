@@ -198,3 +198,30 @@ tools/indie_mine.py            入口封装
 tools/build_reddit_dataset.py  构建带点赞的测试数据
 tests/test_indie_pipeline.py   11 个单元测试
 ```
+
+## 12. 结果回归测试（offline replay）
+
+CI 只能证明代码没坏，证明不了"结论没变差"。为此加了**离线回放模式**：
+
+- `LLM(offline=True)` 只读缓存，**不发任何网络请求**；缓存未命中直接报错；
+- CLI 新增 `--offline` 与 `--cache-dir`；
+- 把一次真实模型输出固化成 `tests/fixtures/indie_cache/*.json`，
+  再配 `tests/fixtures/indie_demo.json` 作为输入。
+
+回归测试 `tests/test_indie_regression.py` 断言：
+
+- 清洗结果（保留 11 条、丢弃 5 条）；
+- 信号数（7 条）与三类商机（PDF本地买断工具 / 扫描件表格转Excel / PDF填表压平）；
+- 评分 6.3、证据引文与链接存在、排序为分数降序；
+- 缓存未命中时确实抛错。
+
+运行：
+
+```bash
+python -m unittest tests.test_indie_regression -v
+```
+
+耗时 0.16 秒、token 0。
+
+**用途**：以后改 prompt、清洗规则或评分公式，只要离线测试变了，
+就说明"分析结论"变了，需要人工确认是新版本更好还是回归。

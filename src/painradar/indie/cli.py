@@ -27,6 +27,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--mapping", default="", help="JSON file with custom field names")
     ap.add_argument("--filter", default="", help="comma-separated domain terms; threads without them are dropped")
     ap.add_argument("--model", default="", help="override LLM model")
+    ap.add_argument("--cache-dir", default="var/indie_cache", help="LLM response cache directory")
+    ap.add_argument("--offline", action="store_true", help="replay cached responses only (no network)")
     args = ap.parse_args(argv)
 
     mapping = None
@@ -50,7 +52,7 @@ def main(argv: list[str] | None = None) -> int:
     input_stats["threads"] = len(threads)
     print(f"threads={len(threads)} contexts={len(blocks)} " + " ".join(f"{k}={v}" for k, v in input_stats.items()))
 
-    llm = LLM(model=args.model or None)
+    llm = LLM(model=args.model or None, cache_dir=args.cache_dir, offline=args.offline)
     try:
         signals, map_stats = run_map(
             llm, blocks, batch_size=args.batch_size, workers=args.workers
