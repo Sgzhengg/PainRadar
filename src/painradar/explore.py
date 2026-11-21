@@ -188,6 +188,25 @@ def _seed_tokens(seed: str) -> list[str]:
     return [t for t in tokens if len(t) >= 2]
 
 
+def _seed_label(seed: str, limit: int = 22) -> str:
+    text = re.sub(r"\s+", " ", seed or "").strip()
+    text = re.split(r"[，。,.!?！？;；]", text)[0]
+    return (text[:limit] or "这个方向")
+
+
+def _probe_keywords(seed: str) -> list[str]:
+    # Prefer explicit technical terms (PDF, Acrobat, Word) over Chinese bigrams.
+    terms = re.findall(r"[A-Za-z][A-Za-z0-9+#.\-]{1,}", seed or "")
+    if terms:
+        seen: list[str] = []
+        for term in terms:
+            if term.lower() not in [x.lower() for x in seen]:
+                seen.append(term)
+        return seen[:3]
+    label = _seed_label(seed, 30)
+    return [label] if label and label != "这个方向" else []
+
+
 def collect_evidence(
     db_paths: list[str],
     category: str | None = None,
@@ -259,7 +278,7 @@ def load_session(session_id: str) -> dict[str, Any] | None:
 
 
 def _probe(turn_index: int, seed: str = "") -> dict[str, Any]:
-    label = f"「{seed}」" if seed else "这个方向"
+    label = f"「{_seed_label(seed)}」" if seed else "这个方向"
     if turn_index <= 0:
         return {
             "kind": "direction",
@@ -295,7 +314,7 @@ def _fallback_directions(
     memory: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     if not evidence:
-        label = f"「{seed}」" if seed else "这个方向"
+        label = f"「{_seed_label(seed)}」" if seed else "这个方向"
         return {
             "reflection": f"当前语料里没有搜到和{label}直接相关的评论。",
             "directions": [{
@@ -312,6 +331,7 @@ def _fallback_directions(
                 "question": f"先去抓 20-50 条{label}评论，还是换个更大的关键词？",
                 "why": "没有证据时先补数据",
                 "chips": ["好，先去抓", "换个更大的关键词"],
+                "keywords": _probe_keywords(seed),
             },
             "chips": ["好，先去抓", "换个更大的关键词", "用现有语料随便看看"],
         }

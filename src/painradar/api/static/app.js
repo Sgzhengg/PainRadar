@@ -2130,6 +2130,30 @@ async function convergeExplore() {
   }
 }
 
+function handleExploreChip(text, probe) {
+  if (probe && probe.kind === "fetch") {
+    if (text.includes("先去抓")) {
+      openImport();
+      const kw = (probe.keywords || []).join(", ");
+      setTimeout(() => {
+        const input = $("#fckw");
+        if (input && kw) input.value = kw;
+      }, 0);
+      toast("已打开抓取弹窗；抓完并运行后回到探索");
+      return;
+    }
+    if (text.includes("更大的关键词")) {
+      const kw = (probe.keywords || []).join(" ");
+      const input = $("#exinput");
+      if (kw) input.value = kw;
+      input.focus();
+      toast(kw ? "关键词已填回输入框，可改成更宽的说法" : "换个更宽的关键词再发给我");
+      return;
+    }
+  }
+  exploreTurn(text, null);
+}
+
 function renderExplore() {
   const session = state.explore;
   if (!session) return renderExploreStart();
@@ -2170,7 +2194,7 @@ function renderExplore() {
     ? `<div class="ex-chips">${chips.map((c) => `<button class="ex-chip" type="button">${esc(c)}</button>`).join("")}</div>`
     : "");
   $("#exchat").querySelectorAll(".ex-chip").forEach((el) =>
-    el.addEventListener("click", () => exploreTurn(el.textContent, null))
+    el.addEventListener("click", () => handleExploreChip(el.textContent, probe))
   );
   $("#exchat").scrollTop = $("#exchat").scrollHeight;
 

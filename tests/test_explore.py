@@ -229,6 +229,15 @@ class ExploreApiTests(unittest.TestCase):
         stored = self.client.get(f"/api/explore/sessions/{sid}").json()
         self.assertIn("draft_markdown", stored)
 
+    def test_long_seed_is_shortened_in_fetch_prompt(self):
+        seed = "我想做点和量子计算相关的东西，原因是最近看到很多讨论，但我不确定具体做什么"
+        res = self.client.post("/api/explore/sessions", json={"seed": seed}).json()
+        self.assertEqual(res["evidence"], [])
+        self.assertEqual(res["probe"]["kind"], "fetch")
+        self.assertIn("量子计算", res["reflection"])
+        self.assertNotIn("原因是最近看到", res["reflection"])
+        self.assertTrue(res["probe"].get("keywords"))
+
 
 if __name__ == "__main__":
     unittest.main()

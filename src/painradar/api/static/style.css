@@ -406,3 +406,6 @@ body{background:#F8FAFC}
   border-radius:9px;font-size:14px;margin-bottom:12px;min-height:64px;max-height:160px;
   resize:none;overflow-y:auto;line-height:1.55;font-family:inherit;background:#fff;color:#1f2937}
 .ex-start textarea:focus{outline:none;border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+
+/* Explore sits above page chrome; modals must sit above Explore. */
+.modal{z-index:70}
