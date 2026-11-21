@@ -214,6 +214,29 @@ class Store:
             )
             self._conn.commit()
 
+        item_cols = {r[1] for r in self._conn.execute("PRAGMA table_info(items)")}
+        for name, ddl in (
+            ("parent_context", "ALTER TABLE items ADD COLUMN parent_context TEXT NOT NULL DEFAULT ''"),
+            ("likes", "ALTER TABLE items ADD COLUMN likes INTEGER NOT NULL DEFAULT 0"),
+            ("replies", "ALTER TABLE items ADD COLUMN replies INTEGER NOT NULL DEFAULT 0"),
+            ("post_id", "ALTER TABLE items ADD COLUMN post_id TEXT NOT NULL DEFAULT ''"),
+        ):
+            if name not in item_cols:
+                self._conn.execute(ddl)
+
+        atom_cols = {r[1] for r in self._conn.execute("PRAGMA table_info(atoms)")}
+        if "canonical_pain" not in atom_cols:
+            self._conn.execute(
+                "ALTER TABLE atoms ADD COLUMN canonical_pain TEXT NOT NULL DEFAULT ''"
+            )
+
+        opp_cols = {r[1] for r in self._conn.execute("PRAGMA table_info(opportunities)")}
+        if "solo_fit_json" not in opp_cols:
+            self._conn.execute(
+                "ALTER TABLE opportunities ADD COLUMN solo_fit_json TEXT NOT NULL DEFAULT '{}'"
+            )
+        self._conn.commit()
+
     # -- lifecycle ---------------------------------------------------------
     def close(self) -> None:
         self._conn.close()
@@ -287,15 +310,37 @@ class Store:
         return None
 
     def insert_item(self, row: dict[str, Any]) -> bool:
+        payload = {
+            "comment_uid": row["comment_uid"],
+            "platform": row["platform"],
+            "item_id": row["item_id"],
+            "url": row["url"],
+            "published_at": row["published_at"],
+            "lang": row["lang"],
+            "category": row["category"],
+            "text_masked": row["text_masked"],
+            "text_sha": row["text_sha"],
+            "author_key": row["author_key"],
+            "rating": row.get("rating"),
+            "tier": row["tier"],
+            "tos_basis": row["tos_basis"],
+            "minhash_json": row["minhash_json"],
+            "duplicate_of": row.get("duplicate_of"),
+            "ingested_at": row["ingested_at"],
+            "parent_context": row.get("parent_context", ""),
+            "likes": int(row.get("likes", 0) or 0),
+            "replies": int(row.get("replies", 0) or 0),
+            "post_id": row.get("post_id", ""),
+        }
         try:
             self._conn.execute(
                 """INSERT INTO items(comment_uid, platform, item_id, url, published_at, lang,
                        category, text_masked, text_sha, author_key, rating, tier, tos_basis,
-                       minhash_json, duplicate_of, ingested_at)
+                       minhash_json, duplicate_of, ingested_at, parent_context, likes, replies, post_id)
                    VALUES(:comment_uid,:platform,:item_id,:url,:published_at,:lang,
                        :category,:text_masked,:text_sha,:author_key,:rating,:tier,:tos_basis,
-                       :minhash_json,:duplicate_of,:ingested_at)""",
-                row,
+                       :minhash_json,:duplicate_of,:ingested_at,:parent_context,:likes,:replies,:post_id)""",
+                payload,
             )
             return True
         except sqlite3.IntegrityError:
@@ -383,12 +428,14 @@ class Store:
 
     def cluster_members(self, run_id: str, cluster_id: str) -> list[sqlite3.Row]:
         return self._conn.execute(
-            """SELECT a.*, c.label, i.platform, i.url, i.published_at, i.item_id
+            """SELECT a.*, c.label, i.platform, i.url, i.published_at, i.item_id,
+                      i.likes AS likes, i.replies AS replies
                FROM atoms a
                JOIN atom_cluster ac ON ac.atom_id=a.atom_id AND ac.run_id=a.run_id
                JOIN clusters c ON c.cluster_id=ac.cluster_id AND c.run_id=ac.run_id
                JOIN items i ON i.comment_uid=a.comment_uid
-               WHERE a.run_id=? AND ac.cluster_id=? ORDER BY a.confidence DESC""",
+               WHERE a.run_id=? AND ac.cluster_id=?
+               ORDER BY i.likes DESC, a.confidence DESC""",
             (run_id, cluster_id),
         ).fetchall()
 
@@ -412,14 +459,15 @@ class Store:
                     """INSERT OR REPLACE INTO opportunities(opportunity_id, run_id, cluster_id, title,
                         one_liner, persona, workaround, pain_tier, opportunity_tier, market_low,
                         market_mid, market_high, assumptions_json, sensitivity_json, falsifier,
-                        validation_json, created_at)
-                       VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                        validation_json, created_at, solo_fit_json)
+                       VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                     (o["opportunity_id"], run_id, o["cluster_id"], o["title"], o["one_liner"],
                      o["persona"], o["workaround"], o["pain_tier"], o["opportunity_tier"],
                      o["market_low"], o["market_mid"], o["market_high"],
                      json.dumps(o["assumptions"], ensure_ascii=False),
                      json.dumps(o["sensitivity"], ensure_ascii=False),
-                     o["falsifier"], json.dumps(o["validation"], ensure_ascii=False), now),
+                     o["falsifier"], json.dumps(o["validation"], ensure_ascii=False), now,
+                     json.dumps(o.get("solo_fit") or {}, ensure_ascii=False)),
                 )
 
     def opportunities(self, run_id: str) -> list[sqlite3.Row]:

@@ -161,3 +161,10 @@ color:#fff;border-radius:9px;padding:6px 14px;font-size:13px;cursor:pointer}
 .chips button{padding:6px 12px;border:1px solid var(--line,#e5e7eb);background:#fff;border-radius:999px;cursor:pointer;font-size:13px}
 .chips button.on{background:#ecfeff;border-color:#0f766e;color:#0f766e}
 details.adv{margin:10px 0}details.adv summary{cursor:pointer;color:#6b7280;font-size:13px}
+
+.solo.ok{background:#ecfdf5;color:#047857;padding:3px 8px;border-radius:6px;display:inline-block}
+.solo.mid{background:#fffbeb;color:#b45309;padding:3px 8px;border-radius:6px;display:inline-block}
+.solo.hard{background:#fef2f2;color:#b91c1c;padding:3px 8px;border-radius:6px;display:inline-block}
+.outreach{margin:10px 0}
+.outreach .btn{display:inline-block;padding:6px 12px;border:1px solid #99f6e4;background:#f0fdfa;color:#0f766e;border-radius:8px;text-decoration:none;font-size:13px}
+

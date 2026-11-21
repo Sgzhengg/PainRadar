@@ -61,9 +61,11 @@ def _agglomerative(atoms: list[PainAtom], threshold: float, min_size: int) -> li
 
 
 def _label(members: list[PainAtom], medoid: PainAtom) -> str:
-    scene = medoid.scene or "未分类"
+    # Prefer the model's canonical need phrase: it is stable across scenes and
+    # lets a new category cluster without a hand-maintained scene dictionary.
+    base = (medoid.canonical_pain or medoid.scene or "未分类").strip()
     persona = medoid.persona
-    return f"{scene} · {persona}" if persona else scene
+    return f"{base} · {persona}" if persona else base
 
 
 def cluster_atoms(
@@ -74,9 +76,13 @@ def cluster_atoms(
     if not atoms:
         return ClusterResult([], {}, 0.0, threshold)
 
+    # Group by canonical pain phrase first; fall back to scene only when the
+    # extractor could not name the need. This removes the hard dependency on
+    # the static scene dictionary for new categories.
     scenes: dict[str, list[PainAtom]] = defaultdict(list)
     for a in atoms:
-        scenes[a.scene or "未分类"].append(a)
+        key = (a.canonical_pain or "").strip().lower() or (a.scene or "未分类")
+        scenes[key].append(a)
 
     clusters: list[Cluster] = []
     assignments: dict[str, str] = {}

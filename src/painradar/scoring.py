@@ -239,3 +239,52 @@ def estimate_market(spec: MarketSpec, category: CategorySpec) -> MarketEstimate:
         sensitivity=sensitivity,
         falsifier=falsifier + f"（{category.name}）",
     )
+
+
+# ---------------------------------------------------------------------------
+# Solo-developer feasibility (task 3)
+
+_HARDWARE_WORDS = ("硬件", "门锁", "传感器", "电池", "供应链", "安装", "摄像头", "材料", "涂层", "设备")
+_OPS_WORDS = ("客服", "人工", "审核", "运营", "售后", "培训", "代做", "服务", "交付")
+
+
+def assess_solo_fit(atoms: list[PainAtom]) -> dict:
+    """Can one developer ship an MVP fast, and in what form?"""
+    text = " ".join(
+        f"{a.canonical_pain} {a.obstacle} {a.job} {a.workaround}" for a in atoms
+    )
+    heavy = any(w in text for w in _HARDWARE_WORDS)
+    ops = any(w in text for w in _OPS_WORDS)
+    if heavy:
+        return {
+            "level": "高",
+            "mvp_days": "1 月+",
+            "form": "硬件 + App（不建议 solo）",
+            "monetization": "买断",
+            "score": 0.2,
+            "note": "涉及硬件/供应链/现场安装，一人难以闭环",
+        }
+    if ops:
+        return {
+            "level": "中",
+            "mvp_days": "2–4 周",
+            "form": "轻量 SaaS / 小程序",
+            "monetization": "订阅",
+            "score": 0.5,
+            "note": "含人工运营或服务交付，需控制支持成本",
+        }
+    form = "轻量 App"
+    if any(w in text for w in ("浏览器", "网页", "插件", "Chrome")):
+        form = "浏览器插件"
+    elif any(w in text for w in ("微信", "小程序", "移动端", "iPhone", "安卓")):
+        form = "小程序"
+    elif any(w in text for w in ("脚本", "命令行", "批量", "自动化")):
+        form = "脚本 / CLI"
+    return {
+        "level": "低",
+        "mvp_days": "3–10 天",
+        "form": form,
+        "monetization": "买断",
+        "score": 0.9,
+        "note": "纯软件、无供应链，适合先做最小闭环",
+    }

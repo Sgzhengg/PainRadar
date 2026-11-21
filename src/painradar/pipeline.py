@@ -14,7 +14,7 @@ from .config import CategorySpec, category as get_category
 from .connectors.file_connector import FileConnector
 from .extract import SpanGate, build_extractor, prepare_text
 from .schema import PainAtom, RawItem, Tier
-from .scoring import estimate_market, score_clusters
+from .scoring import assess_solo_fit, estimate_market, score_clusters
 from .store import Store, new_run_id
 from .textproc import author_key, detect_lang, minhash, tokenize
 from .validity import ValidityFilter
@@ -74,7 +74,9 @@ def ingest_items(store: Store, items: Iterable[RawItem], category_key: str) -> I
     for item in items:
         result.total += 1
         text = (item.text or "").strip()
-        if len(text) < 20:
+        # Chinese comments are denser than English: 8 characters already carry
+        # a concrete complaint. 20 silently dropped most of them.
+        if len(text) < 8:
             result.skipped += 1
             continue
         masked, sha = prepare_text(text)
@@ -100,6 +102,10 @@ def ingest_items(store: Store, items: Iterable[RawItem], category_key: str) -> I
                 "minhash_json": json.dumps(sig),
                 "duplicate_of": dup,
                 "ingested_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                "parent_context": item.parent_context or "",
+                "likes": int(item.likes or 0),
+                "replies": int(item.replies or 0),
+                "post_id": item.post_id or "",
             }
         )
         if ok:
@@ -211,6 +217,7 @@ def run_category(
             "prompt_version": a.prompt_version,
             "taxonomy_version": a.taxonomy_version,
             "supersedes": a.supersedes,
+            "canonical_pain": a.canonical_pain,
             "created_at": now,
         }
 
@@ -229,6 +236,10 @@ def run_category(
             text=row["text_masked"],
             published_at=row["published_at"],
             category=row["category"],
+            parent_context=(row["parent_context"] if "parent_context" in row.keys() else "") or "",
+            likes=(row["likes"] if "likes" in row.keys() else 0),
+            replies=(row["replies"] if "replies" in row.keys() else 0),
+            post_id=(row["post_id"] if "post_id" in row.keys() else "") or "",
         )
         atom = extractor.extract(raw, row["text_masked"], row["comment_uid"], run_id)
         if atom is not None:
@@ -324,8 +335,15 @@ def run_category(
             "falsifier": market.falsifier,
             "validation": VALIDATION_KIT,
         }
+        opp["solo_fit"] = assess_solo_fit(members)
         opps.append(opp)
 
+    # Hardware / ops-heavy ideas stay, but rank below a software idea a solo
+    # developer could ship within two weeks.
+    opps.sort(
+        key=lambda o: (0 if o["solo_fit"]["level"] == "高" else 1, o["market_mid"]),
+        reverse=True,
+    )
     store.insert_opportunities(run_id, opps)
 
     levels: dict[str, int] = {}

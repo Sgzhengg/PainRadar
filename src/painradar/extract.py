@@ -373,6 +373,7 @@ class RuleExtractor:
         if len(quote) < 40:
             confidence = max(0.3, confidence - 0.08)
 
+        canonical_pain = ""
         atom_id = hashlib.sha256(
             f"{comment_uid}|{start}|{end}|{self.version}".encode("utf-8")
         ).hexdigest()[:16]
@@ -384,6 +385,7 @@ class RuleExtractor:
             span_start=start,
             span_end=end,
             match_score=match,
+            canonical_pain=canonical_pain,
             scene=scene,
             trigger=trigger,
             job=job,
@@ -438,8 +440,15 @@ class RuleExtractor:
 # LLM extractor (optional)
 
 
-SYSTEM_PROMPT = """You are a strict information extractor. You receive ONE review and
-return ONE JSON object with the fields below. Rules:
+SYSTEM_PROMPT = """You are a strict information extractor. You receive ONE review,
+optionally with the surrounding thread context (post title, other comments).
+Return ONE JSON object with the fields below. Rules:
+- Think first: write `reasoning` (one or two short sentences) that states what the
+  person is trying to do and what blocks them. Then fill the other fields.
+- `canonical_pain`: a 4-12 character Chinese noun phrase naming the *need*, not the
+  product ("订阅取消入口难找" is a need; "Smallpdf" is not). Used for clustering.
+- The thread context helps you understand the review, but `quote` MUST be an exact
+  substring of `text`, never of the context.
 - quote MUST be an exact substring of the input text (copy it verbatim, no edits).
 - If a field is not supported by the text, return an empty string. Never invent.
 - scene MUST be exactly one of the provided `scenes`, or "其他场景" when none fits.
@@ -463,6 +472,8 @@ return ONE JSON object with the fields below. Rules:
 - Return JSON only, no markdown fences."""
 
 FIELD_SPEC = {
+    "reasoning": "1-2 sentences: goal + obstacle",
+    "canonical_pain": "4-12 char Chinese noun phrase, cluster key",
     "quote": "string, verbatim substring",
     "scene": "short noun phrase",
     "trigger": "short phrase or empty",
@@ -562,7 +573,7 @@ class LLMExtractor:
         base_url: str | None = None,
         api_key: str | None = None,
         temperature: float = 0.0,
-        consistency: bool = True,
+        consistency: bool = False,
         fallback: "RuleExtractor | None" = None,
     ):
         self.category = category
@@ -588,7 +599,7 @@ class LLMExtractor:
         self.stats = LLMStats()
 
     # -- API ---------------------------------------------------------------
-    def _chat(self, text: str, temperature: float) -> dict | None:
+    def _chat(self, text: str, temperature: float, context: str = "") -> dict | None:
         payload = {
             "model": self.model,
             "temperature": temperature,
@@ -602,6 +613,7 @@ class LLMExtractor:
                             "category": self.category.name_en,
                             "scenes": list(self.category.scenes.keys()),
                             "text": text,
+                            "thread_context": (context or "")[:900],
                             "fields": FIELD_SPEC,
                         },
                         ensure_ascii=False,
@@ -639,7 +651,7 @@ class LLMExtractor:
     # -- extraction --------------------------------------------------------
     def extract(self, item: RawItem, text_masked: str, comment_uid: str, run_id: str) -> PainAtom | None:
         self.stats.seen += 1
-        first = self._chat(text_masked, self.temperature)
+        first = self._chat(text_masked, self.temperature, item.parent_context)
         if not first:
             return self._fallback(item, text_masked, comment_uid, run_id, "no_json")
 
@@ -649,7 +661,7 @@ class LLMExtractor:
 
         agree = "agree"
         if self.consistency:
-            second = self._chat(text_masked, min(1.0, self.temperature + 0.3))
+            second = self._chat(text_masked, min(1.0, self.temperature + 0.3), item.parent_context)
             agree = self._agreement(first, second) if second else "disagree"
             if agree == "disagree":
                 self.stats.disagree += 1
@@ -768,6 +780,7 @@ class LLMExtractor:
             span_start=start,
             span_end=end,
             match_score=match,
+            canonical_pain=_as_str(data.get("canonical_pain"), 24),
             scene=self._normalise_scene(data.get("scene"), quote),
             trigger=_as_str(data.get("trigger")),
             job=_as_str(data.get("job")),
@@ -841,7 +854,7 @@ def build_extractor(
     category: CategorySpec,
     llm_model: str | None = None,
     llm_base_url: str | None = None,
-    llm_consistency: bool = True,
+    llm_consistency: bool = False,
 ):
     if name == "rule":
         return RuleExtractor(category)

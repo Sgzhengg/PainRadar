@@ -28,6 +28,10 @@ def build_run(store: Store, run_id: str, max_members: int = 12) -> dict[str, Any
 
     opps: list[dict[str, Any]] = []
     for o in store.opportunities(run_id):
+        try:
+            solo_fit = json.loads(o["solo_fit_json"] or "{}")
+        except (KeyError, ValueError):
+            solo_fit = {}
         score = scores.get(o["cluster_id"])
         factors = json.loads(score["factors_json"]) if score else {}
         members = store.cluster_members(run_id, o["cluster_id"])
@@ -51,6 +55,7 @@ def build_run(store: Store, run_id: str, max_members: int = 12) -> dict[str, Any
                 "falsifier": o["falsifier"],
                 "factors": factors,
                 "ladder": ladder,
+                "solo_fit": solo_fit,
                 "member_count": len(members),
                 "members": [
                     {
@@ -62,6 +67,9 @@ def build_run(store: Store, run_id: str, max_members: int = 12) -> dict[str, Any
                         "confidence": round(m["confidence"], 2),
                         "level": m["level"],
                         "scene": m["scene"],
+                        "likes": (m["likes"] if "likes" in m.keys() else 0),
+                        "replies": (m["replies"] if "replies" in m.keys() else 0),
+                        "canonical_pain": (m["canonical_pain"] if "canonical_pain" in m.keys() else ""),
                     }
                     for m in members[:max_members]
                 ],

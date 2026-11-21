@@ -14,6 +14,7 @@ from .connectors.appstore import AppStoreConnector
 from .connectors.reddit import RedditConnector
 from .extract import LLMNotConfigured
 from .net import HttpError
+from .schema import Tier
 from .pipeline import ingest_file, ingest_items, run_category
 from .report import render_docx, render_markdown
 from .store import Store
@@ -38,15 +39,33 @@ def cmd_init(args: argparse.Namespace) -> int:
 
 
 def cmd_ingest(args: argparse.Namespace) -> int:
+    from .pipeline import ingest_items
+
     store = _store(args)
     path = Path(args.file)
     if not path.exists():
         raise SystemExit(f"file not found: {path}")
-    result = ingest_file(
-        store, path, args.category,
-        platform=args.platform, tos_basis=args.tos_basis, tier=args.tier,
-    )
-    print(json.dumps(result.as_dict(), ensure_ascii=False))
+    if getattr(args, "source", "file") == "mediacrawler":
+        from .connectors.mediacrawler import MediaCrawlerConnector
+
+        field_map = json.loads(args.field_map) if getattr(args, "field_map", "") else None
+        connector = MediaCrawlerConnector(
+            path=path,
+            category=args.category,
+            field_map=field_map,
+            min_len=getattr(args, "min_len", 6),
+            tos_basis=args.tos_basis,
+            tier=Tier(args.tier),
+        )
+        result = ingest_items(store, connector.fetch(), args.category)
+        print(json.dumps({"ingest": result.as_dict(), "connector": connector.stats}, ensure_ascii=False))
+        store.audit("cli", "ingest", "mediacrawler", str(path), f"{args.category}: {result.as_dict()}")
+    else:
+        result = ingest_file(
+            store, path, args.category,
+            platform=args.platform, tos_basis=args.tos_basis, tier=args.tier,
+        )
+        print(json.dumps(result.as_dict(), ensure_ascii=False))
     store.close()
     return 0
 
@@ -61,7 +80,7 @@ def cmd_run(args: argparse.Namespace) -> int:
             min_size=args.min_size,
             llm_model=args.llm_model,
             llm_base_url=args.llm_base_url,
-            llm_consistency=args.llm_consistency,
+            llm_consistency=args.double_run or args.llm_consistency,
             validity_filter=args.validity_filter,
         )
     except LLMNotConfigured as exc:
@@ -573,6 +592,9 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--category", required=True, choices=sorted(CATEGORIES))
     sp.add_argument("--file", required=True)
     sp.add_argument("--platform", default="file")
+    sp.add_argument("--source", default="file", choices=["file", "mediacrawler"])
+    sp.add_argument("--field-map", default="", help="JSON override for MediaCrawler field names")
+    sp.add_argument("--min-len", type=int, default=6, help="drop comments shorter than this")
     sp.add_argument("--tos-basis", default="user_provided")
     sp.add_argument("--tier", default="A", choices=["A", "B", "C"])
     sp.set_defaults(func=cmd_ingest)
@@ -584,7 +606,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--min-size", type=int, default=3)
     sp.add_argument("--llm-model", default=None)
     sp.add_argument("--llm-base-url", default=None)
-    sp.add_argument("--llm-consistency", action=argparse.BooleanOptionalAction, default=True)
+    sp.add_argument("--llm-consistency", action=argparse.BooleanOptionalAction, default=False)
+    sp.add_argument("--double-run", action="store_true", help="enable the second consistency pass (2x tokens)")
     sp.add_argument("--validity-filter", action=argparse.BooleanOptionalAction, default=True)
     sp.set_defaults(func=cmd_run)
 

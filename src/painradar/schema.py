@@ -57,6 +57,12 @@ class RawItem:
     rating: float | None = None
     tier: Tier = Tier.A
     tos_basis: str = "official_api"
+    # thread context for LLM extraction; the quote is still gated on ``text``
+    parent_context: str = ""
+    # engagement, used for hotness ranking in the UI / outreach export
+    likes: int = 0
+    replies: int = 0
+    post_id: str = ""
 
 
 @dataclass(slots=True)
@@ -94,6 +100,7 @@ class PainAtom:
     taxonomy_version: str
     run_id: str
     supersedes: str | None = None
+    canonical_pain: str = ""
 
     def signature(self) -> str:
         """Text used for clustering — slots, not the raw sentence."""
@@ -110,6 +117,7 @@ class Cluster:
     medoid_atom_id: str = ""
     size: int = 0
     noise: bool = False
+    solo_fit: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass(slots=True)

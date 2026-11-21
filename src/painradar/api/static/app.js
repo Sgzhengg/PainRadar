@@ -130,6 +130,9 @@ function renderCards() {
         <span><b>${o.member_count}</b>证据</span>
         <span><b>${money(o.market_mid)}</b>SOM 中值</span>
       </div>
+      ${o.solo_fit && o.solo_fit.level
+        ? `<div class="solo ${o.solo_fit.level === "低" ? "ok" : o.solo_fit.level === "中" ? "mid" : "hard"}">⚡ ${esc(o.solo_fit.mvp_days)} 可做 · ${esc(o.solo_fit.form)} · ${esc(o.solo_fit.monetization)}</div>`
+        : ""}
     </article>`).join("");
   $("#cards").querySelectorAll(".card").forEach((el) =>
     el.addEventListener("click", () => openCard(el.dataset.cluster))
@@ -149,7 +152,7 @@ function factorBars(o) {
 
 function quoteHtml(m) {
   return `<div class="quote">${esc(m.quote)}
-    <div class="m">${esc(m.platform)} · ${esc(m.app)} · ${esc(m.published_at)} · 置信度 ${m.confidence} · ${esc(m.level)}
+    <div class="m">${esc(m.platform)} · ${esc(m.app)} · ${esc(m.published_at)} · 置信度 ${m.confidence} · ${esc(m.level)}${m.likes ? ` · 👍 ${m.likes}` : ""}
     ${m.url ? ` · <a href="${esc(m.url)}" target="_blank" rel="noreferrer">原文</a>` : ""}</div></div>`;
 }
 
@@ -166,10 +169,14 @@ function drawerShell(o) {
       <span class="k">人群</span><span>${esc(o.persona || "待补")}</span>
       <span class="k">现有替代</span><span>${esc(o.workaround || "未观察到明确替代")}</span>
       <span class="k">梯子</span><span>${Object.entries(o.ladder).map(([k, v]) => k + " " + v).join(" / ") || "—"}</span>
+      <span class="k">一人开发</span><span>${o.solo_fit && o.solo_fit.level
+        ? `${esc(o.solo_fit.level)}难度 · ${esc(o.solo_fit.mvp_days)} · ${esc(o.solo_fit.form)} · ${esc(o.solo_fit.monetization)}（${esc(o.solo_fit.note || "")}）`
+        : "未评估"}</span>
       <span class="k">SOM</span><span>${money(o.market_low)} – ${money(o.market_high)}（中值 ${money(o.market_mid)}）</span>
       <span class="k">证伪条件</span><span>${esc(o.falsifier)}</span>
     </div>
     <h3 class="sec">评分因子</h3>${factorBars(o)}
+    <div class="outreach"><a class="btn" href="/api/runs/${state.runId}/clusters/${encodeURIComponent(o.cluster_id)}/outreach.csv">⬇ 导出种子用户外联表 (CSV)</a></div>
     <h3 class="sec">证据（<span id="mcount">${state.members.length}</span>/${state.total}）</h3>
     <div id="quotes">${state.members.map(quoteHtml).join("")}</div>
     <div id="morewrap">${state.members.length < state.total ? `<button class="more" id="more">加载更多证据</button>` : ""}</div>`;
