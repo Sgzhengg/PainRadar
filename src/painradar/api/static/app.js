@@ -227,6 +227,33 @@ function renderCards() {
   );
 }
 
+function renderHotTopics() {
+  const band = $("#hotband");
+  if (!band) return;
+  if (state.mode === "discover" || !state.detail) {
+    band.hidden = true;
+    return;
+  }
+  const list = (state.detail.opportunities || [])
+    .filter((o) => (o.hotness?.total_likes || 0) > 0)
+    .sort((a, b) => (b.hotness?.total_likes || 0) - (a.hotness?.total_likes || 0))
+    .slice(0, 6);
+  if (!list.length) {
+    band.hidden = true;
+    return;
+  }
+  band.hidden = false;
+  band.innerHTML = `<div class="hotband-title">🔥 热点话题 <small>按总赞排序，点击看对应痛点卡</small></div>
+    <div class="hotband-items">${list.map((o) => `
+      <button type="button" class="hotitem" data-cluster="${esc(o.cluster_id)}">
+        <b>${esc(o.title)}</b>
+        <span>${o.hotness?.total_likes || 0} 赞 · 最高 ${o.hotness?.max_likes || 0}</span>
+      </button>`).join("")}</div>`;
+  band.querySelectorAll(".hotitem").forEach((el) =>
+    el.addEventListener("click", () => openCard(el.dataset.cluster))
+  );
+}
+
 function factorBars(o) {
   return Object.entries(FACTORS)
     .filter(([k]) => o.factors[k] !== undefined && k !== "wtp_coverage")
@@ -336,6 +363,7 @@ async function selectRun(runId, clusterId = null) {
   renderStats();
   renderScenes();
   renderCards();
+  renderHotTopics();
   if (clusterId) openCard(clusterId);
   else history.replaceState(null, "", `#run=${runId}`);
 }
@@ -600,6 +628,7 @@ $("#newcatmodal").addEventListener("click", (e) => { if (e.target.id === "newcat
 async function showDiscovery(corpus) {
   state.mode = "discover";
   document.body.classList.add("discover");
+  $("#hotband").hidden = true;
   state.discoveryCorpus = corpus || state.discoveryCorpus || "main";
   toast("加载发现结果…");
   try {
@@ -1249,6 +1278,7 @@ $("#newcatmodal").addEventListener("click", (e) => { if (e.target.id === "newcat
 async function showDiscovery(corpus) {
   state.mode = "discover";
   document.body.classList.add("discover");
+  $("#hotband").hidden = true;
   state.discoveryCorpus = corpus || state.discoveryCorpus || "main";
   toast("加载发现结果…");
   try {
@@ -2084,6 +2114,68 @@ function closeExplore() {
   if (panel) panel.hidden = true;
 }
 
+async function startTrendScan() {
+  const btn = $("#exscan");
+  const label = btn ? btn.textContent : "";
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "扫描中…";
+  }
+  const chat = $("#exchat");
+  const discState = document.body.classList.contains("discover") ? $("#corpusstate") : null;
+  if (discState) discState.textContent = "正在扫描全网…";
+  if (chat) {
+    chat.innerHTML = `<div class="ex-bubble coach">正在连接小红书 / 抖音 / B站 / 知乎，抓取评论并聚类…<br><small>第一次可能需要 3–10 分钟。</small></div>`;
+  }
+  try {
+    const res = await api("/api/scan", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}),
+    });
+    const jobId = res.job.job_id;
+    const labels = { starting: "连接平台…", analyzing: "聚类分析中…", done: "完成" };
+    for (;;) {
+      const s = await api(`/api/run/${jobId}`);
+      let stage = s.stage || s.status;
+      if (stage.startsWith("scanning:")) {
+        stage = `正在扫 ${stage.split(":")[1]}`;
+      } else {
+        stage = labels[stage] || stage;
+      }
+      const platforms = (s.stats?.platforms || [])
+        .map((p) => `${p.platform}${p.error ? " ❌" : " ✅"}`).join(" · ");
+      if (chat) {
+        chat.innerHTML = `<div class="ex-bubble coach">🌐 全网热点扫描：${esc(stage)}${s.progress ? ` · ${s.progress}%` : ""}
+          ${platforms ? `<br><small>${esc(platforms)}</small>` : ""}</div>`;
+      }
+      if (s.status === "done") {
+        if (!s.run_id) throw new Error("扫描完成但没有生成运行");
+        state.runs = (await api("/api/runs")).runs || [];
+        renderTabs();
+        closeExplore();
+        await selectRun(s.run_id);
+        toast(`全网扫描完成：${s.stats?.inserted || 0} 条评论`);
+        return;
+      }
+      if (s.status === "failed") throw new Error(s.error || "扫描失败");
+      if (discState) discState.textContent = `全网扫描：${stage}${s.progress ? ` ${s.progress}%` : ""}`;
+      await new Promise((r) => setTimeout(r, 4000));
+    }
+  } catch (err) {
+    toast(`全网扫描失败：${err.message}`);
+    if (chat) {
+      chat.innerHTML = `<div class="ex-bubble coach">全网扫描失败：${esc(err.message)}<br><br>
+        可以先用「☁️ 抓云端评论」指定关键词，或「📥 导入本地文件」。</div>`;
+    }
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = label;
+    }
+  }
+}
+
 function renderExploreStart() {
   state.explore = null;
   $("#exconverge").hidden = true;
@@ -2092,13 +2184,14 @@ function renderExploreStart() {
     <div class="ex-start">
       <h3>你最近在琢磨什么？</h3>
       <p>可以很模糊，比如“想做点和 PDF 相关的东西”“想找个副业”。
-         完全没方向也行，我会从评论里挑几条真实抱怨给你看。</p>
+         完全没方向也行，我会直接扫全网热点，再从评论里挑真实抱怨给你看。</p>
       <textarea id="exseed" rows="2" placeholder="例如：我想做点和 PDF 相关的东西（Shift+Enter 换行）" autocomplete="off"></textarea>
       <div class="row">
         <button class="btn primary" id="exstart" type="button">开始探索</button>
-        <button class="btn small" id="exnodir" type="button">我完全没方向，帮我从评论里找灵感</button>
+        <button class="btn small" id="exnodir" type="button">我完全没方向，直接扫全网热点</button>
       </div>
       <div class="ex-quick">
+        <button class="btn primary" id="exscan" type="button">🌐 全网热点扫描（不用想关键词）</button>
         <button class="btn small" id="exfetch" type="button">☁️ 抓云端评论</button>
         <button class="btn small" id="exfile" type="button">📥 导入本地文件</button>
         <button class="btn small" id="exrerun" type="button">🔁 重新分析现有数据</button>
@@ -2106,7 +2199,8 @@ function renderExploreStart() {
       <p class="ex-quick-hint">抓取/导入后会自动分析，再回到这里探索。</p>
     </div>`;
   $("#exstart").addEventListener("click", () => startExplore($("#exseed").value.trim()));
-  $("#exnodir").addEventListener("click", () => startExplore(""));
+  $("#exnodir").addEventListener("click", startTrendScan);
+  $("#exscan").addEventListener("click", startTrendScan);
   $("#exfetch").addEventListener("click", () => {
     const seed = $("#exseed").value.trim();
     openImport();
@@ -2564,11 +2658,13 @@ async function renderDiscoverySetup(note = "") {
       </label>
     </div>
     <div class="disc-form-actions">
-      <button class="btn primary" id="dsBuild">生成当前语料快照</button>
+      <button class="btn primary" id="dsScan">🌐 扫描全网热点</button>
+      <button class="btn small" id="dsBuild">生成当前语料快照</button>
       <button class="btn small" id="dsRun">分析该品类</button>
       <button class="btn small" id="dsExplore">去碰撞产品灵感</button>
     </div>
   </div>`;
+  $("#dsScan").addEventListener("click", startTrendScan);
   $("#dsBuild").addEventListener("click", buildCorpus);
   $("#dsRun").addEventListener("click", () => {
     const cat = $("#dsCat").value;

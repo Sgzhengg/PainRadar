@@ -238,6 +238,23 @@ class ExploreApiTests(unittest.TestCase):
         self.assertNotIn("原因是最近看到", res["reflection"])
         self.assertTrue(res["probe"].get("keywords"))
 
+    def test_scan_without_crawler_config(self):
+        with patch.object(config, "MEDIACRAWLER_API_URL", ""):
+            res = self.client.post("/api/scan", json={})
+        self.assertEqual(res.status_code, 400)
+
+    def test_scan_submits_trend_job(self):
+        fake = Job(job_id="job_scan", category="custom_trending_scan", extractor="rule", kind="scan_trend")
+        with patch.object(config, "MEDIACRAWLER_API_URL", "http://crawler.test"), \
+             patch.object(config, "CUSTOM_PATH", Path(self.tmp.name) / "custom.json"), \
+             patch.object(JobRegistry, "submit_trend_scan", return_value=fake):
+            res = self.client.post("/api/scan", json={})
+        self.assertEqual(res.status_code, 202, res.text)
+        body = res.json()
+        self.assertEqual(body["job"]["job_id"], "job_scan")
+        self.assertEqual(body["platforms"], ["xhs", "dy", "bili", "zhihu"])
+        self.assertTrue(body["category"].startswith("custom_"))
+
 
 if __name__ == "__main__":
     unittest.main()

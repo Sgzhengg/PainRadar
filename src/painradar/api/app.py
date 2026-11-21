@@ -543,6 +543,44 @@ def create_app(db_paths: list[str]) -> FastAPI:
         except Exception as exc:  # noqa: BLE001
             return {"profiles": [], "configured": True, "error": str(exc)}
 
+    @app.post("/api/scan", status_code=202)
+    def start_trend_scan(payload: dict) -> dict:
+        from ..config import MEDIACRAWLER_API_URL, register_custom_category
+
+        if not MEDIACRAWLER_API_URL:
+            raise HTTPException(
+                status_code=400,
+                detail="MEDIACRAWLER_API_URL 未配置：先部署采集服务，才能扫描全网",
+            )
+        allowed = {"xhs", "dy", "bili", "zhihu"}
+        platforms = [
+            str(p).lower() for p in (payload.get("platforms") or ["xhs", "dy", "bili", "zhihu"])
+            if str(p).lower() in allowed
+        ]
+        if not platforms:
+            raise HTTPException(status_code=400, detail="platforms must include xhs|dy|bili|zhihu")
+        keywords = [str(k).strip() for k in (payload.get("keywords") or [
+            "太难用", "求平替", "有没有推荐", "太贵了", "踩坑",
+        ]) if str(k).strip()]
+        if not keywords:
+            raise HTTPException(status_code=400, detail="keywords is required")
+        category = register_custom_category("全网热点扫描", "trending_scan")
+        job = registry.submit_trend_scan(
+            category=category,
+            platforms=platforms,
+            keywords=keywords,
+            max_notes=max(5, min(int(payload.get("max_notes") or 15), 100)),
+            extractor=str(payload.get("extractor") or "rule"),
+            mode=str(payload.get("mode") or "b2c"),
+        )
+        return {
+            "category": category,
+            "category_name": "全网热点扫描",
+            "platforms": platforms,
+            "keywords": keywords,
+            "job": job.as_dict(),
+        }
+
     @app.post("/api/fetch", status_code=202)
     def start_remote_fetch(req: FetchRequest) -> dict:
         from ..config import MEDIACRAWLER_API_URL

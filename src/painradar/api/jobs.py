@@ -157,6 +157,37 @@ class JobRegistry:
         ).start()
         return job
 
+    def submit_trend_scan(
+        self,
+        category: str,
+        platforms: list[str],
+        keywords: list[str],
+        max_notes: int,
+        extractor: str = "rule",
+        mode: str = "b2c",
+    ) -> Job:
+        """Scan several platforms sequentially, then cluster once."""
+        with self._lock:
+            current = self.active()
+            if current is not None and current.status in ("queued", "running"):
+                raise RuntimeError(f"job {current.job_id} is still {current.status}")
+            job = Job(
+                job_id=f"job_{uuid.uuid4().hex[:10]}",
+                category=category,
+                extractor=extractor,
+                kind="scan_trend",
+                stage="starting",
+                mode=mode,
+            )
+            self._jobs[job.job_id] = job
+            self._active = job.job_id
+        threading.Thread(
+            target=self._run_trend_scan,
+            args=(job, platforms, keywords, max_notes),
+            daemon=True,
+        ).start()
+        return job
+
     def _run_remote_fetch(
         self,
         job: Job,
@@ -215,6 +246,87 @@ class JobRegistry:
         except RemoteCrawlerError as exc:
             job.error = f"远程抓取失败：{exc}"
             job.status = "failed"
+        except Exception as exc:  # noqa: BLE001
+            job.error = f"{type(exc).__name__}: {exc}"
+            job.status = "failed"
+            traceback.print_exc()
+        finally:
+            if store is not None:
+                store.close()
+            job.finished_at = _now()
+            with self._lock:
+                if self._active == job.job_id:
+                    self._active = None
+
+    def _run_trend_scan(
+        self,
+        job: Job,
+        platforms: list[str],
+        keywords: list[str],
+        max_notes: int,
+    ) -> None:
+        from ..connectors.remote_mediacrawler import (
+            NeedLoginError,
+            RemoteCrawlerError,
+            RemoteMediaCrawler,
+        )
+
+        job.status = "running"
+        store = None
+        try:
+            crawler = RemoteMediaCrawler()
+            store = self._store()
+            results: list[dict] = []
+            inserted = 0
+            for index, platform in enumerate(platforms):
+                job.stage = f"scanning:{platform}"
+                job.progress = int(10 + 60 * index / max(1, len(platforms)))
+                try:
+                    task = crawler.start_crawl(
+                        platform=platform,
+                        keywords=keywords,
+                        max_notes=max_notes,
+                        category=job.category,
+                    )
+
+                    def on_stage(name: str, extra: dict, p: str = platform) -> None:
+                        job.stage = f"scanning:{p}"
+                        job.progress = min(70, int(extra.get("progress") or job.progress))
+
+                    ingest = crawler.poll_and_ingest(
+                        task.task_id, job.category, store, on_stage=on_stage
+                    )
+                    store._conn.commit()
+                    inserted += int(ingest.get("inserted") or 0)
+                    results.append({"platform": platform, **ingest})
+                except NeedLoginError as exc:
+                    results.append({"platform": platform, "error": f"登录态过期：{exc}"})
+                except RemoteCrawlerError as exc:
+                    results.append({"platform": platform, "error": str(exc)})
+
+            job.stats = {"platforms": results, "inserted": inserted}
+            if inserted <= 0:
+                job.stage = "failed"
+                job.status = "failed"
+                job.error = "所有平台都没有取到新评论：" + "; ".join(
+                    f"{r['platform']}={r.get('error') or '0 条'}" for r in results
+                )
+                return
+
+            job.stage = "analyzing"
+            job.progress = 80
+            result = run_category(
+                store,
+                job.category,
+                extractor_name=job.extractor,
+                min_size=self.min_size,
+                mode=job.mode,
+            )
+            job.run_id = result.run_id
+            job.stats = {**job.stats, "extraction": result.stats}
+            job.stage = "done"
+            job.progress = 100
+            job.status = "done"
         except Exception as exc:  # noqa: BLE001
             job.error = f"{type(exc).__name__}: {exc}"
             job.status = "failed"
