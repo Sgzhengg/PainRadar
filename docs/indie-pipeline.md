@@ -225,3 +225,16 @@ python -m unittest tests.test_indie_regression -v
 
 **用途**：以后改 prompt、清洗规则或评分公式，只要离线测试变了，
 就说明"分析结论"变了，需要人工确认是新版本更好还是回归。
+
+## 13. 零成本试跑
+
+```bash
+python tools/indie_demo.py
+```
+
+- 输入：`data/samples/indie_pdf_demo.json`（合成样例，URL 均为 example.com）
+- 模型响应：`tests/fixtures/indie_cache/`（离线回放）
+- 输出：`reports/indie_demo.md`
+- 消耗：**0 token、0 次网络请求**
+
+这条路径同时也是回归测试的执行方式（见第 12 节）。
