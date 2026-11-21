@@ -2156,6 +2156,13 @@ function renderExplore() {
          </div>
          <div class="runstate" id="exstatus"></div>
        </div>`);
+  if (session.draft_markdown) {
+    $("#exside").innerHTML = `
+      <div class="ex-brief">${renderMarkdown(session.draft_markdown)}</div>
+      <div class="dir-actions"><button type="button" id="exdownload">下载 Markdown</button></div>`;
+    $("#exdownload")?.addEventListener("click", downloadDraft);
+    return;
+  }
   const validation = $("#exside")?.querySelector(".ex-validate");
   if (validation) $("#exside").prepend(validation);
 
@@ -2350,3 +2357,30 @@ $("#memclear")?.addEventListener("click", async () => {
     toast(`清空失败：${err.message}`);
   }
 });
+
+async function buildDraft() {
+  if (!state.explore) return;
+  try {
+    await api(`/api/explore/sessions/${encodeURIComponent(state.explore.session_id)}/draft`, {
+      method: "POST",
+    });
+    state.explore = await api(`/api/explore/sessions/${encodeURIComponent(state.explore.session_id)}`);
+    renderExplore();
+    toast("机会卡草案已生成");
+  } catch (err) {
+    toast(`生成失败：${err.message}`);
+  }
+}
+
+function downloadDraft() {
+  const markdown = (state.explore && state.explore.draft_markdown) || "";
+  if (!markdown) return;
+  const blob = new Blob([markdown], { type: "text/markdown;charset=utf-8" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "机会卡草案.md";
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+$("#exdraft")?.addEventListener("click", buildDraft);

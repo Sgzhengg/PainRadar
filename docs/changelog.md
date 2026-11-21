@@ -210,3 +210,10 @@ painradar demo --reset
 - 新增 `GET/DELETE /api/explore/memory` 与 `POST /api/explore/memory/delete`；
 - 探索面板「记忆」弹窗可查看方向验证结论与付费回答，支持单条删除/清空；
 - 截图 `reports/explore-memory.png`。
+
+## 2026-11-21 · 机会卡草案
+
+- 新增 `POST /api/explore/sessions/{id}/draft`：把方向 + 验证结论 + 付费回答转成机会卡草案；
+- 草案含人群/痛点、2 周 MVP 范围、定价假设、风险、7 天验证计划、原话证据；
+- 探索面板「生成机会卡草案」展示并支持下载 Markdown；
+- 截图 `reports/explore-draft.png`。

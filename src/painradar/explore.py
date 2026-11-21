@@ -693,3 +693,124 @@ def delete_memory(kind: str, seed: str, title: str) -> dict[str, Any]:
     _save_memory(data)
     return data
 
+def _last_direction(session: dict[str, Any]) -> dict[str, Any]:
+    for msg in reversed(session.get("messages", [])):
+        if msg.get("role") == "assistant" and msg.get("directions"):
+            return msg["directions"][0]
+    return {}
+
+
+def _draft_markdown(draft: dict[str, Any]) -> str:
+    lines = [
+        f"# 机会卡草案：{draft.get('title') or '未命名方向'}",
+        "",
+        f"> {draft.get('one_liner') or ''}",
+        "",
+        "## 人群与痛点",
+        f"- 人群：{draft.get('who') or '待定'}",
+        f"- 痛点：{draft.get('pain') or '待定'}",
+        "",
+        "## MVP 范围（2 周内）",
+        *(f"- {x}" for x in draft.get("mvp_scope") or []),
+        "",
+        "## 定价假设",
+        f"- {draft.get('pricing') or '待验证'}",
+        "",
+        "## 风险",
+        *(f"- {x}" for x in draft.get("risks") or []),
+        "",
+        "## 7 天验证计划",
+        *(f"- Day {x.get('day')}: {x.get('action')}" for x in draft.get("validation_plan") or []),
+        "",
+        "## 证据",
+        *(f"- “{q}”" for q in draft.get("evidence") or []),
+        "",
+        f"> 验证结论：{draft.get('verdict_label') or '尚未验证'}。这是假设，不是已验证市场。",
+    ]
+    return "\n".join(lines)
+
+
+def build_draft(session_id: str) -> dict[str, Any]:
+    session = load_session(session_id)
+    if session is None:
+        raise KeyError("unknown session")
+    direction = _last_direction(session)
+    if not direction:
+        raise ValueError("先探索出一个方向，再生成机会卡")
+    validation = session.get("validation_result") or {}
+    verdict = validation.get("verdict", "")
+    evidence = [e.get("quote", "") for e in (direction.get("evidence") or [])][:3]
+    if not evidence:
+        evidence = [x.get("quote", "") for x in session.get("evidence", [])[:3]]
+
+    payments = [m for m in session.get("memory", []) if m.get("answer")]
+    payment_hint = payments[-1]["answer"] if payments else ""
+
+    data = None
+    if session.get("evidence"):
+        messages = [
+            {"role": "system", "content": (
+                "你在把一个已验证的产品方向写成可执行的机会卡草案。"
+                "必须具体、克制，不要写平台/生态。返回 JSON，字段："
+                "title, one_liner, who, pain, mvp_scope(3条), pricing, risks(3条), "
+                "validation_plan(5条，每条含 day 与 action), evidence(原话数组)。"
+            )},
+            {"role": "user", "content": json.dumps({
+                "direction": direction,
+                "validation": validation,
+                "payment_hint": payment_hint,
+                "mode": session.get("mode"),
+            }, ensure_ascii=False)},
+        ]
+        data = _llm(messages, temperature=0.3)
+
+    if not isinstance(data, dict) or not data.get("title"):
+        pricing = "¥3,000–15,000/家/年（待验证）" if session.get("mode") == "b2b" else "¥99–299/年（待验证）"
+        data = {
+            "title": direction.get("title") or "未命名方向",
+            "one_liner": direction.get("pain") or "先解决一个具体场景的重复劳动。",
+            "who": direction.get("who") or "该场景的高频用户",
+            "pain": direction.get("pain") or "现有做法费时且容易出错",
+            "mvp_scope": [
+                direction.get("wedge") or "只做一条端到端流程",
+                "不做平台，只做一个入口 + 一个结果",
+                "前 3 个客户由你人工兜底交付",
+            ],
+            "pricing": pricing,
+            "risks": [
+                "付费意愿尚未验证",
+                "免费替代（Excel/微信/大厂免费功能）",
+                "获客成本可能高于客单价",
+            ],
+            "validation_plan": [
+                {"day": "1-2", "action": "找 3 个符合人群描述的人聊 15 分钟"},
+                {"day": "3", "action": "把 MVP 范围压到一页纸，做落地页"},
+                {"day": "4-5", "action": "手动为其中 1 人交付一次结果"},
+                {"day": "6", "action": "报价并要定金/预约，观察是否犹豫"},
+                {"day": "7", "action": "复盘：3 人里至少 2 人主动追问才继续"},
+            ],
+            "evidence": evidence,
+        }
+
+    labels = {"supports": "支持", "weakens": "削弱", "insufficient": "样本不足"}
+    draft = {
+        **{k: data.get(k) for k in ("title", "one_liner", "who", "pain", "mvp_scope", "pricing", "risks", "validation_plan", "evidence")},
+        "verdict": verdict,
+        "verdict_label": labels.get(verdict, "尚未验证"),
+        "mode": session.get("mode", "b2c"),
+        "run_id": (validation.get("metrics") or {}).get("run_id", ""),
+    }
+    draft["mvp_scope"] = [str(x) for x in (draft.get("mvp_scope") or [])][:5]
+    draft["risks"] = [str(x) for x in (draft.get("risks") or [])][:5]
+    draft["validation_plan"] = [
+        {"day": str(x.get("day", "")), "action": str(x.get("action", ""))}
+        for x in (draft.get("validation_plan") or []) if isinstance(x, dict)
+    ][:7]
+    draft["evidence"] = [str(x) for x in (draft.get("evidence") or [])][:5]
+
+    markdown = _draft_markdown(draft)
+    session["draft"] = draft
+    session["draft_markdown"] = markdown
+    save_session(session)
+    return {"session_id": session_id, "draft": draft, "markdown": markdown}
+

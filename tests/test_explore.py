@@ -215,6 +215,20 @@ class ExploreApiTests(unittest.TestCase):
         self.assertEqual(self.client.delete("/api/explore/memory").status_code, 200)
         self.assertEqual(self.client.get("/api/explore/memory").json()["directions"], [])
 
+    def test_draft_from_direction(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        sid = start["session_id"]
+        self.client.post(f"/api/explore/sessions/{sid}/validation-result", json={"run_id": "run_explore"})
+        res = self.client.post(f"/api/explore/sessions/{sid}/draft")
+        self.assertEqual(res.status_code, 200, res.text)
+        body = res.json()
+        self.assertTrue(body["draft"]["title"])
+        self.assertGreaterEqual(len(body["draft"]["mvp_scope"]), 3)
+        self.assertIn("7 天验证计划", body["markdown"])
+
+        stored = self.client.get(f"/api/explore/sessions/{sid}").json()
+        self.assertIn("draft_markdown", stored)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -752,6 +752,17 @@ def create_app(db_paths: list[str]) -> FastAPI:
             str(payload.get("title") or ""),
         )
 
+    @app.post("/api/explore/sessions/{session_id}/draft")
+    def explore_draft(session_id: str) -> dict:
+        from .. import explore
+
+        try:
+            return explore.build_draft(session_id)
+        except KeyError:
+            raise HTTPException(status_code=404, detail="unknown session")
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+
     _dd_sessions: dict = {}
     _dd_jobs: dict = {}
 
