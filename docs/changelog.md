@@ -204,3 +204,9 @@ painradar demo --reset
 - 新会话按种子关键词召回记忆，削弱方向自动避开并标注“上次验证”；
 - 付费问题回答后写入记忆，下次探索可引用；
 - 收敛简报增加「历史验证记忆」。
+
+## 2026-11-21 · 探索记忆管理
+
+- 新增 `GET/DELETE /api/explore/memory` 与 `POST /api/explore/memory/delete`；
+- 探索面板「记忆」弹窗可查看方向验证结论与付费回答，支持单条删除/清空；
+- 截图 `reports/explore-memory.png`。

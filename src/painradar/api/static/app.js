@@ -1433,6 +1433,7 @@ async function init() {
   }
   if (params.has("newcat")) openNewCat();
   if (params.has("import")) openImport();
+  if (params.has("memory")) openMemory();
   if (params.has("explore")) {
     const sid = params.get("session");
     if (sid) localStorage.setItem(EX_KEY, sid);
@@ -2277,4 +2278,75 @@ $("#exside")?.addEventListener("click", (e) => {
 });
 document.getElementById("explorepanel")?.addEventListener("click", (e) => {
   if (e.target.id === "explorepanel") closeExplore();
+});
+
+
+// ===================== exploration memory =====================
+async function openMemory() {
+  $("#memorymodal").hidden = false;
+  await renderMemory();
+}
+
+function closeMemory() {
+  $("#memorymodal").hidden = true;
+}
+
+async function renderMemory() {
+  const list = $("#memlist");
+  list.innerHTML = `<div class="empty">加载中…</div>`;
+  try {
+    const data = await api("/api/explore/memory");
+    const dirs = data.directions || [];
+    const pays = data.payments || [];
+    const verdict = { supports: "支持", weakens: "削弱", insufficient: "样本不足" };
+    const dirHtml = dirs.map((e) => `
+      <div class="mem-item">
+        <div class="mem-head">
+          <b>${esc(e.title || "未命名方向")}</b>
+          <span class="mem-badge ${esc(e.verdict || "")}">${esc(verdict[e.verdict] || e.verdict || "")}</span>
+        </div>
+        <div class="mem-meta">种子：${esc(e.seed || "—")} · ${esc(e.summary || "")}</div>
+        <button class="mem-del" type="button" data-kind="directions" data-seed="${esc(e.seed || "")}" data-title="${esc(e.title || "")}">删除</button>
+      </div>`).join("");
+    const payHtml = pays.map((e) => `
+      <div class="mem-item">
+        <div class="mem-head"><b>付费回答</b></div>
+        <div class="mem-meta">种子：${esc(e.seed || "—")} · 方向：${esc(e.direction || "—")}</div>
+        <div class="mem-answer">“${esc(e.answer || "")}”</div>
+        <button class="mem-del" type="button" data-kind="payments" data-seed="${esc(e.seed || "")}" data-title="${esc(e.direction || "")}">删除</button>
+      </div>`).join("");
+    list.innerHTML = (dirHtml || payHtml)
+      ? `<div class="mem-section">方向验证</div>${dirHtml || `<div class="empty">暂无</div>`}
+         <div class="mem-section">付费回答</div>${payHtml || `<div class="empty">暂无</div>`}`
+      : `<div class="empty">还没有记忆。先去探索并验证一个方向。</div>`;
+
+    list.querySelectorAll(".mem-del").forEach((btn) => btn.addEventListener("click", async () => {
+      try {
+        await api("/api/explore/memory/delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ kind: btn.dataset.kind, seed: btn.dataset.seed, title: btn.dataset.title }),
+        });
+        await renderMemory();
+        toast("已删除");
+      } catch (err) {
+        toast(`删除失败：${err.message}`);
+      }
+    }));
+  } catch (err) {
+    list.innerHTML = `<div class="empty">读取失败：${esc(err.message)}</div>`;
+  }
+}
+
+$("#exmemory")?.addEventListener("click", openMemory);
+$("#memclose")?.addEventListener("click", closeMemory);
+$("#memclear")?.addEventListener("click", async () => {
+  if (!confirm("清空全部探索记忆？此操作不可恢复。")) return;
+  try {
+    await api("/api/explore/memory", { method: "DELETE" });
+    await renderMemory();
+    toast("记忆已清空");
+  } catch (err) {
+    toast(`清空失败：${err.message}`);
+  }
 });

@@ -726,6 +726,32 @@ def create_app(db_paths: list[str]) -> FastAPI:
         }
         return explore.reflect_validation(session_id, metrics)
 
+    @app.get("/api/explore/memory")
+    def explore_memory() -> dict:
+        from .. import explore
+
+        return explore.load_memory()
+
+    @app.delete("/api/explore/memory")
+    def explore_memory_clear() -> dict:
+        from .. import explore
+
+        explore.clear_memory()
+        return {"ok": True}
+
+    @app.post("/api/explore/memory/delete")
+    def explore_memory_delete(payload: dict) -> dict:
+        from .. import explore
+
+        kind = str(payload.get("kind") or "")
+        if kind not in ("directions", "payments"):
+            raise HTTPException(status_code=400, detail="kind must be directions|payments")
+        return explore.delete_memory(
+            kind,
+            str(payload.get("seed") or ""),
+            str(payload.get("title") or ""),
+        )
+
     _dd_sessions: dict = {}
     _dd_jobs: dict = {}
 

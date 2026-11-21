@@ -670,3 +670,26 @@ def reflect_validation(session_id: str, metrics: dict[str, Any]) -> dict[str, An
     save_session(session)
     return result
 
+def load_memory() -> dict[str, Any]:
+    return _load_memory()
+
+
+def clear_memory() -> None:
+    _save_memory({"directions": [], "payments": []})
+
+
+def delete_memory(kind: str, seed: str, title: str) -> dict[str, Any]:
+    data = _load_memory()
+    if kind == "directions":
+        data["directions"] = [
+            e for e in data["directions"]
+            if not (e.get("seed") == seed and e.get("title") == title)
+        ]
+    elif kind == "payments":
+        data["payments"] = [
+            e for e in data["payments"]
+            if not (e.get("seed") == seed and e.get("direction") == title)
+        ]
+    _save_memory(data)
+    return data
+

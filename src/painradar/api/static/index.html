@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PainRadar · 机会雷达</title>
-<link rel="stylesheet" href="/static/style.css?v=141">
+<link rel="stylesheet" href="/static/style.css?v=150">
 </head>
 <body>
 <header class="top">
@@ -79,6 +79,7 @@
       <div><h2>🧭 探索方向</h2><p>从真实评论出发，一次只问一个关键问题</p></div>
       <div class="explore-actions">
         <button class="btn small" id="exconverge" hidden>收敛成机会简报</button>
+        <button class="btn small" id="exmemory">记忆</button>
         <button class="btn small" id="exreset">重新开始</button>
         <button class="close" id="exclose">×</button>
       </div>
@@ -91,6 +92,16 @@
       <input id="exinput" placeholder="说说你的感觉，或直接点右侧方向…" autocomplete="off">
       <button class="btn primary" type="submit">发送</button>
     </form>
+  </div>
+</div>
+
+<div class="modal" id="memorymodal" hidden>
+  <div class="box wide">
+    <button class="close" id="memclose">×</button>
+    <h2>探索记忆</h2>
+    <p class="hint">被验证削弱的方向下次会自动避开；付费回答也会被记住。</p>
+    <div id="memlist" class="memlist"></div>
+    <button class="btn small" id="memclear">清空全部记忆</button>
   </div>
 </div>
 
@@ -236,6 +247,6 @@
 </div>
 
 <div class="toast" id="toast" hidden></div>
-<script src="/static/app.js?v=141"></script>
+<script src="/static/app.js?v=150"></script>
 </body>
 </html>

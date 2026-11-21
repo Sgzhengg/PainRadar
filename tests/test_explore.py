@@ -195,6 +195,26 @@ class ExploreApiTests(unittest.TestCase):
         answers = [m.get("answer", "") for m in again["memory"] if m.get("answer")]
         self.assertIn("老板会买，走公司报销", answers)
 
+    def test_memory_endpoints(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        self.client.post(
+            f"/api/explore/sessions/{start['session_id']}/validation-result",
+            json={"run_id": "run_explore"},
+        )
+        memory = self.client.get("/api/explore/memory").json()
+        self.assertTrue(memory["directions"])
+
+        item = memory["directions"][0]
+        res = self.client.post(
+            "/api/explore/memory/delete",
+            json={"kind": "directions", "seed": item["seed"], "title": item["title"]},
+        )
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(res.json()["directions"], [])
+
+        self.assertEqual(self.client.delete("/api/explore/memory").status_code, 200)
+        self.assertEqual(self.client.get("/api/explore/memory").json()["directions"], [])
+
 
 if __name__ == "__main__":
     unittest.main()
