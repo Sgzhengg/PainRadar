@@ -66,6 +66,26 @@ TASK_CONCURRENCY=2
 采集服务需要实现 4 个接口（契约见下节）。如果它返回 401/403 或
 `need_login: true`，PainRadar 的任务状态会提示“登录态已过期”。
 
+### 2.1 用仓库自带的桥接服务（推荐）
+
+painradar-crawler/ 已经包含桥接服务：FastAPI 任务 API + MediaCrawler 适配器 +
+Dockerfile，一个容器搞定，**不用再单独部署 MediaCrawler**。
+
+1. 把 MediaCrawler 源码放进桥接目录：
+
+   `ash
+   cd painradar-crawler
+   git clone --depth 1 https://github.com/NanmiCoder/MediaCrawler MediaCrawler
+   `
+
+2. 把 painradar-crawler/ 推到独立仓库（或在 Zeabur 用该子目录构建）；
+3. 同一个 Project → Add Service → 部署该仓库，服务名 **mediacrawler**，端口 **8080**；
+4. 挂卷到 **/data**（Cookie、任务库、结果都在这）；
+5. 环境变量：MEDIACRAWLER_API_TOKEN、HEADLESS=True、ENABLE_CDP_MODE=False、
+   PLATFORM_COOKIES_*；完整清单见 painradar-crawler/README.md。
+
+桥接服务暴露的正是第 7 节的 4 个接口，PainRadar 侧配置不变。
+
 ## 3. 内网地址怎么写
 
 | 场景 | 地址 |

@@ -45,3 +45,9 @@ Thumbs.db
 node_modules/
 cloudflare/.wrangler/
 
+
+# crawler bridge
+painradar-crawler/MediaCrawler/
+painradar-crawler/data/
+painradar-crawler/__pycache__/
+

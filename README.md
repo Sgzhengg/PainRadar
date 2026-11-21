@@ -245,6 +245,8 @@ python tools/build_app.py --db var/gold200.db --db var/gold.db --out reports/app
 - **内网采集**：`MEDIACRAWLER_API_URL=http://mediacrawler.zeabur.internal:8080`，
   同项目不走公网，更快也更安全；异步任务 + 3 秒轮询，不会触发网关超时。
 - **镜像**：仓库根目录 `Dockerfile`（python:3.11-slim，8080 端口，健康检查）。
+- **采集桥接**：`painradar-crawler/` 自带任务 API + MediaCrawler 适配器，
+  与 PainRadar 同项目部署，内网直连，不需要单独的 MediaCrawler 服务。
 - **自检**：`python run.py doctor` 会检查数据目录可写、管理员密码、采集服务连通性。
 
 完整步骤见 [docs/deploy-zeabur.md](docs/deploy-zeabur.md)（建服务、挂卷、环境变量、Cookie、排错）。
