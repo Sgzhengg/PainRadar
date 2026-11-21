@@ -16,6 +16,7 @@ from __future__ import annotations
 import hmac
 import json
 import os
+import tempfile
 import threading
 import uuid
 from pathlib import Path
@@ -27,8 +28,22 @@ from pydantic import BaseModel
 from runner import CrawlSpec, MediaCrawlerRunner, NeedLoginError, RunnerError
 from storage import TaskStore
 
-TASK_DB = os.environ.get("TASK_DB", "/data/tasks.db")
-RESULT_DIR = Path(os.environ.get("RESULT_DIR", "/data/results"))
+def _default_data_dir() -> Path:
+    """/data on Zeabur; temp dir in CI/dev where /data is not writable."""
+    root = Path("/data")
+    try:
+        root.mkdir(parents=True, exist_ok=True)
+        probe = root / ".probe"
+        probe.write_text("ok", encoding="utf-8")
+        probe.unlink()
+        return root
+    except OSError:
+        return Path(tempfile.gettempdir()) / "painradar-crawler"
+
+
+DATA_ROOT = Path(os.environ.get("DATA_DIR", _default_data_dir()))
+TASK_DB = os.environ.get("TASK_DB", str(DATA_ROOT / "tasks.db"))
+RESULT_DIR = Path(os.environ.get("RESULT_DIR", DATA_ROOT / "results"))
 API_TOKEN = os.environ.get("MEDIACRAWLER_API_TOKEN", "").strip()
 
 app = FastAPI(title="PainRadar Crawler Bridge", version="0.1.0")
