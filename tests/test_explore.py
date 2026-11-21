@@ -145,6 +145,25 @@ class ExploreApiTests(unittest.TestCase):
         self.assertTrue(body["category"].startswith("custom_"))
         self.assertEqual(body["job"]["job_id"], "job_test")
         self.assertEqual(body["keywords"], ["PDF 合并"])
+        stored = self.client.get(f"/api/explore/sessions/{start['session_id']}").json()
+        self.assertEqual(stored["validation"]["category"], body["category"])
+        self.assertEqual(stored["validation"]["job_id"], "job_test")
+
+    def test_validation_result_reflects_back(self):
+        start = self.client.post("/api/explore/sessions", json={"seed": "PDF"}).json()
+        res = self.client.post(
+            f"/api/explore/sessions/{start['session_id']}/validation-result",
+            json={"run_id": "run_explore"},
+        )
+        self.assertEqual(res.status_code, 200, res.text)
+        body = res.json()
+        self.assertIn(body["verdict"], ("supports", "weakens", "insufficient"))
+        self.assertTrue(body["summary"])
+        self.assertEqual(body["metrics"]["atoms"], 2)
+
+        stored = self.client.get(f"/api/explore/sessions/{start['session_id']}").json()
+        self.assertEqual(stored["validation_result"]["verdict"], body["verdict"])
+        self.assertGreaterEqual(len(stored["messages"]), 3)
 
 
 if __name__ == "__main__":

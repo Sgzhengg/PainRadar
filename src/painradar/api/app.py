@@ -684,12 +684,47 @@ def create_app(db_paths: list[str]) -> FastAPI:
             extractor=str(payload.get("extractor") or "rule"),
             mode=session.get("mode", "b2c"),
         )
+        explore.record_validation(session_id, category, title, platform, keywords, job.job_id)
         return {
             "category": category,
             "category_name": title,
             "keywords": keywords,
             "job": job.as_dict(),
         }
+
+    @app.post("/api/explore/sessions/{session_id}/validation-result")
+    def explore_validation_result(session_id: str, payload: dict) -> dict:
+        from .. import explore
+
+        session = explore.load_session(session_id)
+        if session is None:
+            raise HTTPException(status_code=404, detail="unknown session")
+        run_id = str(payload.get("run_id") or "").strip()
+        if not run_id:
+            raise HTTPException(status_code=400, detail="run_id is required")
+
+        store, row = _find_run(db_paths, run_id)
+        try:
+            atoms = store.atoms(run_id)
+            clusters = store._conn.execute(
+                "SELECT label, size FROM clusters WHERE run_id=? ORDER BY size DESC LIMIT 5",
+                (run_id,),
+            ).fetchall()
+        finally:
+            store.close()
+
+        total = len(atoms)
+        l2_plus = sum(1 for a in atoms if str(a["level"]) in ("L2", "L3", "L4"))
+        metrics = {
+            "run_id": run_id,
+            "category": row["category"],
+            "atoms": total,
+            "l2_plus": l2_plus,
+            "l2_share": round(l2_plus / total, 3) if total else 0.0,
+            "clusters": [{"label": c["label"], "size": c["size"]} for c in clusters],
+            "quotes": [str(a["quote"]) for a in atoms[:5]],
+        }
+        return explore.reflect_validation(session_id, metrics)
 
     _dd_sessions: dict = {}
     _dd_jobs: dict = {}

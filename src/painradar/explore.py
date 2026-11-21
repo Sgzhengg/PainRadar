@@ -432,3 +432,109 @@ def converge(session_id: str) -> dict[str, Any]:
     session["conclusion"] = markdown
     save_session(session)
     return {"session_id": session_id, "markdown": markdown, "chosen": chosen}
+
+def record_validation(
+    session_id: str,
+    category: str,
+    category_name: str,
+    platform: str,
+    keywords: list[str],
+    job_id: str,
+) -> dict[str, Any]:
+    session = load_session(session_id)
+    if session is None:
+        raise KeyError("unknown session")
+    session["validation"] = {
+        "category": category,
+        "category_name": category_name,
+        "platform": platform,
+        "keywords": keywords,
+        "job_id": job_id,
+        "started_at": time.time(),
+    }
+    save_session(session)
+    return session
+
+
+def _verdict(metrics: dict[str, Any]) -> str:
+    atoms = int(metrics.get("atoms") or 0)
+    share = float(metrics.get("l2_share") or 0.0)
+    if atoms >= 8 and share >= 0.30:
+        return "supports"
+    if atoms >= 5 and share < 0.20:
+        return "weakens"
+    return "insufficient"
+
+
+def reflect_validation(session_id: str, metrics: dict[str, Any]) -> dict[str, Any]:
+    session = load_session(session_id)
+    if session is None:
+        raise KeyError("unknown session")
+
+    last_directions = []
+    for msg in reversed(session.get("messages", [])):
+        if msg.get("role") == "assistant" and msg.get("directions"):
+            last_directions = msg["directions"]
+            break
+    direction = last_directions[0] if last_directions else {}
+    verdict = _verdict(metrics)
+
+    summary = ""
+    next_question = ""
+    if verdict == "supports":
+        summary = (
+            f"新抓到的 {metrics.get('atoms')} 条里，L2+ 占 {round(float(metrics.get('l2_share') or 0) * 100)}%，"
+            f"且出现了「{(metrics.get('clusters') or [{}])[0].get('label', '相关场景')}」这样的聚集。"
+            "这次验证支持你的假设。"
+        )
+        next_question = "信号够强了：你愿意先找 3 个这样的人聊，还是先做落地页？"
+    elif verdict == "weakens":
+        summary = (
+            f"新抓到的 {metrics.get('atoms')} 条里，L2+ 只有 {round(float(metrics.get('l2_share') or 0) * 100)}%，"
+            "大部分是泛泛抱怨，缺少具体代价/绕行。这次验证削弱了这个方向。"
+        )
+        next_question = "要不要换一个方向，或者把关键词收窄到更具体的场景？"
+    else:
+        summary = (
+            f"这次只拿到 {metrics.get('atoms')} 条有效原子，样本太少，"
+            "既不能支持也不能否定。"
+        )
+        next_question = "先扩大关键词或换平台再抓一轮，还是先聊几个真人？"
+
+    data = None
+    if session.get("evidence") or metrics.get("quotes"):
+        messages = [
+            {"role": "system", "content": (
+                "你在评审一次产品假设验证。根据新抓取的数据判断假设："
+                "supports/weakens/insufficient，必须引用数字或原话，给一个下一步问题。"
+                "返回 JSON，字段为 verdict、summary、next_question。"
+            )},
+            {"role": "user", "content": json.dumps({
+                "direction": direction,
+                "seed": session.get("seed"),
+                "metrics": metrics,
+            }, ensure_ascii=False)},
+        ]
+        data = _llm(messages, temperature=0.3)
+    if isinstance(data, dict) and data.get("verdict") in ("supports", "weakens", "insufficient"):
+        verdict = data["verdict"]
+        summary = str(data.get("summary") or summary)
+        next_question = str(data.get("next_question") or next_question)
+
+    result = {
+        "verdict": verdict,
+        "summary": summary,
+        "next_question": next_question,
+        "metrics": metrics,
+        "direction": direction.get("title", ""),
+    }
+    session["validation_result"] = result
+    session.setdefault("messages", []).append({
+        "role": "assistant",
+        "content": f"验证结果：{summary}\n\n{next_question}",
+        "validation": result,
+        "ts": time.time(),
+    })
+    save_session(session)
+    return result
+

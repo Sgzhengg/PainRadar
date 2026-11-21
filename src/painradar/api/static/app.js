@@ -1434,6 +1434,8 @@ async function init() {
   if (params.has("newcat")) openNewCat();
   if (params.has("import")) openImport();
   if (params.has("explore")) {
+    const sid = params.get("session");
+    if (sid) localStorage.setItem(EX_KEY, sid);
     openExplore();
     const seed = params.get("seed");
     if (seed) startExplore(seed);
@@ -2079,10 +2081,11 @@ function renderExplore() {
   const session = state.explore;
   if (!session) return renderExploreStart();
   const messages = session.messages || [];
-  const lastCoach = [...messages].reverse().find((m) => m.role === "assistant");
-  const directions = (lastCoach && lastCoach.directions) || [];
+  const lastCoach = [...messages].reverse().find((m) => m.role === "assistant" && (m.directions || m.probe));
+  const lastDirections = [...messages].reverse().find((m) => m.role === "assistant" && (m.directions || []).length);
+  const directions = (lastDirections && lastDirections.directions) || [];
   const chips = (lastCoach && lastCoach.chips) || [];
-  const probe = lastCoach && lastCoach.probe;
+  const probe = !session.validation_result && lastCoach ? lastCoach.probe : null;
   const probeLabels = {
     direction: "先选方向",
     counterfactual: "反常识验证",
@@ -2154,6 +2157,27 @@ function renderExplore() {
        </div>`);
   const validation = $("#exside")?.querySelector(".ex-validate");
   if (validation) $("#exside").prepend(validation);
+
+  const vr = session.validation_result;
+  if (vr) {
+    const labels = { supports: "✅ 支持假设", weakens: "⚠️ 削弱假设", insufficient: "❔ 样本不足" };
+    const card = document.createElement("div");
+    card.className = `ex-verdict ${vr.verdict || "insufficient"}`;
+    card.innerHTML = `
+      <b>${labels[vr.verdict] || "验证结果"}</b>
+      <p>${esc(vr.summary || "")}</p>
+      <div class="dir-actions">
+        ${vr.metrics && vr.metrics.run_id ? `<button type="button" id="exviewrun">查看新运行</button>` : ""}
+        <button type="button" id="excontinue">继续探索</button>
+      </div>`;
+    $("#exside").prepend(card);
+    $("#exviewrun")?.addEventListener("click", () => {
+      selectRun(vr.metrics.run_id);
+      closeExplore();
+    });
+    $("#excontinue")?.addEventListener("click", () => $("#exinput").focus());
+  }
+
   $("#exgo")?.addEventListener("click", startValidation);
 }
 
@@ -2194,11 +2218,20 @@ async function startValidation() {
       status.textContent = labels[job.stage] || labels[job.status] || job.status;
       if (job.status !== "running" && job.status !== "queued") {
         if (job.status === "done" && job.run_id) {
-          state.runs = (await api("/api/runs")).runs || [];
-          renderTabs();
-          await selectRun(job.run_id);
-          closeExplore();
-          toast("验证运行完成");
+          status.textContent = "抓取完成，正在回灌验证结果…";
+          await api(
+            `/api/explore/sessions/${encodeURIComponent(state.explore.session_id)}/validation-result`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ run_id: job.run_id }),
+            }
+          );
+          state.explore = await api(
+            `/api/explore/sessions/${encodeURIComponent(state.explore.session_id)}`
+          );
+          renderExplore();
+          toast("验证完成，结果已回写到探索会话");
         } else {
           status.textContent = job.error || "验证失败";
         }
