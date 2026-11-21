@@ -233,6 +233,24 @@ python tools/build_app.py --db var/gold200.db --db var/gold.db --out reports/app
 **边界**：目前是只读查看器 + API，没有账号、权限、任务队列和写操作。
 多租户与审核流仍在路线图后半段。
 
+## 3.5 云端部署（Cloudflare + Zeabur）
+
+> 硬约束：Cloudflare Workers 不能运行 Python/FastAPI。本项目的云原生形态是
+> **Cloudflare 托管前端 + 边缘代理**，**Python API 与 MediaCrawler 微服务部署在 Zeabur**。
+
+- **存储双模**：PAINRADAR_STORE=local（SQLite，默认）或 d1（Cloudflare D1 REST）；
+  两种后端共用同一套 SQL 与 Store 接口，CloudflareD1Store 无需改业务代码。
+- **远程异步抓取**：配置 MEDIACRAWLER_API_URL + MEDIACRAWLER_API_TOKEN 后，
+  WebUI「＋ 抓取新商机 → 云端全网抓取」会向采集服务提交任务并轮询，
+  阶段依次为 crawling → ingesting → analyzing，不会触发网关超时。
+- **Cookie 失效**：任务状态会显示“登录态已过期，请在配置中更新平台 Cookie”。
+- **自检**：python run.py doctor 会输出 store 模式、D1 连通性、爬虫 URL/Token/健康检查。
+
+部署文档：
+
+- [docs/deploy-zeabur.md](docs/deploy-zeabur.md)：采集服务接口契约、无头浏览器、Cookie 与结果格式
+- [docs/deploy-cloudflare.md](docs/deploy-cloudflare.md)：wrangler.toml、D1 建表、环境变量清单与边界
+
 ## 4. 已实现 / 未实现
 对照开发方案的 M0–M1：
 

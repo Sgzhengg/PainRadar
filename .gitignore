@@ -39,3 +39,9 @@ Thumbs.db
 # Secrets
 .env
 *.pem
+
+# Cloudflare / Node
+.wrangler/
+node_modules/
+cloudflare/.wrangler/
+

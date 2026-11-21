@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-20T19:35:20+08:00",
-  "source": "var\\llm_full.db",
+  "generated_at": "2026-11-21T11:38:14+08:00",
+  "source": "var/llm_full.db",
   "taxonomy_version": 2,
-  "coverage": 0.733,
-  "unassigned": 20,
+  "coverage": 0.72,
+  "unassigned": 21,
   "demands": [
     {
       "demand_id": "dm_33a123e5d4",
@@ -59,61 +59,6 @@
           "domain": "sleep_tech",
           "level": "L1",
           "app": "320606217"
-        }
-      ]
-    },
-    {
-      "demand_id": "dm_2f434ba53b",
-      "label": "关键提醒与警报不可靠",
-      "size": 182,
-      "type": "关键提醒与警报不可靠",
-      "definition": "应用发出的提醒（浇水、喂食、闹钟）未按时触发、误触发或无法关闭；不包括设备故障导致的提醒失败。",
-      "buyer": "依赖提醒功能的用户",
-      "buyer_by_domain": {
-        "sleep_tech": "长期用户",
-        "plant_care": "10岁女孩，第一次使用该应用",
-        "pet_water_fountain": "养狗人士"
-      },
-      "workaround": "",
-      "cost": "",
-      "domains": {
-        "pet_water_fountain": 71,
-        "sleep_tech": 61,
-        "plant_care": 50
-      },
-      "apps": [
-        "1138066420",
-        "1252497129",
-        "1410126781",
-        "1490078804",
-        "1586120661",
-        "1612792132"
-      ],
-      "l2_share": 0.341,
-      "intensity": 0.695,
-      "cost_share": 0.027,
-      "wtp_share": 0.055,
-      "score": 69.8,
-      "quote": "Deleting and finding another app.",
-      "variants": 4,
-      "examples": [
-        {
-          "quote": "Deleting and finding another app.",
-          "domain": "sleep_tech",
-          "level": "L2",
-          "app": "1490078804"
-        },
-        {
-          "quote": "I’ll use the Apple alarm now.",
-          "domain": "sleep_tech",
-          "level": "L2",
-          "app": "320606217"
-        },
-        {
-          "quote": "Alarm?. No where in app can I find an alarm.",
-          "domain": "sleep_tech",
-          "level": "L1",
-          "app": "1138066420"
         }
       ]
     },
@@ -277,6 +222,59 @@
           "domain": "sleep_tech",
           "level": "L4",
           "app": "320606217"
+        }
+      ]
+    },
+    {
+      "demand_id": "dm_2f434ba53b",
+      "label": "关键提醒与警报不可靠",
+      "size": 111,
+      "type": "关键提醒与警报不可靠",
+      "definition": "应用发出的提醒（浇水、喂食、闹钟）未按时触发、误触发或无法关闭；不包括设备故障导致的提醒失败。",
+      "buyer": "依赖提醒功能的用户",
+      "buyer_by_domain": {
+        "sleep_tech": "长期用户",
+        "plant_care": "10岁女孩，第一次使用该应用"
+      },
+      "workaround": "",
+      "cost": "",
+      "domains": {
+        "sleep_tech": 61,
+        "plant_care": 50
+      },
+      "apps": [
+        "1138066420",
+        "1252497129",
+        "1410126781",
+        "1490078804",
+        "1612792132",
+        "320606217"
+      ],
+      "l2_share": 0.333,
+      "intensity": 0.659,
+      "cost_share": 0.0,
+      "wtp_share": 0.054,
+      "score": 44.9,
+      "quote": "Deleting and finding another app.",
+      "variants": 3,
+      "examples": [
+        {
+          "quote": "Deleting and finding another app.",
+          "domain": "sleep_tech",
+          "level": "L2",
+          "app": "1490078804"
+        },
+        {
+          "quote": "I’ll use the Apple alarm now.",
+          "domain": "sleep_tech",
+          "level": "L2",
+          "app": "320606217"
+        },
+        {
+          "quote": "Alarm?. No where in app can I find an alarm.",
+          "domain": "sleep_tech",
+          "level": "L1",
+          "app": "1138066420"
         }
       ]
     },

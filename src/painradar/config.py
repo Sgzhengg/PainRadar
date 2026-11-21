@@ -23,6 +23,18 @@ DOCS_DIR = PROJECT_ROOT / "docs"
 
 DB_PATH = Path(os.environ.get("PAINRADAR_DB", VAR_DIR / "painradar.db"))
 
+# --- cloud / remote (optional) -------------------------------------------
+# local (default) | d1
+STORE_BACKEND = os.environ.get("PAINRADAR_STORE", "local").strip().lower()
+MEDIACRAWLER_API_URL = os.environ.get("MEDIACRAWLER_API_URL", "").rstrip("/")
+MEDIACRAWLER_API_TOKEN = os.environ.get("MEDIACRAWLER_API_TOKEN", "")
+CLOUDFLARE_ACCOUNT_ID = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "")
+CLOUDFLARE_D1_DATABASE_ID = os.environ.get("CLOUDFLARE_D1_DATABASE_ID", "")
+CLOUDFLARE_API_TOKEN = os.environ.get("CLOUDFLARE_API_TOKEN", "")
+REMOTE_CRAWL_TIMEOUT = int(os.environ.get("REMOTE_CRAWL_TIMEOUT", "900"))
+REMOTE_CRAWL_INTERVAL = float(os.environ.get("REMOTE_CRAWL_INTERVAL", "3"))
+
+
 MODEL_VERSION = "extract-rule-v0.1"
 PROMPT_VERSION = "p01"
 TAXONOMY_VERSION = "tax-2026.11"

@@ -1,0 +1,18 @@
+name = "painradar"
+main = "cloudflare/worker.js"
+compatibility_date = "2026-11-21"
+
+# Static SPA (no build step)
+[assets]
+directory = "./src/painradar/api/static"
+binding = "ASSETS"
+
+[vars]
+# Python API (FastAPI) running on Zeabur / any container host.
+API_ORIGIN = "https://your-painradar-api.zeabur.app"
+
+# Optional: direct D1 reads from the edge Worker.
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "painradar"
+# database_id = "00000000-0000-0000-0000-000000000000"

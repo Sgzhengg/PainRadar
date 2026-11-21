@@ -285,6 +285,35 @@ def cmd_doctor(args: argparse.Namespace) -> int:
     import os
     print(f"reddit oauth : {'configured' if os.environ.get('REDDIT_CLIENT_ID') else 'not configured (public JSON fallback)'}")
     print(f"llm extractor: {'configured' if os.environ.get('PAINRADAR_LLM_BASE_URL') else 'not configured (rule extractor)'}")
+    # -- cloud mode checks -------------------------------------------------
+    from .config import (
+        MEDIACRAWLER_API_TOKEN, MEDIACRAWLER_API_URL, STORE_BACKEND,
+        CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN, CLOUDFLARE_D1_DATABASE_ID,
+    )
+
+    mode = "cloud (D1)" if STORE_BACKEND == "d1" else "local (SQLite)"
+    print(f"store mode   : {mode}")
+    if STORE_BACKEND == "d1":
+        ready = all([CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_D1_DATABASE_ID, CLOUDFLARE_API_TOKEN])
+        print(f"d1 config    : {'configured' if ready else 'MISSING account/database/token'}")
+        if ready:
+            try:
+                from .store import CloudflareD1Store
+                s = CloudflareD1Store()
+                row = s._conn.execute("SELECT COUNT(*) AS n FROM items").fetchone()
+                print(f"d1 reachable : yes (items={row['n'] if row else 0})")
+                s.close()
+            except Exception as exc:  # noqa: BLE001
+                print(f"d1 reachable : no ({type(exc).__name__}: {exc})")
+    print(f"crawler url  : {MEDIACRAWLER_API_URL or 'not configured (local import only)'}")
+    print(f"crawler token: {'configured' if MEDIACRAWLER_API_TOKEN else 'not configured'}")
+    if MEDIACRAWLER_API_URL:
+        try:
+            from .connectors.remote_mediacrawler import RemoteMediaCrawler
+            health = RemoteMediaCrawler().health()
+            print(f"crawler ping : {'ok' if health.get('ok') else 'failed: ' + str(health.get('reason'))}")
+        except Exception as exc:  # noqa: BLE001
+            print(f"crawler ping : failed ({type(exc).__name__}: {exc})")
     return 0 if not missing else 1
 
 

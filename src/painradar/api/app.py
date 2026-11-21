@@ -29,6 +29,15 @@ class RunRequest(BaseModel):
     extractor: str = "rule"
 
 
+class FetchRequest(BaseModel):
+    platform: str
+    category: str
+    keywords: list[str] = []
+    max_notes: int = 50
+    cookie: str = ""
+    extractor: str = "rule"
+
+
 class IngestRequest(BaseModel):
     source: str = "mediacrawler"
     file: str
@@ -93,6 +102,11 @@ def _find_run(paths: list[str], run_id: str) -> tuple[Store, dict]:
 
 
 def create_app(db_paths: list[str]) -> FastAPI:
+    from ..config import STORE_BACKEND
+
+    if STORE_BACKEND == "d1":
+        # Cloud/edge mode: a single logical D1 database replaces local files.
+        db_paths = ["d1:main"]
     if not db_paths:
         raise ValueError("at least one database path is required")
 
@@ -444,6 +458,42 @@ def create_app(db_paths: list[str]) -> FastAPI:
             finally:
                 store.close()
         return {"category": category, "anchors": []}
+
+    @app.post("/api/fetch", status_code=202)
+    def start_remote_fetch(req: FetchRequest) -> dict:
+        from ..config import MEDIACRAWLER_API_URL
+
+        if not MEDIACRAWLER_API_URL:
+            raise HTTPException(
+                status_code=400,
+                detail="MEDIACRAWLER_API_URL 未配置：请先按 docs/deploy-zeabur.md 部署采集服务",
+            )
+        allowed = {"xhs", "dy", "bili", "zhihu", "appstore"}
+        platform = req.platform.strip().lower()
+        if platform not in allowed:
+            raise HTTPException(status_code=400, detail=f"platform must be one of {sorted(allowed)}")
+        try:
+            get_category(req.category)
+        except SystemExit:
+            raise HTTPException(status_code=400, detail=f"unknown category: {req.category}")
+        cookies: dict[str, str] = {}
+        for part in (req.cookie or "").split(";"):
+            if "=" in part:
+                k, v = part.split("=", 1)
+                if k.strip():
+                    cookies[k.strip()] = v.strip()
+        try:
+            job = registry.submit_remote_fetch(
+                category=req.category,
+                platform=platform,
+                keywords=[k.strip() for k in req.keywords if k.strip()],
+                max_notes=max(1, min(req.max_notes, 1000)),
+                cookies=cookies or None,
+                extractor=req.extractor if req.extractor in ("rule", "llm") else "rule",
+            )
+        except RuntimeError as exc:
+            raise HTTPException(status_code=409, detail=str(exc))
+        return {"job": job.as_dict()}
 
     @app.post("/api/run", status_code=202)
     def start_run(req: RunRequest) -> dict:

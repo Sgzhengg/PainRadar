@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PainRadar · 机会雷达</title>
-<link rel="stylesheet" href="/static/style.css?v=62">
+<link rel="stylesheet" href="/static/style.css?v=70">
 </head>
 <body>
 <header class="top">
@@ -14,7 +14,7 @@
     <div class="meta" id="meta">加载中…</div>
   </div>
   <div class="actions">
-    <button class="btn primary" id="importbtn">＋ 导入 / 抓取数据</button>
+    <button class="btn primary" id="importbtn">＋ 抓取新商机</button>
     <button class="btn accent" id="runbtn" disabled>▶ 运行分析</button>
     <button class="btn ghost" id="discoverbtn">🌐 跨品类商机总榜</button>
   </div>
@@ -36,7 +36,7 @@
   <div class="guide-body" id="guidebody">
     <div class="step">
       <span class="step-n">1</span>
-      <div class="step-t">喂入数据<small>导入 MediaCrawler 小红书 / 知乎 / B站评论，或抓取 App Store</small></div>
+      <div class="step-t">云端全网抓取<small>小红书 / 抖音 / B站 / 知乎 评论，或抓取 App Store</small></div>
       <button class="btn small" id="guideimport">导入数据</button>
     </div>
     <div class="step">
@@ -79,13 +79,45 @@
 <div class="modal" id="importmodal" hidden>
   <div class="box wide">
     <button class="close" id="importclose">×</button>
-    <h2>导入 / 抓取数据</h2>
-    <p class="hint">把评论喂进证据台账。两种来源任选其一。</p>
+    <h2>抓取 / 导入数据</h2>
+    <p class="hint">云端全网抓取由 Zeabur 上的 MediaCrawler 异步执行，不会阻塞页面。</p>
     <div class="seg" id="importseg">
-      <button class="segbtn on" data-src="mediacrawler">MediaCrawler 导出</button>
-      <button class="segbtn" data-src="appstore">App Store 抓取</button>
+      <button class="segbtn on" data-src="cloud">① 云端全网抓取</button>
+      <button class="segbtn" data-src="local">② 本地文件导入</button>
     </div>
-    <div id="importmc">
+
+    <div id="importcloud">
+      <div class="field">
+        <label>平台</label>
+        <select id="fcplatform">
+          <option value="xhs">小红书</option>
+          <option value="dy">抖音</option>
+          <option value="bili">B站</option>
+          <option value="zhihu">知乎</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>目标品类</label>
+        <select id="fccat"></select>
+      </div>
+      <div class="field">
+        <label>搜索关键词（逗号分隔）</label>
+        <input type="text" id="fckw" placeholder="例如：PDF 转换, 合同 盖章">
+      </div>
+      <div class="field">
+        <label>抓取数量上限</label>
+        <input type="number" id="fcmax" value="50" min="1" max="1000">
+      </div>
+      <div class="field">
+        <label>临时 Cookie（可选，覆盖服务端默认）</label>
+        <input type="text" id="fccookie" placeholder="key=value; key2=value2">
+      </div>
+      <div class="runstate" id="fcstate"></div>
+      <button class="btn primary" id="fcsubmit">立即开抓</button>
+      <button class="btn small" id="fcappstore">改用 App Store 抓取</button>
+    </div>
+
+    <div id="importlocal" hidden>
       <div class="field">
         <label>导出文件路径（JSON / JSONL / CSV）</label>
         <input type="text" id="mcfile" placeholder="例如 data/xhs_export.json">
@@ -100,10 +132,6 @@
       </div>
       <div class="runstate" id="mcstate"></div>
       <button class="btn primary" id="mcsubmit">开始导入</button>
-    </div>
-    <div id="importas" hidden>
-      <p class="hint">按品类名 + 英文搜索词，自动找 3 个 App 并抓取评论。</p>
-      <button class="btn primary" id="opennewcat">打开 App Store 抓取</button>
     </div>
   </div>
 </div>
@@ -174,6 +202,6 @@
 </div>
 
 <div class="toast" id="toast" hidden></div>
-<script src="/static/app.js?v=64"></script>
+<script src="/static/app.js?v=72"></script>
 </body>
 </html>

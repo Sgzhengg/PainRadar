@@ -12,7 +12,10 @@ Design rules (plan §5.3):
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
+
+import httpx
 import uuid
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -195,8 +198,18 @@ def new_run_id() -> str:
     return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:6]
 
 
-class Store:
+class SQLiteStore:
+    """SQLite-backed store. Also accepts a connection-like backend (D1)."""
+
     def __init__(self, path: Path | str):
+        if hasattr(path, "execute") and not isinstance(path, (str, Path)):
+            self.path = Path("remote://d1")
+            self._conn = path
+            if not getattr(self._conn, "ready", False):
+                self._conn.executescript(SCHEMA)
+                self._ensure_columns()
+                self._conn.ready = True
+            return
         self.path = Path(path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._conn = sqlite3.connect(str(self.path))
@@ -207,7 +220,10 @@ class Store:
 
     def _ensure_columns(self) -> None:
         """Additive migrations for databases created by older versions."""
-        cols = {r[1] for r in self._conn.execute("PRAGMA table_info(predictions)")}
+        try:
+            cols = {r[1] for r in self._conn.execute("PRAGMA table_info(predictions)")}
+        except Exception:  # noqa: BLE001 - D1 may reject PRAGMA
+            return
         if "mode" not in cols:
             self._conn.execute(
                 "ALTER TABLE predictions ADD COLUMN mode TEXT NOT NULL DEFAULT 'backtest'"
@@ -241,7 +257,7 @@ class Store:
     def close(self) -> None:
         self._conn.close()
 
-    def __enter__(self) -> "Store":
+    def __enter__(self) -> "SQLiteStore":
         return self
 
     def __exit__(self, *exc: object) -> None:
@@ -544,3 +560,152 @@ class Store:
         return self._conn.execute(
             "SELECT * FROM outcomes WHERE prediction_id=?", (prediction_id,)
         ).fetchall()
+
+
+# ---------------------------------------------------------------------------
+# Storage abstraction: SQLite (default) and Cloudflare D1 (REST)
+
+try:
+    from typing import Protocol, runtime_checkable
+except ImportError:  # pragma: no cover
+    Protocol = object  # type: ignore
+    runtime_checkable = lambda x: x  # type: ignore
+
+
+@runtime_checkable
+class BaseStore(Protocol):
+    """Minimal interface the pipeline and API rely on."""
+
+    def insert_item(self, row: dict[str, Any]) -> bool: ...
+    def items(self, category: str) -> list[Any]: ...
+    def insert_atoms(self, atoms: Iterable[dict[str, Any]]) -> int: ...
+    def insert_clusters(self, run_id: str, clusters: Sequence[dict[str, Any]], assignments: dict[str, str]) -> None: ...
+    def cluster_members(self, run_id: str, cluster_id: str) -> list[Any]: ...
+    def insert_scores(self, run_id: str, scores: Sequence[dict[str, Any]]) -> None: ...
+    def insert_opportunities(self, run_id: str, opps: Sequence[dict[str, Any]]) -> None: ...
+    def save_run(self, run_id: str, category: str, stats: dict[str, Any]) -> None: ...
+    def close(self) -> None: ...
+
+
+class StoreError(RuntimeError):
+    pass
+
+
+class D1Row(dict):
+    """dict row that also supports integer indexing, like sqlite3.Row."""
+
+    def __getitem__(self, key: Any) -> Any:
+        if isinstance(key, int):
+            return list(self.values())[key]
+        return super().__getitem__(key)
+
+
+class D1Cursor:
+    def __init__(self, rows: list[dict[str, Any]] | None = None) -> None:
+        self._rows = [D1Row(r) for r in (rows or [])]
+
+    def fetchone(self) -> D1Row | None:
+        return self._rows[0] if self._rows else None
+
+    def fetchall(self) -> list[D1Row]:
+        return self._rows
+
+    def __iter__(self):
+        return iter(self._rows)
+
+    def __len__(self) -> int:
+        return len(self._rows)
+
+
+class D1Connection:
+    """sqlite3-like shim over Cloudflare D1's REST query API."""
+
+    def __init__(
+        self,
+        account_id: str,
+        database_id: str,
+        api_token: str,
+        client: httpx.Client | None = None,
+        timeout: float = 30.0,
+    ) -> None:
+        if not (account_id and database_id and api_token):
+            raise StoreError(
+                "D1 requires CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_D1_DATABASE_ID and CLOUDFLARE_API_TOKEN"
+            )
+        self.endpoint = (
+            f"https://api.cloudflare.com/client/v4/accounts/{account_id}"
+            f"/d1/database/{database_id}/query"
+        )
+        self.api_token = api_token
+        self.client = client or httpx.Client(timeout=timeout)
+        self.ready = False
+
+    def execute(self, sql: str, params: Sequence[Any] = ()) -> D1Cursor:
+        stmt = sql.strip()
+        if not stmt:
+            return D1Cursor()
+        resp = self.client.post(
+            self.endpoint,
+            headers={"Authorization": f"Bearer {self.api_token}"},
+            json={"sql": stmt, "params": list(params)},
+        )
+        try:
+            data = resp.json()
+        except ValueError as exc:
+            raise StoreError(f"D1 returned non-JSON ({resp.status_code})") from exc
+        if resp.status_code >= 400 or not data.get("success"):
+            errors = data.get("errors") or resp.text
+            raise StoreError(f"D1 error: {errors}")
+        result = data.get("result") or []
+        rows: list[dict[str, Any]] = []
+        if result and isinstance(result[0], dict):
+            rows = result[0].get("results") or []
+        return D1Cursor(rows)
+
+    def executescript(self, script: str) -> None:
+        for stmt in script.split(";"):
+            if stmt.strip():
+                self.execute(stmt)
+
+    def commit(self) -> None:
+        return None
+
+    def rollback(self) -> None:
+        return None
+
+    def close(self) -> None:
+        return None
+
+
+_d1_singleton: D1Connection | None = None
+
+
+def d1_connection() -> D1Connection:
+    global _d1_singleton
+    if _d1_singleton is None:
+        from .config import (
+            CLOUDFLARE_ACCOUNT_ID,
+            CLOUDFLARE_API_TOKEN,
+            CLOUDFLARE_D1_DATABASE_ID,
+        )
+
+        _d1_singleton = D1Connection(
+            CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_D1_DATABASE_ID, CLOUDFLARE_API_TOKEN
+        )
+    return _d1_singleton
+
+
+class CloudflareD1Store(SQLiteStore):
+    """SQLite-compatible store backed by Cloudflare D1."""
+
+    def __init__(self, connection: D1Connection | None = None) -> None:
+        super().__init__(connection or d1_connection())
+
+
+def Store(path: Path | str | None = None) -> SQLiteStore:
+    """Factory: local SQLite by default, D1 when PAINRADAR_STORE=d1 or path='d1:...'."""
+    from .config import DB_PATH, STORE_BACKEND
+
+    if STORE_BACKEND == "d1" or (isinstance(path, str) and path.startswith("d1:")):
+        return CloudflareD1Store()
+    return SQLiteStore(path or DB_PATH)

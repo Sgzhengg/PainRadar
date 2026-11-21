@@ -32,6 +32,8 @@ class Job:
     run_id: str | None = None
     stats: dict | None = None
     error: str | None = None
+    stage: str | None = None
+    progress: int = 0
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -116,6 +118,111 @@ class JobRegistry:
             self._active = job.job_id
         threading.Thread(target=self._run_fetch, args=(job, apps, pages), daemon=True).start()
         return job
+
+    def _store(self) -> Store:
+        from ..config import STORE_BACKEND
+
+        return Store() if STORE_BACKEND == "d1" else Store(self._main_db())
+
+    def submit_remote_fetch(
+        self,
+        category: str,
+        platform: str,
+        keywords: list[str],
+        max_notes: int,
+        cookies: dict[str, str] | None = None,
+        extractor: str = "rule",
+    ) -> Job:
+        """Start a Zeabur crawl job and ingest/analyze it asynchronously."""
+        with self._lock:
+            current = self.active()
+            if current is not None and current.status in ("queued", "running"):
+                raise RuntimeError(f"job {current.job_id} is still {current.status}")
+            job = Job(
+                job_id=f"job_{uuid.uuid4().hex[:10]}",
+                category=category,
+                extractor=extractor,
+                kind="fetch_remote",
+                stage="starting",
+            )
+            self._jobs[job.job_id] = job
+            self._active = job.job_id
+        threading.Thread(
+            target=self._run_remote_fetch,
+            args=(job, platform, keywords, max_notes, cookies),
+            daemon=True,
+        ).start()
+        return job
+
+    def _run_remote_fetch(
+        self,
+        job: Job,
+        platform: str,
+        keywords: list[str],
+        max_notes: int,
+        cookies: dict[str, str] | None,
+    ) -> None:
+        from ..connectors.remote_mediacrawler import (
+            NeedLoginError,
+            RemoteCrawlerError,
+            RemoteMediaCrawler,
+        )
+
+        job.status = "running"
+        store = None
+        try:
+            crawler = RemoteMediaCrawler()
+            task = crawler.start_crawl(
+                platform=platform,
+                keywords=keywords,
+                max_notes=max_notes,
+                cookies_override=cookies,
+                category=job.category,
+            )
+            job.stats = {"task_id": task.task_id, "platform": platform}
+
+            def on_stage(name: str, extra: dict) -> None:
+                job.stage = name
+                job.progress = int(extra.get("progress") or 0)
+                if extra:
+                    job.stats = {**(job.stats or {}), **extra}
+
+            store = self._store()
+            ingest = crawler.poll_and_ingest(
+                task.task_id,
+                job.category,
+                store,
+                on_stage=on_stage,
+            )
+            job.stats = {**(job.stats or {}), **ingest}
+
+            job.stage = "analyzing"
+            if ingest.get("inserted", 0) > 0:
+                result = run_category(
+                    store, job.category, extractor_name=job.extractor, min_size=self.min_size
+                )
+                job.run_id = result.run_id
+                job.stats = {**job.stats, "extraction": result.stats}
+            job.stage = "done"
+            job.status = "done"
+        except NeedLoginError as exc:
+            job.error = f"登录态已过期，请在配置中更新平台 Cookie（{exc}）"
+            job.status = "failed"
+            job.stage = "need_login"
+        except RemoteCrawlerError as exc:
+            job.error = f"远程抓取失败：{exc}"
+            job.status = "failed"
+        except Exception as exc:  # noqa: BLE001
+            job.error = f"{type(exc).__name__}: {exc}"
+            job.status = "failed"
+            traceback.print_exc()
+        finally:
+            if store is not None:
+                store.close()
+            job.finished_at = _now()
+            with self._lock:
+                if self._active == job.job_id:
+                    self._active = None
 
     def _run_fetch(self, job: Job, apps: list[str], pages: int) -> None:
         from ..connectors.appstore import AppStoreConnector

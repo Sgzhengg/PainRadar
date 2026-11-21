@@ -770,22 +770,36 @@ async function fillSolutions(label) {
   }
 }
 
+function fillCategorySelects() {
+  api("/api/categories")
+    .then(({ categories }) => {
+      const usable = categories.filter((c) => c.items > 0);
+      const list = (usable.length ? usable : categories)
+        .map((c) => `<option value="${esc(c.category)}">${esc(c.name)}（${c.items} 条）</option>`)
+        .join("");
+      ["#fccat", "#mccat"].forEach((sel) => {
+        const el = $(sel);
+        if (el) el.innerHTML = list || `<option value="">没有品类，先抓取 App Store</option>`;
+      });
+    })
+    .catch(() => {
+      ["#fccat", "#mccat"].forEach((sel) => {
+        const el = $(sel);
+        if (el) el.innerHTML = `<option value="">读取品类失败</option>`;
+      });
+    });
+}
+
 function openImport() {
   const modal = $("#importmodal");
   if (!modal) return;
   modal.hidden = false;
-  const sel = $("#mccat");
-  sel.innerHTML = `<option value="">加载中…</option>`;
-  api("/api/categories")
-    .then(({ categories }) => {
-      const usable = categories.filter((c) => c.items > 0);
-      sel.innerHTML = (usable.length ? usable : categories)
-        .map((c) => `<option value="${esc(c.category)}">${esc(c.name)}（${c.items} 条）</option>`)
-        .join("") || `<option value="">没有品类，先抓取 App Store</option>`;
-    })
-    .catch(() => (sel.innerHTML = `<option value="">读取品类失败</option>`));
-  $("#mcstate").textContent = "";
-  $("#mcstate").className = "runstate";
+  switchImport("cloud");
+  fillCategorySelects();
+  ["#fcstate", "#mcstate"].forEach((sel) => {
+    const el = $(sel);
+    if (el) { el.textContent = ""; el.className = "runstate"; }
+  });
 }
 
 function closeImport() {
@@ -794,8 +808,72 @@ function closeImport() {
 
 function switchImport(src) {
   document.querySelectorAll("#importseg .segbtn").forEach((b) => b.classList.toggle("on", b.dataset.src === src));
-  $("#importmc").hidden = src !== "mediacrawler";
-  $("#importas").hidden = src !== "appstore";
+  $("#importcloud").hidden = src !== "cloud";
+  $("#importlocal").hidden = src !== "local";
+}
+
+async function submitCloudFetch() {
+  const el = $("#fcstate");
+  const platform = $("#fcplatform").value;
+  const category = $("#fccat").value;
+  const keywords = $("#fckw").value.split(/[,，]/).map((x) => x.trim()).filter(Boolean);
+  if (!category) {
+    el.className = "runstate err";
+    el.textContent = "先选择一个目标品类。";
+    return;
+  }
+  if (!keywords.length) {
+    el.className = "runstate err";
+    el.textContent = "至少填一个关键词。";
+    return;
+  }
+  el.className = "runstate";
+  el.textContent = "正在提交抓取任务…";
+  try {
+    const res = await api("/api/fetch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        platform,
+        category,
+        keywords,
+        max_notes: +($("#fcmax").value || 50),
+        cookie: $("#fccookie").value.trim(),
+      }),
+    });
+    const jobId = res.job.job_id;
+    const labels = {
+      starting: "启动中…",
+      crawling: "正在 Zeabur 节点抓取中…",
+      ingesting: "数据清洗入库中…",
+      analyzing: "AI 提纯聚类中…",
+      done: "完成",
+      need_login: "登录态已过期",
+    };
+    for (;;) {
+      const s = await api(`/api/run/${jobId}`);
+      el.className = s.status === "failed" ? "runstate err" : "runstate";
+      el.textContent = `${labels[s.stage] || labels[s.status] || s.status}${s.progress ? " " + s.progress + "%" : ""}`;
+      if (s.status !== "running" && s.status !== "queued") {
+        if (s.status === "done") {
+          el.className = "runstate ok";
+          el.textContent = `完成：抓取 ${s.stats?.rows ?? "?"} 条，入库 ${s.stats?.inserted ?? "?"} 条`;
+          state.runs = (await api("/api/runs")).runs || [];
+          renderTabs();
+          if (s.run_id) await selectRun(s.run_id);
+          closeImport();
+          toast("抓取与分析完成");
+        } else {
+          el.textContent = s.error || "抓取失败";
+        }
+        break;
+      }
+      await new Promise((r) => setTimeout(r, 3000));
+    }
+  } catch (err) {
+    el.className = "runstate err";
+    el.textContent = `失败：${err.message}`;
+  }
 }
 
 async function submitMediaIngest() {
@@ -826,11 +904,479 @@ async function submitMediaIngest() {
 }
 
 async function refreshRuns() {
+  const data = await api("/api/runs");
+  state.runs = data.runs || [];
+}
+
+async function openRunModal() {
+  $("#runstate").textContent = "";
+  $("#runstate").className = "runstate";
+  $("#runstart").disabled = false;
+  $("#runmodal").hidden = false;
+  const sel = $("#runcat");
+  sel.innerHTML = `<option value="">加载中…</option>`;
   try {
-    state.runs = (await api("/api/runs")).runs || [];
-    renderTabs();
+    const { categories } = await api("/api/categories");
+    const usable = categories.filter((c) => c.items > 0);
+    sel.innerHTML = (usable.length ? usable : categories).map((c) =>
+      `<option value="${esc(c.category)}" ${c.items ? "" : "disabled"}>
+        ${esc(c.name)}${c.items ? `（${c.items} 条）` : "（无数据）"}
+      </option>`
+    ).join("") || `<option value="">没有可用品类</option>`;
+    const desired = state.pendingCategory || state.category;
+    const current = desired && usable.some((c) => c.category === desired) ? desired : "";
+    if (current) sel.value = current;
+    state.pendingCategory = null;
   } catch (err) {
-    toast(`刷新失败：${err.message}`);
+    sel.innerHTML = `<option value="">品类加载失败</option>`;
+    $("#runstate").className = "runstate err";
+    $("#runstate").textContent = `无法读取品类：${err.message}`;
+  }
+}
+
+function closeRunModal() {
+  $("#runmodal").hidden = true; // a running job keeps polling in the background
+}
+
+function fmtElapsed(iso) {
+  const ms = Date.now() - new Date(iso).getTime();
+  const s = Math.max(0, Math.round(ms / 1000));
+  return s < 60 ? `${s} 秒` : `${Math.floor(s / 60)} 分 ${s % 60} 秒`;
+}
+
+async function pollJob(jobId) {
+  const btn = $("#runstart");
+  btn.disabled = true;
+  const tick = setInterval(() => {
+    const el = $("#runstate");
+    if (el.dataset.started) el.textContent = `运行中… 已用 ${fmtElapsed(el.dataset.started)}`;
+  }, 1000);
+  try {
+    for (;;) {
+      const { job } = await api(`/api/run/${jobId}`);
+      const el = $("#runstate");
+      if (job.status === "queued" || job.status === "running") {
+        el.dataset.started = job.started_at;
+        el.textContent = job.status === "queued" ? "排队中…" : `运行中… 已用 ${fmtElapsed(job.started_at)}`;
+        await new Promise((r) => setTimeout(r, 1500));
+        continue;
+      }
+      clearInterval(tick);
+      if (job.status === "done") {
+        el.className = "runstate ok";
+        el.textContent = `完成：${job.atoms ?? (job.stats && job.stats.atoms) ?? "?"} 个原子，${job.run_id}`;
+        await refreshRuns();
+        renderTabs();
+        renderRunPick();
+        setTimeout(async () => {
+          $("#runmodal").hidden = true;
+          btn.disabled = false;
+          await selectRun(job.run_id);
+        }, 600);
+      } else {
+        el.className = "runstate err";
+        el.textContent = `失败：${job.error || "未知错误"}`;
+        btn.disabled = false;
+      }
+      return;
+    }
+  } catch (err) {
+    clearInterval(tick);
+    const el = $("#runstate");
+    el.className = "runstate err";
+    el.textContent = `状态查询失败：${err.message}`;
+    btn.disabled = false;
+  }
+}
+
+async function startRun() {
+  const category = $("#runcat").value;
+  const extractor = document.querySelector('input[name="extractor"]:checked').value;
+  const el = $("#runstate");
+  if (!category) {
+    el.className = "runstate err";
+    el.textContent = "没有可用品类：先抓取或导入评论。";
+    return;
+  }
+  el.className = "runstate";
+  el.textContent = "提交中…";
+  el.dataset.started = new Date().toISOString();
+  await Promise.resolve();
+  try {
+    const res = await fetch("/api/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category, extractor }),
+    });
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.detail || res.status);
+    pollJob(body.job.job_id);
+  } catch (err) {
+    el.className = "runstate err";
+    el.textContent = `无法启动：${err.message}`;
+  }
+}
+
+async function restoreActiveJob() {
+  try {
+    const { job } = await api("/api/run/active");
+    if (!job) return;
+    openRunModal();
+    $("#runcat").value = job.category;
+    document.querySelector(`input[name="extractor"][value="${job.extractor}"]`).checked = true;
+    pollJob(job.job_id);
+  } catch {
+    /* ignore */
+  }
+}
+
+$("#runbtn").addEventListener("click", openRunModal);
+$("#runclose").addEventListener("click", closeRunModal);
+$("#runstart").addEventListener("click", startRun);
+$("#runmodal").addEventListener("click", (e) => { if (e.target.id === "runmodal") closeRunModal(); });
+
+function openNewCat() {
+  $("#newcatstate").textContent = "";
+  $("#newcatstate").className = "runstate";
+  $("#newcatstart").disabled = false;
+  $("#newcatname").value = "";
+  $("#newcatterm").value = "";
+  $("#newcatmodal").hidden = false;
+  $("#newcatname").focus();
+}
+
+function closeNewCat() {
+  $("#newcatmodal").hidden = true;
+}
+
+async function searchNewCatApps() {
+  const term = $("#newcatterm").value.trim();
+  const el = $("#newcatstate");
+  if (!term) {
+    el.className = "runstate err";
+    el.textContent = "先填英文搜索词，再搜索候选 App。";
+    return;
+  }
+  el.className = "runstate";
+  el.textContent = "搜索中…";
+  $("#newcatstart").disabled = true;
+  try {
+    const { apps } = await api(`/api/apps/search?term=${encodeURIComponent(term)}&limit=8`);
+    state.newcatApps = apps || [];
+    if (!state.newcatApps.length) {
+      el.textContent = "没有搜到 App，换个英文词试试。";
+      $("#newcatapps").innerHTML = "";
+      return;
+    }
+    $("#newcatapps").innerHTML = state.newcatApps.map((a, i) => `
+      <label class="chk appchk">
+        <input type="checkbox" value="${i}" checked>
+        <span>${esc(a.name)} <span class="muted">· ${esc(a.genre || "未分类")} · ${a.rating_count || 0} 评分</span></span>
+      </label>`).join("");
+    el.className = "runstate ok";
+    el.textContent = `找到 ${state.newcatApps.length} 个候选，请确认哪些属于「${$("#newcatname").value.trim() || "该品类"}」。`;
+    $("#newcatstart").disabled = false;
+  } catch (err) {
+    el.className = "runstate err";
+    el.textContent = `搜索失败：${err.message}`;
+  }
+}
+
+async function startNewCat() {
+  const name = $("#newcatname").value.trim();
+  const term = $("#newcatterm").value.trim();
+  const pages = +$("#newcatpages").value;
+  const el = $("#newcatstate");
+  if (!name || !term) {
+    el.className = "runstate err";
+    el.textContent = "品类名和搜索词都要填。";
+    return;
+  }
+  const picked = [...document.querySelectorAll("#newcatapps input:checked")]
+    .map((el) => state.newcatApps[+el.value])
+    .filter(Boolean);
+  if (!picked.length) {
+    el.className = "runstate err";
+    el.textContent = "至少勾选一个属于该品类的 App。";
+    return;
+  }
+  el.className = "runstate";
+  el.textContent = "正在创建品类并抓取评论…";
+  $("#newcatstart").disabled = true;
+  try {
+    const res = await fetch("/api/categories/custom", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name, term, pages,
+        apps: picked.map((a) => ({ app_id: String(a.app_id), name: a.name })),
+      }),
+    });
+    const body = await res.json();
+    if (!res.ok) throw new Error(body.detail || res.status);
+    const apps = (body.apps || []).map((a) => a.name).join("、");
+    el.textContent = `已确认：${apps}。正在抓取评论…`;
+    let job = body.job;
+    for (;;) {
+      const polled = await api(`/api/run/${job.job_id}`);
+      job = polled.job;
+      if (job.status === "queued" || job.status === "running") {
+        const secs = Math.max(0, Math.round((Date.now() - new Date(job.started_at).getTime()) / 1000));
+        el.textContent = `抓取中… ${secs} 秒（${apps}）`;
+        await new Promise((r) => setTimeout(r, 1500));
+        continue;
+      }
+      break;
+    }
+    if (job.status === "done") {
+      const n = job.stats ? job.stats.inserted : "?";
+      el.className = "runstate ok";
+      el.textContent = `完成：抓取 ${n} 条评论。现在可以运行「${name}」。`;
+      state.pendingCategory = body.category;
+      await refreshRuns();
+      setTimeout(() => {
+        closeNewCat();
+        $("#newcatstart").disabled = false;
+        openRunModal();
+      }, 800);
+    } else {
+      el.className = "runstate err";
+      el.textContent = `抓取失败：${job.error || "未知错误"}`;
+      $("#newcatstart").disabled = false;
+    }
+  } catch (err) {
+    el.className = "runstate err";
+    el.textContent = `失败：${err.message}`;
+    $("#newcatstart").disabled = false;
+  }
+}
+
+$("#ddbtn").addEventListener("click", ddOpen);
+$("#ddclose").addEventListener("click", ddClose);
+$("#ddplan").addEventListener("click", ddPlan);
+$("#ddrun").addEventListener("click", ddRun);
+$("#newcatclose").addEventListener("click", closeNewCat);
+$("#newcatstart").addEventListener("click", startNewCat);
+$("#newcatsearch").addEventListener("click", searchNewCatApps);
+$("#newcatmodal").addEventListener("click", (e) => { if (e.target.id === "newcatmodal") closeNewCat(); });
+
+async function showDiscovery(corpus) {
+  state.mode = "discover";
+  document.body.classList.add("discover");
+  state.discoveryCorpus = corpus || state.discoveryCorpus || "main";
+  toast("加载发现结果…");
+  try {
+    state.discovery = await api(`/api/discovery?corpus=${encodeURIComponent(state.discoveryCorpus)}`);
+  } catch (err) {
+    $("#discbar").hidden = false;
+    $("#discbar").innerHTML = `<span class="state">语料 ${esc(state.discoveryCorpus)}：${esc(err.message)}</span>`;
+    $("#cards").innerHTML = `<div class="empty">这个语料还没有快照。点“生成快照”，或运行<br><code>python run.py discover --canonical --db var\llm_full.db</code></div>`;
+    await renderCorpusBar();
+    renderTabs();
+    return;
+  }
+  $("#toast").hidden = true;
+  await renderCorpusBar();
+  renderTabs();
+  const snap = state.discovery;
+  $("#meta").textContent = `需求发现快照 · 来源 ${snap.source ?? "?"} · 生成于 ${snap.generated_at} · 需求表 v${snap.taxonomy_version ?? "?"} · 覆盖 ${Math.round((snap.coverage ?? 0) * 100)}%`;
+  const chips = [
+    ["需求数", snap.demands.length],
+    ["证据总量", snap.demands.reduce((a, d) => a + d.size, 0)],
+    ["跨域需求", snap.demands.filter((d) => Object.keys(d.domains || {}).length > 1).length],
+    ["语料", snap.source || ""],
+  ];
+  if (snap.coverage !== null && snap.coverage !== undefined) {
+    chips.splice(3, 0, ["需求表覆盖率", `${Math.round(snap.coverage * 100)}%（${snap.unassigned ?? "?"} 簇未归类）`]);
+  }
+  const statsBox = document.getElementById("stats");
+  if (statsBox) statsBox.innerHTML = chips.map(([k, v]) => `<div class="stat">${k}<b>${esc(v)}</b></div>`).join("");
+  renderDiscoveryCards();
+  const dparams = new URLSearchParams(location.hash.slice(1));
+  if (dparams.has("demand")) openDemand(+dparams.get("demand"));
+  history.replaceState(null, "", "#discover");
+}
+
+
+async function renderCorpusBar() {
+  const bar = $("#discbar");
+  bar.hidden = false;
+  let corpora = state.corpora;
+  if (!corpora) {
+    try {
+      corpora = (await api("/api/discovery/corpora")).corpora;
+      state.corpora = corpora;
+    } catch (err) {
+      corpora = [];
+    }
+  }
+  const options = corpora
+    .map((c) => `<option value="${esc(c.name)}"${c.name === state.discoveryCorpus ? " selected" : ""}>${esc(c.label)}${c.ready ? "" : "（未生成）"}</option>`)
+    .join("");
+  bar.innerHTML =
+    `<label>语料 <select id="corpuspick">${options}</select></label>` +
+    `<button id="corpusbuild">生成快照</button>` +
+    `<span class="state" id="corpusstate"></span>`;
+  $("#corpuspick").addEventListener("change", (e) => showDiscovery(e.target.value));
+  $("#corpusbuild").addEventListener("click", buildCorpus);
+}
+
+async function buildCorpus() {
+  const corpus = state.discoveryCorpus;
+  const el = $("#corpusstate");
+  el.textContent = "生成中，可能需要 1–3 分钟…";
+  try {
+    const job = await api("/api/discovery/build", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ corpus }),
+    });
+    for (;;) {
+      const s = await api(`/api/discovery/build/${job.job_id}`);
+      if (s.status !== "running") {
+        if (s.status === "done") {
+          el.textContent = `完成：${s.demands} 个需求`;
+          state.corpora = null;
+          await showDiscovery(corpus);
+        } else {
+          el.textContent = `失败：${s.error || "未知错误"}`;
+        }
+        break;
+      }
+      await new Promise((r) => setTimeout(r, 3000));
+    }
+  } catch (err) {
+    el.textContent = `失败：${err.message}`;
+  }
+}
+
+function renderDiscoveryCards() {
+  const list = state.discovery ? state.discovery.demands : [];
+  if (!list.length) {
+    $("#cards").innerHTML = `<div class="empty">没有需求</div>`;
+    return;
+  }
+  $("#cards").innerHTML = list.map((d, i) => {
+    const domains = Object.keys(d.domains || {});
+    return `<article class="card" data-demand="${i}">
+      <div class="row"><h2>${esc(d.label)}</h2><span class="tier ${d.score >= 55 ? "强" : "中"}">${d.score} 分</span></div>
+      <div class="line">${esc(d.definition || "")}</div>
+      <div class="nums">
+        <span><b>${d.size}</b>证据</span>
+        <span><b>${domains.length}</b>个域</span>
+        <span><b>${(d.l2_share * 100).toFixed(0)}%</b>L2+</span>
+        <span>${domains.map((x) => `<span class="dom">${esc(x)}</span>`).join(" ")}</span>
+      </div>
+      ${trendLine(d)}
+      ${soloLine(d)}
+    </article>`;
+  }).join("");
+  $("#cards").querySelectorAll(".card").forEach((el) =>
+    el.addEventListener("click", () => openDemand(+el.dataset.demand))
+  );
+}
+
+function trendLine(d) {
+  const tr = d.market_trend;
+  if (!tr || tr.change_pct === null || tr.change_pct === undefined) return "";
+  const v = tr.change_pct;
+  const cls = v >= 5 ? "up" : v <= -5 ? "down" : "";
+  const sign = v > 0 ? "+" : "";
+  const terms = (tr.terms || []).map((x) => esc(x.term)).join(" / ");
+  return `<div class="trend ${cls}">市场趋势 ${sign}${v.toFixed(1)}%（Google Trends${terms ? "：" + terms : ""}）</div>`;
+}
+
+function soloLine(d) {
+  const fit = d.solo_fit;
+  if (!fit || fit.total === undefined) return "";
+  const cls = fit.total >= 70 ? "good" : fit.total >= 55 ? "mid" : "low";
+  return `<div class="solo ${cls}">单人可交付 ${fit.total} ／ 100${fit.summary ? "：" + esc(fit.summary) : ""}</div>`;
+}
+
+function openDemand(i) {
+  const d = state.discovery.demands[i];
+  const domains = Object.entries(d.domains || {}).map(([k, v]) => {
+    const who = (d.buyer_by_domain || {})[k] || d.buyer || "买家待补";
+    return `<div class="kv"><span class="k">${esc(k)}</span><span>${esc(who)}（${v} 条）</span></div>`;
+  }).join("");
+  const quotes = (d.examples || []).map((e) => `<div class="quote">${esc(e.quote)}
+    <div class="m">${esc(e.domain)} · ${esc(e.app)} · ${esc(e.level)}</div></div>`).join("");
+  $("#sheet").innerHTML = `<button class="close" onclick="closeCard()">×</button>
+    <h2>${esc(d.label)}</h2>
+    <div class="line">${esc(d.definition || "")}</div>
+    <div class="nums"><span><b>${d.score}</b>分数</span><span><b>${d.size}</b>证据</span>
+      <span><b>${Object.keys(d.domains || {}).length}</b>个域</span></div>
+    <h3 class="sec">买家分布</h3>${domains || "<div class='empty'>无</div>"}
+    <h3 class="sec">证据</h3>${quotes || "<div class='empty'>无</div>"}
+    <h3 class="sec">单人可交付性</h3>${soloBlock(d)}
+    <h3 class="sec">解决方案</h3><div id="solbox" class="empty">加载中…</div>`;
+  $("#drawer").hidden = false;
+  fillSolutions(d.label);
+}
+
+function soloBlock(d) {
+  const fit = d.solo_fit;
+  if (!fit || !fit.scores) return "<div class='empty'>未评分（python run.py solo-fit --attach）</div>";
+  const labels = {
+    third_party_actionable: "第三方可介入",
+    leverage: "能否真解决",
+    competition_gap: "竞争空隙",
+    software_only: "纯软件",
+    zero_onboarding: "零配置",
+    no_docs: "无文档依赖",
+    low_ops: "少运维",
+    frequency: "使用频率",
+    self_serve_pay: "自助付费",
+  };
+  const rows = Object.entries(fit.scores).map(([k, v]) => {
+    const width = (v / 5) * 100;
+    const cls = v >= 4 ? "good" : v >= 3 ? "mid" : "low";
+    return `<div class="fitrow"><span class="fitlabel">${labels[k] || k}</span>
+      <span class="fitbar"><i class="${cls}" style="width:${width}%"></i></span>
+      <span class="fitval">${v}</span></div>
+      <div class="fitwhy">${esc((fit.reasons || {})[k] || "")}</div>`;
+  }).join("");
+  return `<div class="fithead">总分 <b>${fit.total}</b> / 100</div>${rows}
+    <div class="fitwhy">${esc(fit.summary || "")}</div>`;
+}
+
+async function fillSolutions(label) {
+  const box = document.getElementById("solbox");
+  if (!box) return;
+  try {
+    if (!state.solutions) state.solutions = await api("/api/solutions");
+    const entry = state.solutions[label];
+    if (!entry || !(entry.solutions || []).length) {
+      box.className = "empty";
+      box.textContent = "这条需求还没有生成方案（python run.py solve）。";
+      return;
+    }
+    box.className = "";
+    const rec = entry.recommended || {};
+    const recNote = rec.name
+      ? `<div class="recnote">建议先做：<b>${esc(rec.name)}</b> —— ${esc(rec.reason || "")}</div>`
+      : "";
+    box.innerHTML = recNote + entry.solutions.map((s) => {
+      const isRec = rec.name && s.name === rec.name;
+      return `
+      <div class="sol${isRec ? " rec" : ""}">
+        <div class="solhead"><b>${esc(s.name)}</b>
+          <span class="solfit">${isRec ? '<span class="badge-rec">建议先做</span> ' : ""}可行性 ${s.feasibility}/5</span></div>
+        <div class="solpitch">${esc(s.pitch)}</div>
+        <div class="solmeta">${esc(s.buyer)} ｜ ${esc(s.pricing)}</div>
+        <div class="solmech">${esc(s.mechanism)}</div>
+        <details><summary>MVP 与验证</summary>
+          <ul>${(s.mvp || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+          <div class="solval">
+            假设：${esc((s.validation || {}).hypothesis || "")}<br>
+            实验：${esc((s.validation || {}).experiment || "")}<br>
+            阈值：${esc((s.validation || {}).threshold || "")}
+          </div>
+        </details>
+      </div>`;}).join("");
+  } catch (err) {
+    box.className = "empty";
+    box.textContent = `方案加载失败：${err.message}`;
   }
 }
 
@@ -879,6 +1425,7 @@ async function init() {
     }
   }
   if (params.has("newcat")) openNewCat();
+  if (params.has("import")) openImport();
   restoreActiveJob();
 }
 
@@ -904,7 +1451,8 @@ document.querySelectorAll("#importseg .segbtn").forEach((b) =>
   b.addEventListener("click", () => switchImport(b.dataset.src))
 );
 $("#mcsubmit").addEventListener("click", submitMediaIngest);
-$("#opennewcat").addEventListener("click", () => { closeImport(); openNewCat(); });
+$("#fcappstore").addEventListener("click", () => { closeImport(); openNewCat(); });
+$("#fcsubmit").addEventListener("click", submitCloudFetch);
 $("#runbtn").addEventListener("click", openRunModal);
 $("#discoverbtn").addEventListener("click", () => showDiscovery());
 $("#guideimport").addEventListener("click", openImport);
