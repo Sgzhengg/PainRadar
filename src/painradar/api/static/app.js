@@ -467,7 +467,7 @@ async function restoreActiveJob() {
   }
 }
 
-$("#runbtn").addEventListener("click", openRunModal);
+$("#runbtn")?.addEventListener("click", openRunModal);
 $("#runclose").addEventListener("click", closeRunModal);
 $("#runstart").addEventListener("click", startRun);
 $("#runmodal").addEventListener("click", (e) => { if (e.target.id === "runmodal") closeRunModal(); });
@@ -650,12 +650,23 @@ async function renderCorpusBar() {
   const options = corpora
     .map((c) => `<option value="${esc(c.name)}"${c.name === state.discoveryCorpus ? " selected" : ""}>${esc(c.label)}${c.ready ? "" : "（未生成）"}</option>`)
     .join("");
+  const latest = (state.runs || []).filter((r) => r.latest_for_category);
+  const categoryHtml = latest.length
+    ? `<label>品类 <select id="disccat">${latest.map((r) =>
+        `<option value="${esc(r.run_id)}">${esc(r.category_name || r.category)}（${r.atoms} 原子）</option>`
+      ).join("")}</select></label><button id="discopen">打开最近运行</button>`
+    : `<span class="state">还没有品类运行；先用「🧭 碰撞产品灵感」抓一批评论。</span>`;
   bar.innerHTML =
     `<label>语料 <select id="corpuspick">${options}</select></label>` +
     `<button id="corpusbuild">生成快照</button>` +
-    `<span class="state" id="corpusstate"></span>`;
+    `<span class="state" id="corpusstate"></span>` +
+    categoryHtml;
   $("#corpuspick").addEventListener("change", (e) => showDiscovery(e.target.value));
   $("#corpusbuild").addEventListener("click", buildCorpus);
+  $("#discopen")?.addEventListener("click", () => {
+    const runId = $("#disccat")?.value;
+    if (runId) selectRun(runId);
+  });
 }
 
 async function buildCorpus() {
@@ -908,6 +919,7 @@ async function submitCloudFetch() {
           state.runs = (await api("/api/runs")).runs || [];
           renderTabs();
           if (s.run_id) await selectRun(s.run_id);
+          closeExplore();
           closeImport();
           toast("抓取与分析完成");
         } else {
@@ -940,10 +952,35 @@ async function submitMediaIngest() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ source: "mediacrawler", file, category, min_len: +($("#mcmin").value || 6) }),
     });
-    el.className = "runstate ok";
-    el.textContent = `完成：导入 ${res.ingest.inserted} 条，跳过 ${res.ingest.skipped} 条（去重 ${res.ingest.duplicates}）。`;
-    state.runs = (await api("/api/runs")).runs || [];
-    renderTabs();
+    if (!res.ingest.inserted) {
+      el.className = "runstate ok";
+      el.textContent = `完成：没有新增评论（去重 ${res.ingest.duplicates}）。`;
+      return;
+    }
+    el.className = "runstate";
+    el.textContent = `已导入 ${res.ingest.inserted} 条，正在自动分析（规则抽取）…`;
+    const job = await api("/api/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category, extractor: "rule", mode: "b2c" }),
+    });
+    for (;;) {
+      const s = await api(`/api/run/${job.job.job_id}`);
+      if (s.status === "done") {
+        el.className = "runstate ok";
+        el.textContent = `完成：导入 ${res.ingest.inserted} 条，已生成机会卡。`;
+        state.runs = (await api("/api/runs")).runs || [];
+        renderTabs();
+        if (s.run_id) await selectRun(s.run_id);
+        closeExplore();
+        closeImport();
+        toast("导入与分析完成");
+        break;
+      }
+      if (s.status === "failed") throw new Error(s.error || "分析失败");
+      el.textContent = `导入完成，分析中…${s.progress ? " " + s.progress + "%" : ""}`;
+      await new Promise((r) => setTimeout(r, 3000));
+    }
   } catch (err) {
     el.className = "runstate err";
     el.textContent = `失败：${err.message}`;
@@ -1077,7 +1114,7 @@ async function restoreActiveJob() {
   }
 }
 
-$("#runbtn").addEventListener("click", openRunModal);
+$("#runbtn")?.addEventListener("click", openRunModal);
 $("#runclose").addEventListener("click", closeRunModal);
 $("#runstart").addEventListener("click", startRun);
 $("#runmodal").addEventListener("click", (e) => { if (e.target.id === "runmodal") closeRunModal(); });
@@ -1260,12 +1297,23 @@ async function renderCorpusBar() {
   const options = corpora
     .map((c) => `<option value="${esc(c.name)}"${c.name === state.discoveryCorpus ? " selected" : ""}>${esc(c.label)}${c.ready ? "" : "（未生成）"}</option>`)
     .join("");
+  const latest = (state.runs || []).filter((r) => r.latest_for_category);
+  const categoryHtml = latest.length
+    ? `<label>品类 <select id="disccat">${latest.map((r) =>
+        `<option value="${esc(r.run_id)}">${esc(r.category_name || r.category)}（${r.atoms} 原子）</option>`
+      ).join("")}</select></label><button id="discopen">打开最近运行</button>`
+    : `<span class="state">还没有品类运行；先用「🧭 碰撞产品灵感」抓一批评论。</span>`;
   bar.innerHTML =
     `<label>语料 <select id="corpuspick">${options}</select></label>` +
     `<button id="corpusbuild">生成快照</button>` +
-    `<span class="state" id="corpusstate"></span>`;
+    `<span class="state" id="corpusstate"></span>` +
+    categoryHtml;
   $("#corpuspick").addEventListener("change", (e) => showDiscovery(e.target.value));
   $("#corpusbuild").addEventListener("click", buildCorpus);
+  $("#discopen")?.addEventListener("click", () => {
+    const runId = $("#disccat")?.value;
+    if (runId) selectRun(runId);
+  });
 }
 
 async function buildCorpus() {
@@ -1437,19 +1485,19 @@ async function init() {
   }
   if (!state.runs.length) {
     $("#cards").innerHTML = `<div class="empty">数据库里还没有运行记录，先执行 <code>run.py run</code></div>`;
-    $("#runbtn").disabled = false;
+    if ($("#runbtn")) $("#runbtn").disabled = false;
     return;
   }
   const params = new URLSearchParams(location.hash.slice(1));
   const latest = categories()[0];
   const runId = params.get("run") || latest.run_id;
   if (params.has("discover")) {
-    $("#runbtn").disabled = false;
+    if ($("#runbtn")) $("#runbtn").disabled = false;
     await showDiscovery();
     return;
   }
   await selectRun(runId, params.get("cluster"));
-  $("#runbtn").disabled = false;
+  if ($("#runbtn")) $("#runbtn").disabled = false;
   if (params.has("runmodal")) openRunModal();
   if (params.has("deepdive")) {
     ddOpen();
@@ -1502,7 +1550,7 @@ togglePill("#fSoftware", "software");
 togglePill("#fWeek", "week");
 togglePill("#fWtp", "wtp");
 
-$("#importbtn").addEventListener("click", openImport);
+$("#importbtn")?.addEventListener("click", openImport);
 $("#importclose").addEventListener("click", closeImport);
 document.querySelectorAll("#importseg .segbtn").forEach((b) =>
   b.addEventListener("click", () => switchImport(b.dataset.src))
@@ -1510,25 +1558,8 @@ document.querySelectorAll("#importseg .segbtn").forEach((b) =>
 $("#mcsubmit").addEventListener("click", submitMediaIngest);
 $("#fcappstore").addEventListener("click", () => { closeImport(); openNewCat(); });
 $("#fcsubmit").addEventListener("click", submitCloudFetch);
-$("#runbtn").addEventListener("click", openRunModal);
+$("#runbtn")?.addEventListener("click", openRunModal);
 $("#discoverbtn").addEventListener("click", () => showDiscovery());
-$("#guideimport").addEventListener("click", openImport);
-$("#guideexplore").addEventListener("click", openExplore);
-$("#guidemvp").addEventListener("click", () => {
-  state.filters.software = true;
-  state.filters.week = true;
-  document.getElementById("fSoftware").classList.add("on");
-  document.getElementById("fWeek").classList.add("on");
-  renderCards();
-  if (!filtered().length) toast("当前运行还没有一人开发评估或短周期机会，先运行一次新分析。");
-  document.getElementById("cards").scrollIntoView({ behavior: "smooth", block: "start" });
-});
-$("#guidetoggle").addEventListener("click", () => {
-  const body = $("#guidebody");
-  const open = body.hidden;
-  body.hidden = !open;
-  $("#guidetoggle").setAttribute("aria-expanded", String(open));
-});
 
 $("#drawer").addEventListener("click", (e) => { if (e.target.id === "drawer") closeCard(); });
 document.addEventListener("keydown", (e) => {
@@ -2063,9 +2094,26 @@ function renderExploreStart() {
         <button class="btn primary" id="exstart" type="button">开始探索</button>
         <button class="btn small" id="exnodir" type="button">我完全没方向，帮我从评论里找灵感</button>
       </div>
+      <div class="ex-quick">
+        <button class="btn small" id="exfetch" type="button">☁️ 抓云端评论</button>
+        <button class="btn small" id="exfile" type="button">📥 导入本地文件</button>
+        <button class="btn small" id="exrerun" type="button">🔁 重新分析现有数据</button>
+      </div>
+      <p class="ex-quick-hint">抓取/导入后会自动分析，再回到这里探索。</p>
     </div>`;
   $("#exstart").addEventListener("click", () => startExplore($("#exseed").value.trim()));
   $("#exnodir").addEventListener("click", () => startExplore(""));
+  $("#exfetch").addEventListener("click", () => {
+    const seed = $("#exseed").value.trim();
+    openImport();
+    switchImport("cloud");
+    if (seed) setTimeout(() => {
+      const input = $("#fckw");
+      if (input && !input.value) input.value = seed;
+    }, 0);
+  });
+  $("#exfile").addEventListener("click", () => { openImport(); switchImport("local"); });
+  $("#exrerun").addEventListener("click", openRunModal);
   $("#exseed").addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();

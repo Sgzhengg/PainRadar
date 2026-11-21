@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PainRadar · 机会雷达</title>
-<link rel="stylesheet" href="/static/style.css?v=200">
+<link rel="stylesheet" href="/static/style.css?v=220">
 </head>
 <body>
 <header class="top">
@@ -14,9 +14,7 @@
     <div class="meta" id="meta">加载中…</div>
   </div>
   <div class="actions">
-    <button class="btn primary" id="importbtn">＋ 抓取新商机</button>
     <button class="btn explore-cta" id="explorebtn">🧭 碰撞产品灵感</button>
-    <button class="btn accent" id="runbtn" disabled>▶ 运行分析</button>
     <button class="btn ghost" id="discoverbtn">🌐 跨品类商机总榜</button>
   </div>
 </header>
@@ -29,29 +27,6 @@
   </label>
 <button class="linkbtn" id="ddbtn">专项挖掘</button>
 </nav>
-
-<section class="guide" id="guide">
-  <button class="guide-toggle" id="guidetoggle" aria-expanded="true">
-    🚀 商机挖掘工作流 <span class="guide-sub">3 步从评论到可做的产品</span>
-  </button>
-  <div class="guide-body" id="guidebody">
-    <div class="step">
-      <span class="step-n">1</span>
-      <div class="step-t">① 撒网抓热点评论<small>App Store / 小红书 / 抖音 / B站 / 知乎，先拿真实抱怨</small></div>
-      <button class="btn small" id="guideimport">导入数据</button>
-    </div>
-    <div class="step">
-      <span class="step-n">2</span>
-      <div class="step-t">② 碰撞产品灵感<small>不急着选品类，用评论和高赞讨论把方向逼出来</small></div>
-      <button class="btn small" id="guideexplore">去探索</button>
-    </div>
-    <div class="step">
-      <span class="step-n">3</span>
-      <div class="step-t">③ 锁定 MVP 切入点<small>只看高赞、纯软件、1 周能做的方向，导出种子用户</small></div>
-      <button class="btn small" id="guidemvp">看可做的</button>
-    </div>
-  </div>
-</section>
 
 <main class="wrap">
   <div class="toolbar">
@@ -251,6 +226,6 @@
 </div>
 
 <div class="toast" id="toast" hidden></div>
-<script src="/static/app.js?v=200"></script>
+<script src="/static/app.js?v=220"></script>
 </body>
 </html>
