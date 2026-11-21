@@ -51,3 +51,9 @@ painradar-crawler/MediaCrawler/
 painradar-crawler/data/
 painradar-crawler/__pycache__/
 
+
+# crawler profiles contain login cookies
+painradar-crawler/*.zip
+painradar-crawler/browser_data/
+*.zip
+

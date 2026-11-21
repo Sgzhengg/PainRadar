@@ -239,7 +239,7 @@ python tools/build_app.py --db var/gold200.db --db var/gold.db --out reports/app
 > 内网直连，SQLite 放持久化卷，公网入口加访问锁。
 
 - **访问锁**：设置 `PAINRADAR_ADMIN_PASSWORD` 后，页面与 `/api/*`（`/api/health` 除外）
-  都要求 Basic Auth；登录后 Cookie 记住 30 天。不设置则本地开发免密。
+  都要求访问密码（登录页或 Basic Auth）；登录后 Cookie 记住 30 天。不设置则本地开发免密。
 - **持久化**：挂载卷到 `/app/var`，并设置 `PAINRADAR_DATA_DIR=/app/var`；
   重新部署代码不会丢历史数据。
 - **内网采集**：`MEDIACRAWLER_API_URL=http://mediacrawler.zeabur.internal:8080`，

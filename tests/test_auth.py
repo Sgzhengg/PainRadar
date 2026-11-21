@@ -29,8 +29,26 @@ class AdminAuthTests(unittest.TestCase):
         self.assertEqual(res.status_code, 401)
         self.assertIn("Basic", res.headers.get("www-authenticate", ""))
 
-    def test_page_requires_auth(self):
-        self.assertEqual(self.client.get("/").status_code, 401)
+    def test_page_serves_login_form(self):
+        res = self.client.get("/")
+        self.assertEqual(res.status_code, 200)
+        self.assertIn("访问密码", res.text)
+        self.assertIn('action="/login"', res.text)
+
+    def test_login_form_sets_cookie(self):
+        res = self.client.post(
+            "/login", data={"password": "s3cret"}, follow_redirects=False
+        )
+        self.assertEqual(res.status_code, 303)
+        self.assertIn("pr_auth=", res.headers.get("set-cookie", ""))
+        page = self.client.get("/")
+        self.assertEqual(page.status_code, 200)
+        self.assertIn("app.js", page.text)
+
+    def test_wrong_login_rejected(self):
+        res = self.client.post("/login", data={"password": "nope"})
+        self.assertEqual(res.status_code, 401)
+        self.assertIn("密码不正确", res.text)
 
     def test_wrong_password_rejected(self):
         res = self.client.get("/api/runs", auth=("me", "wrong"))
@@ -42,7 +60,6 @@ class AdminAuthTests(unittest.TestCase):
         cookie = res.headers.get("set-cookie", "")
         self.assertIn("pr_auth=", cookie)
         self.assertIn("Max-Age=2592000", cookie)
-        # cookie keeps the session without re-sending credentials
         self.assertEqual(self.client.get("/api/runs").status_code, 200)
 
     def test_logout_clears_cookie(self):
