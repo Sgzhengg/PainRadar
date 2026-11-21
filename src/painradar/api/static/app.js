@@ -2267,8 +2267,23 @@ $("#exform")?.addEventListener("submit", (e) => {
   const value = input.value.trim();
   if (!value) return;
   input.value = "";
+  input.style.height = "auto";
   if (!state.explore) startExplore(value);
   else exploreTurn(value, null);
+});
+
+const exInput = $("#exinput");
+function autosizeExploreInput() {
+  if (!exInput) return;
+  exInput.style.height = "auto";
+  exInput.style.height = `${Math.min(exInput.scrollHeight, 160)}px`;
+}
+exInput?.addEventListener("input", autosizeExploreInput);
+exInput?.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    $("#exform")?.requestSubmit();
+  }
 });
 $("#exside")?.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-act]");
