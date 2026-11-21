@@ -12,7 +12,9 @@ const FACTORS = {
 
 const state = {
   runs: [], detail: null, category: null, runId: null,
-  scenes: new Set(), members: [], total: 0, cluster: null, loading: false,
+  members: [], total: 0, cluster: null, loading: false,
+  filters: { software: false, week: false, wtp: false },
+  sort: "opportunity",
 };
 
 async function api(path, options) {
@@ -46,19 +48,19 @@ function runsFor(category) {
 }
 
 function renderTabs() {
-  const discoverTab = `<button class="tab ${state.mode === "discover" ? "on" : ""}" data-discover="1">发现</button>`;
-  const catTabs = categories().map((r) =>
-    `<button class="tab ${state.mode === "category" && r.category === state.category ? "on" : ""}" data-cat="${esc(r.category)}">${esc(r.category_name)}</button>`
+  const host = document.getElementById("cats");
+  if (!host) return;
+  host.innerHTML = categories().map((r) =>
+    `<button class="cat ${state.mode === "category" && r.category === state.category ? "on" : ""}" data-cat="${esc(r.category)}">${esc(r.category_name || r.category)}</button>`
   ).join("");
-  $("#tabs").innerHTML = discoverTab + catTabs;
-  $("#tabs").querySelectorAll(".tab").forEach((el) =>
+  host.querySelectorAll(".cat").forEach((el) =>
     el.addEventListener("click", () => {
-      if (el.dataset.discover) { showDiscovery(); return; }
-      const cat = el.dataset.cat;
-      const latest = runsFor(cat)[0];
+      const latest = runsFor(el.dataset.cat)[0];
       if (latest) selectRun(latest.run_id);
     })
   );
+  const disc = document.getElementById("discoverbtn");
+  if (disc) disc.classList.toggle("on", state.mode === "discover");
 }
 
 function renderRunPick() {
@@ -80,11 +82,13 @@ function renderStats() {
     ["噪声率", `${(s.noise_rate * 100).toFixed(0)}%`], ["L2+ 证据", `${(s.l2_share * 100).toFixed(0)}%`],
     ["抽取器", s.extractor],
   ];
-  $("#stats").innerHTML = cells.map(([k, v]) => `<div class="stat">${k}<b>${esc(v)}</b></div>`).join("");
+  const stats = document.getElementById("stats");
+  if (stats) stats.innerHTML = cells.map(([k, v]) => `<div class="stat">${k}<b>${esc(v)}</b></div>`).join("");
 }
 
 function renderScenes() {
-  if (!state.detail) return;
+  const host = document.getElementById("scenes");
+  if (!host || !state.detail) return;
   const names = [...new Set(state.detail.opportunities.map((o) => baseScene(o.title)))];
   for (const n of [...state.scenes]) if (!names.includes(n)) state.scenes.delete(n);
   $("#scenes").innerHTML = names.map((n) =>
@@ -98,44 +102,93 @@ function renderScenes() {
   );
 }
 
+function topLikes(o) {
+  return Math.max(0, ...(o.members || []).map((m) => m.likes || 0));
+}
+
+function isHardware(o) {
+  const fit = o.solo_fit || {};
+  return fit.level === "高" || /硬件|供应链|不建议/.test(fit.form || "");
+}
+
+function isWeek(o) {
+  const d = String((o.solo_fit || {}).mvp_days || "");
+  return /3.?10 天|1 周|7 天|≤\s*7/.test(d);
+}
+
 function filtered() {
   if (!state.detail) return [];
-  const tier = $("#tier").value;
-  const minPain = +$("#pain").value;
-  const q = $("#q").value.trim().toLowerCase();
-  return state.detail.opportunities.filter((o) => {
-    if (tier && o.opportunity_tier !== tier) return false;
-    if (o.pain !== null && o.pain < minPain) return false;
-    if (state.scenes.size && !state.scenes.has(baseScene(o.title))) return false;
-    if (q && !(o.members.some((m) => m.quote.toLowerCase().includes(q)) ||
-      (o.one_liner || "").toLowerCase().includes(q))) return false;
+  const q = ($("#q")?.value || "").trim().toLowerCase();
+  const list = state.detail.opportunities.filter((o) => {
+    if (state.filters.software && isHardware(o)) return false;
+    if (state.filters.week && !isWeek(o)) return false;
+    if (state.filters.wtp) {
+      const hot = (o.ladder?.L3 || 0) + (o.ladder?.L4 || 0);
+      if (!hot) return false;
+    }
+    if (q && !((o.one_liner || "").toLowerCase().includes(q) ||
+      (o.members || []).some((m) => (m.quote || "").toLowerCase().includes(q)))) return false;
     return true;
   });
+  const diffRank = { "低": 0, "中": 1, "高": 2 };
+  if (state.sort === "likes") list.sort((a, b) => topLikes(b) - topLikes(a));
+  else if (state.sort === "easy") {
+    list.sort((a, b) => (diffRank[a.solo_fit?.level] ?? 3) - (diffRank[b.solo_fit?.level] ?? 3)
+      || (b.opportunity || 0) - (a.opportunity || 0));
+  } else list.sort((a, b) => (b.opportunity || 0) - (a.opportunity || 0));
+  return list;
+}
+
+function soloBadge(fit) {
+  if (!fit || !fit.level) return "";
+  if (fit.level === "高") {
+    return `<span class="solo-badge high">⚠️ 涉及硬件 / 重运营</span>`;
+  }
+  const cls = fit.level === "低" ? "low" : "mid";
+  return `<span class="solo-badge ${cls}">⚡ ${esc(fit.mvp_days || "")} 可做 · ${esc(fit.form || "")}</span>`;
+}
+
+function tierClass(t) {
+  return t === "强" ? "strong" : t === "中" ? "mid" : "weak";
 }
 
 function renderCards() {
   const list = filtered();
-  $("#painv").textContent = $("#pain").value;
   if (!list.length) {
-    $("#cards").innerHTML = `<div class="empty">没有符合筛选的机会卡</div>`;
+    $("#cards").innerHTML = `<div class="empty">没有符合筛选的机会卡；试试关掉筛选或换一个品类。</div>`;
     return;
   }
-  $("#cards").innerHTML = list.map((o) => `
-    <article class="card" data-cluster="${esc(o.cluster_id)}">
-      <div class="row"><h2>${esc(o.title)}</h2><span class="tier ${esc(o.opportunity_tier)}">机会 ${esc(o.opportunity_tier)}</span></div>
-      <div class="line">${esc(o.one_liner)}</div>
-      <div class="nums">
-        <span><b>${o.pain ?? "—"}</b>痛感</span>
-        <span><b>${o.opportunity ?? "—"}</b>机会</span>
-        <span><b>${o.member_count}</b>证据</span>
-        <span><b>${money(o.market_mid)}</b>SOM 中值</span>
+  $("#cards").innerHTML = list.map((o) => {
+    const top = (o.members || [])[0];
+    const l24 = (o.ladder?.L2 || 0) + (o.ladder?.L3 || 0) + (o.ladder?.L4 || 0);
+    const share = o.member_count ? Math.round((l24 / o.member_count) * 100) : 0;
+    const scenes = [...new Set((o.members || []).map((m) => m.scene).filter(Boolean))].slice(0, 3);
+    return `<article class="card opp" data-cluster="${esc(o.cluster_id)}">
+      <div class="opp-head">
+        <div class="opp-title">
+          <h2>${esc(o.title)}</h2>
+          ${soloBadge(o.solo_fit)}
+        </div>
+        <div class="opp-score">
+          <b>${o.opportunity ?? "—"}</b><small>机会分</small>
+          <span class="tier ${tierClass(o.opportunity_tier)}">${esc(o.opportunity_tier)}机会</span>
+        </div>
       </div>
-      ${o.solo_fit && o.solo_fit.level
-        ? `<div class="solo ${o.solo_fit.level === "低" ? "ok" : o.solo_fit.level === "中" ? "mid" : "hard"}">⚡ ${esc(o.solo_fit.mvp_days)} 可做 · ${esc(o.solo_fit.form)} · ${esc(o.solo_fit.monetization)}</div>`
-        : ""}
-    </article>`).join("");
+      ${top ? `<blockquote class="evidence">“${esc(top.quote)}”
+        ${top.likes ? `<span class="likes">👍 ${top.likes}</span>` : ""}</blockquote>` : ""}
+      <div class="opp-foot">
+        <span>${o.member_count} 条证据</span>
+        <span>L2+ ${share}%</span>
+        ${scenes.map((s) => `<span class="dom">${esc(s)}</span>`).join("")}
+        <button class="btn small open-detail" data-cluster="${esc(o.cluster_id)}">查看详情 &amp; 导出外联表</button>
+      </div>
+    </article>`;
+  }).join("");
   $("#cards").querySelectorAll(".card").forEach((el) =>
     el.addEventListener("click", () => openCard(el.dataset.cluster))
+  );
+  $("#cards").querySelectorAll(".open-detail").forEach((el) =>
+    el.addEventListener("click", (e) => { e.stopPropagation(); openCard(el.dataset.cluster); })
   );
 }
 
@@ -160,6 +213,10 @@ function drawerShell(o) {
   const warn = o.members.length && (o.ladder.L2 || 0) + (o.ladder.L3 || 0) + (o.ladder.L4 || 0) < o.members.length * 0.2
     ? `<div class="warn">该簇以纯抱怨（L1）为主，先做人群验证，不要直接立项。</div>` : "";
   return `<button class="close" id="close">×</button>
+    <div class="outreach top">
+      <a class="btn primary" href="/api/runs/${state.runId}/clusters/${encodeURIComponent(o.cluster_id)}/outreach.csv">⬇ 导出种子用户外联表 (CSV)</a>
+      <span class="hint">仅 L2–L4，按点赞降序，含破冰话术</span>
+    </div>
     <h2>${esc(o.title)}</h2>
     <div class="line">${esc(o.one_liner)}</div>
     <div class="nums"><span><b>${o.pain ?? "—"}</b>痛感</span><span><b>${o.opportunity ?? "—"}</b>机会</span>
@@ -176,7 +233,6 @@ function drawerShell(o) {
       <span class="k">证伪条件</span><span>${esc(o.falsifier)}</span>
     </div>
     <h3 class="sec">评分因子</h3>${factorBars(o)}
-    <div class="outreach"><a class="btn" href="/api/runs/${state.runId}/clusters/${encodeURIComponent(o.cluster_id)}/outreach.csv">⬇ 导出种子用户外联表 (CSV)</a></div>
     <h3 class="sec">证据（<span id="mcount">${state.members.length}</span>/${state.total}）</h3>
     <div id="quotes">${state.members.map(quoteHtml).join("")}</div>
     <div id="morewrap">${state.members.length < state.total ? `<button class="more" id="more">加载更多证据</button>` : ""}</div>`;
@@ -485,7 +541,6 @@ async function startNewCat() {
   }
 }
 
-$("#newcatbtn").addEventListener("click", openNewCat);
 $("#ddbtn").addEventListener("click", ddOpen);
 $("#ddclose").addEventListener("click", ddClose);
 $("#ddplan").addEventListener("click", ddPlan);
@@ -524,7 +579,8 @@ async function showDiscovery(corpus) {
   if (snap.coverage !== null && snap.coverage !== undefined) {
     chips.splice(3, 0, ["需求表覆盖率", `${Math.round(snap.coverage * 100)}%（${snap.unassigned ?? "?"} 簇未归类）`]);
   }
-  $("#stats").innerHTML = chips.map(([k, v]) => `<div class="stat">${k}<b>${esc(v)}</b></div>`).join("");
+  const statsBox = document.getElementById("stats");
+  if (statsBox) statsBox.innerHTML = chips.map(([k, v]) => `<div class="stat">${k}<b>${esc(v)}</b></div>`).join("");
   renderDiscoveryCards();
   const dparams = new URLSearchParams(location.hash.slice(1));
   if (dparams.has("demand")) openDemand(+dparams.get("demand"));
@@ -714,6 +770,70 @@ async function fillSolutions(label) {
   }
 }
 
+function openImport() {
+  const modal = $("#importmodal");
+  if (!modal) return;
+  modal.hidden = false;
+  const sel = $("#mccat");
+  sel.innerHTML = `<option value="">加载中…</option>`;
+  api("/api/categories")
+    .then(({ categories }) => {
+      const usable = categories.filter((c) => c.items > 0);
+      sel.innerHTML = (usable.length ? usable : categories)
+        .map((c) => `<option value="${esc(c.category)}">${esc(c.name)}（${c.items} 条）</option>`)
+        .join("") || `<option value="">没有品类，先抓取 App Store</option>`;
+    })
+    .catch(() => (sel.innerHTML = `<option value="">读取品类失败</option>`));
+  $("#mcstate").textContent = "";
+  $("#mcstate").className = "runstate";
+}
+
+function closeImport() {
+  $("#importmodal").hidden = true;
+}
+
+function switchImport(src) {
+  document.querySelectorAll("#importseg .segbtn").forEach((b) => b.classList.toggle("on", b.dataset.src === src));
+  $("#importmc").hidden = src !== "mediacrawler";
+  $("#importas").hidden = src !== "appstore";
+}
+
+async function submitMediaIngest() {
+  const el = $("#mcstate");
+  const file = $("#mcfile").value.trim();
+  const category = $("#mccat").value;
+  if (!file || !category) {
+    el.className = "runstate err";
+    el.textContent = "文件和品类都要填。";
+    return;
+  }
+  el.className = "runstate";
+  el.textContent = "导入中…";
+  try {
+    const res = await api("/api/ingest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ source: "mediacrawler", file, category, min_len: +($("#mcmin").value || 6) }),
+    });
+    el.className = "runstate ok";
+    el.textContent = `完成：导入 ${res.ingest.inserted} 条，跳过 ${res.ingest.skipped} 条（去重 ${res.ingest.duplicates}）。`;
+    state.runs = (await api("/api/runs")).runs || [];
+    renderTabs();
+  } catch (err) {
+    el.className = "runstate err";
+    el.textContent = `失败：${err.message}`;
+  }
+}
+
+async function refreshRuns() {
+  try {
+    state.runs = (await api("/api/runs")).runs || [];
+    renderTabs();
+  } catch (err) {
+    toast(`刷新失败：${err.message}`);
+  }
+}
+
 async function init() {
   try {
     const data = await api("/api/runs");
@@ -725,7 +845,6 @@ async function init() {
   if (!state.runs.length) {
     $("#cards").innerHTML = `<div class="empty">数据库里还没有运行记录，先执行 <code>run.py run</code></div>`;
     $("#runbtn").disabled = false;
-  $("#newcatbtn").disabled = false;
     return;
   }
   const params = new URLSearchParams(location.hash.slice(1));
@@ -738,7 +857,6 @@ async function init() {
   }
   await selectRun(runId, params.get("cluster"));
   $("#runbtn").disabled = false;
-  $("#newcatbtn").disabled = false;
   if (params.has("runmodal")) openRunModal();
   if (params.has("deepdive")) {
     ddOpen();
@@ -764,19 +882,59 @@ async function init() {
   restoreActiveJob();
 }
 
-["tier", "pain", "q"].forEach((id) =>
-  document.getElementById(id).addEventListener("input", renderCards)
-);
+$("#q").addEventListener("input", renderCards);
+$("#sortSel").addEventListener("change", (e) => { state.sort = e.target.value; renderCards(); });
 $("#runpick").addEventListener("change", (e) => selectRun(e.target.value));
+
+function togglePill(id, key) {
+  const el = $(id);
+  el.addEventListener("click", () => {
+    state.filters[key] = !state.filters[key];
+    el.classList.toggle("on", state.filters[key]);
+    renderCards();
+  });
+}
+togglePill("#fSoftware", "software");
+togglePill("#fWeek", "week");
+togglePill("#fWtp", "wtp");
+
+$("#importbtn").addEventListener("click", openImport);
+$("#importclose").addEventListener("click", closeImport);
+document.querySelectorAll("#importseg .segbtn").forEach((b) =>
+  b.addEventListener("click", () => switchImport(b.dataset.src))
+);
+$("#mcsubmit").addEventListener("click", submitMediaIngest);
+$("#opennewcat").addEventListener("click", () => { closeImport(); openNewCat(); });
+$("#runbtn").addEventListener("click", openRunModal);
+$("#discoverbtn").addEventListener("click", () => showDiscovery());
+$("#guideimport").addEventListener("click", openImport);
+$("#guiderun").addEventListener("click", openRunModal);
+$("#guidemvp").addEventListener("click", () => {
+  state.filters.software = true;
+  state.filters.week = true;
+  document.getElementById("fSoftware").classList.add("on");
+  document.getElementById("fWeek").classList.add("on");
+  renderCards();
+  if (!filtered().length) toast("当前运行还没有一人开发评估或短周期机会，先运行一次新分析。");
+  document.getElementById("cards").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+$("#guidetoggle").addEventListener("click", () => {
+  const body = $("#guidebody");
+  const open = body.hidden;
+  body.hidden = !open;
+  $("#guidetoggle").setAttribute("aria-expanded", String(open));
+});
+
 $("#drawer").addEventListener("click", (e) => { if (e.target.id === "drawer") closeCard(); });
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") { closeCard(); closeRunModal(); closeNewCat(); }
+  if (e.key === "Escape") { closeCard(); closeRunModal(); closeNewCat(); closeImport(); }
 });
 window.addEventListener("hashchange", () => {
   const p = new URLSearchParams(location.hash.slice(1));
   if (p.get("run") && p.get("run") !== state.runId) selectRun(p.get("run"), p.get("cluster"));
   else if (p.get("cluster")) openCard(p.get("cluster"));
 });
+
 init();
 
 

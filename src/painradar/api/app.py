@@ -29,6 +29,15 @@ class RunRequest(BaseModel):
     extractor: str = "rule"
 
 
+class IngestRequest(BaseModel):
+    source: str = "mediacrawler"
+    file: str
+    category: str
+    platform: str = ""
+    min_len: int = 6
+    field_map: dict = {}
+
+
 class AppChoice(BaseModel):
     app_id: str
     name: str = ""
@@ -204,6 +213,33 @@ def create_app(db_paths: list[str]) -> FastAPI:
             }
         finally:
             store.close()
+
+    @app.post("/api/ingest", status_code=202)
+    def ingest_mediacrawler(req: IngestRequest) -> dict:
+        """Import a local MediaCrawler export into the evidence ledger."""
+        from ..connectors.mediacrawler import MediaCrawlerConnector
+        from ..pipeline import ingest_items
+
+        path = Path(req.file)
+        if not path.exists():
+            raise HTTPException(status_code=400, detail=f"file not found: {req.file}")
+        if req.source != "mediacrawler":
+            raise HTTPException(status_code=400, detail="only source=mediacrawler is supported here")
+        connector = MediaCrawlerConnector(
+            path=path,
+            category=req.category,
+            field_map=req.field_map or None,
+            min_len=max(1, min(req.min_len, 40)),
+        )
+        last_store = Store(db_paths[0])
+        try:
+            result = ingest_items(last_store, connector.fetch(), req.category)
+            last_store.audit(
+                "api", "ingest", "mediacrawler", str(path), f"{req.category}: {result.as_dict()}"
+            )
+        finally:
+            last_store.close()
+        return {"ingest": result.as_dict(), "connector": connector.stats}
 
     @app.get("/api/categories")
     def list_categories() -> dict:

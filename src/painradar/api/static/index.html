@@ -4,50 +4,70 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PainRadar · 机会雷达</title>
-<link rel="stylesheet" href="/static/style.css?v=52">
+<link rel="stylesheet" href="/static/style.css?v=62">
 </head>
 <body>
 <header class="top">
   <div class="brand">
     <h1>PainRadar · 机会雷达</h1>
-    <span class="uiver">UI v15</span>
+    <span class="uiver">UI v16</span>
     <div class="meta" id="meta">加载中…</div>
   </div>
-  <div class="controls">
-    <label class="runpick">
-      历史运行
-      <select id="runpick"></select>
-    </label>
-    <button class="runsync" id="runbtn" disabled>手动运行</button>
-    <button class="runsync" id="newcatbtn" disabled>新增品类</button>
-    <button class="runsync" id="ddbtn">专项挖掘</button>
+  <div class="actions">
+    <button class="btn primary" id="importbtn">＋ 导入 / 抓取数据</button>
+    <button class="btn accent" id="runbtn" disabled>▶ 运行分析</button>
+    <button class="btn ghost" id="discoverbtn">🌐 跨品类商机总榜</button>
   </div>
-  <nav class="tabs" id="tabs"></nav>
-  <div class="stats" id="stats"></div>
 </header>
 
-<main class="wrap">
-  <aside class="side">
-    <div class="panel">
-      <h3>筛选</h3>
-      <div class="field">
-        <label>机会等级</label>
-        <select id="tier"><option value="">全部</option><option>强</option><option>中</option><option>弱</option></select>
-      </div>
-      <div class="field">
-        <label>最低痛感 <span id="painv">0</span></label>
-        <input type="range" id="pain" min="0" max="100" value="0" step="5">
-      </div>
-      <div class="field">
-        <label>场景</label>
-        <div id="scenes" class="scenes"></div>
-      </div>
-      <div class="field">
-        <label>搜索证据</label>
-        <input type="search" id="q" placeholder="关键词，如 pump / 噪音">
-      </div>
+<nav class="catbar" id="catbar">
+  <div class="catscroll" id="cats"></div>
+  <label class="runpick">
+    历史运行
+    <select id="runpick"></select>
+  </label>
+<button class="linkbtn" id="ddbtn">专项挖掘</button>
+</nav>
+
+<section class="guide" id="guide">
+  <button class="guide-toggle" id="guidetoggle" aria-expanded="true">
+    🚀 商机挖掘工作流 <span class="guide-sub">3 步从评论到可做的产品</span>
+  </button>
+  <div class="guide-body" id="guidebody">
+    <div class="step">
+      <span class="step-n">1</span>
+      <div class="step-t">喂入数据<small>导入 MediaCrawler 小红书 / 知乎 / B站评论，或抓取 App Store</small></div>
+      <button class="btn small" id="guideimport">导入数据</button>
     </div>
-  </aside>
+    <div class="step">
+      <span class="step-n">2</span>
+      <div class="step-t">AI 提纯聚类<small>过滤水军，提取 L2–L4 真实痛点，并评估一人开发可行性</small></div>
+      <button class="btn small" id="guiderun">运行分析</button>
+    </div>
+    <div class="step">
+      <span class="step-n">3</span>
+      <div class="step-t">锁定 MVP 与触达<small>筛出低难度短周期机会，导出高赞种子用户外联名单</small></div>
+      <button class="btn small" id="guidemvp">看可做的</button>
+    </div>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="toolbar">
+    <div class="pills" id="pills">
+      <button class="pill" id="fSoftware">🧩 仅看纯软件 / 插件</button>
+      <button class="pill" id="fWeek">⚡ 1 周内可做 MVP</button>
+      <button class="pill" id="fWtp">💰 有付费 / 求购信号 (L3–L4)</button>
+    </div>
+    <div class="toolbar-right">
+      <input type="search" id="q" placeholder="搜索证据关键词">
+      <select id="sortSel">
+        <option value="opportunity">按机会分降序</option>
+        <option value="likes">按最高单条点赞降序</option>
+        <option value="easy">按开发难度从易到难</option>
+      </select>
+    </div>
+  </div>
   <div class="discbar" id="discbar" hidden></div>
   <section class="cards" id="cards"></section>
 </main>
@@ -56,10 +76,42 @@
   <div class="sheet" id="sheet"></div>
 </div>
 
+<div class="modal" id="importmodal" hidden>
+  <div class="box wide">
+    <button class="close" id="importclose">×</button>
+    <h2>导入 / 抓取数据</h2>
+    <p class="hint">把评论喂进证据台账。两种来源任选其一。</p>
+    <div class="seg" id="importseg">
+      <button class="segbtn on" data-src="mediacrawler">MediaCrawler 导出</button>
+      <button class="segbtn" data-src="appstore">App Store 抓取</button>
+    </div>
+    <div id="importmc">
+      <div class="field">
+        <label>导出文件路径（JSON / JSONL / CSV）</label>
+        <input type="text" id="mcfile" placeholder="例如 data/xhs_export.json">
+      </div>
+      <div class="field">
+        <label>导入到品类</label>
+        <select id="mccat"></select>
+      </div>
+      <div class="field">
+        <label>最短评论长度（小于该值丢弃）</label>
+        <input type="number" id="mcmin" value="6" min="1" max="40">
+      </div>
+      <div class="runstate" id="mcstate"></div>
+      <button class="btn primary" id="mcsubmit">开始导入</button>
+    </div>
+    <div id="importas" hidden>
+      <p class="hint">按品类名 + 英文搜索词，自动找 3 个 App 并抓取评论。</p>
+      <button class="btn primary" id="opennewcat">打开 App Store 抓取</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="runmodal" hidden>
   <div class="box">
     <button class="close" id="runclose">×</button>
-    <h2>手动运行</h2>
+    <h2>运行分析</h2>
     <p class="hint">用现有语料重新抽取、聚类、打分。不会抓取新评论。</p>
     <div class="field">
       <label>品类</label>
@@ -71,15 +123,15 @@
       <label class="chk"><input type="radio" name="extractor" value="llm"> LLM（慢，约 1 分钟/20 条，消耗 token）</label>
     </div>
     <div class="runstate" id="runstate"></div>
-    <button class="primary" id="runstart">开始运行</button>
+    <button class="btn primary" id="runstart">开始运行</button>
   </div>
 </div>
 
 <div class="modal" id="newcatmodal" hidden>
   <div class="box">
     <button class="close" id="newcatclose">×</button>
-    <h2>新增品类</h2>
-    <p class="hint">输入品类名和英文搜索词，系统会找 3 个相关 App、抓取评论，然后出现在「手动运行」下拉里。</p>
+    <h2>抓取 App Store 评论</h2>
+    <p class="hint">输入品类名和英文搜索词，系统会找 3 个相关 App、抓取评论，然后出现在品类栏里。</p>
     <div class="field">
       <label>品类名（中文）</label>
       <input type="text" id="newcatname" placeholder="例如：咖啡机">
@@ -96,32 +148,32 @@
         <option value="4">4（约 200 条）</option>
       </select>
     </div>
-    <button class="primary" id="newcatsearch">1. 搜索候选 App</button>
+    <button class="btn primary" id="newcatsearch">1. 搜索候选 App</button>
     <div class="apps" id="newcatapps"></div>
     <div class="runstate" id="newcatstate"></div>
-    <button class="primary" id="newcatstart" disabled>2. 创建并抓取</button>
+    <button class="btn primary" id="newcatstart" disabled>2. 创建并抓取</button>
   </div>
 </div>
 
-<div class="toast" id="toast" hidden></div>
 <div class="modal" id="ddmodal" hidden>
-  <div class="box">
+  <div class="box wide">
     <button class="close" id="ddclose">×</button>
     <h2>专项挖掘</h2>
     <p class="hint">描述你想研究的产品 / 平台 / 系统。系统会先问 3 个澄清问题，然后再开始挖掘。</p>
     <textarea id="ddmsg" rows="3" placeholder="例：我想研究 Apple Watch 用户为什么买了之后不用了"></textarea>
-    <button class="primary" id="ddplan">生成澄清问题</button>
+    <button class="btn primary" id="ddplan">生成澄清问题</button>
     <div id="ddqs"></div>
-    <button class="primary" id="ddrun" hidden>开始挖掘</button>
+    <button class="btn primary" id="ddrun" hidden>开始挖掘</button>
     <div class="runstate" id="ddstate"></div>
     <div class="ddbar" id="ddbar" hidden>
-      <button class="runsync" id="ddmd">下载 Markdown</button>
-      <button class="runsync" id="ddprint">打印 / 另存为 PDF</button>
+      <button class="btn small" id="ddmd">下载 Markdown</button>
+      <button class="btn small" id="ddprint">打印 / 另存为 PDF</button>
     </div>
     <div id="ddreport" class="ddreport" hidden></div>
   </div>
 </div>
-<script src="/static/app.js?v=50"></script>
 
+<div class="toast" id="toast" hidden></div>
+<script src="/static/app.js?v=64"></script>
 </body>
 </html>

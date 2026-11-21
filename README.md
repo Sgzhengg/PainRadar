@@ -191,17 +191,19 @@ python run.py serve --db var\gold200.db --db var\gold.db --port 8770
 # 打开 http://127.0.0.1:8770/
 ```
 
-- 顶部切换品类（宠物智能设备 / 睡眠 / 记账 / 植物养护），「历史运行」下拉可切到旧 run；
-- **「发现」标签页**：展示无品类发现的需求（分数、定义、跨域数、来源域徽章），
-  点开看分域买家与原文证据；数据来自 `var/discovery.json` 快照；
-- **「手动运行」按钮**：选品类与抽取器（规则/LLM），后台线程执行，弹窗显示进度，
-  完成后自动切到新 run——不需要回到命令行；
-- **「新增品类」按钮**：输入中文品类名 + 英文搜索词，系统自动找 3 个 App Store 应用、
-  抓取评论、生成通用场景词表，新品类随即出现在「手动运行」下拉里；
-- 左侧筛选：机会等级、最低痛感、场景多选、证据关键词搜索；
-- 点卡片打开右侧下钻：证据分页加载（每页 50）、来源 App、置信度、梯子、原文链接、
-  因子条、SOM 区间、证伪条件；
-- 深链：`/#run=<run_id>&cluster=<cluster_id>` 可直接打开某张卡。
+**界面（UI v16）**：
+
+- 顶栏只保留 3 个主操作：`＋ 导入/抓取数据`、`▶ 运行分析`、`🌐 跨品类商机总榜`；
+- 品类切换移到独立二级栏，全部显示中文名，支持横向滚动；右侧「历史运行」可切旧 run；
+- 顶部可折叠「🚀 商机挖掘工作流」，三步按钮直达导入 / 运行 / 筛选；
+- 机会卡双列网格：痛点标题 + 一人开发徽章 + 机会分 + 最高赞原话 + 证据数 / L2+ 占比；
+- 快捷筛选胶囊：纯软件、1 周内 MVP、L3–L4 付费信号；排序支持机会分 / 点赞 / 难度；
+- 下钻抽屉顶部就是「⬇ 导出种子用户外联表 (CSV)」，只含 L2–L4，按点赞降序，附破冰话术。
+
+![WebUI](reports/ui-v16.png)
+
+**导入 MediaCrawler**：顶栏「＋ 导入 / 抓取数据」→ 选文件路径与品类即可入库；
+也可用 `POST /api/ingest`（详见下表）。
 
 API（OpenAPI 文档在 `/docs`）：
 
@@ -212,6 +214,8 @@ API（OpenAPI 文档在 `/docs`）：
 | GET | `/api/runs/{run_id}` | 运行详情 + 机会卡（首屏 12 条证据） |
 | GET | `/api/runs/{run_id}/members` | 证据分页（`cluster_id`、`offset`、`limit`） |
 | GET | `/api/anchors` | 品类外部锚 |
+| POST | `/api/ingest` | 导入 MediaCrawler 文件 `{file, category, min_len}`（202） |
+| GET | `/api/runs/{run_id}/clusters/{cluster_id}/outreach.csv` | 种子用户外联 CSV（L2–L4，按赞降序） |
 | GET | `/api/discovery` | 最新一次需求发现快照（无则 404） |
 | POST | `/api/run` | 触发一次运行 `{category, extractor}`（202 + job） |
 | GET | `/api/run/{job_id}` | 作业状态（`queued/running/done/failed`） |
