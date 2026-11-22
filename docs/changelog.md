@@ -287,3 +287,8 @@ painradar demo --reset
 - MediaCrawler 的 XHS Cookie 登录只写入 web_session，xhshow 签名要求 a1；
 - 构建时 patch `media_platform/xhs/login.py`，写入完整 Cookie；
 - 扫码登录后需同时保留 `a1` 与 `web_session`。
+
+## 2026-11-22 · 支持 MediaCrawler jsonl 结果
+
+- MediaCrawler 默认 `SAVE_DATA_OPTION=jsonl`，桥接层原来只扫 `*.json`，导致抓到 0 条；
+- runner.collect 同时解析 `.json` 与 `.jsonl`，新增回归测试。

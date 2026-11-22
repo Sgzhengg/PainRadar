@@ -298,8 +298,8 @@ class MediaCrawlerRunner:
             return []
         cutoff = started - 120
         files = [
-            p for p in self.data_dir.rglob("*.json")
-            if p.is_file() and p.stat().st_mtime >= cutoff
+            p for p in self.data_dir.rglob("*")
+            if p.is_file() and p.suffix in (".json", ".jsonl") and p.stat().st_mtime >= cutoff
         ]
         files.sort(key=lambda p: p.stat().st_mtime)
 
@@ -308,10 +308,20 @@ class MediaCrawlerRunner:
 
         for path in files:
             try:
-                payload = json.loads(path.read_text(encoding="utf-8"))
-            except (OSError, ValueError):
+                text = path.read_text(encoding="utf-8")
+            except OSError:
                 continue
-            for record in _iter_records(payload):
+            records: list[dict[str, Any]] = []
+            try:
+                if path.suffix == ".jsonl":
+                    for line in text.splitlines():
+                        if line.strip():
+                            records.extend(_iter_records(json.loads(line)))
+                else:
+                    records.extend(_iter_records(json.loads(text)))
+            except ValueError:
+                continue
+            for record in records:
                 nid = _first(record, NOTE_ID_KEYS)
                 content = _first(record, CONTENT_KEYS)
                 is_comment = bool(_first(record, COMMENT_ID_KEYS)) and content is not None
