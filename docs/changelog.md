@@ -275,3 +275,9 @@ painradar demo --reset
 
 - MediaCrawler 小红书签名依赖 execjs → Node.js；
 - 爬虫镜像 apt 增加 nodejs，修复 `Could not find an available JavaScript runtime`。
+
+## 2026-11-22 · 爬虫构建层优化
+
+- Node.js 安装从第一层移到 Playwright 之后，避免小改动导致依赖层全量重建；
+- MediaCrawler 改为 `git init + fetch --depth 1`，不再因 SHA/tag 触发全量 clone；
+- 构建耗时主要来自 MediaCrawler 依赖（OpenCV/Playwright/pandas/matplotlib）和 Chromium + 系统依赖下载。

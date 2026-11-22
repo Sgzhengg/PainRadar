@@ -14,7 +14,7 @@ WORKDIR /app
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        curl ca-certificates git libatomic1 nodejs \
+        curl ca-certificates git libatomic1 \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt ./
@@ -25,12 +25,21 @@ RUN pip install --no-cache-dir -r requirements.txt
 ARG MEDIACRAWLER_REPO=https://github.com/NanmiCoder/MediaCrawler.git
 ARG MEDIACRAWLER_REF=main
 RUN rm -rf /app/MediaCrawler \
-    && (git clone --depth 1 --branch "${MEDIACRAWLER_REF}" "${MEDIACRAWLER_REPO}" /app/MediaCrawler \
-        || (rm -rf /app/MediaCrawler \
-            && git clone "${MEDIACRAWLER_REPO}" /app/MediaCrawler \
-            && cd /app/MediaCrawler && git checkout "${MEDIACRAWLER_REF}"))
+    && git init /app/MediaCrawler \
+    && cd /app/MediaCrawler \
+    && git remote add origin "${MEDIACRAWLER_REPO}" \
+    && git fetch --depth 1 origin "${MEDIACRAWLER_REF}" \
+    && git checkout --detach FETCH_HEAD \
+    && rm -rf .git
 RUN pip install --no-cache-dir -r MediaCrawler/requirements.txt \
     && python -m playwright install --with-deps chromium
+
+# Node is only needed at runtime by MediaCrawler's execjs signature helper.
+# Keep it in a late layer so future code changes don't invalidate the browser
+# and Python dependency layers above.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends nodejs \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY app.py runner.py storage.py entrypoint.sh ./
 RUN chmod +x /app/entrypoint.sh
