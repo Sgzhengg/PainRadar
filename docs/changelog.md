@@ -270,3 +270,8 @@ painradar demo --reset
 - 探索页平台状态徽章可点击，弹出 Cookie 配置框；
 - 新增 `POST /api/platforms/{platform}/cookie`（爬虫）与 PainRadar 代理；
 - Cookie 保存在爬虫 `/data/cookies/{platform}.txt`，保存后立即刷新就绪状态。
+
+## 2026-11-22 · 爬虫镜像补 Node.js
+
+- MediaCrawler 小红书签名依赖 execjs → Node.js；
+- 爬虫镜像 apt 增加 nodejs，修复 `Could not find an available JavaScript runtime`。

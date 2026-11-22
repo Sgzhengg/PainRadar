@@ -14,7 +14,7 @@ WORKDIR /app
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        curl ca-certificates git libatomic1 \
+        curl ca-certificates git libatomic1 nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt ./
