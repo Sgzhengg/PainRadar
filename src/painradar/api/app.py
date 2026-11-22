@@ -385,7 +385,9 @@ def create_app(db_paths: list[str]) -> FastAPI:
     _disc_jobs: dict = {}
 
     def _corpus_items(db_rel: str) -> int:
-        path = PROJECT_ROOT / db_rel
+        path = Path(db_rel)
+        if not path.is_absolute():
+            path = PROJECT_ROOT / db_rel
         if not path.exists():
             return 0
         try:
@@ -404,6 +406,23 @@ def create_app(db_paths: list[str]) -> FastAPI:
             return PROJECT_ROOT / "var" / "discovery.json"
         return PROJECT_ROOT / "var" / f"discovery_{corpus}.json"
 
+    def _corpus_atoms(db_rel: str) -> int:
+        path = Path(db_rel)
+        if not path.is_absolute():
+            path = PROJECT_ROOT / db_rel
+        if not path.exists():
+            return 0
+        try:
+            con = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+            try:
+                return int(con.execute(
+                    "SELECT COUNT(*) FROM atoms WHERE deleted_at IS NULL"
+                ).fetchone()[0])
+            finally:
+                con.close()
+        except Exception:  # noqa: BLE001
+            return 0
+
     def _snapshot_demand_count(corpus: str) -> int:
         path = _snapshot_path(corpus)
         if not path.exists():
@@ -420,10 +439,13 @@ def create_app(db_paths: list[str]) -> FastAPI:
                 {
                     "name": name,
                     "label": cfg["label"],
-                    "db": cfg["db"],
+                    "db": str(db_paths[0]) if name == "main" else cfg["db"],
                     "ready": _snapshot_path(name).exists(),
                     "demands": _snapshot_demand_count(name),
-                    "items": _corpus_items(cfg["db"]),
+                    "items": (
+                        sum(_corpus_items(p) for p in db_paths)
+                        if name == "main" else _corpus_items(cfg["db"])
+                    ),
                 }
                 for name, cfg in CORPORA.items()
             ]
@@ -464,12 +486,18 @@ def create_app(db_paths: list[str]) -> FastAPI:
 
             try:
                 cfg = CORPORA[corpus]
-                db = PROJECT_ROOT / cfg["db"]
+                dbs = (
+                    [str(p) for p in db_paths]
+                    if corpus == "main"
+                    else [str(PROJECT_ROOT / cfg["db"])]
+                )
+                total_atoms = sum(_corpus_atoms(p) for p in dbs)
+                min_size = 5 if total_atoms < 20 else 8
                 frozen = PROJECT_ROOT / cfg["frozen"] if cfg["frozen"] else PROJECT_ROOT / "var" / "demand_taxonomy_frozen.json"
                 demands, stats = discover_canonical(
-                    [str(db)],
+                    dbs,
                     top=30,
-                    min_size=8,
+                    min_size=min_size,
                     cache_path=PROJECT_ROOT / "var" / "demand_cache.json",
                     statement_threshold=0.3,
                     taxonomy_cache=PROJECT_ROOT / "var" / "demand_taxonomy.json",
@@ -481,7 +509,7 @@ def create_app(db_paths: list[str]) -> FastAPI:
                 )
                 snapshot = {
                     "generated_at": datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds"),
-                    "source": cfg["db"],
+                    "source": ", ".join(dbs),
                     "taxonomy_version": stats.get("taxonomy_version"),
                     "coverage": stats.get("coverage"),
                     "unassigned": stats.get("unassigned"),

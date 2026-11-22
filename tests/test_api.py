@@ -159,6 +159,12 @@ class TestApi(unittest.TestCase):
         res = self.client.get("/api/solutions")
         self.assertEqual(res.status_code, 200)
         self.assertIsInstance(res.json(), dict)
+    def test_discovery_corpora_uses_runtime_db(self) -> None:
+        body = self.client.get("/api/discovery/corpora").json()
+        main = next(c for c in body["corpora"] if c["name"] == "main")
+        self.assertGreater(main["items"], 0)
+        self.assertTrue(main["db"])
+
 
 if __name__ == "__main__":
     unittest.main()
