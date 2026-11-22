@@ -679,7 +679,7 @@ async function renderCorpusBar() {
     }
   }
   const options = corpora
-    .map((c) => `<option value="${esc(c.name)}"${c.name === state.discoveryCorpus ? " selected" : ""}>${esc(c.label)}${c.ready ? "" : "（未生成）"}</option>`)
+    .map((c) => `<option value="${esc(c.name)}"${c.name === state.discoveryCorpus ? " selected" : ""}>${esc(c.label)}${c.items != null ? `（${c.items} 评论）` : ""}${c.ready ? "" : "（未生成）"}</option>`)
     .join("");
   const latest = (state.runs || []).filter((r) => r.latest_for_category);
   const categoryHtml = latest.length
@@ -1329,7 +1329,7 @@ async function renderCorpusBar() {
     }
   }
   const options = corpora
-    .map((c) => `<option value="${esc(c.name)}"${c.name === state.discoveryCorpus ? " selected" : ""}>${esc(c.label)}${c.ready ? "" : "（未生成）"}</option>`)
+    .map((c) => `<option value="${esc(c.name)}"${c.name === state.discoveryCorpus ? " selected" : ""}>${esc(c.label)}${c.items != null ? `（${c.items} 评论）` : ""}${c.ready ? "" : "（未生成）"}</option>`)
     .join("");
   const latest = (state.runs || []).filter((r) => r.latest_for_category);
   const categoryHtml = latest.length
@@ -2723,7 +2723,7 @@ async function renderDiscoverySetup(note = "") {
     <div class="disc-form">
       <label>当前语料
         <div class="disc-readonly">${esc(current.label || state.discoveryCorpus || "未选择")}</div>
-        <small>${esc(current.db || "")} · 快照 ${current.demands || 0} 个需求</small>
+        <small>${esc(current.db || "")} · ${current.items != null ? `${current.items} 条评论` : "评论数未知"} · 快照 ${current.demands || 0} 个需求</small>
       </label>
       <label>品类补充（可选）
         <select id="dsCat">${catOptions}</select>

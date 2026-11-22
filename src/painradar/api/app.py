@@ -9,6 +9,7 @@ from __future__ import annotations
 import csv
 import io
 import json
+import sqlite3
 from pathlib import Path
 
 from fastapi import FastAPI, File, HTTPException, Query, Response, UploadFile
@@ -370,7 +371,7 @@ def create_app(db_paths: list[str]) -> FastAPI:
         }
 
     CORPORA = {
-        "main": {"db": "var/llm_full.db", "label": "全品类（795 评论）", "frozen": None},
+        "main": {"db": "var/llm_full.db", "label": "全品类", "frozen": None},
         "topcharts": {"db": "var/topcharts_llm.db", "label": "Top Charts 40 应用", "frozen": None},
         "hardware": {"db": "var/hardware.db", "label": "硬件设备（12 类）", "frozen": None},
         "pdf": {"db": "var/pdf.db", "label": "PDF 工具", "frozen": "var/demand_taxonomy_pdf.json"},
@@ -382,6 +383,21 @@ def create_app(db_paths: list[str]) -> FastAPI:
         "community": {"db": "var/community.db", "label": "社区讨论", "frozen": None},
     }
     _disc_jobs: dict = {}
+
+    def _corpus_items(db_rel: str) -> int:
+        path = PROJECT_ROOT / db_rel
+        if not path.exists():
+            return 0
+        try:
+            con = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
+            try:
+                return int(con.execute(
+                    "SELECT COUNT(*) FROM items WHERE deleted_at IS NULL"
+                ).fetchone()[0])
+            finally:
+                con.close()
+        except Exception:  # noqa: BLE001
+            return 0
 
     def _snapshot_path(corpus: str) -> Path:
         if corpus == "main":
@@ -407,6 +423,7 @@ def create_app(db_paths: list[str]) -> FastAPI:
                     "db": cfg["db"],
                     "ready": _snapshot_path(name).exists(),
                     "demands": _snapshot_demand_count(name),
+                    "items": _corpus_items(cfg["db"]),
                 }
                 for name, cfg in CORPORA.items()
             ]
