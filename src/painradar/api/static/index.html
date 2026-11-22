@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>PainRadar · 机会雷达</title>
-<link rel="stylesheet" href="/static/style.css?v=270">
+<link rel="stylesheet" href="/static/style.css?v=280">
 </head>
 <body>
 <header class="top">
@@ -82,6 +82,17 @@
     <p class="hint">被验证削弱的方向下次会自动避开；付费回答也会被记住。</p>
     <div id="memlist" class="memlist"></div>
     <button class="btn small" id="memclear">清空全部记忆</button>
+  </div>
+</div>
+
+<div class="modal" id="cookieModal" hidden>
+  <div class="box wide">
+    <button class="close" id="cookieclose">×</button>
+    <h2 id="cookietitle">配置平台 Cookie</h2>
+    <p class="hint">从已登录浏览器的 DevTools → Network → Request Headers → Cookie 复制完整字符串。只保存在爬虫服务的 /data/cookies，不会上传到第三方。</p>
+    <textarea id="cookieinput" rows="5" placeholder="例如：web_session=...; a1=...; webId=..."></textarea>
+    <div class="runstate" id="cookiestate"></div>
+    <button class="btn primary" id="cookiesave">保存并检查</button>
   </div>
 </div>
 
@@ -227,6 +238,6 @@
 </div>
 
 <div class="toast" id="toast" hidden></div>
-<script src="/static/app.js?v=270"></script>
+<script src="/static/app.js?v=280"></script>
 </body>
 </html>

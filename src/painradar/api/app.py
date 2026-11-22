@@ -143,6 +143,21 @@ def create_app(db_paths: list[str]) -> FastAPI:
         except Exception as exc:  # noqa: BLE001
             raise HTTPException(status_code=502, detail=f"读取爬虫平台状态失败：{exc}")
 
+    @app.post("/api/crawler/platforms/{platform}/cookie")
+    def crawler_set_platform_cookie(platform: str, payload: dict) -> dict:
+        from ..config import MEDIACRAWLER_API_URL
+        from ..connectors.remote_mediacrawler import RemoteMediaCrawler
+
+        if not MEDIACRAWLER_API_URL:
+            raise HTTPException(status_code=400, detail="MEDIACRAWLER_API_URL 未配置")
+        cookie = str(payload.get("cookie") or "").strip()
+        if not cookie:
+            raise HTTPException(status_code=400, detail="cookie is empty")
+        try:
+            return RemoteMediaCrawler().set_platform_cookie(platform, cookie)
+        except Exception as exc:  # noqa: BLE001
+            raise HTTPException(status_code=502, detail=f"保存 Cookie 失败：{exc}")
+
     @app.get("/api/runs")
     def list_runs() -> dict:
         runs: list[dict] = []

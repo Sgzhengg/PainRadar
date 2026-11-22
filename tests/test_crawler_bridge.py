@@ -243,6 +243,19 @@ class PlatformStatusTests(unittest.TestCase):
         self.assertTrue(items["dy"]["ready"])
         self.assertEqual(items["dy"]["cookie_source"], "env")
 
+    def test_set_cookie_marks_platform_ready(self):
+        res = self.client.post(
+            "/api/platforms/xhs/cookie",
+            headers={"Authorization": "Bearer tok"},
+            json={"cookie": "web_session=abc"},
+        )
+        self.assertEqual(res.status_code, 200, res.text)
+        self.assertTrue((bridge.COOKIE_DIR / "xhs.txt").exists())
+        status = self.client.get("/api/platforms", headers={"Authorization": "Bearer tok"}).json()
+        xhs = [p for p in status["platforms"] if p["platform"] == "xhs"][0]
+        self.assertTrue(xhs["ready"])
+        self.assertEqual(xhs["cookie_source"], "file")
+
 
 if __name__ == "__main__":
     unittest.main()

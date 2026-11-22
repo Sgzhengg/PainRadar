@@ -200,6 +200,14 @@ class RemoteMediaCrawler:
             "connector": connector.stats,
         }
 
+    def set_platform_cookie(self, platform: str, cookie: str) -> dict[str, Any]:
+        data = self._request(
+            "POST",
+            f"/api/platforms/{platform}/cookie",
+            json={"cookie": cookie},
+        )
+        return data if isinstance(data, dict) else {}
+
     def platforms(self) -> list[dict[str, Any]]:
         if not self.base_url:
             return []

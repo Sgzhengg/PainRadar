@@ -14,6 +14,7 @@ PainRadar 的 MediaCrawler 桥接服务：把不支持 HTTP 的 MediaCrawler 包
 | GET | `/api/tasks/{id}` | `{status, stage, progress, need_login, error}` |
 | GET | `/api/tasks/{id}/results` | 帖子 + 评论 JSON 数组 |
 | GET | `/api/platforms` | 各平台 Cookie/Profile 是否就绪 |
+| POST | `/api/platforms/{platform}/cookie` | 直接保存该平台 Cookie 到 `/data/cookies/{platform}.txt` |
 | GET | `/health` | 存活检查（免鉴权） |
 
 设置 `MEDIACRAWLER_API_TOKEN` 后，除 `/health` 外都要

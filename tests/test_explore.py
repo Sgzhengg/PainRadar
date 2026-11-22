@@ -262,6 +262,16 @@ class ExploreApiTests(unittest.TestCase):
         self.assertFalse(res.json()["configured"])
         self.assertEqual(res.json()["platforms"], [])
 
+    def test_crawler_cookie_proxy(self):
+        with patch.object(config, "MEDIACRAWLER_API_URL", "http://crawler.test"), \
+             patch("painradar.connectors.remote_mediacrawler.RemoteMediaCrawler.set_platform_cookie", return_value={"ok": True}) as save:
+            res = self.client.post(
+                "/api/crawler/platforms/xhs/cookie",
+                json={"cookie": "web_session=abc"},
+            )
+        self.assertEqual(res.status_code, 200, res.text)
+        save.assert_called_once()
+
 
 if __name__ == "__main__":
     unittest.main()

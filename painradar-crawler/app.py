@@ -244,6 +244,35 @@ def list_platforms(_: None = Depends(require_token)) -> dict[str, Any]:
     }
 
 
+class CookieRequest(BaseModel):
+    cookie: str
+
+
+@app.post("/api/platforms/{platform}/cookie")
+def set_platform_cookie(
+    platform: str,
+    req: CookieRequest,
+    _: None = Depends(require_token),
+) -> dict[str, Any]:
+    platform = platform.strip().lower()
+    if platform not in PLATFORMS:
+        raise HTTPException(status_code=400, detail=f"platform must be {'|'.join(PLATFORM_ORDER)}")
+    value = req.cookie.strip()
+    if not value:
+        raise HTTPException(status_code=400, detail="cookie is empty")
+    if len(value) > 20000:
+        raise HTTPException(status_code=400, detail="cookie is too large")
+    COOKIE_DIR.mkdir(parents=True, exist_ok=True)
+    path = COOKIE_DIR / f"{platform}.txt"
+    path.write_text(value, encoding="utf-8")
+    return {
+        "ok": True,
+        "platform": platform,
+        "cookie_file": str(path),
+        "cookie_source": "file",
+    }
+
+
 @app.post("/api/profiles/{platform}")
 async def upload_profile(
     platform: str,

@@ -2129,10 +2129,54 @@ async function loadPlatformStatus() {
       return;
     }
     el.innerHTML = state.platforms.map((p) =>
-      `<span class="pform ${p.ready ? "on" : "off"}" title="cookie: ${esc(p.cookie_source || "none")}">${p.ready ? "✅" : "❌"} ${esc(p.label || p.platform)}</span>`
+      `<button type="button" class="pform ${p.ready ? "on" : "off"}" data-platform="${esc(p.platform)}" data-label="${esc(p.label || p.platform)}" title="cookie: ${esc(p.cookie_source || "none")}；点击配置">${p.ready ? "✅" : "❌"} ${esc(p.label || p.platform)}</button>`
     ).join("");
+    el.querySelectorAll(".pform").forEach((btn) =>
+      btn.addEventListener("click", () => openCookieModal(btn.dataset.platform, btn.dataset.label))
+    );
   } catch (err) {
     el.innerHTML = `<span class="pform off">平台状态读取失败</span>`;
+  }
+}
+
+let cookiePlatform = "";
+
+function openCookieModal(platform, label) {
+  cookiePlatform = platform || "";
+  $("#cookietitle").textContent = `配置 ${label || platform} Cookie`;
+  $("#cookieinput").value = "";
+  $("#cookiestate").textContent = "";
+  $("#cookiestate").className = "runstate";
+  $("#cookieModal").hidden = false;
+  $("#cookieinput").focus();
+}
+
+function closeCookieModal() {
+  $("#cookieModal").hidden = true;
+}
+
+async function savePlatformCookie() {
+  const cookie = $("#cookieinput").value.trim();
+  const stateEl = $("#cookiestate");
+  if (!cookie) {
+    stateEl.className = "runstate err";
+    stateEl.textContent = "Cookie 不能为空";
+    return;
+  }
+  stateEl.className = "runstate";
+  stateEl.textContent = "保存中…";
+  try {
+    await api(`/api/crawler/platforms/${encodeURIComponent(cookiePlatform)}/cookie`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cookie }),
+    });
+    closeCookieModal();
+    await loadPlatformStatus();
+    toast(`已保存 ${cookiePlatform} Cookie`);
+  } catch (err) {
+    stateEl.className = "runstate err";
+    stateEl.textContent = `保存失败：${err.message}`;
   }
 }
 
@@ -2720,3 +2764,9 @@ async function maybeAutoBuild(corpus) {
   toast("快照为空，正在从现有语料生成总榜…");
   await buildCorpus();
 }
+
+$("#cookieclose")?.addEventListener("click", closeCookieModal);
+$("#cookiesave")?.addEventListener("click", savePlatformCookie);
+$("#cookieModal")?.addEventListener("click", (e) => {
+  if (e.target.id === "cookieModal") closeCookieModal();
+});

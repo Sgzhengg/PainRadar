@@ -264,3 +264,9 @@ painradar demo --reset
 - 新增 `/api/platforms`（爬虫）与 `/api/crawler/platforms`（PainRadar）检查 Cookie/Profile 是否就绪；
 - 全网扫描先过滤未就绪平台，避免无谓等待；
 - 探索页展示各平台 ✅/❌ 状态。
+
+## 2026-11-22 · 页面内配置平台 Cookie
+
+- 探索页平台状态徽章可点击，弹出 Cookie 配置框；
+- 新增 `POST /api/platforms/{platform}/cookie`（爬虫）与 PainRadar 代理；
+- Cookie 保存在爬虫 `/data/cookies/{platform}.txt`，保存后立即刷新就绪状态。
