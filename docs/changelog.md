@@ -281,3 +281,9 @@ painradar demo --reset
 - Node.js 安装从第一层移到 Playwright 之后，避免小改动导致依赖层全量重建；
 - MediaCrawler 改为 `git init + fetch --depth 1`，不再因 SHA/tag 触发全量 clone；
 - 构建耗时主要来自 MediaCrawler 依赖（OpenCV/Playwright/pandas/matplotlib）和 Chromium + 系统依赖下载。
+
+## 2026-11-22 · 修复 XHS a1 Cookie
+
+- MediaCrawler 的 XHS Cookie 登录只写入 web_session，xhshow 签名要求 a1；
+- 构建时 patch `media_platform/xhs/login.py`，写入完整 Cookie；
+- 扫码登录后需同时保留 `a1` 与 `web_session`。

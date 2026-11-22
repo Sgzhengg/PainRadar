@@ -34,6 +34,11 @@ RUN rm -rf /app/MediaCrawler \
 RUN pip install --no-cache-dir -r MediaCrawler/requirements.txt \
     && python -m playwright install --with-deps chromium
 
+# MediaCrawler's XHS cookie login only applies web_session, but xhshow's
+# request signing also requires a1 (and other browser cookies). Apply the
+# whole cookie string instead of dropping everything except web_session.
+RUN sed -i '/if key != "web_session"/{N;d;}' /app/MediaCrawler/media_platform/xhs/login.py
+
 # Node is only needed at runtime by MediaCrawler's execjs signature helper.
 # Keep it in a late layer so future code changes don't invalidate the browser
 # and Python dependency layers above.
