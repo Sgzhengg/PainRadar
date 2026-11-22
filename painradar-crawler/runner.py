@@ -97,6 +97,24 @@ def cookie_string(cookies: list[dict[str, Any]]) -> str:
     return "; ".join(f"{c['name']}={c['value']}" for c in cookies if c.get("name"))
 
 
+def _to_int(value: Any) -> int:
+    if isinstance(value, (int, float)):
+        return int(value)
+    text = str(value or "").strip().replace(",", "")
+    if not text:
+        return 0
+    factor = 1
+    for suffix, mult in (("亿", 100000000), ("万", 10000), ("w", 10000), ("W", 10000), ("k", 1000), ("K", 1000)):
+        if text.endswith(suffix):
+            factor = mult
+            text = text[: -len(suffix)].strip()
+            break
+    try:
+        return int(float(text) * factor)
+    except ValueError:
+        return 0
+
+
 def _first(record: dict[str, Any], keys: tuple[str, ...]) -> Any:
     for key in keys:
         if record.get(key) not in (None, ""):
@@ -119,7 +137,7 @@ def _normalize_comment(raw: dict[str, Any], index: int) -> dict[str, Any]:
     return {
         "comment_id": str(cid or f"c{index}"),
         "content": str(content),
-        "like_count": int(_first(raw, LIKE_KEYS) or 0),
+        "like_count": _to_int(_first(raw, LIKE_KEYS)),
         "sub_comments": [_normalize_comment(s, j) for j, s in enumerate(subs)],
     }
 
@@ -131,7 +149,7 @@ def _normalize_note(raw: dict[str, Any], nid: str) -> dict[str, Any]:
         "title": str(_first(raw, ("title", "note_title", "desc")) or ""),
         "desc": str(_first(raw, ("desc", "description", "content", "text")) or ""),
         "url": str(_first(raw, ("url", "note_url", "share_url", "web_url")) or ""),
-        "liked_count": int(_first(raw, LIKE_KEYS) or 0),
+        "liked_count": _to_int(_first(raw, LIKE_KEYS)),
         "comments": comments,
     }
 

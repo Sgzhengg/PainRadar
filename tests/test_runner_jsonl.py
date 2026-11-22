@@ -19,8 +19,8 @@ class JSONLCollectTests(unittest.TestCase):
             path = data_dir / "xhs" / "search.jsonl"
             path.parent.mkdir()
             rows = [
-                {"note_id": "n1", "title": "t", "desc": "d", "liked_count": 10},
-                {"comment_id": "c1", "note_id": "n1", "content": "太难用了", "like_count": 5},
+                {"note_id": "n1", "title": "t", "desc": "d", "liked_count": "1.1万"},
+                {"comment_id": "c1", "note_id": "n1", "content": "太难用了", "like_count": "2.3k"},
             ]
             path.write_text(
                 "\n".join(json.dumps(r, ensure_ascii=False) for r in rows),
@@ -33,7 +33,9 @@ class JSONLCollectTests(unittest.TestCase):
 
         self.assertEqual(len(notes), 1)
         self.assertEqual(notes[0]["note_id"], "n1")
+        self.assertEqual(notes[0]["liked_count"], 11000)
         self.assertEqual(notes[0]["comments"][0]["content"], "太难用了")
+        self.assertEqual(notes[0]["comments"][0]["like_count"], 2300)
 
 
 if __name__ == "__main__":

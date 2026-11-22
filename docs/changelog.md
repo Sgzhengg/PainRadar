@@ -292,3 +292,8 @@ painradar demo --reset
 
 - MediaCrawler 默认 `SAVE_DATA_OPTION=jsonl`，桥接层原来只扫 `*.json`，导致抓到 0 条；
 - runner.collect 同时解析 `.json` 与 `.jsonl`，新增回归测试。
+
+## 2026-11-22 · 解析中文点赞数
+
+- 小红书返回 `1.1万` / `2.3k` 等字符串，runner 直接 int() 会崩；
+- 新增 `_to_int` 支持 万/亿/k/w 后缀。
